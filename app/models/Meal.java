@@ -5,7 +5,7 @@ import com.avaje.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Meal extends Model {
@@ -14,20 +14,20 @@ public class Meal extends Model {
     private String name;
     private String description;
     private double price;
-    @Lob
-    private byte[] image;
+    @OneToMany
+    private Photo photo;
 
     public static Finder<Long, Meal> find = new Finder<Long,Meal>(Meal.class);
 
     public Meal() {
     }
 
-    public Meal(long id, String name, String description, double price, byte[] image) {
+    public Meal(long id, String name, String description, double price, Photo photo) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.image = image;
+        this.photo = photo;
     }
 
     public long getId() {
@@ -66,12 +66,12 @@ public class Meal extends Model {
         return this;
     }
 
-    public byte[] getImage() {
-        return image;
+    public Photo getImage() {
+        return photo;
     }
 
-    public Meal setImage(byte[] image) {
-        this.image = image;
+    public Meal setImage(Photo photo) {
+        this.photo = photo;
         return this;
     }
 }

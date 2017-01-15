@@ -3,41 +3,43 @@ package models;
 import com.avaje.ebean.Model;
 import org.joda.time.DateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User extends Model {
     @Id
+    @NotNull
     private long id;
-    private String firstname;
-    private String lastname;
+    @NotNull
+    private String name;
+    @NotNull
     private DateTime birthday;
-    private String address;
+    @NotNull
+    private Address address;
+
+    @NotNull
     @Column(unique = true)
     private String email;
+    @NotNull
     private String password;
-    private String gender;
-    @Lob
-    private byte[] profilePicture;
+
+    private Photo photo;
 
     public static Finder<Long, User> find = new Finder<Long,User>(User.class);
 
     public User() {
     }
 
-    public User(long id, String firstname, String lastname, DateTime birthday, String address, String email, String password, String gender, byte[] profilePicture) {
+    public User(long id, String name, DateTime birthday, Address address, String email, String password, Photo photo) {
         this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.name = name;
         this.birthday = birthday;
         this.address = address;
         this.email = email;
         this.password = password;
-        this.gender = gender;
-        this.profilePicture = profilePicture;
+        this.photo = photo;
     }
 
     public long getId() {
@@ -49,21 +51,12 @@ public class User extends Model {
         return this;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getName() {
+        return name;
     }
 
-    public User setFirstname(String firstname) {
-        this.firstname = firstname;
-        return this;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public User setLastname(String lastname) {
-        this.lastname = lastname;
+    public User setName(String name) {
+        this.name = name;
         return this;
     }
 
@@ -76,11 +69,11 @@ public class User extends Model {
         return this;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public User setAddress(String address) {
+    public User setAddress(Address address) {
         this.address = address;
         return this;
     }
@@ -103,21 +96,12 @@ public class User extends Model {
         return this;
     }
 
-    public String getGender() {
-        return gender;
+    public Photo getPhoto() {
+        return photo;
     }
 
-    public User setGender(String gender) {
-        this.gender = gender;
-        return this;
-    }
-
-    public byte[] getProfilePicture() {
-        return profilePicture;
-    }
-
-    public User setProfilePicture(byte[] profilePicture) {
-        this.profilePicture = profilePicture;
+    public User setPhoto(Photo photo) {
+        this.photo = photo;
         return this;
     }
 }

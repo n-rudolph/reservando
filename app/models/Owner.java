@@ -1,16 +1,14 @@
 package models;
 
-import com.avaje.ebean.Model;
+
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Owner extends Model{
-
-    @Id
-    private long id;
-    private User user;
+@DiscriminatorValue("Owner")
+public class Owner extends User{
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Restaurant> restaurants;
@@ -20,28 +18,9 @@ public class Owner extends Model{
     public Owner() {
     }
 
-    public Owner(long id, User user, List<Restaurant> restaurants) {
-        this.id = id;
-        this.user = user;
+    public Owner(long id, String name, DateTime birthday, Address address, String email, String password, Photo photo, List<Restaurant> restaurants) {
+        super(id, name, birthday, address, email, password, photo);
         this.restaurants = restaurants;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public Owner setId(long id) {
-        this.id = id;
-        return this;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public Owner setUser(User user) {
-        this.user = user;
-        return this;
     }
 
     public List<Restaurant> getRestaurants() {

@@ -3,33 +3,42 @@ package models;
 import com.avaje.ebean.Model;
 import org.joda.time.DateTime;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Restaurant extends Model{
 
     @Id
+    @NotNull
     private long id;
+    @NotNull
     private String name;
+    @NotNull
     private String description;
-    private List<DateTime> openingHours;
+    private DateTime openingHour;
+    private DateTime closingHour;
     private List<Days> openingDays;
     @ManyToMany
     private List<Cuisine> cuisines;
+    @OneToMany
+    private Address address;
+
 
     public static Finder<Long, Restaurant> find = new Finder<Long,Restaurant>(Restaurant.class);
 
     public Restaurant() {
     }
 
-    public Restaurant(long id, String name, String description, List<DateTime> openingHours, List<Days> openingDays, List<Cuisine> cuisines) {
+    public Restaurant(long id, String name, String description, Address address, DateTime openingHour, DateTime closingHour, List<Days> openingDays, List<Cuisine> cuisines) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.openingHours = openingHours;
+        this.address = address;
+        this.openingHour = openingHour;
+        this.closingHour = closingHour;
         this.openingDays = openingDays;
         this.cuisines = cuisines;
     }
@@ -61,12 +70,21 @@ public class Restaurant extends Model{
         return this;
     }
 
-    public List<DateTime> getOpeningHours() {
-        return openingHours;
+    public DateTime getOpeningHour() {
+        return openingHour;
     }
 
-    public Restaurant setOpeningHours(List<DateTime> openingHours) {
-        this.openingHours = openingHours;
+    public Restaurant setOpeningHour(DateTime openingHour) {
+        this.openingHour = openingHour;
+        return this;
+    }
+
+    public DateTime getClosingHour() {
+        return closingHour;
+    }
+
+    public Restaurant setClosingHour(DateTime closingHour) {
+        this.closingHour = closingHour;
         return this;
     }
 

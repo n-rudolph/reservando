@@ -2,23 +2,20 @@ package models;
 
 import com.avaje.ebean.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class Order extends Model {
     @Id
     private long id;
-    @OneToOne
+    @ManyToOne
     private Client client;
-    @OneToOne
+    @ManyToOne
     private Delivery delivery;
     @ManyToMany
     private List<Meal> meals;
-    private String address;
+    private Address address;
     private double discount;
 
     public static Finder<Long, Order> find = new Finder<Long,Order>(Order.class);
@@ -26,7 +23,7 @@ public class Order extends Model {
     public Order() {
     }
 
-    public Order(long id, Client client, Delivery delivery, List<Meal> meals, String address, double discount) {
+    public Order(long id, Client client, Delivery delivery, List<Meal> meals, Address address, double discount) {
         this.id = id;
         this.client = client;
         this.delivery = delivery;
@@ -71,11 +68,11 @@ public class Order extends Model {
         return this;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public Order setAddress(String address) {
+    public Order setAddress(Address address) {
         this.address = address;
         return this;
     }

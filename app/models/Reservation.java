@@ -4,10 +4,7 @@ import com.avaje.ebean.Model;
 import org.joda.time.DateTime;
 import play.libs.Time;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -17,9 +14,9 @@ public class Reservation extends Model {
     private long id;
     private int amount;
     private DateTime date;
-    @OneToOne
+    @ManyToOne
     private Client client;
-    @OneToOne
+    @ManyToOne
     private Local local;
 
     public static Finder<Long, Reservation> find = new Finder<Long,Reservation>(Reservation.class);

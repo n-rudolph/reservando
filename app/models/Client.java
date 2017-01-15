@@ -1,20 +1,19 @@
 package models;
 
 import com.avaje.ebean.Model;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-public class Client extends Model {
+@DiscriminatorValue("Client")
+public class Client extends User {
 
-    @Id
-    private long id;
-    private User user;
-
+    @NotNull
     @ManyToMany
-    private List<Cuisine> cuisines;
-    private List<Integer> amountConsumed;
+    private List<Cuisine> cuisinePreferences;
 
 
     public static Finder<Long, Client> find = new Finder<Long,Client>(Client.class);
@@ -22,46 +21,18 @@ public class Client extends Model {
     public Client() {
     }
 
-    public Client(long id, User user, List<Cuisine> cuisines, List<Integer> amountConsumed) {
-        this.id = id;
-        this.user = user;
-        this.cuisines = cuisines;
-        this.amountConsumed = amountConsumed;
+    public Client(long id, String name, DateTime birthday, Address address, String email, String password, Photo photo, List<Cuisine> cuisines) {
+        super(id, name, birthday, address, email, password, photo);
+        this.cuisinePreferences = cuisines;
     }
 
-    public long getId() {
-        return id;
+    public List<Cuisine> getCuisinePreferences() {
+        return cuisinePreferences;
     }
 
-    public Client setId(long id) {
-        this.id = id;
+    public Client setCuisinePreferences(List<Cuisine> cuisines) {
+        this.cuisinePreferences = cuisines;
         return this;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public Client setUser(User user) {
-        this.user = user;
-        return this;
-    }
-
-    public List<Cuisine> getCuisines() {
-        return cuisines;
-    }
-
-    public Client setCuisines(List<Cuisine> cuisines) {
-        this.cuisines = cuisines;
-        return this;
-    }
-
-    public List<Integer> getAmountConsumed() {
-        return amountConsumed;
-    }
-
-    public Client setAmountConsumed(List<Integer> amountConsumed) {
-        this.amountConsumed = amountConsumed;
-        return this;
-    }
 }
