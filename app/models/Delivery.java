@@ -11,7 +11,9 @@ public class Delivery extends Restaurant {
 
     private double radius;
     @ManyToMany
-    List<Meal> menu;
+    private List<Meal> menu;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<DeliveryOrder> deliveryOrders;
 
     public static Finder<Long, Delivery> find = new Finder<Long,Delivery>(Delivery.class);
 

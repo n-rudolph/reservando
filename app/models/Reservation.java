@@ -24,12 +24,11 @@ public class Reservation extends Model {
     public Reservation() {
     }
 
-    public Reservation(long id, int amount, DateTime date, Client client, Local local) {
+    public Reservation(long id, int amount, DateTime date) {
         this.id = id;
         this.amount = amount;
         this.date = date;
-        this.client = client;
-        this.local = local;
+
     }
 
     public long getId() {

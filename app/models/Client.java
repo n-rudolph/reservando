@@ -1,20 +1,21 @@
 package models;
 
-import com.avaje.ebean.Model;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
 @DiscriminatorValue("Client")
 public class Client extends User {
 
-    @NotNull
     @ManyToMany
     private List<Cuisine> cuisinePreferences;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<DeliveryOrder> deliveryOrders;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Reservation> reservations;
 
     public static Finder<Long, Client> find = new Finder<Long,Client>(Client.class);
 

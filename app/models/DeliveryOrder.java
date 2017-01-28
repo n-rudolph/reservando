@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Order extends Model {
+public class DeliveryOrder extends Model {
     @Id
     private long id;
     @ManyToOne
@@ -18,12 +18,12 @@ public class Order extends Model {
     private Address address;
     private double discount;
 
-    public static Finder<Long, Order> find = new Finder<Long,Order>(Order.class);
+    public static Finder<Long, DeliveryOrder> find = new Finder<Long, DeliveryOrder>(DeliveryOrder.class);
 
-    public Order() {
+    public DeliveryOrder() {
     }
 
-    public Order(long id, Client client, Delivery delivery, List<Meal> meals, Address address, double discount) {
+    public DeliveryOrder(long id, Client client, Delivery delivery, List<Meal> meals, Address address, double discount) {
         this.id = id;
         this.client = client;
         this.delivery = delivery;
@@ -36,7 +36,7 @@ public class Order extends Model {
         return id;
     }
 
-    public Order setId(long id) {
+    public DeliveryOrder setId(long id) {
         this.id = id;
         return this;
     }
@@ -45,7 +45,7 @@ public class Order extends Model {
         return client;
     }
 
-    public Order setClient(Client client) {
+    public DeliveryOrder setClient(Client client) {
         this.client = client;
         return this;
     }
@@ -54,7 +54,7 @@ public class Order extends Model {
         return delivery;
     }
 
-    public Order setDelivery(Delivery delivery) {
+    public DeliveryOrder setDelivery(Delivery delivery) {
         this.delivery = delivery;
         return this;
     }
@@ -63,7 +63,7 @@ public class Order extends Model {
         return meals;
     }
 
-    public Order setMeals(List<Meal> meals) {
+    public DeliveryOrder setMeals(List<Meal> meals) {
         this.meals = meals;
         return this;
     }
@@ -72,7 +72,7 @@ public class Order extends Model {
         return address;
     }
 
-    public Order setAddress(Address address) {
+    public DeliveryOrder setAddress(Address address) {
         this.address = address;
         return this;
     }
@@ -81,7 +81,7 @@ public class Order extends Model {
         return discount;
     }
 
-    public Order setDiscount(double discount) {
+    public DeliveryOrder setDiscount(double discount) {
         this.discount = discount;
         return this;
     }

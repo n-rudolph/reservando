@@ -13,6 +13,8 @@ public class Local extends Restaurant{
     private int capacity;
     @ManyToMany
     private List<Meal> menu;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Reservation> reservations;
 
     public static Finder<Long, Local> find = new Finder<Long,Local>(Local.class);
 
