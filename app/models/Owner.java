@@ -18,8 +18,8 @@ public class Owner extends User{
     public Owner() {
     }
 
-    public Owner(long id, String name, DateTime birthday, Address address, String email, String password, Photo photo, List<Restaurant> restaurants) {
-        super(id, name, birthday, address, email, password, photo);
+    public Owner(String firstName, String lastName, String address, String email, String password, Photo photo, List<Restaurant> restaurants) {
+        super(firstName, lastName, address, email, password, photo);
         this.restaurants = restaurants;
     }
 

@@ -50,8 +50,9 @@ create table restaurant (
 create table user (
   dtype                     varchar(10) not null,
   id                        bigint not null,
-  name                      varchar(255) not null,
-  birthday                  timestamp not null,
+  first_name                varchar(255) not null,
+  last_name                 varchar(255) not null,
+  address                   varchar(255) not null,
   email                     varchar(255) not null,
   password                  varchar(255) not null,
   constraint uq_user_email unique (email),

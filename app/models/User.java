@@ -1,10 +1,10 @@
 package models;
 
 import com.avaje.ebean.Model;
-import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -13,11 +13,11 @@ public class User extends Model {
     @NotNull
     private long id;
     @NotNull
-    private String name;
+    private String firstName;
     @NotNull
-    private DateTime birthday;
+    private String lastName;
     @NotNull
-    private Address address;
+    private String address;
 
     @NotNull
     @Column(unique = true)
@@ -32,10 +32,9 @@ public class User extends Model {
     public User() {
     }
 
-    public User(long id, String name, DateTime birthday, Address address, String email, String password, Photo photo) {
-        this.id = id;
-        this.name = name;
-        this.birthday = birthday;
+    public User(String firstName, String lastName, String address, String email, String password, Photo photo) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.address = address;
         this.email = email;
         this.password = password;
@@ -51,29 +50,29 @@ public class User extends Model {
         return this;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public User setName(String name) {
-        this.name = name;
+    public User setFirstName(String firstName) {
+        this.firstName = firstName;
         return this;
     }
 
-    public DateTime getBirthday() {
-        return birthday;
+    public String getlastName() {
+        return lastName;
     }
 
-    public User setBirthday(DateTime birthday) {
-        this.birthday = birthday;
+    public User setLastName(String lastName) {
+        this.lastName = lastName;
         return this;
     }
 
-    public Address getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public User setAddress(Address address) {
+    public User setAddress(String address) {
         this.address = address;
         return this;
     }
@@ -103,5 +102,21 @@ public class User extends Model {
     public User setPhoto(Photo photo) {
         this.photo = photo;
         return this;
+    }
+
+    public static List<User> all() {
+        return find.all();
+    }
+
+    public static boolean isEmailInUse(String email) {
+        return find.where().eq("email", email).findRowCount() != 0;
+    }
+
+    public static User getUserByEmail(String email) {
+        return find.where().eq("email", email).findUnique();
+    }
+
+    public static User findById(long id) {
+        return find.byId(id);
     }
 }

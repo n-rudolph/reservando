@@ -1,49 +1,149 @@
 @()
 @views.html.main("Reservando") {
-    <div>
-        <header>
-            <nav>
-                <div class="nav-wrapper">
-                    <a href="#" class="brand-logo"><img src="@routes.Assets.versioned("images/ReservandoLogo.png")" alt="Reservando"></a>
-                    <ul id="nav-mobile" class="right hide-on-med-and-down">
-                        <li><a href="sass.html">Sass</a></li>
-                        <li><a href="badges.html">Components</a></li>
-                        <li><a href="collapsible.html">JavaScript</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <main>
-
-        </main>
-        <footer class="page-footer">
-            <div class="container">
+    <div class="container" ng-controller="loginCtrl">
+        <div class="row">
+            <div class="col m7">
+                <p>RESERVANDO</p>
+            </div>
+            <div class="col m5">
                 <div class="row">
-                    <div class="col l6 s12">
-                        <h5 class="white-text">Footer Content</h5>
-                        <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
-                    </div>
-                    <div class="col l4 offset-l2 s12">
-                        <h5 class="white-text">Links</h5>
-                        <ul>
-                            <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                    <div class="col s12">
+                        <ul class="tabs" id="tabs">
+                            <li class="tab col s3"><a class="active" href="#login">Iniciar Sesion</a></li>
+                            <li class="tab col s3"><a href="#register">Registrarse</a></li>
                         </ul>
                     </div>
+                    <div id="login" class="col s12">
+                        <div class="input-field col s12">
+                            <input id="loginMail" type="email" class="validate field" ng-model="loginEmail" >
+                            <label for="loginMail">Email</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="loginPassword" type="password" class="validate field" ng-model="loginPassword">
+                            <label for="loginPassword">Contraseña</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <a class="waves-effect waves-light btn" ng-click="login()">iniciar sesion</a>
+                        </div>
+                    </div>
+                    <div id="register" class="col s12">
+                        <div class="input-field col s6">
+                            <input id="first_name" type="text" class="validate field" ng-model="firstName" ng-class="{invalid: firstNameError}">
+                            <label for="first_name">Nombre</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input id="last_name" type="text" class="validate field" ng-model="lastName" ng-class="{invalid: lastNameError}">
+                            <label for="last_name">Apellido</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="email" type="email" class="validate field" ng-model="email" ng-class="{invalid: emailError}" >
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="input-field suffix col s12">
+                            <input id="password" type="password" ng-model="password" ng-class="{valid: validPassword && pTouched, invalid: !validPassword && pTouched}" ng-change="validatePassword()" class="field">
+                            <label for="password">Contraseña</label>
+                            <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Debe contener: 1 número, longitud 6">info</i>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="password2" type="password" ng-model="password2" ng-class="{valid: validPassword2 && p2Touched, invalid: !validPassword2 && p2Touched}" ng-change="passwordValidation()" class="field">
+                            <label for="password2">Validar contraseña</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="address" type="text" class="validate field" onfocus="geolocate()" ng-class="{invalid: addressError}">
+                            <label for="address">Dirección</label>
+                        </div>
+                        <div class="input-field col s12" style="height: 30px">
+                            <!-- Switch -->
+                            <div class="switch">
+                                <label>
+                                    Client
+                                    <input type="checkbox" ng-model="userType">
+                                    <span class="lever"></span>
+                                    Dueño
+                                </label>
+                            </div>
+                        </div>
+                        <div class="input-field col s12">
+                            <a class="waves-effect waves-light btn" ng-click="register()">registrarse</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="footer-copyright">
-                <div class="container">
-                    © 2014 Copyright Text
-                    <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
-                </div>
-            </div>
-        </footer>
+        </div>
     </div>
 }{
-    @Html("")
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/login.css")">
 }{
-    @Html("")
+    <script>
+            // This example displays an address form, using the autocomplete feature
+            // of the Google Places API to help users fill in the information.
+
+            var placeSearch, autocomplete;
+            var componentForm = {
+                street_number: 'short_name',
+                route: 'long_name',
+                locality: 'long_name',
+                administrative_area_level_1: 'short_name',
+                country: 'long_name',
+                postal_code: 'short_name'
+            };
+
+            function initAutocomplete() {
+                // Create the autocomplete object, restricting the search to geographical
+                // location types.
+                autocomplete = new google.maps.places.Autocomplete(
+                        (document.getElementById('address')),
+                        {types: ['geocode']});
+
+                // When the user selects an address from the dropdown, populate the address
+                // fields in the form.
+                autocomplete.addListener('place_changed', fillInAddress);
+            }
+
+            // [START region_fillform]
+            function fillInAddress() {
+                // Get the place details from the autocomplete object.
+                var place = autocomplete.getPlace();
+
+                for (var component in componentForm) {
+                    document.getElementById(component).value = '';
+                    document.getElementById(component).disabled = false;
+                }
+
+                // Get each component of the address from the place details
+                // and fill the corresponding field on the form.
+                for (var i = 0; i < place.address_components.length; i++) {
+                    var addressType = place.address_components[i].types[0];
+                    if (componentForm[addressType]) {
+                        var val = place.address_components[i][componentForm[addressType]];
+                        document.getElementById(addressType).value = val;
+                    }
+                }
+            }
+            // [END region_fillform]
+
+            // [START region_geolocation]
+            // Bias the autocomplete object to the user's geographical location,
+            // as supplied by the browser's 'navigator.geolocation' object.
+            function geolocate() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        var geolocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        var circle = new google.maps.Circle({
+                            center: geolocation,
+                            radius: position.coords.accuracy
+                        });
+                        autocomplete.setBounds(circle.getBounds());
+                    });
+                }
+            }
+            // [END region_geolocation]
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDx5ARsKyUaIV0uBUuCs7M6HxvUOtvcm-E&libraries=places&callback=initAutocomplete"
+    async defer></script>
+    <script src="@routes.Assets.versioned("javascripts/login.js")"></script>
 }
