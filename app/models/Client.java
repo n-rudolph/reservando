@@ -36,4 +36,8 @@ public class Client extends User {
         return this;
     }
 
+    public static Client getClientByEmail(String email){
+        return find.where().eq("email", email).findUnique();
+    }
+
 }

@@ -2,7 +2,7 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# An example controller showing a sample home page
+# An example controller showing a sample clientHome page
 GET     /                           controllers.HomeController.index
 
 
@@ -12,6 +12,14 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 POST    /register                   controllers.RegisterController.registerUser
 
 POST    /login                      controllers.LoginController.login
-POST    /logout                      controllers.LoginController.logout
+POST    /logout                     controllers.LoginController.logout
+
+#Client
+GET     /client/home                controllers.HomeController.clientHome
+
+
+#Owner
+GET     /owner/home                 controllers.HomeController.ownerHome
+
 
 GET     /all                        controllers.RegisterController.getUsers

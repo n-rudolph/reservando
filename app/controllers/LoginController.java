@@ -1,6 +1,8 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import models.Client;
+import models.Owner;
 import models.User;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -23,11 +25,18 @@ public class LoginController extends Controller{
         if (!userByEmail.getPassword().equals(password))
             return badRequest("La contraseña no es correcta");
 
-        return ok();
+        session().clear();
+        session().put("email", email);
+
+        Client c = Client.getClientByEmail(email);
+        if (c != null)
+            return redirect(routes.HomeController.clientHome());
+
+        return redirect(routes.HomeController.ownerHome());
     }
 
     public Result logout(){
         session().clear();
-        return redirect("/");
+        return redirect(routes.HomeController.index());
     }
 }

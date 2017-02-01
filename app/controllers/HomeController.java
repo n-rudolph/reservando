@@ -6,7 +6,7 @@ import views.html.*;
 
 /**
  * This controller contains an action to handle HTTP requests
- * to the application's home page.
+ * to the application's clientHome page.
  */
 public class HomeController extends Controller {
 
@@ -18,6 +18,13 @@ public class HomeController extends Controller {
      */
     public Result index() {
         return ok(login.render());
+    }
+
+    public Result clientHome() {
+        return ok(clientHome.render());
+    }
+    public Result ownerHome() {
+        return ok(ownerHome.render());
     }
 
 }
