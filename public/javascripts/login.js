@@ -95,8 +95,8 @@ app.controller("loginCtrl", function ($scope, $http) {
             email: $scope.loginEmail,
             password: $scope.loginPassword
         };
-        $http.post("/login", data).then(function(){
-           //todo: redirect 
+        $http.post("/login", data).then(function(response){
+            window.location.href = response.data;
         }, function(response){
             Materialize.toast(response.data, 3000, "red");
         });

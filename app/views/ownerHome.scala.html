@@ -1,8 +1,77 @@
 @()
 @views.html.main("Reservando"){
-    <p>Owner home</p>
+    <nav>
+        <div class="nav-wrapper default-primary-color">
+            <a href="#" class="brand-logo left">Logo</a>
+            <ul id="nav-mobile" class="right">
+                <li><a href="badges.html">Reservas</a></li>
+                <li><a href="collapsible.html">Pedidos</a></li>
+                <li><a href="badges.html">Perfil</a></li>
+                <li><a href="collapsible.html">Cerrar sesión</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container body" ng-controller="OwnerHomeCtrl">
+        <div class="row">
+            <div class="col m4">
+                <div class="row">
+                    <h5 class="center">Mis Restaurantes <div class="btn-floating accent-color" ng-click="openAddRestaurant()"><i class="material-icons">add</i></div></h5>
+                </div>
+                <div class="my-restaurant-container valign-wrapper">
+                    <div class="restaurant-item" ng-repeat="restaurant in restaurants">
+
+                    </div>
+                    <div ng-show="restaurants.length == 0" class="valign center empty-msg">
+                        <h5>Todavia no tienes restaurantes</h5>
+                        <div id="addRestaurant">
+                            <div class="btn-large accent-color add-btn" ng-click="openAddRestaurant()">
+                                AGREGAR RESTAURANTE
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col m4 center-panel">
+                <div class="row">
+                    <h5 class="center">Reservas y Pedidos</h5>
+                </div>
+                <div class="news-container valign-wrapper">
+                    <div class="news-item" ng-repeat="new in news">
+
+                    </div>
+                    <div ng-show="news.length == 0" class="valign center empty-msg">
+                        <h5>Todavia no tienes pedidos o reservaciones</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col m4">
+                <div class="row">
+                    <h5 class="center"> Buscar Restaurant</h5>
+                </div>
+                <div class="row">
+                    <div class="input-field">
+                        <i class="material-icons prefix">search</i>
+                        <input id="searchBar" type="text" class="validate" placeholder="Buscar restaurante">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+        <!-- Add Restaurant Modal -->
+    <div id="addRestaurantModal" class="modal">
+        <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+        </div>
+    </div>
+
 }{
-    @Html("")
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/ownerHome.css")">
 }{
-    @Html("")
+    <script src="@routes.Assets.versioned("javascripts/ownerHome.js")"></script>
 }

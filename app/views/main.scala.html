@@ -15,14 +15,15 @@
         <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("external/materialize/css/materialize.min.css")">
         <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/main.css")">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/palette.css")">
         @styles
     </head>
     <body ng-app="reservandoApp">
         @content
     </body>
     <script src="@routes.Assets.versioned("external/jQuery/jQuery-2.1.4.min.js")" type="text/javascript"></script>
-    <script src="@routes.Assets.versioned("external/angularjs/angular.min.js")" type="text/javascript"></script>
     <script src="@routes.Assets.versioned("external/materialize/js/materialize.min.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("external/angularjs/angular.min.js")" type="text/javascript"></script>
     <script src="@routes.Assets.versioned("javascripts/main.js")" type="text/javascript"></script>
     @scripts
 </html>

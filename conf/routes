@@ -12,7 +12,7 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 POST    /register                   controllers.RegisterController.registerUser
 
 POST    /login                      controllers.LoginController.login
-POST    /logout                     controllers.LoginController.logout
+GET    /logout                     controllers.LoginController.logout
 
 #Client
 GET     /client/home                controllers.HomeController.clientHome

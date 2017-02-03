@@ -30,9 +30,9 @@ public class LoginController extends Controller{
 
         Client c = Client.getClientByEmail(email);
         if (c != null)
-            return redirect(routes.HomeController.clientHome());
+            return ok("/client/home");
 
-        return redirect(routes.HomeController.ownerHome());
+        return ok("/owner/home");
     }
 
     public Result logout(){
