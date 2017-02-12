@@ -35,4 +35,8 @@ public class Owner extends User{
     public static Owner getOwnerbyEmail(String email) {
         return find.where().eq("email", email).findUnique();
     }
+
+    public void addRestaurant(Restaurant restaurant) {
+        restaurants.add(restaurant);
+    }
 }

@@ -1,8 +1,5 @@
 package models;
 
-
-import org.joda.time.DateTime;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -21,8 +18,14 @@ public class Local extends Restaurant{
     public Local() {
     }
 
-    public Local(long id, String name, String description, Address address, DateTime openingHour, DateTime closingHour, List<Days> openingDays, List<Cuisine> cuisines, int capacity, List<Meal> menu) {
-        super(id, name, description, address, openingHour, closingHour, openingDays, cuisines);
+    public Local(String name, String address){
+        super(name, address, true);
+    }
+
+    public Local(String name, String description, String address, String openingHour,
+                 String closingHour, List<Day> openingDays, List<Cuisine> cuisines,
+                 int capacity, List<Meal> menu) {
+        super(name, description, address, openingHour, closingHour, openingDays, cuisines, true);
         this.capacity = capacity;
         this.menu = menu;
     }

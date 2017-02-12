@@ -1,5 +1,7 @@
 var app = angular.module("reservandoApp", []);
 
+app.requires.push('ui.materialize');
+
 app.controller("OwnerHomeCtrl", function ($scope, $http) {
 
     $scope.restaurants = [];
@@ -7,36 +9,133 @@ app.controller("OwnerHomeCtrl", function ($scope, $http) {
 
     $scope.days = [
         {
+            name: "Todos",
+            value: "All"
+        },{
             name: "Lunes",
-            value: "1"
+            value: "Monday"
         },{
             name: "Martes",
-            value: "2"
+            value: "Tuesday"
         },{
             name: "Miercoles",
-            value: "3"
+            value: "Wednesday"
         },{
             name: "Jueves",
-            value: "4"
+            value: "Thursday"
         },{
             name: "Viernes",
-            value: "5"
+            value: "Friday"
         },{
             name: "Sabado",
-            value: "6"
+            value: "Saturday"
         },{
             name: "Domingo",
-            value: "7"
+            value: "Sunday"
         }
         ];
+    $scope.cuisines = [
+        {
+            id: 0,
+            name: "Asado"
+        },{
+            id: 1,
+            name: "Pastas"
+        },{
+            id: 2,
+            name: "China"
+        },{
+            id: 3,
+            name: "Peruana"
+        },{
+            id: 4,
+            name: "Comida rapida"
+        }
+    ];
 
-    $scope.openAddRestaurant = function(){
-        $('#addRestaurantModal').modal('open');
+    $scope.newRestaurant = {
     };
 
-    $(document).ready(function(){
-        // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-        $('.modal').modal();
-    });
+    $scope.nameError = false;
 
+    $scope.getFirsts = function(){
+        $http.get("/restaurants/firsts").then(function(response){
+            $scope.restaurants = response.data.list;
+            $scope.continues = response.data.continues;
+        })
+    };
+
+    $scope.openAddRestaurant = function(){
+        $('#addRestaurantModal').openModal();
+    };
+
+    $scope.addCuisine = function(){
+        if ($scope.newRestaurant.cuisines.length >= 3){
+            $scope.selectedCuisine = "";
+            return;
+        }
+        var cuisineObject = JSON.parse($scope.selectedCuisine);
+        for (var i = 0; i< $scope.newRestaurant.cuisines.length; i++){
+            if ($scope.newRestaurant.cuisines[i].id == cuisineObject.id){
+                $scope.selectedCuisine = "";
+                return;
+            }
+        }
+        $scope.newRestaurant.cuisines.push(cuisineObject);
+        $scope.selectedCuisine = "";
+    };
+
+    $scope.removeCuisine = function(index){
+        $scope.newRestaurant.cuisines.splice(index, 1);
+    };
+
+    $scope.addDay = function(){
+        var dayObject = JSON.parse($scope.selectedDay);
+        if (dayObject.name == "Todos"){
+            $scope.newRestaurant.days = [];
+        } else {
+            for (var i = 0; i< $scope.newRestaurant.days.length; i++){
+                if ($scope.newRestaurant.days[i].name == dayObject.name || $scope.newRestaurant.days[i].name == "Todos")
+                    return;
+            }
+        }
+        $scope.newRestaurant.days.push(dayObject);
+        $scope.selectedDay = "";
+    };
+
+    $scope.removeDay = function(index){
+        $scope.newRestaurant.days.splice(index, 1);
+    };
+
+    $scope.addRestaurant = function(){
+        $scope.newRestaurant.address = $("#address").val();
+        if ($scope.newRestaurant.name == undefined || $scope.newRestaurant.name == "")
+            $scope.nameError = true;
+        if ($scope.newRestaurant.address == undefined || $scope.newRestaurant.address == "")
+            $scope.addressError = true;
+
+        var data = {
+            name: $scope.newRestaurant.name,
+            address: $scope.newRestaurant.address,
+            isLocal: $scope.newRestaurant.isLocal == undefined ? false : $scope.newRestaurant.isLocal
+        };
+        $http.post("/restaurant/add",  data).then($scope.successCallback(response), $scope.errorCallback(response))
+    };
+
+    $scope.successCallback = function(response){
+
+    };
+
+    $scope.errorCallback = function(response){
+
+    };
+
+    $scope.setAddress = function(address){
+        $scope.newRestaurant.address = address;
+    };
+
+    $(document).ready(function() {
+        $('select').material_select();
+        $scope.getFirsts();
+    });
 });

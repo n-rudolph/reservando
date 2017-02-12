@@ -1,7 +1,5 @@
 package models;
 
-import org.joda.time.DateTime;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -20,8 +18,14 @@ public class Delivery extends Restaurant {
     public Delivery() {
     }
 
-    public Delivery(long id, String name, String description, Address address, DateTime openingHour, DateTime closingHour, List<Days> openingDays, List<Cuisine> cuisines, double radius, List<Meal> menu) {
-        super(id, name, description, address, openingHour, closingHour, openingDays, cuisines);
+    public Delivery(String name, String address){
+        super(name, address, false);
+    }
+
+    public Delivery(String name, String description, String address, String openingHour,
+                    String closingHour, List<Day> openingDays, List<Cuisine> cuisines,
+                    double radius, List<Meal> menu) {
+        super(name, description, address, openingHour, closingHour, openingDays, cuisines, false);
         this.radius = radius;
         this.menu = menu;
     }

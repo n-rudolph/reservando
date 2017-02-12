@@ -24,7 +24,12 @@ public class RegisterController extends Controller{
                 Owner aOwner = new Owner(jsonNode.path("firstName").asText(),jsonNode.path("lastName").asText(),jsonNode.path("address").asText(), jsonNode.path("email").asText(), jsonNode.path("password").asText(), null, Collections.emptyList());
                 aOwner.save();
             }
-            return ok();
+            session().clear();
+            session().put("email", jsonNode.path("email").asText());
+
+            if (!jsonNode.path("userType").asBoolean())
+                return ok("/client/home");
+            return ok("/owner/home");
         }
         return badRequest("Ha ocurrido un problema.");
     }

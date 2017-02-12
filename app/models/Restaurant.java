@@ -1,10 +1,11 @@
 package models;
 
 import com.avaje.ebean.Model;
-import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -16,24 +17,36 @@ public class Restaurant extends Model{
     private long id;
     @NotNull
     private String name;
-    @NotNull
     private String description;
-    private DateTime openingHour;
-    private DateTime closingHour;
-    private List<Days> openingDays;
+    private String openingHour;
+    private String closingHour;
+    @ManyToMany
+    private List<Day> openingDays;
     @ManyToMany
     private List<Cuisine> cuisines;
-    @OneToMany
-    private Address address;
+    @NotNull
+    private String address;
+    private boolean published;
+    private boolean isLocal;
 
 
     public static Finder<Long, Restaurant> find = new Finder<Long,Restaurant>(Restaurant.class);
 
     public Restaurant() {
+        published = false;
     }
 
-    public Restaurant(long id, String name, String description, Address address, DateTime openingHour, DateTime closingHour, List<Days> openingDays, List<Cuisine> cuisines) {
-        this.id = id;
+    public Restaurant (String name, String address, boolean isLocal){
+        this.name = name;
+        this.address = address;
+        published = false;
+        this.isLocal = isLocal;
+        openingDays = new ArrayList<>();
+        cuisines = new ArrayList<>();
+    }
+    public Restaurant(String name, String description, String address,
+                      String openingHour, String closingHour, List<Day> openingDays,
+                      List<Cuisine> cuisines, boolean isLocal) {
         this.name = name;
         this.description = description;
         this.address = address;
@@ -41,6 +54,8 @@ public class Restaurant extends Model{
         this.closingHour = closingHour;
         this.openingDays = openingDays;
         this.cuisines = cuisines;
+        published = false;
+        this.isLocal = isLocal;
     }
 
     public long getId() {
@@ -62,7 +77,7 @@ public class Restaurant extends Model{
     }
 
     public String getDescription() {
-        return description;
+        return description == null ? "" : description;
     }
 
     public Restaurant setDescription(String description) {
@@ -70,29 +85,29 @@ public class Restaurant extends Model{
         return this;
     }
 
-    public DateTime getOpeningHour() {
-        return openingHour;
+    public String getOpeningHour() {
+        return openingHour == null ? "" : openingHour;
     }
 
-    public Restaurant setOpeningHour(DateTime openingHour) {
+    public Restaurant setOpeningHour(String  openingHour) {
         this.openingHour = openingHour;
         return this;
     }
 
-    public DateTime getClosingHour() {
-        return closingHour;
+    public String getClosingHour() {
+        return closingHour == null ? "" : closingHour;
     }
 
-    public Restaurant setClosingHour(DateTime closingHour) {
+    public Restaurant setClosingHour(String closingHour) {
         this.closingHour = closingHour;
         return this;
     }
 
-    public List<Days> getOpeningDays() {
-        return openingDays;
+    public List<Day> getOpeningDays() {
+        return openingDays == null ? Collections.emptyList() : openingDays;
     }
 
-    public Restaurant setOpeningDays(List<Days> openingDays) {
+    public Restaurant setOpeningDays(List<Day> openingDays) {
         this.openingDays = openingDays;
         return this;
     }
@@ -103,6 +118,33 @@ public class Restaurant extends Model{
 
     public Restaurant setCuisines(List<Cuisine> cuisines) {
         this.cuisines = cuisines;
+        return this;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public Restaurant setAddress(String address) {
+        this.address = address;
+        return this;
+    }
+
+    public boolean isPublished() {
+        return published;
+    }
+
+    public Restaurant setPublished(boolean published) {
+        this.published = published;
+        return this;
+    }
+
+    public boolean isLocal() {
+        return isLocal;
+    }
+
+    public Restaurant setLocal(boolean local) {
+        isLocal = local;
         return this;
     }
 }

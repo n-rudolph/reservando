@@ -12,11 +12,15 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 POST    /register                   controllers.RegisterController.registerUser
 
 POST    /login                      controllers.LoginController.login
-GET    /logout                     controllers.LoginController.logout
+GET     /logout                     controllers.LoginController.logout
 
 #Client
 GET     /client/home                controllers.HomeController.clientHome
 
+#Restaurant
+POST    /restaurant/add             controllers.RestaurantController.addRestaurant
+GET     /restaurants/all            controllers.RestaurantController.getAll
+GET     /restaurants/firsts         controllers.RestaurantController.getFirsts
 
 #Owner
 GET     /owner/home                 controllers.HomeController.ownerHome

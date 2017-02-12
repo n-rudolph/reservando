@@ -34,17 +34,7 @@ app.controller("loginCtrl", function ($scope, $http) {
                userType : $scope.userType
            };
            $http.post("/register", data).then(function(response) {
-               Materialize.toast("Se ha registrado con éxito", 3000, "green");
-               $scope.firstName = "";
-               $scope.lastName = "";
-               $scope.email = "";
-               $scope.password = "";
-               $scope.password2 = "";
-               $scope.address = "";
-               $scope.userType = false;
-               $scope.pTouched = false;
-               $scope.p2Touched = false;
-               $("#address").val("")
+               window.location.href = response.data;
            },function(response){
                Materialize.toast(response.data, 3000, "red");
            });
