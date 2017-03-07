@@ -17,9 +17,22 @@ POST    /logout                     controllers.LoginController.logout
 #Client
 GET     /client/home                controllers.HomeController.clientHome
 
+GET     /client/profile             controllers.ClientProfileController.clientProfile
+
 
 #Owner
 GET     /owner/home                 controllers.HomeController.ownerHome
 
 
 GET     /all                        controllers.RegisterController.getUsers
+
+
+GET     /owner/profile              controllers.OwnerProfileController.ownerProfile
+
+GET     /owner/profile/user         controllers.OwnerProfileController.getUser
+
+POST    /owner/changePassword       controllers.OwnerProfileController.changePassword
+
+POST    /owner/changeBioInfo        controllers.OwnerProfileController.changeBioInfo
+
+POST    /owner/changeAddress        controllers.OwnerProfileController.changeAddress

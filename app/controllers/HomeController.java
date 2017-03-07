@@ -20,11 +20,7 @@ public class HomeController extends Controller {
         return ok(login.render());
     }
 
-    public Result clientHome() {
-        return ok(clientHome.render());
-    }
-    public Result ownerHome() {
-        return ok(ownerHome.render());
-    }
+    public Result clientHome() {return ok(clientHome.render());}
+    public Result ownerHome() {return ok(ownerHome.render());}
 
 }

@@ -1,0 +1,15 @@
+/* Valid input */
+.input-field input.valid {
+    border-bottom: 1px forestgreen ;
+
+}
+/* Invalid input */
+.input-field input.invalid {
+    border-bottom: 1px red;
+}
+
+/* Active input */
+.input-field.suffix i.active {
+    color: #26a69a;
+}
+
