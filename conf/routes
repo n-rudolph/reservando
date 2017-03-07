@@ -12,27 +12,25 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 POST    /register                   controllers.RegisterController.registerUser
 
 POST    /login                      controllers.LoginController.login
-POST    /logout                     controllers.LoginController.logout
+GET     /logout                     controllers.LoginController.logout
 
 #Client
 GET     /client/home                controllers.HomeController.clientHome
-
 GET     /client/profile             controllers.ClientProfileController.clientProfile
 
+#Restaurant
+POST    /restaurant/add             controllers.RestaurantController.addRestaurant
+GET     /restaurants/all            controllers.RestaurantController.getAll
+GET     /restaurants/firsts         controllers.RestaurantController.getFirsts
 
 #Owner
 GET     /owner/home                 controllers.HomeController.ownerHome
+GET     /owner/profile              controllers.OwnerProfileController.ownerProfile
+GET     /owner/profile/user         controllers.OwnerProfileController.getUser
+POST    /owner/changePassword       controllers.OwnerProfileController.changePassword
+POST    /owner/changeBioInfo        controllers.OwnerProfileController.changeBioInfo
+POST    /owner/changeAddress        controllers.OwnerProfileController.changeAddress
+
 
 
 GET     /all                        controllers.RegisterController.getUsers
-
-
-GET     /owner/profile              controllers.OwnerProfileController.ownerProfile
-
-GET     /owner/profile/user         controllers.OwnerProfileController.getUser
-
-POST    /owner/changePassword       controllers.OwnerProfileController.changePassword
-
-POST    /owner/changeBioInfo        controllers.OwnerProfileController.changeBioInfo
-
-POST    /owner/changeAddress        controllers.OwnerProfileController.changeAddress

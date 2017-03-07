@@ -25,3 +25,15 @@
 .input-field.suffix label {
     margin-right: 3rem;
 }
+
+.container{
+    height: 100vh;
+}
+
+.full-height{
+    height: 100%;
+}
+
+.row{
+    margin-bottom: 0;
+}
