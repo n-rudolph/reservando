@@ -3,12 +3,10 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Owner;
-import models.User;
 import play.libs.Json;
 import play.mvc.*;
 import views.html.*;
 
-import java.util.Objects;
 
 
 /**
@@ -20,21 +18,19 @@ public class OwnerProfileController extends Controller {
 
     public Result ownerProfile(){ return ok(ownerProfile.render());}
 
-    public Result getUser(){
-        String email = session().get("email");
-        Owner owner = Owner.getOwnerbyEmail(email);
+    public Result getOwner(){
+        Owner owner = getCurrentOwner();
         return ok(Json.toJson(owner));
     }
 
     public Result changePassword(){
         final JsonNode jsonNode = request().body().asJson();
-        String email = jsonNode.path("email").asText();
         String previousPassword = jsonNode.path("previousPassword").asText();
         String newPassword = jsonNode.path("newPassword").asText();
 
-        User currentUser = User.getUserByEmail(email);
-        if (currentUser.getPassword().equals(previousPassword)){
-            User.getUserByEmail(email).setPassword(newPassword).save();
+        Owner currentOwner = getCurrentOwner();
+        if (currentOwner.getPassword().equals(previousPassword)){
+            currentOwner.setPassword(newPassword).save();
             return ok(ownerProfile.render());
         }
         return badRequest("La contraseña no es correcta");

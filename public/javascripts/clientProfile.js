@@ -6,7 +6,7 @@ app.controller("ClientProfileCtrl", function ($scope, $http) {
     var loadUserData = function(){
         $http({
             method: 'GET',
-            url: '/owner/profile/user'
+            url: '/client/profile/user'
         }).success(function(data) {
             $scope.user = data;
         });
@@ -31,7 +31,7 @@ app.controller("ClientProfileCtrl", function ($scope, $http) {
         };
         $http({
             method: 'POST',
-            url: '/owner/changePassword',
+            url: '/client/changePassword',
             data: userData
         }).then(function () {
             Materialize.toast("Contraseña cambiada satisfactoriamente", 3000, "green");
@@ -48,7 +48,7 @@ app.controller("ClientProfileCtrl", function ($scope, $http) {
 
         $http({
             method: 'POST',
-            url: '/owner/changeBioInfo',
+            url: '/client/changeBioInfo',
             data: data
         }).then(function () {
             Materialize.toast("Información actualizada", 3000, 'green');
@@ -62,7 +62,7 @@ app.controller("ClientProfileCtrl", function ($scope, $http) {
 
         $http({
             method: 'POST',
-            url: '/owner/changeAddress',
+            url: '/client/changeAddress',
             data: data
         }).then(function () {
             Materialize.toast("Ubicación actualizada", 3000, 'green');
@@ -76,7 +76,7 @@ app.controller("ClientProfileCtrl", function ($scope, $http) {
     };
 
     $scope.deleteAccount = function () {
-      /* Ask if it is necessary to request the username and the password for deleting the account.*/
+        /* Ask if it is necessary to request the username and the password for deleting the account.*/
     };
 
     $scope.openChangePasswordModal = function() {
@@ -90,4 +90,6 @@ app.controller("ClientProfileCtrl", function ($scope, $http) {
     $scope.openChangeProfileImageModal = function () {
         $('#changeProfileImageModal').openModal();
     };
+
+
 });

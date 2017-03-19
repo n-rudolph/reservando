@@ -17,6 +17,10 @@ GET     /logout                     controllers.LoginController.logout
 #Client
 GET     /client/home                controllers.HomeController.clientHome
 GET     /client/profile             controllers.ClientProfileController.clientProfile
+GET     /client/profile/user        controllers.ClientProfileController.getClient
+POST    /client/changePassword      controllers.ClientProfileController.changePassword
+POST    /client/changeBioInfo       controllers.ClientProfileController.changeBioInfo
+POST    /client/changeAddress       controllers.ClientProfileController.changeAddress
 
 #Restaurant
 POST    /restaurant/add             controllers.RestaurantController.addRestaurant
@@ -26,7 +30,7 @@ GET     /restaurants/firsts         controllers.RestaurantController.getFirsts
 #Owner
 GET     /owner/home                 controllers.HomeController.ownerHome
 GET     /owner/profile              controllers.OwnerProfileController.ownerProfile
-GET     /owner/profile/user         controllers.OwnerProfileController.getUser
+GET     /owner/profile/user         controllers.OwnerProfileController.getOwner
 POST    /owner/changePassword       controllers.OwnerProfileController.changePassword
 POST    /owner/changeBioInfo        controllers.OwnerProfileController.changeBioInfo
 POST    /owner/changeAddress        controllers.OwnerProfileController.changeAddress
