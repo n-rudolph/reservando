@@ -121,7 +121,7 @@
                 </div>
                 <div class="row">
                     <div class="col s6 offset-s8">
-                        <a class="waves-effect wave-light btn" ng-click="changeAddress()">Cambiar ubicacion</a>
+                        <a class="waves-effect wave-light btn" ng-click="changeAddress()" onclick="setMarker()">Cambiar ubicacion</a>
                     </div>
                 </div>
             </div>
@@ -182,9 +182,12 @@
 
                 // When the user selects an address from the dropdown, populate the address
                 // fields in the form.
-                autocomplete.addListener('place_changed', fillInAddress);
+                //autocomplete.addListener('place_changed', fillInAddress);
             }
 
+            // Not used here. It may be useful form autocomplete the address input even if the user don't select
+            // one from the dropdown.
+            /*
             // [START region_fillForm]
             function fillInAddress() {
                 // Get the place details from the autocomplete object.
@@ -206,6 +209,8 @@
                 }
             }
             // [END region_fillForm]
+            */
+
 
             // [START region_geolocation]
             // Bias the autocomplete object to the user's geographical location,
@@ -240,14 +245,20 @@
 
             }
 
+
+            var marker;
+
             // This function puts a marker (into the map) in the owner address location.
             function setMarker() {
+                if (marker != undefined){
+                    clearMarker();
+                }
                 var address = document.getElementById('ownerAddress').value;
                 var geoCoder = new google.maps.Geocoder();
                 geoCoder.geocode({'address': address}, function (results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         map.setCenter(results[0].geometry.location);
-                        var marker = new google.maps.Marker({
+                        marker = new google.maps.Marker({
                             position: results[0].geometry.location,
                             map: map
                         });
@@ -255,6 +266,9 @@
                 })
             }
 
+            function clearMarker() {
+                marker.setMap(null);
+            }
 
             // This function init all the referred to the Google map functionality.
             function initGoogleMapFunctionality() {
