@@ -1,6 +1,6 @@
 var app = angular.module("reservandoApp", []);
 
-app.controller("ClientProfileCtrl", function ($scope, $http) {
+app.controller("OwnerProfileCtrl", function ($scope, $http) {
 
     /*This load the current user data*/
     var loadUserData = function(){
