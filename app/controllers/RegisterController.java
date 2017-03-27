@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Client;
+import models.Local;
 import models.Owner;
 import models.User;
 import play.libs.Json;
@@ -41,6 +42,8 @@ public class RegisterController extends Controller{
     public Result getUsers(){
         return ok(Json.toJson(User.all()));
     }
+
+    public Result getLocals(){ return ok(Json.toJson(Local.all()));}
 
     private boolean validateRegisterInfo(JsonNode jsonNode){
         return (hasValue(jsonNode, "firstName") && hasValue(jsonNode, "lastName")

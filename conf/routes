@@ -37,4 +37,5 @@ POST    /owner/changeAddress        controllers.OwnerProfileController.changeAdd
 
 
 
-GET     /all                        controllers.RegisterController.getUsers
+GET     /all/users                  controllers.RegisterController.getUsers
+GET     /all/locals                 controllers.RegisterController.getLocals

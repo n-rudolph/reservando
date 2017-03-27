@@ -47,4 +47,6 @@ public class Local extends Restaurant{
         this.menu = menu;
         return this;
     }
+
+    public static List<Local> all() { return find.all(); }
 }

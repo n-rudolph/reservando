@@ -38,4 +38,6 @@ public class Cuisine extends Model{
         this.name = name;
         return this;
     }
+
+    public static Cuisine getCuisine(String cuisineName){return find.where().eq("name", cuisineName).findUnique();}
 }
