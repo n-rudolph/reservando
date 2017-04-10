@@ -26,6 +26,7 @@ POST    /client/changeAddress       controllers.ClientProfileController.changeAd
 POST    /restaurant/add             controllers.RestaurantController.addRestaurant
 GET     /restaurants/all            controllers.RestaurantController.getAll
 GET     /restaurants/firsts         controllers.RestaurantController.getFirsts
+POST    /restaurant/view            controllers.RestaurantController.openRestaurantProfile
 
 #Owner
 GET     /owner/home                 controllers.HomeController.ownerHome

@@ -5,15 +5,30 @@ app.controller("loginCtrl", function ($scope, $http) {
 
     $(document).ready(function(){
         $('.tooltipped').tooltip({delay: 50});
-        $('#tabs').tabs({swipeable: true, responsiveThreshold: 1000});
     });
+
+    $scope.bigImageHolder = true;
+    $scope.bigContentHolder = false;
+
+    $scope.initTabs = function(){
+        $('ul.tabs').tabs({swipeable: true, responsiveThreshold: 1000});
+    };
+
+    $scope.bigContent = function(){
+        $scope.bigImageHolder = false;
+        $scope.bigContentHolder = true;
+    };
+    $scope.smallContent = function(){
+        $scope.bigImageHolder = true;
+        $scope.bigContentHolder = false;
+    };
 
     //Register functionality
     $scope.userType = false;
 
     $scope.validatePassword = function(){
         $scope.pTouched = true;
-        $scope.validPassword =  ($scope.password.length > 6 && $scope.password.match(/\d+/g) != null);
+        $scope.validPassword =  ($scope.password.length > 5 && $scope.password.match(/\d+/g) != null);
     };
 
     $scope.passwordValidation = function(){
@@ -66,7 +81,7 @@ app.controller("loginCtrl", function ($scope, $http) {
            error = true;
        }
        return !error;
-   }
+   };
    
    //login functionality
     

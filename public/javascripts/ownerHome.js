@@ -123,15 +123,23 @@ app.controller("OwnerHomeCtrl", function ($scope, $http) {
     };
 
     $scope.successCallback = function(response){
-
+        $scope.getFirsts();
     };
 
     $scope.errorCallback = function(response){
-
+        Materialize.toast("Ha ocurrido un error", 2000, "red");
     };
 
     $scope.setAddress = function(address){
         $scope.newRestaurant.address = address;
+    };
+
+    $scope.openRestaurantProfile = function(restaurant){
+        $http.post("/restaurant/view", restaurant).then(function(response){
+            $scope.getFirsts();
+        }, function(response){
+            console.log(response);
+        });
     };
 
     $(document).ready(function() {

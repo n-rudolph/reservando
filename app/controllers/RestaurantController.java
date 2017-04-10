@@ -3,6 +3,7 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.*;
+import models.Response.RedirectResponse;
 import models.Response.RestaurantsResponse;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -47,8 +48,20 @@ public class RestaurantController extends Controller {
         final List<Restaurant> restaurants = ownerbyEmail.getRestaurants();
         int max = restaurants.size() < 5 ? restaurants.size() : 5;
 
-        final RestaurantsResponse response = new RestaurantsResponse(200, "ok", restaurants.subList(0, max), max > 5);
+        final RestaurantsResponse response = new RestaurantsResponse(200, "ok", restaurants.subList(0, max), restaurants.size() > 5);
 
+        return ok(Json.toJson(response));
+    }
+
+    public Result openRestaurantProfile(){
+        final JsonNode jsonNode = request().body().asJson();
+        final JsonNode restaurantId = jsonNode.path("id");
+        String redirectUrl;
+        if (jsonNode.path("local").asBoolean())
+            redirectUrl = "/local/profile";
+        else redirectUrl = "/delivery/profile";
+        redirectUrl += "?rid="+restaurantId;
+        final RedirectResponse response = new RedirectResponse(200, "ok", redirectUrl);
         return ok(Json.toJson(response));
     }
 }

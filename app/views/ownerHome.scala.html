@@ -14,7 +14,7 @@
     <div ng-controller="OwnerHomeCtrl">
         <div class="container body" >
             <div class="row">
-                <div class="col m4">
+                <div class="col m6">
                     <div class="row">
                         <h5 class="center">
                             Mis Restaurantes <div class="btn-floating accent-color" ng-click="openAddRestaurant()"><i class="material-icons">
@@ -25,6 +25,7 @@
                             <tr>
                                 <th data-field="id">Nombre</th>
                                 <th data-field="name">Tipo</th>
+                                <th data-field="state">Estado</th>
                                 <th data-field="price">Modificar/Ver</th>
                             </tr>
                         </thead>
@@ -32,13 +33,17 @@
                         <tbody>
                             <tr ng-repeat="restaurant in restaurants">
                                 <td>{{restaurant.name}}</td>
-                                <td>{{restaurant.isLocal ? "Local" : "Delivery"}}</td>
-                                <td><i class="material-icons">edit</i></td>
+                                <td>{{restaurant.local ? "Local" : "Delivery"}}</td>
+                                <td>{{restaurant.published ? "Publicado" : "No Publicado"}}</td>
+                                <td><i class="material-icons" ng-click="openRestaurantProfile(restaurant)">edit</i></td>
                             </tr>
                         </tbody>
                     </table>
-                    <div class="my-restaurant-container valign-wrapper">
-                        <div ng-show="restaurants.length == 0" class="valign center empty-msg">
+                    <div class="row" ng-show="continues">
+                        <div class="btn">Ver más Restaurantes</div>
+                    </div>
+                    <div class="my-restaurant-container valign-wrapper" ng-show="restaurants.length == 0">
+                        <div class="valign center empty-msg">
                             <h5>Todavia no tienes restaurantes</h5>
                             <div id="addRestaurant">
                                 <div class="btn-large accent-color add-btn" ng-click="openAddRestaurant()">
@@ -48,7 +53,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col m4 center-panel">
+                <div class="col m6 center-panel">
                     <div class="row">
                         <h5 class="center">Reservas y Pedidos</h5>
                     </div>
@@ -61,18 +66,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col m4">
-                    <div class="row">
-                        <h5 class="center"> Buscar Restaurant</h5>
-                    </div>
-                    <div class="row">
-                        <div class="input-field">
-                            <i class="material-icons prefix">search</i>
-                            <input id="searchBar" type="text" class="validate" placeholder="Buscar restaurante">
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
 

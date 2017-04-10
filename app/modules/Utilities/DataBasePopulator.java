@@ -40,10 +40,15 @@ public class DataBasePopulator {
 
     //This method add defaults users into the database.
     public void populatePrimaryUsers(){
-        Owner owner = new Owner("Juan", "Perez", "Av Peron 1500, Pilar, Buenos Aires, Argentina" ,"owner@gmail.com","reservando10", null, null);
-        Client client = new Client("Pablo", "Torres", "Av Peron 1400, Pilar, Buenos Aires, Argentina" ,"client@gmail.com","reservando10", null, null);
-        owner.save();
-        client.save();
+        if (Owner.all().isEmpty()){
+            Owner owner = new Owner("Juan", "Perez", "Av Peron 1500, Pilar, Buenos Aires, Argentina" ,"owner@gmail.com","reservando10", null, null);
+            owner.save();
+        }
+        if (Client.all().isEmpty()){
+            Client client = new Client("Pablo", "Torres", "Av Peron 1400, Pilar, Buenos Aires, Argentina" ,"client@gmail.com","reservando10", null, null);
+            client.save();
+        }
+
     }
 
     private List<String> readFile(String relativePath) {

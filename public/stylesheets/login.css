@@ -1,3 +1,7 @@
+.title{
+    color: #b71818;
+}
+
 .input-field.suffix i {
     position: absolute;
     width: 3rem;
@@ -26,14 +30,44 @@
     margin-right: 3rem;
 }
 
-.container{
-    height: 100vh;
-}
-
 .full-height{
     height: 100%;
+}
+.image-holder{
+    background-color: #48cf94;
+    margin:0;
+}
+
+.login-section{
+    background-color: whitesmoke;
+    padding-bottom: 10px;
+    border-radius: 10px;
+}
+
+.tabs a{
+    color: #b71818 !important;
 }
 
 .row{
     margin-bottom: 0;
+}
+
+.height-mod{
+    transition: all 1s ease-in-out;
+}
+
+.small-image-holder{
+    height: 10vh;
+}
+
+.big-image-holder{
+    height: 20vh;
+}
+
+.small-content-holder{
+    height: 60vh;
+}
+
+.big-content-holder{
+    height: 80vh;
 }
