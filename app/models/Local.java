@@ -24,8 +24,8 @@ public class Local extends Restaurant{
 
     public Local(String name, String description, String address, String openingHour,
                  String closingHour, List<Day> openingDays, List<Cuisine> cuisines,
-                 int capacity, List<Meal> menu) {
-        super(name, description, address, openingHour, closingHour, openingDays, cuisines, true);
+                 int capacity, List<Meal> menu, Owner owner) {
+        super(name, description, address, openingHour, closingHour, openingDays, cuisines, true, owner);
         this.capacity = capacity;
         this.menu = menu;
     }

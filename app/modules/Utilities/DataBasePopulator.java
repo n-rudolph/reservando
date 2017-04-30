@@ -2,12 +2,12 @@ package modules.Utilities;
 
 import models.*;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class DataBasePopulator {
 
@@ -15,9 +15,9 @@ public class DataBasePopulator {
     //This method add defaults locals into the database.
     public void populateLocals(){
         loadAllDaysIntoDb();
-        String relativePath = "modules/Utilities/Local List Pilar.txt";
+        //loadDefaultCuisinesIntoDb();
+        String relativePath = "app/modules/Utilities/Local List Pilar.txt";
         List<String> restaurants = readFile(relativePath);
-
 
         for (String restaurant : restaurants) {
             String[] localInfo = restaurant.split("-/");
@@ -32,47 +32,37 @@ public class DataBasePopulator {
             int capacityDefault = 100;
             List<Meal> meals = new ArrayList<>();
 
-            Local newLocal = new Local(name, description, address, openingHour, closingHour, openingDays, cuisinesList, capacityDefault, meals);
-            newLocal.save();
-        }
+            Owner owner = (Owner) Owner.getUserByEmail("owner@gmail.com");
 
+            Local newLocal = new Local(name, "Test Description it must be change (description too long)", address, openingHour, closingHour, openingDays, cuisinesList, capacityDefault, meals, owner);
+            if(!Local.all().contains(newLocal)) newLocal.save();
+        }
     }
 
     //This method add defaults users into the database.
     public void populatePrimaryUsers(){
-        if (Owner.all().isEmpty()){
+        if (Owner.getUserByEmail("owner@gmail.com") == null){
             Owner owner = new Owner("Juan", "Perez", "Av Peron 1500, Pilar, Buenos Aires, Argentina" ,"owner@gmail.com","reservando10", null, null);
             owner.save();
         }
-        if (Client.all().isEmpty()){
+        if (Client.getUserByEmail("client@gmail.com") == null){
             Client client = new Client("Pablo", "Torres", "Av Peron 1400, Pilar, Buenos Aires, Argentina" ,"client@gmail.com","reservando10", null, null);
             client.save();
         }
-
     }
 
+    //This method reads a file and returns a list<String> of the file line's.
     private List<String> readFile(String relativePath) {
-        String textAux;
-        ArrayList<String> list = new ArrayList<String>();
-        BufferedReader br = null;
-
-        try {
-            br = new BufferedReader(new FileReader(new File(relativePath).getAbsolutePath()));
-            while ((textAux = br.readLine()) != null) list.add(textAux);
+        ArrayList<String> list = new ArrayList<>();
+        try (Stream<String> stream = Files.lines(Paths.get(relativePath))){
+            stream.forEach(list::add);
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return list;
     }
 
+    //This method return a list with some defaults days.
     private List<Day> getDefaultOpeningDays(){
         List<Day> openingDays = new ArrayList<>();
 
@@ -86,25 +76,39 @@ public class DataBasePopulator {
         return openingDays;
     }
 
+    //This method creates all the days of a week and save them into the database.
     private void loadAllDaysIntoDb(){
-        Day lunes = new Day("Lunes");
-        Day martes = new Day("Martes");
-        Day miercoles = new Day("Miercoles");
-        Day jueves = new Day("Jueves");
-        Day viernes = new Day("Viernes");
-        Day sabado = new Day("Sabado");
-        Day domingo = new Day("Domingo");
-
-        lunes.save();
-        martes.save();
-        miercoles.save();
-        jueves.save();
-        viernes.save();
-        sabado.save();
-        domingo.save();
-
+        if (Day.getDay("Lunes") == null){
+            Day lunes = new Day("Lunes");
+            lunes.save();
+        }
+        if (Day.getDay("Martes") == null){
+            Day martes = new Day("Martes");
+            martes.save();
+        }
+        if(Day.getDay("Miercoles") == null){
+            Day miercoles = new Day("Miercoles");
+            miercoles.save();
+        }
+        if(Day.getDay("Jueves") == null){
+            Day jueves = new Day("Jueves");
+            jueves.save();
+        }
+        if(Day.getDay("Viernes") == null){
+            Day viernes = new Day("Viernes");
+            viernes.save();
+        }
+        if(Day.getDay("Sabado") == null){
+            Day sabado = new Day("Sabado");
+            sabado.save();
+        }
+        if(Day.getDay("Domingo") == null){
+            Day domingo = new Day("Domingo");
+            domingo.save();
+        }
     }
 
+    //This method creates and saves (if necessary) all the cuisines and return a list of them.
     private List<Cuisine> getCuisines(String[] cuisines){
         List<Cuisine> cuisinesList = new ArrayList<>();
 
@@ -112,50 +116,11 @@ public class DataBasePopulator {
             if (Cuisine.getCuisine(cuisine) == null) {
                 Cuisine newCuisine = new Cuisine();
                 newCuisine.setName(cuisine);
+                newCuisine.save();
                 cuisinesList.add(newCuisine);
             } else cuisinesList.add(Cuisine.getCuisine(cuisine));
         }
         return cuisinesList;
     }
-
-    private void loadDefaultCuisinesIntoDb(){
-        Cuisine  cuisine1 = new Cuisine();
-        Cuisine  cuisine2 = new Cuisine();
-        Cuisine  cuisine3 = new Cuisine();
-        Cuisine  cuisine4 = new Cuisine();
-        Cuisine  cuisine5 = new Cuisine();
-        Cuisine  cuisine6 = new Cuisine();
-        Cuisine  cuisine7 = new Cuisine();
-        Cuisine  cuisine8 = new Cuisine();
-
-        String type1 = "Argentina";
-        String type2 = "Japonesa";
-        String type3 = "Italiana";
-        String type4 = "Peruana";
-        String type5 = "Varias";
-        String type6 = "Norteamericana";
-        String type7 = "Mexicana";
-        String type8 = "Francesa";
-
-        cuisine1.setName(type1);
-        cuisine2.setName(type2);
-        cuisine3.setName(type3);
-        cuisine4.setName(type4);
-        cuisine5.setName(type5);
-        cuisine6.setName(type6);
-        cuisine7.setName(type7);
-        cuisine8.setName(type8);
-
-        cuisine1.save();
-        cuisine2.save();
-        cuisine3.save();
-        cuisine4.save();
-        cuisine5.save();
-        cuisine6.save();
-        cuisine7.save();
-        cuisine8.save();
-    }
-
-
     
 }

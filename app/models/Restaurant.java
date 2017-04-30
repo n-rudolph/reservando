@@ -28,6 +28,8 @@ public class Restaurant extends Model{
     private String address;
     private boolean published;
     private boolean isLocal;
+    @ManyToOne
+    private Owner owner;
 
 
     public static Finder<Long, Restaurant> find = new Finder<Long,Restaurant>(Restaurant.class);
@@ -46,7 +48,7 @@ public class Restaurant extends Model{
     }
     public Restaurant(String name, String description, String address,
                       String openingHour, String closingHour, List<Day> openingDays,
-                      List<Cuisine> cuisines, boolean isLocal) {
+                      List<Cuisine> cuisines, boolean isLocal, Owner owner) {
         this.name = name;
         this.description = description;
         this.address = address;
@@ -56,6 +58,7 @@ public class Restaurant extends Model{
         this.cuisines = cuisines;
         published = false;
         this.isLocal = isLocal;
+        this.owner = owner;
     }
 
     public long getId() {

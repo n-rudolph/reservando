@@ -19,7 +19,6 @@ public class AppStartup {
     private void onStart(){
         DataBasePopulator dataBasePopulator = new DataBasePopulator();
         dataBasePopulator.populatePrimaryUsers();
-        //For use populateLocals() it must be fix the restaurant database relationship.
-        //dataBasePopulator.populateLocals();
+        dataBasePopulator.populateLocals();
     }
 }

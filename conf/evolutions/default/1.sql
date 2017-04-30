@@ -43,7 +43,6 @@ create table reservation (
 create table restaurant (
   dtype                     varchar(10) not null,
   id                        bigint not null,
-  owner_id                  bigint not null,
   name                      varchar(255) not null,
   description               varchar(255),
   opening_hour              varchar(255),
@@ -51,6 +50,7 @@ create table restaurant (
   address                   varchar(255) not null,
   published                 boolean,
   is_local                  boolean,
+  owner_id                  bigint,
   radius                    double,
   capacity                  integer,
   constraint pk_restaurant primary key (id))
@@ -120,8 +120,8 @@ alter table reservation add constraint fk_reservation_client_3 foreign key (clie
 create index ix_reservation_client_3 on reservation (client_id);
 alter table reservation add constraint fk_reservation_local_4 foreign key (local_id) references restaurant (id) on delete restrict on update restrict;
 create index ix_reservation_local_4 on reservation (local_id);
-alter table restaurant add constraint fk_restaurant_user_5 foreign key (owner_id) references user (id) on delete restrict on update restrict;
-create index ix_restaurant_user_5 on restaurant (owner_id);
+alter table restaurant add constraint fk_restaurant_owner_5 foreign key (owner_id) references user (id) on delete restrict on update restrict;
+create index ix_restaurant_owner_5 on restaurant (owner_id);
 
 
 
