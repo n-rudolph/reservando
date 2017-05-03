@@ -68,8 +68,8 @@ public class OwnerProfileController extends Controller {
         byte[] imageDecodedBytes = Base64.getDecoder().decode(imageEncodedBase64);
         Owner owner = getCurrentOwner();
 
-        //IMPORTANT: this path must be change depending on the computer executed!
-        String dirLocation = "/Users/Gustavo/Desktop/laboratorio/reservando/public/images/" + owner.getEmail() + "/" ;
+        String basePath = new File("").getAbsolutePath(); //Base path is the absolute path where the current project is.
+        String dirLocation = basePath + "/public/images/userProfileImages/" + owner.getEmail() + "/"; //Path where the image will be save.
 
         try {
             if (!new File(dirLocation).exists()){
@@ -87,7 +87,7 @@ public class OwnerProfileController extends Controller {
 
         //Photo photo = new Photo(dirLocation + new File(imageName));
         //owner.setPhoto(photo);
-        owner.setPhotoPath(owner.getEmail() + "/" + new File(imageName)); //The profile image will be in a dir named as the user email.
+        owner.setPhotoPath("images/userProfileImages/" + owner.getEmail() + "/" + new File(imageName)); //The profile image will be in a dir named as the user email.
         owner.save();
         return ok();
     }

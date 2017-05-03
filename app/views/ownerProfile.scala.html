@@ -51,7 +51,7 @@
         @* Input for name, and email. And the user's profile image *@
         <div class="row">
             <div class="col s4">
-                <img class="responsive-img" width="256px" height="256px"  ng-src="@routes.Assets.versioned("images/{{user.photoPath}}")">
+                <img class="responsive-img" width="256px" height="256px"  ng-src="@routes.Assets.versioned("{{user.photoPath}}")">
 
                 <div class="col s2 offset-s4">
                     <a class="waves-effect wave-light btn" ng-click="openChangeProfileImageModal()">Cambiar</a>

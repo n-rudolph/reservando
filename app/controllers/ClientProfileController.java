@@ -69,8 +69,8 @@ public class ClientProfileController extends Controller {
         byte[] imageDecodedBytes = Base64.getDecoder().decode(imageEncodedBase64);
         Client client = getCurrentClient();
 
-        //IMPORTANT: this path must be change depending on the computer executed!
-        String dirLocation = "/Users/Gustavo/Desktop/laboratorio/reservando/public/images/" + client.getEmail() + "/" ;
+        String basePath = new File("").getAbsolutePath(); //Base path is the absolute path where the current project is.
+        String dirLocation = basePath + "/public/images/userProfileImages/" + client.getEmail() + "/"; //Path where the image will be save.
 
         //noinspection Duplicates
         try {
@@ -89,7 +89,7 @@ public class ClientProfileController extends Controller {
 
         //Photo photo = new Photo(dirLocation + new File(imageName));
         //client.setPhoto(photo);
-        client.setPhotoPath(client.getEmail() + "/" + new File(imageName)); //The profile image will be in a dir named as the user email.
+        client.setPhotoPath("images/userProfileImages/" + client.getEmail() + "/" + new File(imageName)); //The profile image will be in a dir named as the user email.
         client.save();
         return ok();
     }
