@@ -1,6 +1,38 @@
 var app = angular.module("reservandoApp", []);
 
-app.controller("ClientProfileCtrl", function ($scope, $http) {
+app.directive('fileModel', ['$parse', function($parse){
+    return{
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                })
+            })
+        }
+    }
+}]);
+
+app.service('fileUpload', ['$http', function ($http){
+    this.uploadFileToUrl = function(file, uploadUrl, successResponse, errorResponse){
+        var data = {data: file};
+        $http({
+            method: 'POST',
+            url: uploadUrl,
+            data: data
+        }).then(function(){
+            Materialize.toast(successResponse, 3000, 'green');
+        }, function () {
+            Materialize.toast(errorResponse, 3000, 'red');
+        })
+    };
+
+}]);
+
+app.controller("ClientProfileCtrl",['$scope', '$http', 'fileUpload', function ($scope, $http, fileUpload) {
 
     /*This load the current user data*/
     var loadUserData = function(){
@@ -71,6 +103,26 @@ app.controller("ClientProfileCtrl", function ($scope, $http) {
         })
     };
 
+    $scope.changeProfileImage = function () {
+        var uploadUrl = '/client/changeProfileImage';
+        uploadFile(uploadUrl, $scope.imageFile, 'La foto se cargo exitosamente', 'La foto no pudo ser cargada');
+    };
+
+    var uploadFile = function (uploadUrl, file, successResponse, errorResponse) {
+        //The code below converts the image to base 64 encoding and send it (as string) to the server.
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = function(){
+            var fileEncodedBase64 = file.name + "," + reader.result;
+            fileUpload.uploadFileToUrl(fileEncodedBase64, uploadUrl, successResponse, errorResponse);
+        };
+        reader.onerror = function () {
+            //var fileEncodingBase64Error = reader.error;
+            Materialize.toast(errorResponse, 2000, 'red');
+        }
+    };
+
     $scope.changePhoto = function () {
 
     };
@@ -92,4 +144,4 @@ app.controller("ClientProfileCtrl", function ($scope, $http) {
     };
 
 
-});
+}]);

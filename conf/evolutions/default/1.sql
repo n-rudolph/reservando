@@ -64,6 +64,7 @@ create table user (
   address                   varchar(255) not null,
   email                     varchar(255) not null,
   password                  varchar(255) not null,
+  photo_path                varchar(255),
   constraint uq_user_email unique (email),
   constraint pk_user primary key (id))
 ;

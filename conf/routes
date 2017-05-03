@@ -21,6 +21,7 @@ GET     /client/profile/user        controllers.ClientProfileController.getClien
 POST    /client/changePassword      controllers.ClientProfileController.changePassword
 POST    /client/changeBioInfo       controllers.ClientProfileController.changeBioInfo
 POST    /client/changeAddress       controllers.ClientProfileController.changeAddress
+POST    /client/changeProfileImage  controllers.ClientProfileController.changeProfileImage
 
 #Restaurant
 POST    /restaurant/add             controllers.RestaurantController.addRestaurant
@@ -35,6 +36,7 @@ GET     /owner/profile/user         controllers.OwnerProfileController.getOwner
 POST    /owner/changePassword       controllers.OwnerProfileController.changePassword
 POST    /owner/changeBioInfo        controllers.OwnerProfileController.changeBioInfo
 POST    /owner/changeAddress        controllers.OwnerProfileController.changeAddress
+POST    /owner/changeProfileImage   controllers.OwnerProfileController.changeProfileImage
 
 
 

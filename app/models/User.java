@@ -26,6 +26,7 @@ public class User extends Model {
     private String password;
 
     private Photo photo;
+    private String photoPath;
 
     public static Finder<Long, User> find = new Finder<Long,User>(User.class);
 
@@ -99,9 +100,15 @@ public class User extends Model {
         return photo;
     }
 
+    public String getPhotoPath(){return photoPath;}
+
     public User setPhoto(Photo photo) {
         this.photo = photo;
         return this;
+    }
+
+    public void setPhotoPath(String photoPath){
+        this.photoPath = photoPath;
     }
 
     public static List<User> all() {

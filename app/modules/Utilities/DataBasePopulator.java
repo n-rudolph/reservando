@@ -43,10 +43,12 @@ public class DataBasePopulator {
     public void populatePrimaryUsers(){
         if (Owner.getUserByEmail("owner@gmail.com") == null){
             Owner owner = new Owner("Juan", "Perez", "Av Peron 1500, Pilar, Buenos Aires, Argentina" ,"owner@gmail.com","reservando10", null, null);
+            owner.setPhotoPath("defaultMenProfileImage.png");
             owner.save();
         }
         if (Client.getUserByEmail("client@gmail.com") == null){
             Client client = new Client("Pablo", "Torres", "Av Peron 1400, Pilar, Buenos Aires, Argentina" ,"client@gmail.com","reservando10", null, null);
+            client.setPhotoPath("defaultMenProfileImage.png");
             client.save();
         }
     }
@@ -122,5 +124,4 @@ public class DataBasePopulator {
         }
         return cuisinesList;
     }
-    
 }
