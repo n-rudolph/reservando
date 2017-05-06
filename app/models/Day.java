@@ -11,7 +11,7 @@ public class Day extends Model{
     private long id;
     private String day;
 
-    public static Finder<Long, Day> find = new Finder<Long,Day>(Day.class);
+    private static Finder<Long, Day> finder = new Finder<Long,Day>(Day.class);
 
     public Day(String day){
         this.day = day;
@@ -35,5 +35,6 @@ public class Day extends Model{
         return this;
     }
 
-    public static Day getDay(String dayName) {return find.where().eq("day",dayName).findUnique();}
+    public static Day byId(long id){return finder.byId(id);}
+    public static Day getDay(String dayName) {return finder.where().eq("day",dayName).findUnique();}
 }

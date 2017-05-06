@@ -13,7 +13,7 @@ public class Delivery extends Restaurant {
     @OneToMany(cascade = CascadeType.ALL)
     private List<DeliveryOrder> deliveryOrders;
 
-    public static Finder<Long, Delivery> find = new Finder<Long,Delivery>(Delivery.class);
+    private static Finder<Long, Delivery> finder = new Finder<>(Delivery.class);
 
     public Delivery() {
     }
@@ -46,5 +46,18 @@ public class Delivery extends Restaurant {
     public Delivery setMenu(List<Meal> menu) {
         this.menu = menu;
         return this;
+    }
+
+    public boolean addMeal(Meal meal){
+
+        return false;
+    }
+
+    public boolean removeMeal(Meal meal) {
+        return menu != null && menu.remove(meal);
+    }
+
+    public static Delivery byId(long id){
+        return finder.byId(id);
     }
 }

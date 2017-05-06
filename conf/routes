@@ -28,10 +28,15 @@ POST    /restaurant/add             controllers.RestaurantController.addRestaura
 GET     /restaurants/all            controllers.RestaurantController.getAll
 GET     /restaurants/firsts         controllers.RestaurantController.getFirsts
 POST    /restaurant/view            controllers.RestaurantController.openRestaurantProfile
+POST    /restaurant/state           controllers.RestaurantController.changeState
+
+#Delivery
+POST    /delivery/edit              controllers.DeliveryController.editDelivery
 
 #Owner
 GET     /owner/home                 controllers.HomeController.ownerHome
 GET     /owner/profile              controllers.OwnerProfileController.ownerProfile
+GET     /owner/restaurants          controllers.RestaurantController.viewOwnerRestaurants
 GET     /owner/profile/user         controllers.OwnerProfileController.getOwner
 POST    /owner/changePassword       controllers.OwnerProfileController.changePassword
 POST    /owner/changeBioInfo        controllers.OwnerProfileController.changeBioInfo
