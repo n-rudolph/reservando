@@ -1,18 +1,22 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.*;
 import models.Response.RedirectResponse;
 import models.Response.RestaurantsResponse;
+import modules.Utils;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.*;
 
-import java.util.Collections;
 import java.util.List;
 
 public class RestaurantController extends Controller {
+
+    public Result viewOwnerRestaurants(){
+        return ok();
+    }
 
     public Result addRestaurant(){
         final JsonNode jsonNode = request().body().asJson();
@@ -53,6 +57,15 @@ public class RestaurantController extends Controller {
         return ok(Json.toJson(response));
     }
 
+    public Result changeState(){
+        final JsonNode body = request().body().asJson();
+        final long id = body.get("id").asLong();
+        final boolean state = body.get("state").asBoolean();
+        final Restaurant restaurant = Restaurant.byId(id);
+        restaurant.setPublished(state).update();
+        return ok("State modified successfully");
+    }
+
     public Result openRestaurantProfile(){
         final JsonNode jsonNode = request().body().asJson();
         final JsonNode restaurantId = jsonNode.path("id");
@@ -63,5 +76,59 @@ public class RestaurantController extends Controller {
         redirectUrl += "?rid="+restaurantId;
         final RedirectResponse response = new RedirectResponse(200, "ok", redirectUrl);
         return ok(Json.toJson(response));
+    }
+
+    public Result addOpenDay(){
+        final JsonNode body = request().body().asJson();
+        if (body.path("id").isMissingNode())
+            return badRequest(Utils.generateResponse("400", "Restaurant id missing", null));
+        final Restaurant restaurant = Restaurant.byId(body.path("id").asLong());
+        if (body.path("dayId").isMissingNode())
+            return badRequest(Utils.generateResponse("400", "Day missing", null));
+        final Day day = Day.byId(body.path("dayId").asLong());
+        restaurant.addDay(day);
+        return ok(Utils.generateResponse("200", "Day added correctly", null));
+    }
+
+    public Result removeOpenDay(){
+        final JsonNode body = request().body().asJson();
+        if (body.path("id").isMissingNode())
+            return badRequest(Utils.generateResponse("400", "Restaurant id missing", null));
+        final Restaurant restaurant = Restaurant.byId(body.path("id").asLong());
+        if (body.path("dayId").isMissingNode())
+            return badRequest(Utils.generateResponse("400", "Day missing", null));
+        final Day day = Day.byId(body.path("dayId").asLong());
+        restaurant.removeDay(day);
+        return ok(Utils.generateResponse("200", "Day removed correctly", null));
+    }
+
+    public Result addCuisine(){
+        final JsonNode body = request().body().asJson();
+        if (body.path("id").isMissingNode())
+            return badRequest(Utils.generateResponse("400", "Restaurant id missing", null));
+        final Restaurant restaurant = Restaurant.byId(body.path("id").asLong());
+        Cuisine cuisine;
+        if (body.path("dayId").isMissingNode()) {
+            cuisine = new Cuisine();
+            cuisine.setName(body.path("newCuisine").asText().trim());
+            cuisine.save();
+            cuisine= Cuisine.getCuisine(body.path("newCuisine").asText().trim());
+        }else {
+            cuisine = Cuisine.byId(body.path("cuisineId").asLong());
+        }
+        restaurant.addCuisine(cuisine);
+        return ok(Utils.generateResponse("200", "Cuisine added correctly", null));
+    }
+
+    public Result removeCuisine(){
+        final JsonNode body = request().body().asJson();
+        if (body.path("id").isMissingNode())
+            return badRequest(Utils.generateResponse("400", "Restaurant id missing", null));
+        final Restaurant restaurant = Restaurant.byId(body.path("id").asLong());
+        if (body.path("cuisineId").isMissingNode())
+            return badRequest(Utils.generateResponse("400", "Cuisine missing", null));
+        final Cuisine cuisine = Cuisine.byId(body.path("cuisineId").asLong());
+        restaurant.removeCuisine(cuisine);
+        return ok(Utils.generateResponse("200", "Cuisine removed correctly", null));
     }
 }

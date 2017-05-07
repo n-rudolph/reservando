@@ -32,7 +32,7 @@ public class Restaurant extends Model{
     private Owner owner;
 
 
-    public static Finder<Long, Restaurant> find = new Finder<Long,Restaurant>(Restaurant.class);
+    private static Finder<Long, Restaurant> finder = new Finder<Long,Restaurant>(Restaurant.class);
 
     public Restaurant() {
         published = false;
@@ -149,5 +149,39 @@ public class Restaurant extends Model{
     public Restaurant setLocal(boolean local) {
         isLocal = local;
         return this;
+    }
+
+    public static Restaurant byId(long id) {
+        return finder.byId(id);
+    }
+
+    public boolean addDay(Day day) {
+        if (openingDays == null) {
+            openingDays = new ArrayList<>();
+        }
+        if (openingDays.indexOf(day) < 0){
+            openingDays.add(day);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeDay(Day day) {
+        return openingDays != null && openingDays.remove(day);
+    }
+
+    public boolean addCuisine(Cuisine cuisine) {
+        if (cuisines == null) {
+            cuisines = new ArrayList<>();
+        }
+        if (cuisines.indexOf(cuisine) < 0){
+            cuisines.add(cuisine);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeCuisine(Cuisine cuisine) {
+        return cuisines != null && cuisines.remove(cuisine);
     }
 }

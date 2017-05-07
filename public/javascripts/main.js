@@ -1,1 +1,1 @@
-var app = angular.module("reservandoApp", ['ngAnimate']);
+var app = angular.module("reservandoApp");

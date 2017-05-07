@@ -11,7 +11,7 @@ public class Cuisine extends Model{
     private long id;
     private String name;
 
-    public static Finder<Long, Cuisine> find = new Finder<Long,Cuisine>(Cuisine.class);
+    private static Finder<Long, Cuisine> finder = new Finder<Long,Cuisine>(Cuisine.class);
 
     public Cuisine(long id, String name) {
         this.id = id;
@@ -39,5 +39,9 @@ public class Cuisine extends Model{
         return this;
     }
 
-    public static Cuisine getCuisine(String cuisineName){return find.where().eq("name", cuisineName).findUnique();}
+    public static Cuisine getCuisine(String cuisineName){return finder.where().eq("name", cuisineName).findUnique();}
+
+    public static Cuisine byId(long id) {
+        return finder.byId(id);
+    }
 }
