@@ -16,8 +16,11 @@ app.directive('fileModel', ['$parse', function($parse){
     }
 }]);
 
-app.service('fileUpload', ['$http', function ($http){
+app.service('fileUpload', ['$http','$q', function ($http, $q){
     this.uploadFileToUrl = function(file, uploadUrl, successResponse, errorResponse){
+        var defered = $q.defer();
+        var promise = defered.promise;
+
         var data = {data: file};
         $http({
             method: 'POST',
@@ -25,9 +28,13 @@ app.service('fileUpload', ['$http', function ($http){
             data: data
         }).then(function(){
             Materialize.toast(successResponse, 3000, 'green');
+            defered.resolve();
         }, function () {
             Materialize.toast(errorResponse, 3000, 'red');
-        })
+            defered.reject();
+        });
+        //return promise;
+        return defered.promise;
     };
 
 }]);
@@ -115,7 +122,10 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'fileUpload', function ($s
 
         reader.onload = function(){
             var fileEncodedBase64 = file.name + "," + reader.result;
-            fileUpload.uploadFileToUrl(fileEncodedBase64, uploadUrl, successResponse, errorResponse);
+            fileUpload.uploadFileToUrl(fileEncodedBase64, uploadUrl, successResponse, errorResponse)
+                .then(function(){
+                    loadUserData();
+                })
         };
         reader.onerror = function () {
             //var fileEncodingBase64Error = reader.error;

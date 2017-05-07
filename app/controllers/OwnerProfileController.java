@@ -83,6 +83,7 @@ public class OwnerProfileController extends Controller {
             bufferedOutputStream.close();
         } catch (IOException e){
             e.printStackTrace();
+            return internalServerError();
         }
 
         //Photo photo = new Photo(dirLocation + new File(imageName));
