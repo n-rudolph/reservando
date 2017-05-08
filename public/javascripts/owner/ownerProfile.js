@@ -141,7 +141,7 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'fileUpload','$window', fu
             //Redirects to the login page.
             $window.location.href = "http://localhost:9000/";
         }, function (response) {
-            Materialize.toast(response.data, 3000, "red");
+            Materialize.toast(response.data, 5000, "red");
             //console.log(response.data)
         })
     };

@@ -2,13 +2,15 @@ package controllers;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Owner;
+import models.*;
 import play.libs.Json;
 import play.mvc.*;
 import views.html.*;
+import org.joda.time.DateTime;
 
 import java.io.*;
 import java.util.Base64;
+import java.util.List;
 
 
 /**
@@ -99,8 +101,31 @@ public class OwnerProfileController extends Controller {
 
     public Result deleteAccount(){
         Owner owner = getCurrentOwner();
+        List<Restaurant> restaurants = owner.getRestaurants();
+        for (Restaurant restaurant: restaurants) {
+            if(restaurant.isLocal()){
+                List<Reservation> reservations = ((Local) restaurant).getReservations();
+                for (Reservation reservation: reservations) {
+                    DateTime reservationDate = reservation.getDate();
+                    DateTime currentDate = new DateTime();
+                    //Here is check is all the reservation has finished, or more specific if there is any reservation
+                    //for the future. If there is one or more reservations for the future, the owner can not delete his
+                    //account.
+                    if(reservationDate.isAfter(currentDate)){
+                        return internalServerError("No se ha podido eliminar la cuenta, debido a que tiene reservaciones pendientes.");
+                    }
+                }
+            }
+            //DeliveryOrder model must be change in order to implement some logic for the pending orders and the
+            //finished ones.
+           /* else {
+                List<DeliveryOrder> deliveryOrders = ((Delivery) restaurant).getDeliveryOrders();
+                for (DeliveryOrder deliveryOrder: deliveryOrders) {
+                    //Here must goes the logic to know if a delivery order has been finished or not.
+                }
+            }*/
+        }
         //This deletes the user and all the restaurants that he owns.
-        //It is important to decide what to do if the owner has pending orders or reservations!
         owner.delete();
         session().clear();
         return ok();
