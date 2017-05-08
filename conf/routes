@@ -22,6 +22,7 @@ POST    /client/changePassword      controllers.ClientProfileController.changePa
 POST    /client/changeBioInfo       controllers.ClientProfileController.changeBioInfo
 POST    /client/changeAddress       controllers.ClientProfileController.changeAddress
 POST    /client/changeProfileImage  controllers.ClientProfileController.changeProfileImage
+POST    /client/deleteAccount       controllers.ClientProfileController.deleteAccount
 
 #Restaurant
 POST    /restaurant/add             controllers.RestaurantController.addRestaurant
@@ -42,6 +43,7 @@ POST    /owner/changePassword       controllers.OwnerProfileController.changePas
 POST    /owner/changeBioInfo        controllers.OwnerProfileController.changeBioInfo
 POST    /owner/changeAddress        controllers.OwnerProfileController.changeAddress
 POST    /owner/changeProfileImage   controllers.OwnerProfileController.changeProfileImage
+POST    /owner/deleteAccount        controllers.OwnerProfileController.deleteAccount
 
 
 

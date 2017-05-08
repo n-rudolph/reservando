@@ -39,7 +39,7 @@ app.service('fileUpload', ['$http','$q', function ($http, $q){
 
 }]);
 
-app.controller("OwnerProfileCtrl",['$scope', '$http', 'fileUpload', function ($scope, $http, fileUpload) {
+app.controller("OwnerProfileCtrl",['$scope', '$http', 'fileUpload','$window', function ($scope, $http, fileUpload, $window) {
 
     /*This load the current user data*/
     var loadUserData = function(){
@@ -97,8 +97,7 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'fileUpload', function ($s
     };
 
     $scope.changeAddress = function () {
-        var data = {address: $scope.user.address};
-
+        var data = {address: $scope.address = $("#ownerAddress").val()};
         $http({
             method: 'POST',
             url: '/owner/changeAddress',
@@ -135,6 +134,16 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'fileUpload', function ($s
 
     $scope.deleteAccount = function () {
       /* Ask if it is necessary to request the username and the password for deleting the account.*/
+        $http({
+            method: 'POST',
+            url: '/owner/deleteAccount'
+        }).then(function () {
+            //Redirects to the login page.
+            $window.location.href = "http://localhost:9000/";
+        }, function (response) {
+            Materialize.toast(response.data, 3000, "red");
+            //console.log(response.data)
+        })
     };
 
     $scope.openChangePasswordModal = function() {

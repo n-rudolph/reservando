@@ -96,6 +96,17 @@ public class ClientProfileController extends Controller {
 
     private Client getCurrentClient() { return Client.getClientByEmail(session().get("email")); }
 
+    public Result deleteAccount(){
+        //It must be decide whether if the delivery orders and the reservations need to have a boolean indicating if
+        //these are active reservations/orders or not. It is important to decide if a client with order or reservation
+        //can delete his account or not.
+        Client client = getCurrentClient();
+        //This deletes the user and all the all the orders and reservations.
+        client.delete();
+        session().clear();
+        return ok();
+    }
+
     //This method deletes all the files inside a directory.
     private void cleanDir(File file){
         File [] content = file.listFiles();

@@ -97,6 +97,15 @@ public class OwnerProfileController extends Controller {
         return Owner.getOwnerbyEmail(session().get("email"));
     }
 
+    public Result deleteAccount(){
+        Owner owner = getCurrentOwner();
+        //This deletes the user and all the restaurants that he owns.
+        //It is important to decide what to do if the owner has pending orders or reservations!
+        owner.delete();
+        session().clear();
+        return ok();
+    }
+
     //This method deletes all the files inside a directory.
     private void cleanDir(File file){
         File [] content = file.listFiles();
