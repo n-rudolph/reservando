@@ -16,18 +16,24 @@ app.directive('fileModel', ['$parse', function($parse){
     }
 }]);
 
-app.service('fileUpload', ['$http', function ($http){
+app.service('fileUpload', ['$http','$q', function ($http, $q){
     this.uploadFileToUrl = function(file, uploadUrl, successResponse, errorResponse){
+        var defered = $q.defer();
+        var promise = defered.promise;
+
         var data = {data: file};
         $http({
             method: 'POST',
             url: uploadUrl,
             data: data
-        }).then(function(){
+        }).success(function(){
             Materialize.toast(successResponse, 3000, 'green');
-        }, function () {
+            defered.resolve();
+        }.error(function () {
             Materialize.toast(errorResponse, 3000, 'red');
-        })
+            defered.reject();
+        }));
+        return promise;
     };
 
 }]);
@@ -115,7 +121,13 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'fileUpload','$window', f
 
         reader.onload = function(){
             var fileEncodedBase64 = file.name + "," + reader.result;
-            fileUpload.uploadFileToUrl(fileEncodedBase64, uploadUrl, successResponse, errorResponse);
+            fileUpload.uploadFileToUrl(fileEncodedBase64, uploadUrl, successResponse, errorResponse)
+                .then(function(){
+                    //After a second load the new image. Without this code, angular won't find the image (404 error);
+                    /*setTimeout(function () {
+                        loadUserData();
+                    },1000);*/
+                })
         };
         reader.onerror = function () {
             //var fileEncodingBase64Error = reader.error;
@@ -136,7 +148,7 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'fileUpload','$window', f
             //Redirects to the login page.
             $window.location.href = "http://localhost:9000/";
         }, function (response) {
-            Materialize.toast(response.data, 3000, "red");
+            Materialize.toast(response.data, 5000, "red");
             //console.log(response.data)
         })
     };

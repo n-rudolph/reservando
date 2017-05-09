@@ -26,15 +26,14 @@ app.service('fileUpload', ['$http','$q', function ($http, $q){
             method: 'POST',
             url: uploadUrl,
             data: data
-        }).then(function(){
+        }).success(function(){
             Materialize.toast(successResponse, 3000, 'green');
             defered.resolve();
-        }, function () {
+        }).error( function () {
             Materialize.toast(errorResponse, 3000, 'red');
             defered.reject();
         });
-        //return promise;
-        return defered.promise;
+        return promise;
     };
 
 }]);
@@ -123,7 +122,10 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'fileUpload','$window', fu
             var fileEncodedBase64 = file.name + "," + reader.result;
             fileUpload.uploadFileToUrl(fileEncodedBase64, uploadUrl, successResponse, errorResponse)
                 .then(function(){
-                    loadUserData();
+                    //After a second load the new image. Without this code, angular won't find the image (404 error);
+                    /*setTimeout(function () {
+                        loadUserData();
+                    },1000);*/
                 })
         };
         reader.onerror = function () {
