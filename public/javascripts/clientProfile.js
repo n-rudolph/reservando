@@ -16,12 +16,10 @@ app.directive('fileModel', ['$parse', function($parse){
     }
 }]);
 
-app.service('fileUpload', ['$http','$q', function ($http, $q){
-    this.uploadFileToUrl = function(file, uploadUrl, successResponse, errorResponse){
+app.service('serverCommunication', ['$http','$q', function ($http, $q){
+    this.postToUrl = function(data, uploadUrl, successResponse, errorResponse){
         var defered = $q.defer();
         var promise = defered.promise;
-
-        var data = {data: file};
         $http({
             method: 'POST',
             url: uploadUrl,
@@ -29,25 +27,46 @@ app.service('fileUpload', ['$http','$q', function ($http, $q){
         }).success(function(){
             Materialize.toast(successResponse, 3000, 'green');
             defered.resolve();
-        }.error(function () {
-            Materialize.toast(errorResponse, 3000, 'red');
+        }).error(function (serverErrorResponse) {
+            //Checks if the server send an error msj.
+            if(serverErrorResponse){
+                Materialize.toast(serverErrorResponse, 3000, 'red');
+            }
+            else {
+                Materialize.toast(errorResponse, 3000, 'red');
+            }
             defered.reject();
-        }));
+        });
         return promise;
     };
 
+    this.getFromUrl = function (url, successResponse, errorResponse) {
+        var defered = $q.defer();
+        var promise = defered.promise;
+        $http({
+            method: 'GET',
+            url: url
+        }).success(function (data) {
+            defered.resolve(data);
+        }).error(function (err) {
+            defered.reject(err);
+        });
+        return promise;
+    }
+
 }]);
 
-app.controller("ClientProfileCtrl",['$scope', '$http', 'fileUpload','$window', function ($scope, $http, fileUpload, $window) {
+app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$window', function ($scope, $http, serverCommunication, $window) {
 
     /*This load the current user data*/
     var loadUserData = function(){
-        $http({
-            method: 'GET',
-            url: '/client/profile/user'
-        }).success(function(data) {
-            $scope.user = data;
-        });
+        serverCommunication.getFromUrl('/client/profile/user','','')
+            .then(function(data){
+                $scope.user = data;
+            })
+            .catch(function (err) {
+                Materialize.toast("No se pudo cargar la información", 3000, "red");
+            })
     };
     loadUserData();
 
@@ -67,15 +86,7 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'fileUpload','$window', f
             previousPassword: $scope.previousPassword,
             newPassword: $scope.newPassword1
         };
-        $http({
-            method: 'POST',
-            url: '/client/changePassword',
-            data: userData
-        }).then(function () {
-            Materialize.toast("Contraseña cambiada satisfactoriamente", 3000, "green");
-        }, function (response) {
-            Materialize.toast(response.data, 3000, "red");
-        })
+        serverCommunication.postToUrl(userData,'/client/changePassword','Contraseña cambiada satisfactoriamente','Contraseña no cambiada');
     };
 
     $scope.changeBioInfo = function () {
@@ -83,74 +94,52 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'fileUpload','$window', f
             firstName: $scope.user.firstName,
             lastName: $scope.user.lastName
         };
-
-        $http({
-            method: 'POST',
-            url: '/client/changeBioInfo',
-            data: data
-        }).then(function () {
-            Materialize.toast("Información actualizada", 3000, 'green');
-        }, function (response) {
-            Materialize.toast(response, 3000, 'red');
-        })
+        serverCommunication.postToUrl(data,'/client/changeBioInfo','Información actualizada','');
     };
 
     $scope.changeAddress = function () {
         var data = {address: $scope.address = $("#clientAddress").val()};
-
-        $http({
-            method: 'POST',
-            url: '/client/changeAddress',
-            data: data
-        }).then(function () {
-            Materialize.toast("Ubicación actualizada", 3000, 'green');
-        }, function (response) {
-            Materialize.toast(response, 3000, 'red');
-        })
+        serverCommunication.postToUrl(data,'/client/changeAddress','Ubicación actualizada','');
     };
 
     $scope.changeProfileImage = function () {
-        var uploadUrl = '/client/changeProfileImage';
-        uploadFile(uploadUrl, $scope.imageFile, 'La foto se cargo exitosamente', 'La foto no pudo ser cargada');
-    };
-
-    var uploadFile = function (uploadUrl, file, successResponse, errorResponse) {
-        //The code below converts the image to base 64 encoding and send it (as string) to the server.
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-
-        reader.onload = function(){
-            var fileEncodedBase64 = file.name + "," + reader.result;
-            fileUpload.uploadFileToUrl(fileEncodedBase64, uploadUrl, successResponse, errorResponse)
-                .then(function(){
-                    //After a second load the new image. Without this code, angular won't find the image (404 error);
-                    /*setTimeout(function () {
-                        loadUserData();
-                    },1000);*/
-                })
-        };
-        reader.onerror = function () {
-            //var fileEncodingBase64Error = reader.error;
-            Materialize.toast(errorResponse, 2000, 'red');
+        //Checks for a valid image.
+        if($scope.imageFile){
+            //The code below converts the image to base 64 encoding and send it (as string) to the server.
+            var reader = new FileReader();
+            reader.readAsDataURL($scope.imageFile);
+            reader.onload = function(){
+                var fileEncodedBase64 = $scope.imageFile.name + "," + reader.result;
+                var data = {data: fileEncodedBase64};
+                //The encoded image is sent to the server.
+                serverCommunication.postToUrl(data, '/client/changeProfileImage', 'La foto se cargo exitosamente', 'La foto no pudo ser cargada')
+                    .then(function(){
+                        //After some seconds load the new image. Angular won't find the image (404 error), the problem
+                        //is related to how often play refresh the public Assets (where the current profile image is).
+                        /*setTimeout(function () {
+                         loadUserData();
+                         },1000);*/
+                    });
+            };
+            reader.onerror = function () {
+                //var fileEncodingBase64Error = reader.error;
+                Materialize.toast('La foto no pudo ser cargada', 3000, 'red');
+            }
+        } else {
+            Materialize.toast("Debe seleccionar una foto", 3000, 'red');
         }
-    };
-
-    $scope.changePhoto = function () {
-
     };
 
     $scope.deleteAccount = function () {
         /* Ask if it is necessary to request the username and the password for deleting the account.*/
-        $http({
-            method: 'POST',
-            url: '/client/deleteAccount'
-        }).then(function () {
-            //Redirects to the login page.
-            $window.location.href = "http://localhost:9000/";
-        }, function (response) {
-            Materialize.toast(response.data, 5000, "red");
-            //console.log(response.data)
-        })
+        var data = {data: ''};
+        serverCommunication.postToUrl(data,'/client/deleteAccount','','')
+            .then(function(){
+                //Redirects to the login page.
+                $window.location.href = "http://localhost:9000/";
+            })
+            .catch(function (err) {
+            })
     };
 
     $scope.openChangePasswordModal = function() {
