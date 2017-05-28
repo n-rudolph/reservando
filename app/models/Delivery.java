@@ -57,6 +57,8 @@ public class Delivery extends Restaurant {
         return menu != null && menu.remove(meal);
     }
 
+    public List<DeliveryOrder> getDeliveryOrders(){return deliveryOrders;}
+
     public static Delivery byId(long id){
         return finder.byId(id);
     }

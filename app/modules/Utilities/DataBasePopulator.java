@@ -1,6 +1,7 @@
 package modules.Utilities;
 
 import models.*;
+import org.joda.time.DateTime;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -36,6 +37,17 @@ public class DataBasePopulator {
 
             Local newLocal = new Local(name, "Test Description it must be change (description too long)", address, openingHour, closingHour, openingDays, cuisinesList, capacityDefault, meals, owner);
             if(!Local.all().contains(newLocal)) newLocal.save();
+
+            long localId = newLocal.getId();
+
+            //Creates a reservation to test the owner delete account.
+            Reservation testReservation = new Reservation();
+            testReservation.setAmount(4);
+            testReservation.setClient((Client) Client.getUserByEmail("client@gmail.com"));
+            DateTime dateTime = new DateTime(2017,6,12,12,30);
+            testReservation.setDate(dateTime);
+            testReservation.setLocal(Local.getLocalById(localId));
+            testReservation.save();
         }
     }
 

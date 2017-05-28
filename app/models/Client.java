@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.joda.time.DateTime;
 
 import javax.persistence.*;
@@ -11,9 +12,9 @@ public class Client extends User {
 
     @ManyToMany
     private List<Cuisine> cuisinePreferences;
-
     @OneToMany(cascade = CascadeType.ALL)
     private List<DeliveryOrder> deliveryOrders;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
@@ -35,6 +36,10 @@ public class Client extends User {
         this.cuisinePreferences = cuisines;
         return this;
     }
+
+    public List<Reservation> getReservations(){return reservations;}
+
+    public List<DeliveryOrder> getDeliveryOrders(){return deliveryOrders;}
 
     public static Client getClientByEmail(String email){
         return find.where().eq("email", email).findUnique();

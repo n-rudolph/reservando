@@ -1,6 +1,9 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -10,6 +13,7 @@ public class Local extends Restaurant{
     private int capacity;
     @ManyToMany
     private List<Meal> menu;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
@@ -20,6 +24,7 @@ public class Local extends Restaurant{
 
     public Local(String name, String address){
         super(name, address, true);
+        this.reservations = new ArrayList<>();
     }
 
     public Local(String name, String description, String address, String openingHour,
@@ -28,6 +33,7 @@ public class Local extends Restaurant{
         super(name, description, address, openingHour, closingHour, openingDays, cuisines, true, owner);
         this.capacity = capacity;
         this.menu = menu;
+        this.reservations = new ArrayList<>();
     }
 
     public int getCapacity() {
@@ -48,5 +54,13 @@ public class Local extends Restaurant{
         return this;
     }
 
+    public void setReservation(Reservation reservation){
+        reservations.add(reservation);
+    }
+
+    public List<Reservation> getReservations(){return reservations;}
+
     public static List<Local> all() { return find.all(); }
+
+    public static Local getLocalById(long id){return find.where().eq("id", id).findUnique();}
 }
