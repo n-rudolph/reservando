@@ -20,53 +20,24 @@ app.directive('fileModel', ['$parse', function($parse){
 
 app.controller("NewRestaurantCtrl", function ($scope, $http) {
 
-    $scope.days = [
-        {
-            name: "Lunes",
-            value: "MONDAY"
-        },{
-            name: "Martes",
-            value: "TUESDAY"
-        },{
-            name: "Miercoles",
-            value: "WEDNESDAY"
-        },{
-            name: "Jueves",
-            value: "THURSDAY"
-        },{
-            name: "Viernes",
-            value: "FRIDAY"
-        },{
-            name: "Sabado",
-            value: "SATURDAY"
-        },{
-            name: "Domingo",
-            value: "SUNDAY"
-        }
-    ];
-    $scope.cuisines = [
-        {
-            id: 0,
-            name: "Asado"
-        },{
-            id: 1,
-            name: "Pastas"
-        },{
-            id: 2,
-            name: "China"
-        },{
-            id: 3,
-            name: "Peruana"
-        },{
-            id: 4,
-            name: "Comida rapida"
-        }
-    ];
+    $scope.days = [];
+    $scope.cuisines = [];
 
     $scope.selectedDays = [];
     $scope.selectedCuisines = [];
 
     $('.dropify').dropify();
+
+    $http.get("/all/days").then(
+        function(response) {
+            $scope.days = response.data;
+        }
+    );
+    $http.get("/all/cuisines").then(
+        function(response) {
+            $scope.cuisines = response.data;
+        }
+    );
 
     $scope.reserRestaurant = function(){
         $scope.restaurant = {
@@ -92,7 +63,6 @@ app.controller("NewRestaurantCtrl", function ($scope, $http) {
     $scope.resetErrors();
 
     $scope.addCuisine = function(cuisine){
-        $scope.restaurant.cuisines = [];
         for (var i = 0; i< $scope.cuisines.length; i++){
             if ($scope.cuisines[i].name == cuisine){
                 $scope.restaurant.cuisines.push($scope.cuisines[i]);
@@ -102,10 +72,9 @@ app.controller("NewRestaurantCtrl", function ($scope, $http) {
     };
 
     $scope.addDay = function(day){
-        $scope.restaurant.days = [];
         for(var i = 0; i < $scope.days.length; i++) {
-            if ($scope.days[i].name == day){
-                $scope.restaurant.days.push($scope.days[i].value);
+            if ($scope.days[i].day == day){
+                $scope.restaurant.days.push($scope.days[i]);
                 return;
             }
         }
@@ -115,7 +84,7 @@ app.controller("NewRestaurantCtrl", function ($scope, $http) {
     $scope.submitRestaurant = function(){
         $scope.restaurant.address = $("#address").val();
         if ($scope.checkInfo()) {
-            $http.post("/restaurant", $scope.restaurant).then($scope.successCallback(response), $scope.errorCallback(response));
+            $http.post("/restaurant", $scope.restaurant).then($scope.successCallback, $scope.errorCallback);
         }
     };
 
@@ -149,6 +118,7 @@ app.controller("NewRestaurantCtrl", function ($scope, $http) {
             errors++;
             $scope.errors.days = true;
         } else {
+            $scope.restaurant.days = [];
             for (var i = 0; i < $scope.selectedDays.length; i++) {
                 $scope.addDay($scope.selectedDays[i]);
             }
@@ -174,11 +144,20 @@ app.controller("NewRestaurantCtrl", function ($scope, $http) {
             errors++;
             $scope.errors.cuisines = true;
         } else {
+            $scope.restaurant.cuisines = [];
             for (var j = 0; j < $scope.selectedCuisines.length; j++) {
                 $scope.addCuisine($scope.selectedCuisines[j]);
             }
         }
         return errors == 0;
+    };
+
+    $scope.successCallback = function(response) {
+        Materialize.toast("Se ha guardado con exito", 2000, "green");
+    };
+
+    $scope.errorCallback = function(response) {
+        Materialize.toast("Ha ocurrido un error", 2000, "red");
     };
 
 });

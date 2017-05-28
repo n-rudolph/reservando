@@ -13,7 +13,7 @@ public class RestaurantObject {
     public boolean isLocal;
     public int capacity;
     public double radius;
-    public List<String> days;
+    public List<Day> days;
     public String startTime;
     public String endTime;
     public List<Cuisine> cuisines;
@@ -25,7 +25,7 @@ public class RestaurantObject {
                 address,
                 startTime,
                 endTime,
-                toDays(days),
+                days,
                 cuisines,
                 radius,
                 Collections.emptyList(),
@@ -39,19 +39,10 @@ public class RestaurantObject {
                 address,
                 startTime,
                 endTime,
-                toDays(days),
+                days,
                 cuisines,
                 capacity,
                 Collections.emptyList(),
                 owner);
     }
-
-    private List<Day> toDays(List<String> days){
-        final List<Day> result = new ArrayList<>();
-        for (String day : days) {
-            result.add(Day.valueOf(day));
-        }
-        return result;
-    }
-
 }

@@ -1,5 +1,8 @@
 package controllers;
 
+import models.Cuisine;
+import models.Day;
+import play.libs.Json;
 import play.mvc.*;
 
 import views.html.*;
@@ -23,5 +26,12 @@ public class HomeController extends Controller {
     public Result clientHome() {return ok(clientHome.render());}
     public Result ownerHome() {return ok(ownerHome.render());}
     public Result newRestaurant(){return ok(newRestaurant.render());}
+
+    public Result getDays() {
+        return ok(Json.toJson(Day.all()));
+    }
+    public Result getCuisines() {
+        return ok(Json.toJson(Cuisine.all()));
+    }
 
 }

@@ -50,3 +50,5 @@ POST    /owner/deleteAccount        controllers.OwnerProfileController.deleteAcc
 
 GET     /all/users                  controllers.RegisterController.getUsers
 GET     /all/locals                 controllers.RegisterController.getLocals
+GET     /all/days                   controllers.HomeController.getDays
+GET     /all/cuisines               controllers.HomeController.getCuisines

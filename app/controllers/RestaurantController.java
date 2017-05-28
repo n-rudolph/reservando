@@ -37,25 +37,6 @@ public class RestaurantController extends Controller {
             owner.update();
             return ok(Json.toJson(delivery));
         }
-        /*final JsonNode jsonNode = request().body().asJson();
-        if (jsonNode.path("isLocal").isMissingNode())
-            return badRequest("401");
-        if (jsonNode.path("name").isMissingNode())
-            return badRequest("402");
-        if (jsonNode.path("address").isMissingNode())
-            return badRequest("403");
-
-        final String email = session().get("email");
-        final Owner ownerbyEmail = Owner.getOwnerbyEmail(email);
-        if (jsonNode.path("isLocal").asBoolean()){
-            final Local local = new Local(jsonNode.path("name").asText(), jsonNode.path("address").asText());
-            ownerbyEmail.addRestaurant(local);
-        }else{
-            final Delivery delivery = new Delivery(jsonNode.path("name").asText(), jsonNode.path("address").asText());
-            ownerbyEmail.addRestaurant(delivery);
-        }
-        ownerbyEmail.save();
-        return ok("Guardado con exito");*/
     }
 
     public Result getAll(){

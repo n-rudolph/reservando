@@ -20,9 +20,9 @@ public class Restaurant extends Model{
     private String description;
     private String openingHour;
     private String closingHour;
-    @ManyToOne
+    @ManyToMany
     private List<Day> openingDays;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     private List<Cuisine> cuisines;
     @NotNull
     private String address;
