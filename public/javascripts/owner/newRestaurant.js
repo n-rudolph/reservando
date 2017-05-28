@@ -99,13 +99,13 @@ app.controller("NewRestaurantCtrl", function ($scope, $http) {
             $scope.errors.address = true;
         }
         if ($scope.restaurant.isLocal){
-            if ($scope.restaurant.capacity < 0){
+            if (!$scope.restaurant.capacity || $scope.restaurant.capacity < 0){
                 errors++;
                 $scope.errors.capacity = true;
             }
         } else {
-            $scope.restaurant.isLocal = false
-            if ($scope.restaurant.radius < 0){
+            $scope.restaurant.isLocal = false;
+            if (!$scope.restaurant.radius || $scope.restaurant.radius < 0){
                 errors++;
                 $scope.errors.radius = true;
             }

@@ -1,0 +1,20 @@
+.customInvalid {
+    border-bottom: 2px solid red;
+}
+
+.invalid {
+    border-bottom: 2px solid red;
+}
+
+/*
+.active, .select-dropdown span{
+    color: #303F9F !important;
+}
+
+.clockpicker-span, .clockpicker-span-minutes {
+    color: inherit;
+}
+
+.lever::after {
+    background-color: #303F9F !important;
+}*/
