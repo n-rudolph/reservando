@@ -14,7 +14,7 @@ public class DataBasePopulator {
 
     //This method add defaults locals into the database.
     public void populateLocals(){
-        loadAllDaysIntoDb();
+        //loadAllDaysIntoDb();
         //loadDefaultCuisinesIntoDb();
         String relativePath = "app/modules/Utilities/Local List Pilar.txt";
         List<String> restaurants = readFile(relativePath);
@@ -26,8 +26,8 @@ public class DataBasePopulator {
             String description = localInfo[2];
             String[] cuisines = localInfo[3].split("-");
             List<Cuisine> cuisinesList = getCuisines(cuisines);
-            String openingHour = "11:30 am";
-            String closingHour = "12:30 pm";
+            String openingHour = "11:30";
+            String closingHour = "12:30";
             List<Day> openingDays = getDefaultOpeningDays();
             int capacityDefault = 100;
             List<Meal> meals = new ArrayList<>();
@@ -68,18 +68,18 @@ public class DataBasePopulator {
     private List<Day> getDefaultOpeningDays(){
         List<Day> openingDays = new ArrayList<>();
 
-        openingDays.add(Day.getDay("Martes"));
-        openingDays.add(Day.getDay("Miercoles"));
-        openingDays.add(Day.getDay("Jueves"));
-        openingDays.add(Day.getDay("Viernes"));
-        openingDays.add(Day.getDay("Sabado"));
-        openingDays.add(Day.getDay("Domingo"));
+        openingDays.add(Day.TUESDAY);
+        openingDays.add(Day.WEDNESDAY);
+        openingDays.add(Day.THURSDAY);
+        openingDays.add(Day.FRIDAY);
+        openingDays.add(Day.SATURDAY);
+        openingDays.add(Day.SUNDAY);
 
         return openingDays;
     }
 
     //This method creates all the days of a week and save them into the database.
-    private void loadAllDaysIntoDb(){
+    /*private void loadAllDaysIntoDb(){
         if (Day.getDay("Lunes") == null){
             Day lunes = new Day("Lunes");
             lunes.save();
@@ -108,7 +108,7 @@ public class DataBasePopulator {
             Day domingo = new Day("Domingo");
             domingo.save();
         }
-    }
+    }*/
 
     //This method creates and saves (if necessary) all the cuisines and return a list of them.
     private List<Cuisine> getCuisines(String[] cuisines){

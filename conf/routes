@@ -24,7 +24,7 @@ POST    /client/changeAddress       controllers.ClientProfileController.changeAd
 POST    /client/changeProfileImage  controllers.ClientProfileController.changeProfileImage
 
 #Restaurant
-POST    /restaurant/add             controllers.RestaurantController.addRestaurant
+POST    /restaurant                 controllers.RestaurantController.addRestaurant
 GET     /restaurants/all            controllers.RestaurantController.getAll
 GET     /restaurants/firsts         controllers.RestaurantController.getFirsts
 POST    /restaurant/view            controllers.RestaurantController.openRestaurantProfile
@@ -35,6 +35,7 @@ POST    /delivery/edit              controllers.DeliveryController.editDelivery
 
 #Owner
 GET     /owner/home                 controllers.HomeController.ownerHome
+GET     /owner/new-restaurant       controllers.HomeController.newRestaurant
 GET     /owner/profile              controllers.OwnerProfileController.ownerProfile
 GET     /owner/restaurants          controllers.RestaurantController.viewOwnerRestaurants
 GET     /owner/profile/user         controllers.OwnerProfileController.getOwner

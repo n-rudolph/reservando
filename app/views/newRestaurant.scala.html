@@ -1,0 +1,108 @@
+@()
+@views.html.main("Reservando") {
+    @ownerNav()
+    <div class="container" ng-controller="NewRestaurantCtrl as ctrl">
+        <div class="row">
+            <h2 class="center">Nuevo Restaurant</h2>
+        </div>
+        <div class="row">
+            <div class="col m4">
+                <div class="col s12">
+                    <input type="file" class="dropify" placeholder="IMAGEN" file-model="photo" data-height="300" data-max-file-size="3M" data-allowed-file-extensions="png jpg">
+                </div>
+            </div>
+            <div class="col m8">
+                <h4>Información</h4>
+                <div class="input-field col s12">
+                    <input type="text" id="name" ng-model="restaurant.name">
+                    <label for="name">Nombre</label>
+                </div>
+                <div class="input-field col s12">
+                    <input id="address" type="text" class="validate field" onfocus="geolocate()" ng-class="{invalid: addressError}" placeholder="">
+                    <label for="address">Dirección</label>
+                </div>
+                <div class="input-field col s12" style="height: 30px">
+                        <!-- Switch -->
+                    <div class="switch">
+                        <label>
+                            Delivery
+                            <input type="checkbox" ng-model="restaurant.isLocal">
+                            <span class="lever"></span>
+                            Local
+                        </label>
+                    </div>
+                </div>
+                <div class="input-field col s12" ng-show="restaurant.isLocal">
+                    <input type="number" id="capacity" ng-model="restaurant.capacity">
+                    <label for="capacity">Capacidad</label>
+                </div>
+                <div class="input-field col s12" ng-hide="restaurant.isLocal">
+                    <input type="number" id="radius" ng-model="restaurant.radius">
+                    <label for="radius">Radio</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <textarea name="description" id="description" cols="30" rows="10" ng-model="restaurant.description" class="materialize-textarea"></textarea>
+                <label for="description">Descripción</label>
+            </div>
+        </div>
+        <div class="row">
+            <h4>Días de atención</h4>
+            <div class="col" ng-class="{m3: selectedDays, m12: !selectedDays || selectedDays.length == 0}">
+                <div class="input-field col m12">
+                    <select ng-model="selectedDays" material-select multiple watch>
+                        <option value="" disabled selected>Seleccionar</option>
+                        <option ng-repeat="day in days">{{day.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col m9" ng-show="selectedDays">
+                <div class="chip" chips ng-repeat="day in selectedDays">{{day}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <h4>Horario de atención</h4>
+            <div class="col m6">
+                <div class="input-field">
+                    <label for="input_starttime">De</label>
+                    <input type="text" id="input_starttime" input-clock data-twelvehour="false" ng-model="restaurant.startTime">
+                </div>
+            </div>
+            <div class="col m6">
+                <div class="input-field">
+                    <label for="input_endtime">Hasta</label>
+                    <input type="text" id="input_endtime" input-clock data-twelvehour="false" ng-model="restaurant.endTime">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <h4>Tipo de comida</h4>
+            <div class="col" ng-class="{m3: selectedCuisines, m12: !selectedCuisines || selectedCuisines.length == 0}">
+                <div class="input-field col m12">
+                    <select ng-model="selectedCuisines" material-select multiple watch>
+                        <option value="" disabled selected>Seleccionar</option>
+                        <option ng-repeat="cuisine in cuisines">{{cuisine.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col m9" ng-show="selectedCuisines">
+                <div class="chip" chips ng-repeat="cuisine in selectedCuisines">{{cuisine}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="btn btn-large right" ng-click="submitRestaurant()">ENVIAR</div>
+        </div>
+    </div>
+} {
+    <link rel="stylesheet" href="@routes.Assets.versioned("external/materialize-clockpicker/dist/css/materialize.clockpicker.css")">
+    <link rel="stylesheet" href="@routes.Assets.versioned("external/dropify/dist/css/dropify.css")">
+} {
+    <script src="@routes.Assets.versioned("javascripts/utils/geocode.js")" type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-pZKght0spmYFNsvwfkpiZKrM0VLB6UE&libraries=places&callback=initAutocomplete"
+    async defer></script>
+    <script src="@routes.Assets.versioned("external/materialize-clockpicker/dist/js/materialize.clockpicker.js")"></script>
+    <script src="@routes.Assets.versioned("external/dropify/dist/js/dropify.min.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/owner/newRestaurant.js")" type="text/javascript"></script>
+}

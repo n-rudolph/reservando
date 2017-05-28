@@ -20,7 +20,7 @@ public class Restaurant extends Model{
     private String description;
     private String openingHour;
     private String closingHour;
-    @ManyToMany
+    @ManyToOne
     private List<Day> openingDays;
     @ManyToMany
     private List<Cuisine> cuisines;
