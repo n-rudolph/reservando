@@ -1,0 +1,62 @@
+@views.html.main("Reservando") {
+    <div id="top"></div>
+    @ownerNav()
+    <div class="container" ng-controller="OwnerRestaurantsCtrl">
+        <div class="row">
+            <h3 class="center">Mis Restaurantes</h3>
+        </div>
+        <div class="row">
+
+        </div>
+        <div class="row" ng-repeat="restaurant in restaurants">
+            <div class="col s12">
+                <div class="restaurant-card z-depth-2">
+                    <div class="row">
+                        <div class="col m2 img-container">
+                            <img ng-src="http://lorempixel.com/100/100/nature/6" class="responsive-img">
+                        </div>
+                        <div class="col m8 info-container valign-wrapper">
+                            <div class="valign">
+                                <div class="row">
+                                    <div class="col m3 center bold">
+                                        {{restaurant.name}}
+                                    </div>
+                                    <div class="col m2">
+                                        {{restaurant.isLocal ? "Local" : "Delivery"}}
+                                    </div>
+                                    <div class="col m7">
+                                        {{restaurant.address}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col m12">
+                                        {{restaurant.description}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col m2 valign-wrapper icon-container">
+                            <div class="valign icon">
+                                <i class="material-icons medium"  ng-click="openRestaurant(restaurant.id)">info_outline</i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="progress" ng-show="loading">
+                <div class="indeterminate"></div>
+            </div>
+            <div class="center btn btn-large" ng-show="hasNext" ng-click="nextPage()" ng-disable="loading">Cargar más</div>
+            <div class="progress" ng-show="loading">
+                <div class="indeterminate"></div>
+            </div>
+        </div>
+        <a class="btn-floating btn-large waves-effect waves-light red" id="upButton" href="#top" ng-show="showContent"><i class="material-icons">keyboard_arrow_up</i></a>
+    </div>
+} {
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/owner/ownerRestaurants.css")">
+} {
+    <script src="@routes.Assets.versioned("javascripts/owner/ownerRestaurants.js")"></script>
+}

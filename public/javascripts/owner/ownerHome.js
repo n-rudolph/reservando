@@ -18,6 +18,10 @@ app.controller("OwnerHomeCtrl", function ($scope, $http, $window) {
         $window.location.href = "/owner/new-restaurant";
     };
 
+    $scope.openRestaurants = function(){
+        $window.location.href = "/owner/restaurants";
+    };
+
     $scope.openRestaurantProfile = function(restaurant){
         $http.post("/restaurant/view", restaurant).then(function(response){
             $scope.getFirsts();

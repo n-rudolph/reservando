@@ -15,6 +15,8 @@ public class DataBasePopulator {
 
     //This method add defaults locals into the database.
     public void populateLocals(){
+        if (Restaurant.allRestaurants().size() != 0)
+            return;
         loadAllDaysIntoDb();
         //loadDefaultCuisinesIntoDb();
         String relativePath = "app/modules/Utilities/Local List Pilar.txt";

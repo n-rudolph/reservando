@@ -9,7 +9,7 @@
                         <h5 class="center">
                             Mis Restaurantes
                                 <div class="btn-floating accent-color" ng-click="openAddRestaurant()"><i class="material-icons">add</i></div>
-                                <div class="btn-floating accent-color" ng-click="window.location.href='/owner/restaurants'"><i class="material-icons">view_list</i></div>
+                                <div class="btn-floating accent-color" ng-click="openRestaurants()"><i class="material-icons">view_list</i></div>
                         </h5>
                     </div>
                     <table class="center responsive-table stripped" ng-show="restaurants.length != 0">
@@ -32,7 +32,7 @@
                         </tbody>
                     </table>
                     <div class="row" ng-show="continues">
-                        <div class="btn">Ver más Restaurantes</div>
+                        <div class="btn" ng-click="openRestaurants()">Ver más Restaurantes</div>
                     </div>
                     <div class="my-restaurant-container valign-wrapper" ng-show="restaurants.length == 0">
                         <div class="valign center empty-msg">

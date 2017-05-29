@@ -184,4 +184,8 @@ public class Restaurant extends Model{
     public boolean removeCuisine(Cuisine cuisine) {
         return cuisines != null && cuisines.remove(cuisine);
     }
+
+    public static List<Restaurant> allRestaurants() {
+        return finder.all();
+    }
 }

@@ -10,13 +10,9 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.List;
+import java.util.*;
 
 public class RestaurantController extends Controller {
-
-    public Result viewOwnerRestaurants(){
-        return ok();
-    }
 
     public Result addRestaurant(){
         final JsonNode jsonNode = request().body().asJson();
@@ -74,6 +70,27 @@ public class RestaurantController extends Controller {
         redirectUrl += "?rid="+restaurantId;
         final RedirectResponse response = new RedirectResponse(200, "ok", redirectUrl);
         return ok(Json.toJson(response));
+    }
+
+    public Result getRestaurantsFromOwner(String page, String size, String seed){
+        final String email = session().get("email");
+        final Owner owner = Owner.getOwnerbyEmail(email);
+        final List<Restaurant> restaurants = owner.getRestaurants();
+        Collections.shuffle(restaurants, new Random(Integer.parseInt(seed)));
+        Map<String, Object> result = new HashMap<>();
+
+        int start = Integer.parseInt(page) * Integer.parseInt(size);
+        int end = start + Integer.parseInt(size);
+
+        if (end >= restaurants.size()-1){
+            result.put("hasNext", false);
+            end = restaurants.size()-1;
+        }else {
+            result.put("hasNext", true);
+        }
+        final List<Restaurant> resultList = restaurants.subList(start, end);
+        result.put("restaurants", resultList);
+        return ok(Json.toJson(result));
     }
 
     public Result addOpenDay(){

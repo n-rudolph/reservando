@@ -26,6 +26,9 @@ public class HomeController extends Controller {
     public Result clientHome() {return ok(clientHome.render());}
     public Result ownerHome() {return ok(ownerHome.render());}
     public Result newRestaurant(){return ok(newRestaurant.render());}
+    public Result ownerRestaurants(){
+        return ok(ownerRestaurants.render());
+    }
 
     public Result getDays() {
         return ok(Json.toJson(Day.all()));
