@@ -1,6 +1,6 @@
-var app = angular.module("reservandoApp", []);
+var app = angular.module("reservandoApp");
 
-app.controller("OwnerRestaurantsCtrl", function ($scope, $http) {
+app.controller("OwnerRestaurantsCtrl", function ($scope, $http, $window) {
 
     $scope.restaurants = [];
     $scope.page = 0;
@@ -29,7 +29,7 @@ app.controller("OwnerRestaurantsCtrl", function ($scope, $http) {
     };
 
     $scope.openRestaurant = function(rid) {
-        $window.location.href = "/owner/restaurant/" + rid;
+        $window.location.href = "/owner/restaurant?id=" + rid;
     };
 
     window.addEventListener('scroll', function(e) {

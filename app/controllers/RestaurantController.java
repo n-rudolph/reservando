@@ -60,18 +60,6 @@ public class RestaurantController extends Controller {
         return ok("State modified successfully");
     }
 
-    public Result openRestaurantProfile(){
-        final JsonNode jsonNode = request().body().asJson();
-        final JsonNode restaurantId = jsonNode.path("id");
-        String redirectUrl;
-        if (jsonNode.path("local").asBoolean())
-            redirectUrl = "/local/profile";
-        else redirectUrl = "/delivery/profile";
-        redirectUrl += "?rid="+restaurantId;
-        final RedirectResponse response = new RedirectResponse(200, "ok", redirectUrl);
-        return ok(Json.toJson(response));
-    }
-
     public Result getRestaurantsFromOwner(String page, String size, String seed){
         final String email = session().get("email");
         final Owner owner = Owner.getOwnerbyEmail(email);
@@ -91,6 +79,20 @@ public class RestaurantController extends Controller {
         final List<Restaurant> resultList = restaurants.subList(start, end);
         result.put("restaurants", resultList);
         return ok(Json.toJson(result));
+    }
+
+    public Result getRestaurant(String rid){
+        final long id = Long.parseLong(rid);
+        final Delivery delivery = Delivery.byId(id);
+        if (delivery == null){
+            final Local local = Local.getLocalById(id);
+            if (local == null){
+                return badRequest("local not found");
+            }
+            return ok(Json.toJson(local));
+        }else {
+            return ok(Json.toJson(delivery));
+        }
     }
 
     public Result addOpenDay(){

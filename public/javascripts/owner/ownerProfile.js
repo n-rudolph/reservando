@@ -1,4 +1,4 @@
-var app = angular.module("reservandoApp", []);
+var app = angular.module("reservandoApp");
 
 app.directive('fileModel', ['$parse', function($parse){
     return{

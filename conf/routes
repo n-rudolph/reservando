@@ -29,7 +29,7 @@ POST    /restaurant                                 controllers.RestaurantContro
 GET     /restaurants/all                            controllers.RestaurantController.getAll
 GET     /restaurants/firsts                         controllers.RestaurantController.getFirsts
 GET     /restaurants/of-owner/:page/:size/:seed     controllers.RestaurantController.getRestaurantsFromOwner(page: String, size: String, seed: String)
-POST    /restaurant/view                            controllers.RestaurantController.openRestaurantProfile
+GET     /restaurant/:rid                            controllers.RestaurantController.getRestaurant(rid: String)
 POST    /restaurant/state                           controllers.RestaurantController.changeState
 
 #Delivery
@@ -39,6 +39,7 @@ POST    /delivery/edit              controllers.DeliveryController.editDelivery
 GET     /owner/home                 controllers.HomeController.ownerHome
 GET     /owner/new-restaurant       controllers.HomeController.newRestaurant
 GET     /owner/profile              controllers.OwnerProfileController.ownerProfile
+GET     /owner/restaurant           controllers.HomeController.ownerRestaurant
 GET     /owner/restaurants          controllers.HomeController.ownerRestaurants
 GET     /owner/profile/user         controllers.OwnerProfileController.getOwner
 POST    /owner/changePassword       controllers.OwnerProfileController.changePassword
