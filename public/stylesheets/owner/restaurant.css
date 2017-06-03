@@ -1,0 +1,42 @@
+.title h3, .title p{
+    display: inline;
+}
+.title p {
+    color: grey;
+    font-size: 0.9em;
+}
+
+.title div{
+    margin-right: 0;
+}
+
+p.address, p.cuisine {
+    display: inline;
+}
+p.address i:hover, p.cuisine i:hover,
+p.opening-days i:hover, p.opening-time i:hover{
+    color: red;
+    cursor: pointer;
+}
+
+p.opening-days, p.opening-time{
+    display: inline;
+}
+
+.menu{
+    text-align: center;
+}
+
+.image-holder{
+    position: relative;
+}
+
+.image-holder .btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.delete {
+    width: 100%;
+}

@@ -72,6 +72,11 @@ h5{
     color: #000;
 }
 
+.view:hover{
+    color: red;
+    cursor: pointer;
+}
+
 @media only screen and (min-width: 993px) {
     .container {
         width: 90%;

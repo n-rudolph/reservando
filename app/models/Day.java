@@ -1,9 +1,11 @@
 package models;
 
 import com.avaje.ebean.Model;
+import play.api.libs.json.Writes;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.List;
 
 @Entity
 public class Day extends Model{
@@ -37,4 +39,9 @@ public class Day extends Model{
 
     public static Day byId(long id){return finder.byId(id);}
     public static Day getDay(String dayName) {return finder.where().eq("day",dayName).findUnique();}
+
+    public static List<Day> all() {
+        return finder.all();
+    }
 }
+

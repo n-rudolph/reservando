@@ -4,6 +4,7 @@ import com.avaje.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.List;
 
 @Entity
 public class Cuisine extends Model{
@@ -43,5 +44,9 @@ public class Cuisine extends Model{
 
     public static Cuisine byId(long id) {
         return finder.byId(id);
+    }
+
+    public static List<Cuisine> all() {
+        return finder.all();
     }
 }

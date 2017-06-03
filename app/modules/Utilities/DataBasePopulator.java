@@ -15,6 +15,8 @@ public class DataBasePopulator {
 
     //This method add defaults locals into the database.
     public void populateLocals(){
+        if (Restaurant.allRestaurants().size() != 0)
+            return;
         loadAllDaysIntoDb();
         //loadDefaultCuisinesIntoDb();
         String relativePath = "app/modules/Utilities/Local List Pilar.txt";
@@ -27,8 +29,8 @@ public class DataBasePopulator {
             String description = localInfo[2];
             String[] cuisines = localInfo[3].split("-");
             List<Cuisine> cuisinesList = getCuisines(cuisines);
-            String openingHour = "11:30 am";
-            String closingHour = "12:30 pm";
+            String openingHour = "11:30";
+            String closingHour = "12:30";
             List<Day> openingDays = getDefaultOpeningDays();
             int capacityDefault = 100;
             List<Meal> meals = new ArrayList<>();
