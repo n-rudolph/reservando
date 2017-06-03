@@ -44,7 +44,7 @@
             </div>
             <div class="modal-footer">
                 <a href="" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-                <a class=" modal-action modal-close waves-effect waves-green btn-flat" ng-click="changePassword()">Cambiar</a>
+                <button class=" modal-action modal-close waves-effect waves-green btn-flat" ng-disabled="!equalPasswords || !validPassword" ng-click="changePassword()">Cambiar</button>
             </div>
         </div>
 
@@ -80,7 +80,7 @@
                 </div>
                 <div class="row">
                     <div class="col 6 offset-s8">
-                        <a class="waves-effect wave-light btn" ng-click="changeBioInfo()">Cambiar bio info</a>
+                        <button class="waves-effect wave-light btn" ng-disabled="!user.firstName || !user.lastName" ng-click="changeBioInfo()">Cambiar bio info</button>
                     </div>
                 </div>
             </div>
@@ -102,7 +102,7 @@
 
             <div class="modal-footer">
                 <a href="" class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-                <a class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="changeProfileImage()">Cambiar</a>
+                <button class=" modal-action modal-close waves-effect waves-green btn-flat" ng-disabled="!imageFile" ng-click="changeProfileImage()">Cambiar</button>
             </div>
         </div>
 
