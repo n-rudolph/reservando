@@ -6,6 +6,10 @@
     font-size: 0.9em;
 }
 
+.title div{
+    margin-right: 0;
+}
+
 p.address, p.cuisine {
     display: inline;
 }
@@ -21,4 +25,18 @@ p.opening-days, p.opening-time{
 
 .menu{
     text-align: center;
+}
+
+.image-holder{
+    position: relative;
+}
+
+.image-holder .btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.delete {
+    width: 100%;
 }

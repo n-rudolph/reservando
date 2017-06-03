@@ -23,11 +23,7 @@ app.controller("OwnerHomeCtrl", function ($scope, $http, $window) {
     };
 
     $scope.openRestaurantProfile = function(restaurant){
-        $http.post("/restaurant/view", restaurant).then(function(response){
-            $scope.getFirsts();
-        }, function(response){
-            console.log(response);
-        });
+        $window.location.href = "/owner/restaurant?id=" + restaurant.id;
     };
 
     $(document).ready(function() {

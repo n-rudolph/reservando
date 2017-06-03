@@ -51,6 +51,7 @@ create table restaurant (
   published                 boolean,
   is_local                  boolean,
   owner_id                  bigint,
+  is_deleted                boolean,
   radius                    double,
   capacity                  integer,
   constraint pk_restaurant primary key (id))

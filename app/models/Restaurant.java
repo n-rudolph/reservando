@@ -30,6 +30,7 @@ public class Restaurant extends Model{
     private boolean isLocal;
     @ManyToOne
     private Owner owner;
+    private boolean isDeleted;
 
 
     private static Finder<Long, Restaurant> finder = new Finder<Long,Restaurant>(Restaurant.class);
@@ -45,6 +46,7 @@ public class Restaurant extends Model{
         this.isLocal = isLocal;
         openingDays = new ArrayList<>();
         cuisines = new ArrayList<>();
+        isDeleted = false;
     }
     public Restaurant(String name, String description, String address,
                       String openingHour, String closingHour, List<Day> openingDays,
@@ -59,6 +61,7 @@ public class Restaurant extends Model{
         published = false;
         this.isLocal = isLocal;
         this.owner = owner;
+        isDeleted = false;
     }
 
     public long getId() {
@@ -187,5 +190,14 @@ public class Restaurant extends Model{
 
     public static List<Restaurant> allRestaurants() {
         return finder.all();
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public Restaurant setDeleted(boolean deleted) {
+        isDeleted = deleted;
+        return this;
     }
 }

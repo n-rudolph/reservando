@@ -11,6 +11,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class RestaurantController extends Controller {
 
@@ -37,13 +38,13 @@ public class RestaurantController extends Controller {
     public Result getAll(){
         final String email = session().get("email");
         final Owner ownerbyEmail = Owner.getOwnerbyEmail(email);
-        return ok(Json.toJson(ownerbyEmail.getRestaurants()));
+        return ok(Json.toJson(ownerbyEmail.getRestaurants().stream().filter(p -> !p.isDeleted()).collect(Collectors.toList())));
     }
 
     public Result getFirsts(){
         final String email = session().get("email");
         final Owner ownerbyEmail = Owner.getOwnerbyEmail(email);
-        final List<Restaurant> restaurants = ownerbyEmail.getRestaurants();
+        final List<Restaurant> restaurants = ownerbyEmail.getRestaurants().stream().filter(p -> !p.isDeleted()).collect(Collectors.toList());
         int max = restaurants.size() < 5 ? restaurants.size() : 5;
 
         final RestaurantsResponse response = new RestaurantsResponse(200, "ok", restaurants.subList(0, max), restaurants.size() > 5);
@@ -51,9 +52,9 @@ public class RestaurantController extends Controller {
         return ok(Json.toJson(response));
     }
 
-    public Result changeState(){
+    public Result changeState(String rid){
         final JsonNode body = request().body().asJson();
-        final long id = body.get("id").asLong();
+        final long id = Long.parseLong(rid);
         final boolean state = body.get("state").asBoolean();
         final Restaurant restaurant = Restaurant.byId(id);
         restaurant.setPublished(state).update();
@@ -95,57 +96,11 @@ public class RestaurantController extends Controller {
         }
     }
 
-    public Result addOpenDay(){
-        /*final JsonNode body = request().body().asJson();
-        if (body.path("id").isMissingNode())
-            return badRequest(Utils.generateResponse("400", "Restaurant id missing", null));
-        final Restaurant restaurant = Restaurant.byId(body.path("id").asLong());
-        if (body.path("dayId").isMissingNode())
-            return badRequest(Utils.generateResponse("400", "Day missing", null));
-        final Day day = Day.byId(body.path("dayId").asLong());
-        restaurant.addDay(day);*/
-        return ok(Utils.generateResponse("200", "Day added correctly", null));
-    }
-
-    public Result removeOpenDay(){
-        /*final JsonNode body = request().body().asJson();
-        if (body.path("id").isMissingNode())
-            return badRequest(Utils.generateResponse("400", "Restaurant id missing", null));
-        final Restaurant restaurant = Restaurant.byId(body.path("id").asLong());
-        if (body.path("dayId").isMissingNode())
-            return badRequest(Utils.generateResponse("400", "Day missing", null));
-        final Day day = Day.byId(body.path("dayId").asLong());
-        restaurant.removeDay(day);*/
-        return ok(Utils.generateResponse("200", "Day removed correctly", null));
-    }
-
-    public Result addCuisine(){
-        final JsonNode body = request().body().asJson();
-        if (body.path("id").isMissingNode())
-            return badRequest(Utils.generateResponse("400", "Restaurant id missing", null));
-        final Restaurant restaurant = Restaurant.byId(body.path("id").asLong());
-        Cuisine cuisine;
-        if (body.path("dayId").isMissingNode()) {
-            cuisine = new Cuisine();
-            cuisine.setName(body.path("newCuisine").asText().trim());
-            cuisine.save();
-            cuisine= Cuisine.getCuisine(body.path("newCuisine").asText().trim());
-        }else {
-            cuisine = Cuisine.byId(body.path("cuisineId").asLong());
-        }
-        restaurant.addCuisine(cuisine);
-        return ok(Utils.generateResponse("200", "Cuisine added correctly", null));
-    }
-
-    public Result removeCuisine(){
-        final JsonNode body = request().body().asJson();
-        if (body.path("id").isMissingNode())
-            return badRequest(Utils.generateResponse("400", "Restaurant id missing", null));
-        final Restaurant restaurant = Restaurant.byId(body.path("id").asLong());
-        if (body.path("cuisineId").isMissingNode())
-            return badRequest(Utils.generateResponse("400", "Cuisine missing", null));
-        final Cuisine cuisine = Cuisine.byId(body.path("cuisineId").asLong());
-        restaurant.removeCuisine(cuisine);
-        return ok(Utils.generateResponse("200", "Cuisine removed correctly", null));
+    public Result delete(String rid){
+        final long id = Long.parseLong(rid);
+        final Restaurant restaurant = Restaurant.byId(id);
+        restaurant.setDeleted(true);
+        restaurant.update();
+        return ok("restaurant deleted");
     }
 }

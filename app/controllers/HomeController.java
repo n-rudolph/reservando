@@ -29,7 +29,7 @@ public class HomeController extends Controller {
     public Result ownerRestaurants(){
         return ok(ownerRestaurants.render());
     }
-    public Result ownerRestaurant() { return ok(restaurantProfile.render()); }
+    public Result ownerRestaurant() { return ok(ownerRestaurantProfile.render()); }
 
     public Result getDays() {
         return ok(Json.toJson(Day.all()));

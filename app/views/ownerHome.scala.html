@@ -27,7 +27,7 @@
                                 <td>{{restaurant.name}}</td>
                                 <td>{{restaurant.local ? "Local" : "Delivery"}}</td>
                                 <td>{{restaurant.published ? "Publicado" : "No Publicado"}}</td>
-                                <td><i class="material-icons" ng-click="openRestaurantProfile(restaurant)">edit</i></td>
+                                <td><i class="material-icons view" ng-click="openRestaurantProfile(restaurant)">edit</i></td>
                             </tr>
                         </tbody>
                     </table>
@@ -62,7 +62,7 @@
         </div>
     </div>
 } {
-    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/ownerHome.css")">
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/owner/ownerHome.css")">
 } {
     <script src="@routes.Assets.versioned("javascripts/owner/ownerHome.js")"></script>
 }
