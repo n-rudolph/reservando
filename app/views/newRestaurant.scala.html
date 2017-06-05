@@ -7,8 +7,21 @@
         </div>
         <div class="row">
             <div class="col m4">
-                <div class="col s12">
-                    <input type="file" class="dropify" placeholder="IMAGEN" file-model="photo" data-height="300" data-max-file-size="3M" data-allowed-file-extensions="png jpg">
+                <div class="row">
+                    <div class="file-field input-field">
+                        <div class="btn file-select">
+                            <span>Seleccionar foto</span>
+                            <input type="file" multiple ng-file-model="photos" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="img-placeholder" ng-show="photos.length == 0">
+                        <img ng-src="/assets/images/placeholder/restaurant.jpg" alt="">
+                    </div>
+                </div>
+                <div class="row" ng-if="photos.length > 0">
+                    <img ng-src="{{photos[0].src}}" alt="">
                 </div>
             </div>
             <div class="col m8">

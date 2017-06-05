@@ -28,6 +28,7 @@ create table meal (
   name                      varchar(255),
   description               varchar(255),
   price                     double,
+  is_deleted                boolean,
   constraint pk_meal primary key (id))
 ;
 
@@ -168,6 +169,8 @@ drop table if exists restaurant;
 drop table if exists restaurant_day;
 
 drop table if exists restaurant_cuisine;
+
+drop table if exists restaurant_meal;
 
 drop table if exists user;
 

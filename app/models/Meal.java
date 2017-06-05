@@ -16,10 +16,17 @@ public class Meal extends Model {
     private double price;
     @OneToMany
     private Photo photo;
-
-    public static Finder<Long, Meal> find = new Finder<Long,Meal>(Meal.class);
-
+    private boolean isDeleted;
     public Meal() {
+        isDeleted = false;
+    }
+
+    public Meal(String name, String description, double price, Photo photo) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.photo = photo;
+        isDeleted = false;
     }
 
     public Meal(long id, String name, String description, double price, Photo photo) {
@@ -28,6 +35,7 @@ public class Meal extends Model {
         this.description = description;
         this.price = price;
         this.photo = photo;
+        isDeleted = false;
     }
 
     public long getId() {
@@ -73,5 +81,19 @@ public class Meal extends Model {
     public Meal setImage(Photo photo) {
         this.photo = photo;
         return this;
+    }
+
+    public Meal setDeleted(boolean isDeleted){
+        this.isDeleted = isDeleted;
+        return this;
+    }
+    public boolean isDeleted(){
+        return isDeleted;
+    }
+
+    public static Finder<Long, Meal> finder = new Finder<Long,Meal>(Meal.class);
+
+    public static Meal byId(long id) {
+        return finder.byId(id);
     }
 }

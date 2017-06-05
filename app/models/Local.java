@@ -11,8 +11,6 @@ import java.util.List;
 public class Local extends Restaurant{
 
     private int capacity;
-    @ManyToMany
-    private List<Meal> menu;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     private List<Reservation> reservations;
@@ -30,9 +28,8 @@ public class Local extends Restaurant{
     public Local(String name, String description, String address, String openingHour,
                  String closingHour, List<Day> openingDays, List<Cuisine> cuisines,
                  int capacity, List<Meal> menu, Owner owner) {
-        super(name, description, address, openingHour, closingHour, openingDays, cuisines, true, owner);
+        super(name, description, address, openingHour, closingHour, openingDays, cuisines, true, owner, menu);
         this.capacity = capacity;
-        this.menu = menu;
         this.reservations = new ArrayList<>();
     }
 
@@ -42,15 +39,6 @@ public class Local extends Restaurant{
 
     public Local setCapacity(int capacity) {
         this.capacity = capacity;
-        return this;
-    }
-
-    public List<Meal> getMenu() {
-        return menu;
-    }
-
-    public Local setMenu(List<Meal> menu) {
-        this.menu = menu;
         return this;
     }
 

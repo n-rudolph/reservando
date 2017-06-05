@@ -35,6 +35,38 @@ public class RestaurantController extends Controller {
         }
     }
 
+    public Result update(String rid){
+        final JsonNode jsonNode = request().body().asJson();
+        final RestaurantObject restaurantObject = Json.fromJson(jsonNode, RestaurantObject.class);
+        final long id = Long.parseLong(rid);
+        if (restaurantObject.isLocal){
+            final Local local = Local.getLocalById(id);
+            local.setCapacity(restaurantObject.capacity)
+                    .setName(restaurantObject.name)
+                    .setDescription(restaurantObject.description)
+                    .setAddress(restaurantObject.address)
+                    .setOpeningHour(restaurantObject.startTime)
+                    .setClosingHour(restaurantObject.endTime)
+                    .setCuisines(restaurantObject.cuisines)
+                    .setOpeningDays(restaurantObject.days);
+
+            local.update();
+            return ok(Json.toJson(local));
+        }else {
+            final Delivery delivery = Delivery.byId(id);
+            delivery.setRadius(restaurantObject.radius)
+                    .setName(restaurantObject.name)
+                    .setDescription(restaurantObject.description)
+                    .setAddress(restaurantObject.address)
+                    .setOpeningHour(restaurantObject.startTime)
+                    .setClosingHour(restaurantObject.endTime)
+                    .setCuisines(restaurantObject.cuisines)
+                    .setOpeningDays(restaurantObject.days);
+            delivery.update();
+            return ok(Json.toJson(delivery));
+        }
+    }
+
     public Result getAll(){
         final String email = session().get("email");
         final Owner ownerbyEmail = Owner.getOwnerbyEmail(email);

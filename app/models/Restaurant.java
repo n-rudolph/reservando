@@ -31,6 +31,8 @@ public class Restaurant extends Model{
     @ManyToOne
     private Owner owner;
     private boolean isDeleted;
+    @ManyToMany
+    private List<Meal> menu;
 
 
     private static Finder<Long, Restaurant> finder = new Finder<Long,Restaurant>(Restaurant.class);
@@ -46,11 +48,12 @@ public class Restaurant extends Model{
         this.isLocal = isLocal;
         openingDays = new ArrayList<>();
         cuisines = new ArrayList<>();
+        menu = new ArrayList<>();
         isDeleted = false;
     }
     public Restaurant(String name, String description, String address,
                       String openingHour, String closingHour, List<Day> openingDays,
-                      List<Cuisine> cuisines, boolean isLocal, Owner owner) {
+                      List<Cuisine> cuisines, boolean isLocal, Owner owner, List<Meal> menu) {
         this.name = name;
         this.description = description;
         this.address = address;
@@ -62,6 +65,7 @@ public class Restaurant extends Model{
         this.isLocal = isLocal;
         this.owner = owner;
         isDeleted = false;
+        this.menu = menu;
     }
 
     public long getId() {
@@ -158,36 +162,6 @@ public class Restaurant extends Model{
         return finder.byId(id);
     }
 
-    public boolean addDay(Day day) {
-        if (openingDays == null) {
-            openingDays = new ArrayList<>();
-        }
-        if (openingDays.indexOf(day) < 0){
-            openingDays.add(day);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean removeDay(Day day) {
-        return openingDays != null && openingDays.remove(day);
-    }
-
-    public boolean addCuisine(Cuisine cuisine) {
-        if (cuisines == null) {
-            cuisines = new ArrayList<>();
-        }
-        if (cuisines.indexOf(cuisine) < 0){
-            cuisines.add(cuisine);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean removeCuisine(Cuisine cuisine) {
-        return cuisines != null && cuisines.remove(cuisine);
-    }
-
     public static List<Restaurant> allRestaurants() {
         return finder.all();
     }
@@ -199,5 +173,18 @@ public class Restaurant extends Model{
     public Restaurant setDeleted(boolean deleted) {
         isDeleted = deleted;
         return this;
+    }
+
+    public List<Meal> getMenu() {
+        return menu;
+    }
+
+    public Restaurant setMenu(List<Meal> menu) {
+        this.menu = menu;
+        return this;
+    }
+
+    public void addMeal(Meal meal) {
+
     }
 }

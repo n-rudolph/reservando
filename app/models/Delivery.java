@@ -8,8 +8,6 @@ import java.util.List;
 public class Delivery extends Restaurant {
 
     private double radius;
-    @ManyToMany
-    private List<Meal> menu;
     @OneToMany(cascade = CascadeType.ALL)
     private List<DeliveryOrder> deliveryOrders;
 
@@ -25,9 +23,8 @@ public class Delivery extends Restaurant {
     public Delivery(String name, String description, String address, String openingHour,
                     String closingHour, List<Day> openingDays, List<Cuisine> cuisines,
                     double radius, List<Meal> menu, Owner owner) {
-        super(name, description, address, openingHour, closingHour, openingDays, cuisines, false, owner);
+        super(name, description, address, openingHour, closingHour, openingDays, cuisines, false, owner, menu);
         this.radius = radius;
-        this.menu = menu;
     }
 
     public double getRadius() {
@@ -37,24 +34,6 @@ public class Delivery extends Restaurant {
     public Delivery setRadius(double radius) {
         this.radius = radius;
         return this;
-    }
-
-    public List<Meal> getMenu() {
-        return menu;
-    }
-
-    public Delivery setMenu(List<Meal> menu) {
-        this.menu = menu;
-        return this;
-    }
-
-    public boolean addMeal(Meal meal){
-
-        return false;
-    }
-
-    public boolean removeMeal(Meal meal) {
-        return menu != null && menu.remove(meal);
     }
 
     public List<DeliveryOrder> getDeliveryOrders(){return deliveryOrders;}

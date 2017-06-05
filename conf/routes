@@ -31,6 +31,7 @@ GET     /restaurants/firsts                         controllers.RestaurantContro
 GET     /restaurants/of-owner/:page/:size/:seed     controllers.RestaurantController.getRestaurantsFromOwner(page: String, size: String, seed: String)
 GET     /restaurant/:rid                            controllers.RestaurantController.getRestaurant(rid: String)
 POST    /restaurant/state/:rid                      controllers.RestaurantController.changeState(rid: String)
+PUT     /restaurant/:rid                            controllers.RestaurantController.update(rid: String)
 DELETE  /restaurant/:rid                            controllers.RestaurantController.delete(rid: String)
 
 #Delivery
