@@ -25,13 +25,13 @@ app.controller("NewRestaurantCtrl", function ($scope, $http) {
         }
     );
 
-    $scope.reserRestaurant = function(){
+    $scope.resetRestaurant = function(){
         $scope.restaurant = {
             days: [],
             cuisines: []
         };
     };
-    $scope.reserRestaurant();
+    $scope.resetRestaurant();
 
     $scope.resetErrors = function() {
         $scope.errors = {
@@ -134,6 +134,13 @@ app.controller("NewRestaurantCtrl", function ($scope, $http) {
             for (var j = 0; j < $scope.selectedCuisines.length; j++) {
                 $scope.addCuisine($scope.selectedCuisines[j]);
             }
+        }
+
+        if ($scope.photos.length == 0){
+            errors++;
+            $scope.errors.photo = true;
+        }else{
+            $scope.restaurant.photo = $scope.photos[0];
         }
         return errors == 0;
     };

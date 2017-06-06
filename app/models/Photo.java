@@ -3,21 +3,26 @@ package models;
 import com.avaje.ebean.Model;
 
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
 
-/**
- * Created by rudy on 07/01/17.
- */
 public class Photo extends Model{
 
     @Id
     private long id;
+    private String name;
+    @Lob
+    private String src;
 
-    private String path;
+    public Photo(@NotNull String name, @NotNull String src){
+        this.name = name;
+        this.src = src;
+    }
 
-    public Photo(@NotNull long id, @NotNull String path){
+    public Photo(@NotNull long id, @NotNull String name, @NotNull String src){
         this.id = id;
-        this.path = path;
+        this.name = name;
+        this.src = src;
     }
 
     public long getId() {
@@ -29,12 +34,21 @@ public class Photo extends Model{
         return this;
     }
 
-    public String getPath() {
-        return path;
+    public String getName() {
+        return name;
     }
 
-    public Photo setPath(String path) {
-        this.path = path;
+    public Photo setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public String getSrc() {
+        return src;
+    }
+
+    public Photo setSrc(String src) {
+        this.src = src;
         return this;
     }
 }

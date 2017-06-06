@@ -33,6 +33,7 @@ public class Restaurant extends Model{
     private boolean isDeleted;
     @ManyToMany
     private List<Meal> menu;
+    private Photo photo;
 
 
     private static Finder<Long, Restaurant> finder = new Finder<Long,Restaurant>(Restaurant.class);
@@ -53,7 +54,7 @@ public class Restaurant extends Model{
     }
     public Restaurant(String name, String description, String address,
                       String openingHour, String closingHour, List<Day> openingDays,
-                      List<Cuisine> cuisines, boolean isLocal, Owner owner, List<Meal> menu) {
+                      List<Cuisine> cuisines, boolean isLocal, Owner owner, List<Meal> menu, Photo photo) {
         this.name = name;
         this.description = description;
         this.address = address;
@@ -66,6 +67,7 @@ public class Restaurant extends Model{
         this.owner = owner;
         isDeleted = false;
         this.menu = menu;
+        this.photo = photo;
     }
 
     public long getId() {
@@ -186,5 +188,14 @@ public class Restaurant extends Model{
 
     public void addMeal(Meal meal) {
 
+    }
+
+    public Photo getPhoto() {
+        return photo;
+    }
+
+    public Restaurant setPhoto(Photo photo) {
+        this.photo = photo;
+        return this;
     }
 }
