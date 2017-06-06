@@ -2,10 +2,10 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
-import models.Response.RedirectResponse;
 import models.Response.RestaurantsResponse;
+import models.requestObjects.PhotoObject;
 import models.requestObjects.RestaurantObject;
-import modules.Utils;
+import modules.ImageUtils;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -22,16 +22,32 @@ public class RestaurantController extends Controller {
         final Owner owner = Owner.getOwnerbyEmail(email);
         if (restaurantObject.isLocal){
             final Local local = restaurantObject.toLocal(owner);
-            local.save();
-            owner.addRestaurant(local);
-            owner.update();
-            return ok(Json.toJson(local));
+            final Photo photo = saveImage(restaurantObject.photo);
+            if (photo != null){
+                local.save();
+                photo.save();
+                local.setPhoto(photo);
+                local.update();
+                owner.addRestaurant(local);
+                owner.update();
+                return ok(Json.toJson(local));
+            }else{
+                return badRequest("error al guardar la imagen");
+            }
         } else {
             final Delivery delivery = restaurantObject.toDelivery(owner);
-            delivery.save();
-            owner.addRestaurant(delivery);
-            owner.update();
-            return ok(Json.toJson(delivery));
+            final Photo photo = saveImage(restaurantObject.photo);
+            if (photo != null){
+                photo.save();
+                delivery.save();
+                delivery.setPhoto(photo);
+                delivery.update();
+                owner.addRestaurant(delivery);
+                owner.update();
+                return ok(Json.toJson(delivery));
+            }else{
+                return badRequest("error al guardar la imagen");
+            }
         }
     }
 
@@ -134,5 +150,12 @@ public class RestaurantController extends Controller {
         restaurant.setDeleted(true);
         restaurant.update();
         return ok("restaurant deleted");
+    }
+
+    private Photo saveImage(PhotoObject photo){
+        final String path = ImageUtils.saveImage(photo.src, photo.name);
+        if (path == null)
+            return null;
+        return photo.toPhoto(path);
     }
 }

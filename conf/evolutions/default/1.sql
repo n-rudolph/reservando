@@ -32,6 +32,13 @@ create table meal (
   constraint pk_meal primary key (id))
 ;
 
+create table photo (
+  id                        bigint not null,
+  name                      varchar(255),
+  path                      varchar(255),
+  constraint pk_photo primary key (id))
+;
+
 create table reservation (
   id                        bigint not null,
   amount                    integer,
@@ -53,8 +60,10 @@ create table restaurant (
   is_local                  boolean,
   owner_id                  bigint,
   is_deleted                boolean,
+  photo_id                  bigint,
   radius                    double,
   capacity                  integer,
+  constraint uq_restaurant_photo_id unique (photo_id),
   constraint pk_restaurant primary key (id))
 ;
 
@@ -109,6 +118,8 @@ create sequence delivery_order_seq;
 
 create sequence meal_seq;
 
+create sequence photo_seq;
+
 create sequence reservation_seq;
 
 create sequence restaurant_seq;
@@ -125,6 +136,8 @@ alter table reservation add constraint fk_reservation_local_4 foreign key (local
 create index ix_reservation_local_4 on reservation (local_id);
 alter table restaurant add constraint fk_restaurant_owner_5 foreign key (owner_id) references user (id) on delete restrict on update restrict;
 create index ix_restaurant_owner_5 on restaurant (owner_id);
+alter table restaurant add constraint fk_restaurant_photo_6 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
+create index ix_restaurant_photo_6 on restaurant (photo_id);
 
 
 
@@ -162,6 +175,8 @@ drop table if exists delivery_order_meal;
 
 drop table if exists meal;
 
+drop table if exists photo;
+
 drop table if exists reservation;
 
 drop table if exists restaurant;
@@ -183,6 +198,8 @@ drop sequence if exists day_seq;
 drop sequence if exists delivery_order_seq;
 
 drop sequence if exists meal_seq;
+
+drop sequence if exists photo_seq;
 
 drop sequence if exists reservation_seq;
 

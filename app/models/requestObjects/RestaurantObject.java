@@ -30,8 +30,7 @@ public class RestaurantObject {
                 cuisines,
                 radius,
                 Collections.emptyList(),
-                owner,
-                photo.toPhoto());
+                owner);
     }
 
     public Local toLocal(Owner owner){
@@ -45,7 +44,6 @@ public class RestaurantObject {
                 cuisines,
                 capacity,
                 Collections.emptyList(),
-                owner,
-                photo.toPhoto());
+                owner);
     }
 }

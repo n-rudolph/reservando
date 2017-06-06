@@ -22,8 +22,8 @@ public class Delivery extends Restaurant {
 
     public Delivery(String name, String description, String address, String openingHour,
                     String closingHour, List<Day> openingDays, List<Cuisine> cuisines,
-                    double radius, List<Meal> menu, Owner owner, Photo photo) {
-        super(name, description, address, openingHour, closingHour, openingDays, cuisines, false, owner, menu, photo);
+                    double radius, List<Meal> menu, Owner owner) {
+        super(name, description, address, openingHour, closingHour, openingDays, cuisines, false, owner, menu);
         this.radius = radius;
     }
 

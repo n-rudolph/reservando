@@ -3,7 +3,7 @@
     @ownerNav()
     <div class="container" ng-controller="RestaurantCtrl">
         <div class="row image-holder">
-            <img src="http://placehold.it/350x150" alt="" class="materialboxed" width="100%" height="300px">
+            <img ng-src="@routes.Assets.versioned("{{restaurant.photo.path}}")" alt="" class="materialboxed" width="100%" height="300px">
             <div class="btn btn-floating"><i class="material-icons">edit</i></div>
         </div>
         <div class="row">
