@@ -40,3 +40,11 @@ p.opening-days, p.opening-time{
 .delete {
     width: 100%;
 }
+
+.image-holder .cancel-photo{
+    bottom: 55px;
+}
+
+#image-edit{
+    display: none;
+}

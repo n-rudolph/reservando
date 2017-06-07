@@ -7,10 +7,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 
 public class ImageUtils {
 
-    public static String saveImage(String src, String name){
+    public static List<String> saveImage(String src, String name){
         String fullPath = "./public/images/imgApp/" + name;
         int counter = 0;
         while (Files.exists(Paths.get(fullPath))){
@@ -27,6 +29,7 @@ public class ImageUtils {
         } catch (IOException e) {
             return null;
         }
-        return "/images/imgApp/" + name;
+
+        return Arrays.asList(name, "/images/imgApp/" + name);
     }
 }

@@ -10,6 +10,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -152,10 +153,33 @@ public class RestaurantController extends Controller {
         return ok("restaurant deleted");
     }
 
+    public Result updatePhoto(String rid){
+        final long id = Long.parseLong(rid);
+        final JsonNode jsonNode = request().body().asJson();
+        final PhotoObject photoObject = Json.fromJson(jsonNode, PhotoObject.class);
+        final Photo newPhoto = saveImage(photoObject);
+        if (newPhoto == null){
+            return badRequest();
+        }
+        final Restaurant restaurant = Restaurant.byId(id);
+        final Photo oldPhoto = restaurant.getPhoto();
+        if (!deleteImage("./public/images/imgApp/" + oldPhoto.getName())){
+            return badRequest();
+        }
+        newPhoto.save();
+        restaurant.setPhoto(newPhoto);
+        restaurant.update();
+        return ok(Json.toJson(newPhoto));
+    }
+
     private Photo saveImage(PhotoObject photo){
-        final String path = ImageUtils.saveImage(photo.src, photo.name);
-        if (path == null)
+        final List<String> photoInfo = ImageUtils.saveImage(photo.src, photo.name);
+        if (photoInfo == null)
             return null;
-        return photo.toPhoto(path);
+        return new Photo(photoInfo.get(0), photoInfo.get(1));
+    }
+
+    private boolean deleteImage(String path){
+        return new File(path).delete();
     }
 }

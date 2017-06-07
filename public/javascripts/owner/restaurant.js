@@ -12,6 +12,9 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
     $scope.selectedCuisines = [];
     $scope.restaurantEdit = {};
 
+    $scope.photos = [];
+    $scope.loading = true;
+
     $scope.getRestaurant = function(){
         var id = $window.location.href.split("id=")[1];
         $http.get("/restaurant/"+ id).then(
@@ -92,6 +95,24 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
             Materialize.toast("Ha ocurrido un error", 2000, "red");
             $('#deleteModal').closeModal();
         });
+    };
+
+    $scope.saveImage = function(){
+        if ($scope.photos[0].size < 2000000){
+            $http.put("/restaurant/"+$scope.restaurant.id+"/photo", {name: $scope.photos[0].name, src: $scope.photos[0].src})
+                .then(function(response){
+                    $scope.restaurant.photo = response.data;
+                    $scope.photos = [];
+                    Materialize.toast("Imagen modificada con éxito.", 2000, "green");
+                }, function(){
+                    Materialize.toast("Ha ocurrido un erros. Intentelo más tarde.", 2000, "red");
+                })
+        }else {
+            $scope.photoError = true;
+            $timeout(function(){
+                $scope.photoError = false;
+            }, 2000)
+        }
     };
 
 });
