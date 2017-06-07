@@ -22,6 +22,8 @@
                             <input type="file" multiple ng-file-model="photos" accept="image/*" id="image-input">
                         </label>
                     </div>
+                    <label class="image-error" ng-show="errors.photo">Es necesario ingresar una imagen</label>
+                    <label class="image-error" ng-show="errors.photoSize">Tamaño maximo de la imagen 2mb</label>
                 </div>
             </div>
             <div class="col m8">
@@ -51,7 +53,7 @@
                 </div>
                 <div class="input-field col s12" ng-hide="restaurant.isLocal">
                     <input type="number" id="radius" ng-model="restaurant.radius" ng-class="{invalid: errors.radius}">
-                    <label for="radius">Radio</label>
+                    <label for="radius">Radio (km)</label>
                 </div>
             </div>
         </div>

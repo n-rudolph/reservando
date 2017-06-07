@@ -18,7 +18,8 @@ app.directive("ngFileModel", [
                             var value;
                             value = {
                                 name: item.name,
-                                src: reader.result
+                                src: reader.result,
+                                size: item.size
                             };
                             if (values.length == 0)
                                 values.push(value);
