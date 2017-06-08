@@ -48,3 +48,7 @@ p.opening-days, p.opening-time{
 #image-edit{
     display: none;
 }
+
+.publish{
+    width: 100%;
+}

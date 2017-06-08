@@ -72,9 +72,27 @@ h5{
     color: #000;
 }
 
-.view:hover{
+.view, .publish, .unpublish{
+    text-align: center;
+}
+
+.unpublish{
+    transform: rotate(180deg);
+}
+
+.view:hover, .publish:hover, .unpublish:hover{
     color: red;
     cursor: pointer;
+}
+
+.row.continues{
+    text-align: center;
+    margin-top: 20px;
+}
+
+.row.continues .btn{
+    width: 60%;
+    background-color: #FF9800;
 }
 
 @media only screen and (min-width: 993px) {

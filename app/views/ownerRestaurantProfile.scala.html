@@ -15,18 +15,21 @@
                 <i class="material-icons">cancel</i>
             </div>
         </div>
+        <div class="progress" ng-show="loading">
+            <div class="indeterminate"></div>
+        </div>
         <div class="row">
             <div class="col s12 info-contanier" ng-hide="editMode">
                 <div class="row title">
-                    <div class="col s8">
+                    <div class="col s7">
                         <h3>{{restaurant.name}}</h3>
                         <p>Todavia no fue calificado</p>
                     </div>
-                    <div class="col s2" ng-hide="restaurant.published">
-                        <div class="btn rigth" ng-click="publicateRestaurant(true)">Publicar</div>
+                    <div class="col s3" ng-hide="restaurant.published">
+                        <div class="btn publish" ng-click="publicateRestaurant(true)">Publicar</div>
                     </div>
-                    <div class="col s2" ng-show="restaurant.published">
-                        <div class="btn orange" ng-click="publicateRestaurant(false)">No Publicar</div>
+                    <div class="col s3" ng-show="restaurant.published">
+                        <div class="btn publish" ng-click="publicateRestaurant(false)">No Publicar</div>
                     </div>
                     <div class="col s2">
                         <div class="btn rigth" ng-click="toggleEditMode(true)">Modificar</div>

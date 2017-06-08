@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import models.Response.RestaurantsResponse;
 import models.requestObjects.PhotoObject;
+import models.requestObjects.RestaurantEditObject;
 import models.requestObjects.RestaurantObject;
 import modules.ImageUtils;
 import play.libs.Json;
@@ -54,31 +55,31 @@ public class RestaurantController extends Controller {
 
     public Result update(String rid){
         final JsonNode jsonNode = request().body().asJson();
-        final RestaurantObject restaurantObject = Json.fromJson(jsonNode, RestaurantObject.class);
+        final RestaurantEditObject restaurantEditObject = Json.fromJson(jsonNode, RestaurantEditObject.class);
         final long id = Long.parseLong(rid);
-        if (restaurantObject.isLocal){
+        if (restaurantEditObject.isLocal){
             final Local local = Local.getLocalById(id);
-            local.setCapacity(restaurantObject.capacity)
-                    .setName(restaurantObject.name)
-                    .setDescription(restaurantObject.description)
-                    .setAddress(restaurantObject.address)
-                    .setOpeningHour(restaurantObject.startTime)
-                    .setClosingHour(restaurantObject.endTime)
-                    .setCuisines(restaurantObject.cuisines)
-                    .setOpeningDays(restaurantObject.days);
+            local.setCapacity(restaurantEditObject.capacity)
+                    .setName(restaurantEditObject.name)
+                    .setDescription(restaurantEditObject.description)
+                    .setAddress(restaurantEditObject.address)
+                    .setOpeningHour(restaurantEditObject.startTime)
+                    .setClosingHour(restaurantEditObject.endTime)
+                    .setCuisines(restaurantEditObject.cuisines)
+                    .setOpeningDays(restaurantEditObject.days);
 
             local.update();
             return ok(Json.toJson(local));
         }else {
             final Delivery delivery = Delivery.byId(id);
-            delivery.setRadius(restaurantObject.radius)
-                    .setName(restaurantObject.name)
-                    .setDescription(restaurantObject.description)
-                    .setAddress(restaurantObject.address)
-                    .setOpeningHour(restaurantObject.startTime)
-                    .setClosingHour(restaurantObject.endTime)
-                    .setCuisines(restaurantObject.cuisines)
-                    .setOpeningDays(restaurantObject.days);
+            delivery.setRadius(restaurantEditObject.radius)
+                    .setName(restaurantEditObject.name)
+                    .setDescription(restaurantEditObject.description)
+                    .setAddress(restaurantEditObject.address)
+                    .setOpeningHour(restaurantEditObject.startTime)
+                    .setClosingHour(restaurantEditObject.endTime)
+                    .setCuisines(restaurantEditObject.cuisines)
+                    .setOpeningDays(restaurantEditObject.days);
             delivery.update();
             return ok(Json.toJson(delivery));
         }
