@@ -25,6 +25,22 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
     };
     $scope.getRestaurant();
 
+    $scope.resetErrors = function() {
+        $scope.errors = {
+            name: false,
+            address: false,
+            radius: false,
+            capacity: false,
+            description: false,
+            days: false,
+            time: false,
+            cuisines: false,
+            photo: false,
+            photoSize: false
+        };
+    };
+    $scope.resetErrors();
+
     $http.get("/all/days").then(
         function(response) {
             $scope.days = response.data;
@@ -50,19 +66,18 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
 
     $scope.toggleEditMode = function (enable){
         if (!enable){
-            // $scope.resetEditInfo();
-            // $scope.resetErrors();
+            $scope.resetErrors();
         } else {
             $scope.setEditModel();
         }
-        this.editMode = enable;
+        $scope.editMode = enable;
     };
 
     $scope.setEditModel = function (){
         $scope.restaurantEdit.name = $scope.restaurant.name;
         $scope.restaurantEdit.address = $scope.restaurant.address;
         $scope.restaurantEdit.description = $scope.restaurant.description;
-        $scope.restaurantEdit.isLocal = $scope.restaurant.isLocal;
+        $scope.restaurantEdit.isLocal = $scope.restaurant.local;
         $scope.restaurantEdit.radius = $scope.restaurant.radius;
         $scope.restaurantEdit.capacity = $scope.restaurant.capacity;
         $scope.initTime = $scope.restaurant.startTime;
@@ -116,6 +131,106 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
                 $scope.photoError = false;
             }, 2000)
         }
+    };
+
+    $scope.updateRestaurant = function(){
+        $scope.resetErrors();
+        if ($scope.checkFields()){
+            $http.put("/restaurant/"+$scope.restaurant.id, $scope.restaurantEdit).then(function(response){
+                Materialize.toast("Restaurant modificado con éxito", 2000, "green");
+                $scope.restaurant = response.data;
+                $window.location.href = "#top";
+                $scope.editMode = false;
+            }, function(response){
+                Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
+            });
+        }else{
+            Materialize.toast("Hay campos con errores", 2000, "red");
+            $window.location.href = "#top";
+        }
+    };
+
+    $scope.checkFields = function(){
+        var errors = 0;
+        if (!$scope.restaurantEdit.name || $scope.restaurantEdit.name.length == 0){
+            errors++;
+            $scope.errors.name = true;
+        }
+        if (!$scope.restaurantEdit.address || $scope.restaurantEdit.address.length == 0){
+            errors++;
+            $scope.errors.address = true;
+        }
+        if ($scope.restaurantEdit.isLocal){
+            if (!$scope.restaurantEdit.capacity || $scope.restaurantEdit.capacity < 0){
+                errors++;
+                $scope.errors.capacity = true;
+            }
+        } else {
+            $scope.restaurantEdit.isLocal = false;
+            if (!$scope.restaurantEdit.radius || $scope.restaurantEdit.radius < 0){
+                errors++;
+                $scope.errors.radius = true;
+            }
+        }
+        if (!$scope.restaurantEdit.description || $scope.restaurantEdit.description.length == 0){
+            errors++;
+            $scope.errors.description = true;
+        }
+        if (!$scope.selectedDays || $scope.selectedDays.length == 0){
+            errors++;
+            $scope.errors.days = true;
+        } else {
+            $scope.restaurantEdit.days = [];
+            for (var i = 0; i < $scope.selectedDays.length; i++) {
+                $scope.addDay($scope.selectedDays[i]);
+            }
+        }
+        if (!$scope.restaurantEdit.startTime || $scope.restaurantEdit.startTime.length == 0 || !$scope.restaurantEdit.endTime || $scope.restaurantEdit.endTime.length == 0 ){
+            errors++;
+            $scope.errors.time = true;
+        } else {
+            var splitStartTime = $scope.restaurantEdit.startTime.split(":");
+            var splitEndTime = $scope.restaurantEdit.endTime.split(":");
+
+            if (Number(splitStartTime[0]) > Number(splitEndTime[0])){
+                errors++;
+                $scope.errors.time = false;
+            }else if (Number(splitStartTime[0]) == Number(splitEndTime[0])){
+                if (Number(splitStartTime[1]) >= Number(splitEndTime[1])){
+                    errors++;
+                    $scope.errors.time = false;
+                }
+            }
+        }
+        if (!$scope.selectedCuisines || $scope.selectedCuisines.length == 0){
+            errors++;
+            $scope.errors.cuisines = true;
+        } else {
+            $scope.restaurantEdit.cuisines = [];
+            for (var j = 0; j < $scope.selectedCuisines.length; j++) {
+                $scope.addCuisine($scope.selectedCuisines[j]);
+            }
+        }
+        return errors == 0;
+    };
+
+    $scope.addCuisine = function(cuisine){
+        for (var i = 0; i< $scope.cuisines.length; i++){
+            if ($scope.cuisines[i].name == cuisine){
+                $scope.restaurantEdit.cuisines.push($scope.cuisines[i]);
+                return;
+            }
+        }
+    };
+
+    $scope.addDay = function(day){
+        for(var i = 0; i < $scope.days.length; i++) {
+            if ($scope.days[i].day == day){
+                $scope.restaurantEdit.days.push($scope.days[i]);
+                return;
+            }
+        }
+
     };
 
 });

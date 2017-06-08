@@ -52,3 +52,11 @@ p.opening-days, p.opening-time{
 .publish{
     width: 100%;
 }
+
+.customInvalid {
+    border-bottom: 2px solid red;
+}
+
+.invalid {
+    border-bottom: 2px solid red;
+}

@@ -48,33 +48,33 @@
             <div class="col s12 info-container-edit" ng-show="editMode">
                 <div class="row">
                     <div class="col s8 input-field">
-                        <input type="text" ng-model="restaurantEdit.name" id="name-edit">
+                        <input type="text" ng-model="restaurantEdit.name" id="name-edit" ng-class="{invalid: errors.name}">
                         <label for="name-edit">Nombre</label>
                     </div>
                     <div class="col s2">
-                        <div class="btn error" ng-click="toggleEditMode(false)">Cancelar</div>
+                        <div class="btn" ng-click="toggleEditMode(false)">Cancelar</div>
                     </div>
                     <div class="col s2">
-                        <div class="btn error">Guardar</div>
+                        <div class="btn" ng-click="updateRestaurant()">Guardar</div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s6 input-field">
-                        <input type="text" id="address" class="validate field" onfocus="geolocate()" placeholder="" ng-model="restaurantEdit.address">
+                        <input type="text" id="address" class="validate field" onfocus="geolocate()" placeholder="" ng-model="restaurantEdit.address" ng-class="{invalid: errors.address}">
                         <label for="address">Dirección</label>
                     </div>
                     <div class="col s6 input-field" ng-hide="restaurantEdit.isLocal">
-                        <input type="number" id="radius-edit" ng-model="restaurantEdit.radius">
+                        <input type="number" id="radius-edit" ng-model="restaurantEdit.radius" ng-class="{invalid: errors.radius}">
                         <label for="radius-edit">Radio</label>
                     </div>
-                    <div class="col s6 input-field" ng-show="restaurantEdit.isLocal">
+                    <div class="col s6 input-field" ng-show="restaurantEdit.isLocal" ng-class="{invalid: errors.capacity}">
                         <input type="number" id="capacity-edit" ng-model="restaurantEdit.capacity">
                         <label for="capacity-edit">Capacidad</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12 input-field">
-                        <textarea class="materialize-textarea" type="text" ng-model="restaurantEdit.description" id="descripton-edit"></textarea>
+                        <textarea class="materialize-textarea" type="text" ng-model="restaurantEdit.description" id="descripton-edit" ng-class="{invalid: errors.description}"></textarea>
                         <label for="descripton-edit">Descripción</label>
                     </div>
                 </div>
