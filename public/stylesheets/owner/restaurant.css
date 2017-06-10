@@ -58,7 +58,7 @@ p.opening-days, p.opening-time{
     max-width: 100%;
 }
 
-#newMealModal .modal-content{
+#newMealModal .modal-content, #editMealModal .modal-content{
     height: 760px;
 }
 
@@ -93,4 +93,13 @@ td i:hover{
 
 .invalid {
     border-bottom: 2px solid red;
+}
+
+.menu-image{
+    max-width: 100px;
+    max-height: 50px;
+}
+
+.edit-meal-image{
+    max-width: 100%;
 }

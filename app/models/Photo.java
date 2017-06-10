@@ -52,4 +52,6 @@ public class Photo extends Model{
         this.path = path;
         return this;
     }
+
+    public static Finder<Long, Photo> finder = new Finder<>(Photo.class);
 }

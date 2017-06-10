@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import java.util.List;
 
 @Entity
 public class Meal extends Model {
@@ -102,9 +103,13 @@ public class Meal extends Model {
         return this;
     }
 
-    public static Finder<Long, Meal> finder = new Finder<Long,Meal>(Meal.class);
+    private static Finder<Long, Meal> finder = new Finder<Long,Meal>(Meal.class);
 
     public static Meal byId(long id) {
         return finder.byId(id);
+    }
+
+    public static List<Meal> getByRestaurant(Restaurant restaurant) {
+        return finder.where().eq("restaurant", restaurant).findList();
     }
 }

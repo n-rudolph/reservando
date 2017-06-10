@@ -156,9 +156,9 @@
 
                             <tbody>
                                 <tr ng-repeat="meal in menu">
-                                    <td><img ng-src="@routes.Assets.versioned("{{meal.photo.path}}")" class="circle responsive-img"></td>
+                                    <td><img ng-src="@routes.Assets.versioned("{{meal.photo.path}}")" class="responsive-img menu-image"></td>
                                     <td>{{meal.name}}</td>
-                                    <td><i class="material-icons" ng-click="editMeal(meal)">edit</i></td>
+                                    <td><i class="material-icons" ng-click="openEditMeal(meal, $index)">edit</i></td>
                                     <td><i class="material-icons" ng-click="openDeleteMeal($index)">delete</i></td>
                                 </tr>
                             </tbody>
@@ -171,7 +171,7 @@
             </div>
         </div>
         <div class="row" ng-hide="editMode">
-            <div class="col s4 offset-s8">
+            <div class="col s4 offset-s4">
                 <div class="btn btn-large red delete waves-effect waves-orange" ng-click="openDelete()">Eliminar</div>
             </div>
         </div>
@@ -235,6 +235,57 @@
             </div>
             <div class="modal-footer">
                 <div class="modal-action waves-effect waves-green btn btn-flat" ng-click="saveNewMeal()">Guardar</div>
+                <div class="modal-action modal-close waves-effect waves-green btn btn-flat">Cancelar</div>
+            </div>
+        </div>
+
+            <!-- Edit Meal Modal -->
+        <div id="editMealModal" class="modal modal-fixed-footer ">
+            <div class="modal-content">
+                <h4>Editar comida</h4>
+                <div class="row">
+                    <div class="col s4">
+                        <div class="row">
+                            <div class="img-placeholder" ng-show="editMealPhotos.length == 0">
+                                <img ng-src="@routes.Assets.versioned("{{editMeal.photo.path}}")" class="responsive-img edit-meal-image">
+                            </div>
+                        </div>
+                        <div class="row" ng-if="editMealPhotos.length > 0">
+                            <img ng-src="{{editMealPhotos[0].src}}" alt="" class="responsive-img edit-meal-image">
+                        </div>
+                        <div class="row">
+                            <div class="file-field input-field col s12">
+                                <label class="btn file-select" for="edit-meal-image-input">
+                                    <span>Seleccionar foto</span>
+                                    <input type="file" multiple ng-file-model="editMealPhotos" accept="image/*" id="edit-meal-image-input">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="image-error" ng-show="newMealErrors.photo">Es necesario ingresar una imagen</label>
+                            <label class="image-error" ng-show="newMealErrors.photoSize">Tamaño maximo de la imagen 2mb</label>
+                        </div>
+                    </div>
+                    <div class="col s8">
+                        <div class="row">
+                            <div class="col s12 input-field">
+                                <input type="text" ng-model="editMeal.name" id="editMealName" ng-class="{invalid: editMealErrors.name}">
+                                <label for="editMealName">Nombre</label>
+                            </div>
+                            <div class="col s12 input-field">
+                                <input type="number"min="0" ng-model="editMeal.price" id="editMealPrice" ng-class="{customInvalid: editMealErrors.price}">
+                                <label for="editMealPrice">Precio</label>
+                            </div>
+                            <div class="col s12 input-field">
+                                <textarea class="materialize-textarea" ng-model="editMeal.description" id="editMealDescription" ng-class="{invalid: editMealErrors.description}"></textarea>
+                                <label for="editMealDescription">Descripción</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-action waves-effect waves-green btn btn-flat" ng-click="saveEditMeal()">Guardar</div>
                 <div class="modal-action modal-close waves-effect waves-green btn btn-flat">Cancelar</div>
             </div>
         </div>

@@ -276,7 +276,7 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
         $scope.newMeal = {};
         $scope.newMealPhotos = [];
         $scope.resetNewMealErrors();
-        //$("#meal-image-input")[0].reset();
+        $("#meal-image-input").val("");
         $('#newMealModal').openModal();
     };
 
@@ -330,13 +330,74 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
     //Edit Meal
     $scope.editMeal = {};
     $scope.editMealPhotos = [];
+    $scope.resetEditMealErrors = function() {
+        $scope.editMealErrors = {
+            name: false,
+            description: false,
+            price: false,
+            photoSize: false
+        }
+    };
 
-    $scope.openEditMealModal = function(){
-
+    $scope.openEditMeal = function(meal, index){
+        $scope.editMealPhotos = [];
+        $scope.editMeal = {
+            index: index,
+            id: meal.id,
+            name: meal.name,
+            price: meal.price,
+            description: meal.description,
+            photo: meal.photo
+        };
+        $("#edit-meal-image-input").val("");
+        $("#editMealModal").openModal();
     };
 
     $scope.saveEditMeal = function(){
+        $scope.resetEditMealErrors();
+        var putData = {};
+        if ($scope.checkEditMeal(putData)){
+            $http.put("/meal/"+ $scope.editMeal.id, putData).then(function(response){
+                $scope.menu[$scope.editMeal.index] = response.data;
+                Materialize.toast("Se ha editado la comida con éxito.", 2000, "green");
+                $("#editMealModal").closeModal();
+            }, function(response){
+                Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
+            });
+        }else{
+            Materialize.toast("Hay campos con errores", 2000, "red");
+        }
+    };
 
+    $scope.checkEditMeal = function(putData){
+        var errors = 0;
+        if ($scope.editMeal.name.length == 0){
+            errors++;
+            $scope.editMealErrors.name = true;
+        } else {
+            putData.name = $scope.editMeal.name;
+        }
+        if ($scope.editMeal.description.length == 0){
+            errors++;
+            $scope.editMealErrors.description = true;
+        } else {
+            putData.description = $scope.editMeal.description;
+        }
+        if ($scope.editMeal.price < 0){
+            errors++;
+            $scope.editMealErrors.name = true;
+        } else {
+            putData.price = $scope.editMeal.price;
+        }
+        if ($scope.editMealPhotos.length != 0){
+            if ($scope.editMealPhotos[0].size > 2000000){
+                errors++;
+                $scope.editMealErrors.photoSize = true;
+            } else {
+                putData.photo = $scope.editMealPhotos[0];
+            }
+        }
+        return errors == 0;
     };
 
 

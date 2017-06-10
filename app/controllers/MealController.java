@@ -3,7 +3,9 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Meal;
 import models.Photo;
+import models.Response.MealResponse;
 import models.Restaurant;
+import models.requestObjects.MealEditObject;
 import models.requestObjects.MealObject;
 import models.requestObjects.PhotoObject;
 import modules.ImageUtils;
@@ -17,7 +19,8 @@ import java.util.stream.Collectors;
 public class MealController extends Controller {
 
     public Result getMenu(String rid){
-        return ok(Json.toJson(Restaurant.byId(Long.parseLong(rid)).getMenu().stream().filter(m -> !m.isDeleted()).collect(Collectors.toList())));
+        final List<MealResponse> menu = Meal.getByRestaurant(Restaurant.byId(Long.parseLong(rid))).stream().filter(m -> !m.isDeleted()).map(MealResponse::new).collect(Collectors.toList());
+        return ok(Json.toJson(menu));
     }
 
     public Result newMeal(String rid){
@@ -28,7 +31,7 @@ public class MealController extends Controller {
         final Restaurant restaurant = Restaurant.byId(restaurantId);
 
 
-        final Photo photo = saveImage(mealObject.photo);
+        final Photo photo = ImageUtils.saveImage(mealObject.photo);
         if (photo == null){
             return badRequest();
         }
@@ -42,7 +45,7 @@ public class MealController extends Controller {
         restaurant.addMeal(meal);
         restaurant.update();
 
-        return ok(Json.toJson(meal));
+        return ok(Json.toJson(new MealResponse(meal)));
     }
 
     public Result delete(String mid){
@@ -54,14 +57,26 @@ public class MealController extends Controller {
     }
 
     public Result update(String mid){
-        //TODO: implement
-        return ok("");
-    }
+        final JsonNode jsonNode = request().body().asJson();
+        final MealEditObject mealEditObject = Json.fromJson(jsonNode, MealEditObject.class);
 
-    private Photo saveImage(PhotoObject photo){
-        final List<String> photoInfo = ImageUtils.saveImage(photo.src, photo.name);
-        if (photoInfo == null)
-            return null;
-        return new Photo(photoInfo.get(0), photoInfo.get(1));
+        final Meal meal = Meal.byId(Long.parseLong(mid));
+        meal.setName(mealEditObject.name).setDescription(mealEditObject.description).setPrice(mealEditObject.price);
+
+        if (mealEditObject.photo != null){
+            final PhotoObject newPhoto = mealEditObject.photo;
+            final Photo photo = ImageUtils.saveImage(newPhoto);
+            if (photo == null){
+                return badRequest();
+            }
+            final Photo oldPhoto = Photo.finder.byId(meal.getImage().getId());
+            if (!ImageUtils.deleteImage("./public/images/imgApp/" + oldPhoto.getName())){
+                return badRequest();
+            }
+            photo.save();
+            meal.setImage(photo);
+        }
+        meal.update();
+        return ok(Json.toJson(new MealResponse(meal)));
     }
 }

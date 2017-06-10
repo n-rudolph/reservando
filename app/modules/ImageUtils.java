@@ -1,5 +1,7 @@
 package modules;
 
+import models.Photo;
+import models.requestObjects.PhotoObject;
 import org.apache.commons.io.FileUtils;
 
 import javax.xml.bind.DatatypeConverter;
@@ -12,14 +14,15 @@ import java.util.List;
 
 public class ImageUtils {
 
-    public static List<String> saveImage(String src, String name){
+    private static List<String> saveImage(String src, String name){
         String fullPath = "./public/images/imgApp/" + name;
         int counter = 0;
         while (Files.exists(Paths.get(fullPath))){
             counter++;
             fullPath = "./public/images/imgApp/" + "("+counter+")"+ name;
         }
-        name = "("+counter+")"+ name;
+        if (counter > 0)
+            name = "("+counter+")"+ name;
 
         final String imageString = src.split(",")[1];
         final byte[] bytes = DatatypeConverter.parseBase64Binary(imageString);
@@ -31,5 +34,16 @@ public class ImageUtils {
         }
 
         return Arrays.asList(name, "/images/imgApp/" + name);
+    }
+
+    public static boolean deleteImage(String path){
+        return new File(path).delete();
+    }
+
+    public static Photo saveImage(PhotoObject photo){
+        final List<String> photoInfo = ImageUtils.saveImage(photo.src, photo.name);
+        if (photoInfo == null)
+            return null;
+        return new Photo(photoInfo.get(0), photoInfo.get(1));
     }
 }
