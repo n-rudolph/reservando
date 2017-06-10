@@ -2,6 +2,8 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
+import models.Response.DeliveryResponse;
+import models.Response.LocalResponse;
 import models.Response.RestaurantsResponse;
 import models.requestObjects.PhotoObject;
 import models.requestObjects.RestaurantEditObject;
@@ -140,9 +142,9 @@ public class RestaurantController extends Controller {
             if (local == null){
                 return badRequest("local not found");
             }
-            return ok(Json.toJson(local));
+            return ok(Json.toJson(new LocalResponse(local)));
         }else {
-            return ok(Json.toJson(delivery));
+            return ok(Json.toJson(new DeliveryResponse(delivery)));
         }
     }
 

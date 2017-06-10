@@ -32,9 +32,8 @@ public class Restaurant extends Model{
     @ManyToOne
     private Owner owner;
     private boolean isDeleted;
-    @ManyToMany
+    @OneToMany(mappedBy = "restaurant")
     private List<Meal> menu;
-
     @OneToOne
     @Nullable
     private Photo photo;

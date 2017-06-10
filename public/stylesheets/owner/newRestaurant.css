@@ -38,16 +38,3 @@ img{
     color: red;
     font-size: 10px;
 }
-
-/*
-.active, .select-dropdown span{
-    color: #303F9F !important;
-}
-
-.clockpicker-span, .clockpicker-span-minutes {
-    color: inherit;
-}
-
-.lever::after {
-    background-color: #303F9F !important;
-}*/

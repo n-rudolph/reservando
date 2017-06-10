@@ -3,9 +3,11 @@ package models;
 
 import com.avaje.ebean.Model;
 
+import javax.annotation.Nullable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Meal extends Model {
@@ -14,27 +16,31 @@ public class Meal extends Model {
     private String name;
     private String description;
     private double price;
-    @OneToMany
+    @OneToOne
+    @Nullable
     private Photo photo;
     private boolean isDeleted;
+
+    @ManyToOne
+    private Restaurant restaurant;
+
+
     public Meal() {
         isDeleted = false;
     }
 
-    public Meal(String name, String description, double price, Photo photo) {
+    public Meal(String name, String description, double price) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.photo = photo;
         isDeleted = false;
     }
 
-    public Meal(long id, String name, String description, double price, Photo photo) {
+    public Meal(long id, String name, String description, double price) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.photo = photo;
         isDeleted = false;
     }
 
@@ -89,6 +95,11 @@ public class Meal extends Model {
     }
     public boolean isDeleted(){
         return isDeleted;
+    }
+
+    public Meal setRestaurant(Restaurant restaurant){
+        this.restaurant = restaurant;
+        return this;
     }
 
     public static Finder<Long, Meal> finder = new Finder<Long,Meal>(Meal.class);

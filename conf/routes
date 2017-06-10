@@ -35,8 +35,11 @@ PUT     /restaurant/:rid                            controllers.RestaurantContro
 PUT     /restaurant/:rid/photo                      controllers.RestaurantController.updatePhoto(rid: String)
 DELETE  /restaurant/:rid                            controllers.RestaurantController.delete(rid: String)
 
-#Delivery
-POST    /delivery/edit              controllers.DeliveryController.editDelivery
+#Meal
+GET     /menu/:rid                  controllers.MealController.getMenu(rid: String)
+POST    /meal/:rid                  controllers.MealController.newMeal(rid: String)
+PUT     /meal/:mid                  controllers.MealController.update(mid: String)
+DELETE  /meal/:mid                  controllers.MealController.delete(mid: String)
 
 #Owner
 GET     /owner/home                 controllers.HomeController.ownerHome

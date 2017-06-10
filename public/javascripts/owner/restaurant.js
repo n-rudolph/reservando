@@ -20,6 +20,7 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
         $http.get("/restaurant/"+ id).then(
             function (response){
                 $scope.restaurant = response.data;
+                $scope.getMenu();
             }
         );
     };
@@ -232,5 +233,112 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
         }
 
     };
+
+    // Meal
+    $scope.menu = [];
+    $scope.mealToDeleteIndex = 0;
+
+    $scope.getMenu = function(){
+        $http.get("/menu/"+$scope.restaurant.id).then(function(response){
+            $scope.menu = response.data;
+        });
+    };
+
+    $scope.openDeleteMeal = function(index){
+        $scope.mealToDeleteIndex = index;
+        $("#deleteMealModal").openModal();
+    };
+
+    $scope.deleteMeal = function(){
+        $http.delete("/meal/"+$scope.menu[$scope.mealToDeleteIndex].id).then(function(response){
+            $scope.menu.splice($scope.mealToDeleteIndex, 1);
+            $("#deleteMealModal").closeModal();
+            Materialize.toast("Comida eliminada con éxito.", 2000, "green");
+        }, function(response){
+            Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
+        });
+    };
+
+    // New Meal
+    $scope.newMeal = {};
+    $scope.newMealPhotos = [];
+    $scope.resetNewMealErrors = function() {
+        $scope.newMealErrors = {
+            name: false,
+            description: false,
+            price: false,
+            photo: false,
+            photoSize: false
+        }
+    };
+
+    $scope.openNewMealModal = function(){
+        $scope.newMeal = {};
+        $scope.newMealPhotos = [];
+        $scope.resetNewMealErrors();
+        //$("#meal-image-input")[0].reset();
+        $('#newMealModal').openModal();
+    };
+
+    $scope.saveNewMeal = function(){
+        $scope.resetNewMealErrors();
+        if ($scope.checkNewMeal()){
+            $scope.newMeal.photo = {
+                name: $scope.newMealPhotos[0].name,
+                src: $scope.newMealPhotos[0].src
+            };
+            $http.post("/meal/"+$scope.restaurant.id, $scope.newMeal).then(function(response){
+                $scope.menu.push(response.data);
+                Materialize.toast("Se ha guardado con exito", 2000, "green");
+                $('#newMealModal').closeModal();
+            }, function(response){
+                Materialize.toast("Ha ocurrido un error. Intentelo mas tarde.", 2000, "red");
+            });
+        }else{
+            Materialize.toast("Hay errores en los campos.", 2000, "red");
+        }
+    };
+
+    $scope.checkNewMeal = function(){
+        var errors = 0;
+        if (!$scope.newMeal.name || $scope.newMeal.name.length == 0){
+            errors++;
+            $scope.newMealErrors.name = true;
+        }
+        if (!$scope.newMeal.description || $scope.newMeal.description.length == 0){
+            errors++;
+            $scope.newMealErrors.description = true;
+        }
+        if (!$scope.newMeal.price || $scope.newMeal.price < 0){
+            errors++;
+            $scope.newMealErrors.name = true;
+        }
+        if ($scope.newMealPhotos.length == 0){
+            errors++;
+            $scope.newMealErrors.photo = true;
+        }else{
+            if ($scope.newMealPhotos[0].size > 2000000){
+                errors++;
+                $scope.newMealErrors.photoSize = true;
+            } else {
+                $scope.newMeal.photo = $scope.newMealPhotos[0];
+            }
+        }
+        return errors == 0;
+    };
+
+    //Edit Meal
+    $scope.editMeal = {};
+    $scope.editMealPhotos = [];
+
+    $scope.openEditMealModal = function(){
+
+    };
+
+    $scope.saveEditMeal = function(){
+
+    };
+
+
 
 });

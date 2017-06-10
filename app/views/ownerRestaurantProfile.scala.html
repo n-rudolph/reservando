@@ -139,26 +139,39 @@
                         <h5>Menu</h5>
                     </div>
                     <div class="col s1 offset-s4">
-                        <div class="btn-floating accent-color" ng-click="openAddRestaurant()"><i class="material-icons">add</i></div>
+                        <div class="btn-floating accent-color" ng-click="openNewMealModal()"><i class="material-icons">add</i></div>
                     </div>
                 </div>
-                <div class="row" ng-repeat="meal in restaurant.menu">
-                    <div class="col s4">
-                        <img src="" alt="">
-                    </div>
-                    <div class="col s8">
-                        <h5>{{meal.name}}</h5>
-                        <p>{{meal.price}}</p>
-                        <p>{{meal.description}}</p>
+                <div class="row">
+                    <div class="col s12">
+                        <table class="highlight centered responsive-table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Nombre</th>
+                                    <th>Editar</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="meal in menu">
+                                    <td><img ng-src="@routes.Assets.versioned("{{meal.photo.path}}")" class="circle responsive-img"></td>
+                                    <td>{{meal.name}}</td>
+                                    <td><i class="material-icons" ng-click="editMeal(meal)">edit</i></td>
+                                    <td><i class="material-icons" ng-click="openDeleteMeal($index)">delete</i></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="row" ng-hide="restaurant.menu.length > 0">
+                <div class="row" ng-hide="menu.length > 0">
                     <p>El menu todavia no se encuentra definido</p>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col s4 offset-s4">
+        <div class="row" ng-hide="editMode">
+            <div class="col s4 offset-s8">
                 <div class="btn btn-large red delete waves-effect waves-orange" ng-click="openDelete()">Eliminar</div>
             </div>
         </div>
@@ -175,27 +188,65 @@
             </div>
         </div>
 
-            <!-- Modal Structure -->
-        <div id="newMealModal" class="modal">
+            <!-- New Meal Modal -->
+        <div id="newMealModal" class="modal modal-fixed-footer ">
             <div class="modal-content">
                 <h4>Agregar comida</h4>
                 <div class="row">
-                    <div class="col s12 input-field">
-                        <input type="text" ng-model="newMeal.name" id="newMealName">
-                        <label for="newMealName">Nombre</label>
+                    <div class="col s4">
+                        <div class="row">
+                            <div class="img-placeholder" ng-show="newMealPhotos.length == 0">
+                                <img ng-src="/assets/images/placeholder/restaurant.jpg" alt="">
+                            </div>
+                        </div>
+                        <div class="row" ng-if="newMealPhotos.length > 0">
+                            <img ng-src="{{newMealPhotos[0].src}}" alt="">
+                        </div>
+                        <div class="row">
+                            <div class="file-field input-field col s12">
+                                <label class="btn file-select" for="meal-image-input">
+                                    <span>Seleccionar foto</span>
+                                    <input type="file" multiple ng-file-model="newMealPhotos" accept="image/*" id="meal-image-input">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="image-error" ng-show="newMealErrors.photo">Es necesario ingresar una imagen</label>
+                            <label class="image-error" ng-show="newMealErrors.photoSize">Tamaño maximo de la imagen 2mb</label>
+                        </div>
                     </div>
-                    <div class="col s12 input-field">
-                        <input type="number"min="0" ng-model="newMeal.price" id="newMealPrice">
-                        <label for="newMealPrice">Precio</label>
-                    </div>
-                    <div class="col s12 input-field">
-                        <textarea class="materialize-textarea" ng-model="newMeal.description" id="newMealDescription"></textarea>
-                        <label for="newMealDescription">Descripción</label>
+                    <div class="col s8">
+                        <div class="row">
+                            <div class="col s12 input-field">
+                                <input type="text" ng-model="newMeal.name" id="newMealName" ng-class="{invalid: newMealErrors.name}">
+                                <label for="newMealName">Nombre</label>
+                            </div>
+                            <div class="col s12 input-field">
+                                <input type="number"min="0" ng-model="newMeal.price" id="newMealPrice" ng-class="{customInvalid: newMealErrors.price}">
+                                <label for="newMealPrice">Precio</label>
+                            </div>
+                            <div class="col s12 input-field">
+                                <textarea class="materialize-textarea" ng-model="newMeal.description" id="newMealDescription" ng-class="{invalid: newMealErrors.description}"></textarea>
+                                <label for="newMealDescription">Descripción</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <div class="modal-action modal-close waves-effect waves-green btn btn-flat">Guardar</div>
+                <div class="modal-action waves-effect waves-green btn btn-flat" ng-click="saveNewMeal()">Guardar</div>
+                <div class="modal-action modal-close waves-effect waves-green btn btn-flat">Cancelar</div>
+            </div>
+        </div>
+
+            <!-- Delete Meal Modal -->
+        <div id="deleteMealModal" class="modal">
+            <div class="modal-content">
+                <h4>Eliminar comida</h4>
+                <h5>¿Seguro desea eliminar la comida <span>{{mealToDelete.name}}?</span></h5>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-action waves-effect waves-green btn btn-flat" ng-click="deleteMeal()">Eliminar</div>
                 <div class="modal-action modal-close waves-effect waves-green btn btn-flat">Cancelar</div>
             </div>
         </div>
