@@ -30,7 +30,7 @@ app.service('serverCommunication', ['$http','$q', function ($http, $q){
         }).error(function (serverErrorResponse) {
             //Checks if the server send an error msj.
             if(serverErrorResponse){
-                Materialize.toast(serverErrorResponse, 3000, 'red');
+                //Materialize.toast(serverErrorResponse, 3000, 'red');
             }
             else {
                 Materialize.toast(errorResponse, 3000, 'red');

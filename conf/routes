@@ -23,6 +23,7 @@ POST    /client/changeBioInfo       controllers.ClientProfileController.changeBi
 POST    /client/changeAddress       controllers.ClientProfileController.changeAddress
 POST    /client/changeProfileImage  controllers.ClientProfileController.changeProfileImage
 POST    /client/deleteAccount       controllers.ClientProfileController.deleteAccount
+POST    /client/search              controllers.ClientHomeController.search
 
 #Restaurant
 POST    /restaurant                                 controllers.RestaurantController.addRestaurant

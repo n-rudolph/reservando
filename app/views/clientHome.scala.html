@@ -1,13 +1,14 @@
 @()
 @views.html.main("Reservando"){
     @clientNav()
-    <div ng-controller="ClientHomeCtrl as home">
+    <div ng-controller="ClientHomeCtrl">
        <div class="container body">
            @*Search bar*@
            <div class="row">
                <div class="input-field col m6 offset-m3">
-                   <i class="material-icons prefix">search</i>
-                   <input id="searchText" type="text">
+                   @*<i class="material-icons prefix">search</i>*@
+                   <input id="searchText" type="text" ng-model="wordToSearch">
+                   <a class="waves-effect wave-light btn" ng-click="search()">Buscar</a>
                </div>
            </div>
 
@@ -17,15 +18,15 @@
                    <div class="col m6 offset-m3">
                        <div class="row">
                            <div class="col m4">
-                               <input type="checkbox" class="filled-in" id="filterByName">
+                               <input type="checkbox" class="filled-in" id="filterByName" ng-model="filterByName">
                                <label for="filterByName">Nombre</label>
                            </div>
                            <div class="col m4">
-                               <input type="checkbox" class="filled-in" id="filterByCuisine">
+                               <input type="checkbox" class="filled-in" id="filterByCuisine" ng-model="filterByCuisine">
                                <label for="filterByCuisine">Cocina</label>
                            </div>
                            <div class="col m4">
-                               <input type="checkbox" class="filled-in" id="filterByLocalization">
+                               <input type="checkbox" class="filled-in" id="filterByLocalization" ng-model="filterByLocalization" disabled="disabled">
                                <label for="filterByLocalization">Ubicación</label>
                            </div>
                        </div>
@@ -35,11 +36,11 @@
                    <div class="col m6 offset-m3">
                        <div class="row">
                            <div class="col m4">
-                               <input type="checkbox" class="filled-in" id="filterByLocal">
+                               <input type="checkbox" class="filled-in" id="filterByLocal" ng-model="filterByRestaurant">
                                <label for="filterByLocal">Restaurant</label>
                            </div>
                            <div class="col m4">
-                               <input type="checkbox" class="filled-in" id="filterByDelivery">
+                               <input type="checkbox" class="filled-in" id="filterByDelivery" ng-model="filterByDelivery">
                                <label for="filterByDelivery">Delivery</label>
                            </div>
                        </div>
@@ -48,25 +49,40 @@
            </div>
 
            @*Results*@
-           <div class="row">
-               <ul class="collection col m8 offset-m2">
-                   <li class="collection-item" ng-repeat="result in home.results">
-                       <div class="row">
-                           <div class="col m10">
-                               <span class="title">{{result.name}}</span>
-                               <p>{{result.description}} <br>
-                                   {{result.localization}}
-                               </p>
-                           </div>
-                           <div class="col m2">
-                               <div class="row"></div>
-                               <a class="waves-effect waves-light btn-large">Ver</a>
-                           </div>
+           <div>
+               <div ng-show="showResults()">
+                   <div class="row">
+                       <ul class="collection col m8 offset-m2">
+                           <li class="collection-item" ng-repeat="result in obj.results">
+                               <div class="row">
+                                   <div class="col m2">
+                                       <img class="responsive-img" ng-src="@routes.Assets.versioned("images/defaultLocalizationImage.png")">
+                                   </div>
+                                   <div class="col m8">
+                                       <span class="title">{{result.name}}</span>
+                                       <p class="truncate">{{result.description}}<br>
+                                           {{result.address}}
+                                       </p>
+                                   </div>
+                                   <div class="col m2">
+                                       <div class="row"></div>
+                                       <a class="waves-effect waves-light btn-large">Ver</a>
+                                   </div>
+                               </div>
+                           </li>
+                       </ul>
+                   </div>
+               </div>
+               <div ng-show="noResults()">
+                   <div class="row">
+                       <div class="col m6 offset-m3">
+                           <h5>
+                               No se encontraron resultados
+                           </h5>
                        </div>
-                   </li>
-               </ul>
+                   </div>
+               </div>
            </div>
-
 
        </div>
     </div>
