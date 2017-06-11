@@ -111,7 +111,7 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'serverCommunication','$wi
       serverCommunication.postToUrl(data,'/owner/deleteAccount','','')
           .then(function () {
               //Redirects to the login page.
-              $window.location.href = "http://localhost:9000/";
+              $window.location.href = "/";
           })
           .catch(function (err) {
           })

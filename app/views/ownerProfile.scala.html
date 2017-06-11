@@ -39,15 +39,15 @@
                 <div class="col s8">
                     <div class="row">
                         <div class="col s6">
-                            <div class="btn btn-large waves-effect wave-light" ng-click="setEditMode(true)">Modificar perfil</div>
+                            <div class="btn btn-large waves-effect wave-light big-btn" ng-click="setEditMode(true)">Modificar perfil</div>
                         </div>
                         <div class="col s6">
-                            <div class="btn btn-large waves-effect wave-light" ng-click="openChangePasswordModal()">Modificar contraseña</div>
+                            <div class="btn btn-large waves-effect wave-light big-btn" ng-click="openChangePasswordModal()">Modificar contraseña</div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col s12">
-                            <div class="btn btn-large waves-effect waves-light red" ng-click="openDeleteAccountModal()">Eliminar cuenta</div>
+                            <div class="btn btn-large waves-effect waves-light red big-btn" ng-click="openDeleteAccountModal()">Eliminar cuenta</div>
                         </div>
                     </div>
                 </div>
@@ -68,17 +68,17 @@
                     </div>
                     <div class="row">
                         <div class="file-field input-field col s12" ng-show="photos.length == 0">
-                            <label class="btn file-select" for="image-input">
+                            <label class="btn file-select big-btn" for="image-input">
                                 <span>Seleccionar foto</span>
                                 <input type="file" multiple ng-file-model="photos" accept="image/*" id="image-input">
                             </label>
                         </div>
                         <div class="file-field input-field col s12" ng-show="photos.length > 0">
                             <div class="col s6">
-                                <div class="btn waves-effect waves-light" ng-click="savePhoto()">Guardar</div>
+                                <div class="btn waves-effect waves-light big-btn" ng-click="savePhoto()">Guardar</div>
                             </div>
                             <div class="col s6">
-                                <div class="btn waves-effect waves-light orange" ng-click="cancelEditPhoto()">Cancelar</div>
+                                <div class="btn waves-effect waves-light orange big-btn" ng-click="cancelEditPhoto()">Cancelar</div>
                             </div>
                         </div>
                         <label class="image-error" ng-show="errors.photoSize">Tamaño maximo de la imagen 2mb</label>
@@ -109,10 +109,10 @@
                     </div>
                     <div class="row info-buttons">
                         <div class="col s6">
-                            <div class="waves-effect wave-light btn btn-large" ng-click="saveEditUser()">Modificar información</div>
+                            <div class="waves-effect wave-light btn btn-large big-btn big-btn" ng-click="saveEditUser()">Modificar información</div>
                         </div>
                         <div class="col s6">
-                            <div class="waves-effect wave-light btn btn-large orange" ng-click="setEditMode(false)">Cancelar</div>
+                            <div class="waves-effect wave-light btn btn-large orange big-btn big-btn" ng-click="setEditMode(false)">Cancelar</div>
                         </div>
                     </div>
                 </div>
@@ -120,21 +120,18 @@
         </div>
 
         @* Delete account modal *@
-        <div id="deleteAccountModal" class="modal">
+        <div id="deleteAccountModal" class="modal modal-fixed-footer">
             <div class="modal-content">
-                <h4>Advertencia</h4>
                 <div class="row">
-                    <p>
-                        Al borrar la cuenta se borraran todos los datos que estén asociados a la misma.
-                        Esta acción no se puede anular, aunque si se podrá crear una cuenta nueva con el
-                        mismo email. Si esta de acuerdo y quiere eliminar la cuenta haga click en 'Aceptar',
-                        de lo contrario haga click en 'Cancelar'.
-                    </p>
+                    <h4>Eliminar Cuenta</h4>
+                </div>
+                <div class="row">
+                    <h5>¿Seguro desea eliminar su cuenta?</h5>
                 </div>
             </div>
-            <div class="modal-footer">
-                <a class="modal-action modal-close waves-effect waves greeen btn-flat">Cancelar</a>
-                <a class="modal-action modal-close waves-effect waves greeen btn-flat" ng-click="deleteAccount()">Aceptar</a>
+            <div class="modal-footer delete-footer">
+                <div class="modal-action modal-close waves-effect waves waves-light btn">Cancelar</div>
+                <div class="waves-effect waves waves-red btn btn-flat delete-btn right" ng-click="deleteAccount()">Eliminar cuenta</div>
             </div>
         </div>
         @* Modal for changing the password *@
@@ -164,8 +161,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</a>
-                <a class="waves-effect waves-green btn-flat" ng-click="changePassword()">Guardar</a>
+                <div href="" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</div>
+                <div class="waves-effect waves-green btn-flat" ng-click="changePassword()">Guardar</div>
             </div>
         </div>
     </div>

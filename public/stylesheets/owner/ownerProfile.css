@@ -21,7 +21,7 @@
     margin-top: 50px;
 }
 
-.btn{
+.big-btn{
     width: 100%;
 }
 
@@ -48,7 +48,29 @@ ng-map{
     color: white;
 }
 
-#changePasswordModal h4{
+#changePasswordModal h4, #deleteAccountModal h4, #deleteAccountModal h5{
     width: 100%;
     text-align: center;
+}
+
+#deleteAccountModal{
+    height: 30% !important;
+}
+
+#deleteAccountModal btn{
+    width: auto;
+}
+
+#deleteAccountModal .modal-content{
+   height: 200px;
+}
+
+
+.delete-footer div{
+    margin: auto 5px auto 5px !important;
+}
+
+.delete-btn:hover{
+    background-color: red;
+    color: white;
 }
