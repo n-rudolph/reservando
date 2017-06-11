@@ -2,8 +2,10 @@ package models;
 
 import com.avaje.ebean.Model;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.util.List;
 
 @Entity
@@ -25,6 +27,8 @@ public class User extends Model {
     @NotNull
     private String password;
 
+    @OneToOne
+    @Nullable
     private Photo photo;
     private String photoPath;
 

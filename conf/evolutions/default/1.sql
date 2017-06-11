@@ -78,8 +78,10 @@ create table user (
   address                   varchar(255) not null,
   email                     varchar(255) not null,
   password                  varchar(255) not null,
+  photo_id                  bigint,
   photo_path                varchar(255),
   constraint uq_user_email unique (email),
+  constraint uq_user_photo_id unique (photo_id),
   constraint pk_user primary key (id))
 ;
 
@@ -139,6 +141,8 @@ alter table restaurant add constraint fk_restaurant_owner_7 foreign key (owner_i
 create index ix_restaurant_owner_7 on restaurant (owner_id);
 alter table restaurant add constraint fk_restaurant_photo_8 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
 create index ix_restaurant_photo_8 on restaurant (photo_id);
+alter table user add constraint fk_user_photo_9 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
+create index ix_user_photo_9 on user (photo_id);
 
 
 

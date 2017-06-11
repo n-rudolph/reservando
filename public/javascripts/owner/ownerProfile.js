@@ -1,4 +1,5 @@
 var app = angular.module("reservandoApp");
+app.requires.push('ngMap');
 
 app.directive('fileModel', ['$parse', function($parse){
     return{
@@ -58,6 +59,8 @@ app.service('serverCommunication', ['$http','$q', function ($http, $q){
 
 app.controller("OwnerProfileCtrl",['$scope', '$http', 'serverCommunication','$window', function ($scope, $http, serverCommunication, $window) {
 
+    $scope.editMode = false;
+
     /*This load the current user data*/
     var loadUserData = function(){
         serverCommunication.getFromUrl('/owner/profile/user','','')
@@ -81,52 +84,24 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'serverCommunication','$wi
     };
 
     $scope.changePassword = function () {
-        var userData = {
-            email: $scope.user.email,
-            previousPassword: $scope.previousPassword,
-            newPassword: $scope.newPassword1
+        var password = {
+            oldPassword: $scope.previousPassword,
+            newPassword: $scope.newPassword1,
+            checkPassword: $scope.newPassword2
         };
-        serverCommunication.postToUrl(userData,'/owner/changePassword','Contraseña cambiada satisfactoriamente','Contraseña no cambiada');
-    };
-
-    $scope.changeBioInfo = function () {
-        var data = {
-            firstName: $scope.user.firstName,
-            lastName: $scope.user.lastName
-        };
-        serverCommunication.postToUrl(data,'/owner/changeBioInfo','Información actualizada','Información no actualizada');
-    };
-
-    $scope.changeAddress = function () {
-        var data = {address: $scope.address = $("#ownerAddress").val()};
-        serverCommunication.postToUrl(data,'/owner/changeAddress','Ubicación actualizada', 'Ubicación no actualizada');
-    };
-
-    $scope.changeProfileImage = function () {
-        //Checks for a valid image.
-        if($scope.imageFile){
-            //The code below converts the image to base 64 encoding and send it (as string) to the server.
-            var reader = new FileReader();
-            reader.readAsDataURL($scope.imageFile);
-            reader.onload = function(){
-                var fileEncodedBase64 = $scope.imageFile.name + "," + reader.result;
-                var data = {data: fileEncodedBase64};
-                //The encoded image is sent to the server.
-                serverCommunication.postToUrl(data, '/owner/changeProfileImage', 'La foto se cargo exitosamente', 'La foto no pudo ser cargada')
-                    .then(function(){
-                        //After some seconds load the new image. Angular won't find the image (404 error), the problem
-                        //is related to how often play refresh the public Assets (where the current profile image is).
-                        /*setTimeout(function () {
-                         loadUserData();
-                         },1000);*/
-                    });
-            };
-            reader.onerror = function () {
-                //var fileEncodingBase64Error = reader.error;
-                Materialize.toast('La foto no pudo ser cargada', 3000, 'red');
-            };
-        } else {
-            Materialize.toast("Debe seleccionar una foto", 3000, 'red');
+        if (password.oldPassword && password.newPassword && password.checkPassword){
+            $http.put("/user/password", password).then(function(response){
+                Materialize.toast("La contraseña se ha cambiado con éxito", 2000, "green");
+            }, function(response){
+                if (response.data == "oldPassword"){
+                    Materialize.toast("La contraseña anterior no es valida", 2000, "red");
+                    $("#changePasswordModal").closeModal();
+                }else {
+                    Materialize.toast("Ha ocurrido un erros. Intentelo más tarde.", 2000, "red");
+                }
+            });
+        }else{
+            Materialize.toast("Hay errores en los campos.", 2000, "red");
         }
     };
 
@@ -150,10 +125,105 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'serverCommunication','$wi
         $('#deleteAccountModal').openModal();
     };
 
-    $scope.openChangeProfileImageModal = function () {
-        $('#changeProfileImageModal').openModal();
+    //Edit Mode
+    $scope.photos = [];
+
+    $scope.setEditMode = function(editMode){
+        if (editMode){
+            $scope.resetEditUser();
+            $scope.resetErrors();
+            $scope.cancelEditPhoto();
+        }
+        $scope.editMode = editMode;
     };
-}
-    ]);
+
+    $scope.resetEditUser = function(){
+        $scope.editUser = {
+            firstName: $scope.user.firstName,
+            lastName: $scope.user.lastName,
+            address: $scope.user.address,
+            email: $scope.user.email
+        }
+    };
+
+    $scope.resetErrors = function(){
+        $scope.errors ={
+            firstName: false,
+            lastName: false,
+            email: false,
+            address:false
+        }
+    };
+
+    $scope.cancelEditPhoto = function(){
+        $scope.photos = [];
+        $("#image-input").val("");
+    };
+
+    $scope.savePhoto = function(){
+        $scope.errors.photoSize = false;
+        if ($scope.photos[0].size < 2000000){
+            var photo = {
+                name: $scope.photos[0].name,
+                src: $scope.photos[0].src
+            };
+            $http.put("/user/photo", photo).then(function(response){
+                $scope.user.photo = response.data;
+                Materialize.toast("Se ha actualizado la foto con éxito", 2000, "green");
+                $scope.cancelEditPhoto();
+            }, function(){
+                Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
+            });
+        }else{
+            $scope.errors.photoSize = true;
+        }
+    };
+
+    $scope.saveEditUser = function(){
+        $scope.resetErrors();
+        if ($scope.checkEditInfo()){
+            $http.put("/user/info", $scope.editUser).then(function(response){
+                var data = response.data;
+                $scope.user.firstName = data.firstName;
+                $scope.user.lastName = data.lastName;
+                $scope.user.email = data.email;
+                $scope.user.address = data.address;
+                Materialize.toast("Se ha actualizado la información con éxito.", 2000, "green");
+                $scope.setEditMode(false);
+            }, function(response){
+                var data = response.data;
+                if (data == "email"){
+                    Materialize.toast("El email ya esta ocupado", 2000, "red");
+                    $scope.errors.email = true;
+                } else{
+                    Materialize.toast("Ha ocurrido un error. Intentelo más tarde", 2000, "red");
+                }
+            });
+        }else{
+            Materialize.toast("Hay errores en los campos.", 2000, "red");
+        }
+    };
+
+    $scope.checkEditInfo = function(){
+        var errors = 0;
+        if ($scope.editUser.firstName.length == 0){
+            errors++;
+            $scope.errors.firstName = true;
+        }
+        if ($scope.editUser.lastName.length == 0){
+            errors++;
+            $scope.errors.lastName = true;
+        }
+        if ($scope.editUser.email.length == 0){
+            errors++;
+            $scope.errors.email = true;
+        }
+        if ($scope.editUser.address.length == 0){
+            errors++;
+            $scope.errors.address = true;
+        }
+        return errors == 0;
+    };
+}]);
 
 

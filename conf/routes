@@ -48,13 +48,12 @@ GET     /owner/profile              controllers.OwnerProfileController.ownerProf
 GET     /owner/restaurant           controllers.HomeController.ownerRestaurant
 GET     /owner/restaurants          controllers.HomeController.ownerRestaurants
 GET     /owner/profile/user         controllers.OwnerProfileController.getOwner
-POST    /owner/changePassword       controllers.OwnerProfileController.changePassword
-POST    /owner/changeBioInfo        controllers.OwnerProfileController.changeBioInfo
-POST    /owner/changeAddress        controllers.OwnerProfileController.changeAddress
-POST    /owner/changeProfileImage   controllers.OwnerProfileController.changeProfileImage
 POST    /owner/deleteAccount        controllers.OwnerProfileController.deleteAccount
 
-
+#User
+PUT     /user/photo                 controllers.UserController.changePhoto
+PUT     /user/info                  controllers.UserController.changeInfo
+PUT     /user/password              controllers.UserController.changePassword
 
 GET     /all/users                  controllers.RegisterController.getUsers
 GET     /all/locals                 controllers.RegisterController.getLocals
