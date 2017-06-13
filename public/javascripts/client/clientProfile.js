@@ -2,12 +2,12 @@ var app = angular.module("reservandoApp");
 app.requires.push('ngMap');
 
 app.service('serverCommunication', ['$http','$q', function ($http, $q){
-    this.postToUrl = function(data, url, successResponse, errorResponse){
+    this.postToUrl = function(data, uploadUrl, successResponse, errorResponse){
         var defered = $q.defer();
         var promise = defered.promise;
         $http({
             method: 'POST',
-            url: url,
+            url: uploadUrl,
             data: data
         }).success(function(){
             Materialize.toast(successResponse, 3000, 'green');
@@ -41,13 +41,13 @@ app.service('serverCommunication', ['$http','$q', function ($http, $q){
 
 }]);
 
-app.controller("OwnerProfileCtrl",['$scope', '$http', 'serverCommunication','$window', function ($scope, $http, serverCommunication, $window) {
+app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$window', function ($scope, $http, serverCommunication, $window) {
 
     $scope.editMode = false;
 
     /*This load the current user data*/
     var loadUserData = function(){
-        serverCommunication.getFromUrl('/owner/profile/user','','')
+        serverCommunication.getFromUrl('/client/profile/user','','')
             .then(function(data){
                 $scope.user = data;
             })
@@ -90,15 +90,15 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'serverCommunication','$wi
     };
 
     $scope.deleteAccount = function () {
-      /* Ask if it is necessary to request the username and the password for deleting the account.*/
-      var data = {data:''};
-      serverCommunication.postToUrl(data,'/owner/deleteAccount','','')
-          .then(function () {
-              //Redirects to the login page.
-              $window.location.href = "/";
-          })
-          .catch(function (err) {
-          })
+        /* Ask if it is necessary to request the username and the password for deleting the account.*/
+        var data = {data: ''};
+        serverCommunication.postToUrl(data,'/client/deleteAccount','','')
+            .then(function(){
+                //Redirects to the login page.
+                $window.location.href = "http://localhost:9000/";
+            })
+            .catch(function (err) {
+            })
     };
 
     $scope.openChangePasswordModal = function() {
@@ -208,6 +208,6 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'serverCommunication','$wi
         }
         return errors == 0;
     };
+
+
 }]);
-
-

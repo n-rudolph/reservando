@@ -1,309 +1,177 @@
 @()
-@views.html.main("Reservando") {
+    @views.html.main("Reservando") {
+        @ownerNav()
+        <div class="container" ng-controller="ClientProfileCtrl as profile">
 
-    <div class="container" ng-controller="ClientProfileCtrl as profile">
+            <div class="show-info" ng-hide="editMode">
+                <div class="row">
+                    <div class="col s4 center-align">
+                        <img class="responsive-img" width="256px" height="256px"  ng-src="@routes.Assets.versioned("/images/placeholder/placeholder-user.png")" ng-hide="user.photo">
+                        <img class="responsive-img" width="256px" height="256px"  ng-src="@routes.Assets.versioned("{{user.photo.path}}")" ng-show="user.photo">
+                    </div>
+                    <div class="col s8">
+                        <div class="row">
+                            <div class="col s12">
+                                <h3>{{user.firstName}} {{user.lastName}}</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="ownerEmail" type="text" autofocus ng-model="user.email" readonly>
+                                <label for="ownerEmail">Email</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="ownerEmail" type="text" autofocus ng-model="user.address" readonly>
+                                <label for="ownerEmail">Dirección</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s4">
+                        <div class="row">
+                            <ng-map center="[40.74, -74.18]">
+                            </ng-map>
+                        </div>
+                    </div>
+                    <div class="col s8">
+                        <div class="row">
+                            <div class="col s6">
+                                <div class="btn btn-large waves-effect wave-light big-btn" ng-click="setEditMode(true)">Modificar perfil</div>
+                            </div>
+                            <div class="col s6">
+                                <div class="btn btn-large waves-effect wave-light big-btn" ng-click="openChangePasswordModal()">Modificar contraseña</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="btn btn-large waves-effect waves-light red big-btn" ng-click="openDeleteAccountModal()">Eliminar cuenta</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="edit-info" ng-show="editMode">
+                <div class="row">
+                    <div class="col s4">
+                        <h3>Editar Perfil</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s4">
+                        <div class="row center-align">
+                            <img class="responsive-img" width="256px" height="256px"  ng-src="@routes.Assets.versioned("/images/placeholder/placeholder-user.png")" ng-show="!user.photo && photos.length == 0">
+                            <img class="responsive-img" width="256px" height="256px"  ng-src="@routes.Assets.versioned("{{user.photo.path}}")" ng-show="user.photo && photos.length == 0">
+                            <img class="responsive-img" width="256px" height="256px" ng-src="{{photos[0].src}}" ng-show="photos.length > 0">
+                        </div>
+                        <div class="row">
+                            <div class="file-field input-field col s12" ng-show="photos.length == 0">
+                                <label class="btn file-select big-btn" for="image-input">
+                                    <span>Seleccionar foto</span>
+                                    <input type="file" multiple ng-file-model="photos" accept="image/*" id="image-input">
+                                </label>
+                            </div>
+                            <div class="file-field input-field col s12" ng-show="photos.length > 0">
+                                <div class="col s6">
+                                    <div class="btn waves-effect waves-light big-btn" ng-click="savePhoto()">Guardar</div>
+                                </div>
+                                <div class="col s6">
+                                    <div class="btn waves-effect waves-light orange big-btn" ng-click="cancelEditPhoto()">Cancelar</div>
+                                </div>
+                            </div>
+                            <label class="image-error" ng-show="errors.photoSize">Tamaño maximo de la imagen 2mb</label>
+                        </div>
+                    </div>
+                    <div class="col s8">
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <input id="ownerName" type="text" class="validate" autofocus ng-model="editUser.firstName" ng-class="{invalid: errors.firstName}">
+                                <label for="ownerName">Nombre</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input id="ownerLastname" type="text" class="validate" autofocus ng-model="editUser.lastName" ng-class="{invalid: errors.lastName}">
+                                <label for="ownerLastname">Apellido</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="ownerEmail" type="email" class="validate" autofocus ng-model="editUser.email" ng-class="{invalid: errors.email}">
+                                <label for="ownerEmail">Email</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="ownerAddress" type="text" class="validate" onfocus="geolocate()" autofocus ng-model="editUser.address" ng-class="{invalid: errors.address}">
+                                <label for="ownerAddress">Dirección</label>
+                            </div>
+                        </div>
+                        <div class="row info-buttons">
+                            <div class="col s6">
+                                <div class="waves-effect wave-light btn btn-large big-btn big-btn" ng-click="saveEditUser()">Modificar información</div>
+                            </div>
+                            <div class="col s6">
+                                <div class="waves-effect wave-light btn btn-large orange big-btn big-btn" ng-click="setEditMode(false)">Cancelar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        @* Title of the page *@
-        <div class="row">
-            <div class="col s4">
-                <h3>Perfil</h3>
+            @* Delete account modal *@
+            <div id="deleteAccountModal" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                    <div class="row">
+                        <h4>Eliminar Cuenta</h4>
+                    </div>
+                    <div class="row">
+                        <h5>¿Seguro desea eliminar su cuenta?</h5>
+                    </div>
+                </div>
+                <div class="modal-footer delete-footer">
+                    <div class="modal-action modal-close waves-effect waves waves-light btn">Cancelar</div>
+                    <div class="waves-effect waves waves-red btn btn-flat delete-btn right" ng-click="deleteAccount()">Eliminar cuenta</div>
+                </div>
+            </div>
+            @* Modal for changing the password *@
+            <div id="changePasswordModal" class="modal modal-fixed-footer">
+                <div class="modal-content container">
+                    <div class="row">
+                        <h4>Cambiar contraseña</h4>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="previousPassword" type="password" class="validate" ng-model="previousPassword">
+                            <label>Contraseña anterior</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field suffix col s12">
+                            <input id="newPassword1" type="password" class="field" ng-model="newPassword1" ng-class="{valid: validPassword && input1Touched, invalid: !validPassword && input1Touched}" ng-change="validatePassword1()">
+                            <label>Nueva contraseña</label>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="newPassword2" type="password" class="field" ng-model="newPassword2" ng-class="{valid: equalPasswords && input2Touched, invalid: !equalPasswords && input2Touched}" ng-change="validatePassword2()">
+                            <label>Confirmar nueva contraseña</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div href="" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</div>
+                    <div class="waves-effect waves-green btn-flat" ng-click="changePassword()">Guardar</div>
+                </div>
             </div>
         </div>
 
-        @* Change password button *@
-        <div class="row">
-            <div class="col s6 offset-s9">
-                <a class="waves-effect wave-light btn" ng-click="openChangePasswordModal()">Cambiar Contraseña</a>
-            </div>
-        </div>
-
-        @* Modal for changing the password *@
-        <div id="changePasswordModal" class="modal">
-            <div class="modal-content">
-                <h4>Cambio de contraseña</h4>
-                <div class="row">
-                    <div class="input-field col s6">
-                        <input id="previousPassword" type="password" class="validate" ng-model="previousPassword" >
-                        <label>Contraseña anterior</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field suffix col s6">
-                        <input id="newPassword1" type="password" class="field" ng-model="newPassword1" ng-class="{valid: validPassword && input1Touched, invalid: !validPassword && input1Touched}" ng-change="validatePassword1()">
-                        <label>Nueva contraseña</label>
-                        <i class="material-icons tooltipped" data-position="right" data-delay="50" data-tooltip="Debe contener: 1 número, longitud 6">info</i>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="input-field col s6">
-                        <input id="newPassword2" type="password" class="field" ng-model="newPassword2" ng-class="{valid: equalPasswords && input2Touched, invalid: !equalPasswords && input2Touched}" ng-change="validatePassword2()">
-                        <label>Reingrese la contraseña</label>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a href="" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-                <a class=" modal-action modal-close waves-effect waves-green btn-flat" ng-click="changePassword()">Cambiar</a>
-            </div>
-        </div>
-
-        @* Input for name, and email. And the user's profile image *@
-        <div class="row">
-            <div class="col s4">
-                <img class="responsive-img" width="256px" height="256px" ng-src="@routes.Assets.versioned("{{user.photoPath}}")">
-
-                <div class="col s2 offset-s4">
-                    <a class="waves-effect wave-light btn" ng-click="openChangeProfileImageModal()">Cambiar</a>
-                </div>
-            </div>
-
-
-            <div class="col s8">
-                <div class="row">
-                    <div class="input-field col s6">
-                        <input id="ownerName" type="text" class="validate" autofocus ng-model="user.firstName">
-                        <label for="ownerName">Nombre</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s6">
-                        <input id="ownerLastname" type="text" class="validate" autofocus ng-model="user.lastName">
-                        <label for="ownerLastname">Apellido</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s6">
-                        <input id="ownerEmail" type="email" class="validate" autofocus ng-model="user.email" disabled>
-                        <label for="ownerEmail">Email</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col 6 offset-s8">
-                        <a class="waves-effect wave-light btn" ng-click="changeBioInfo()">Cambiar bio info</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        @* Change profile image modal *@
-        <div id="changeProfileImageModal" class="modal">
-            <div class="modal-content">
-                <div class="row">
-                    <h4>Cambiar imagen de perfil</h4>
-                </div>
-
-                <div class="row">
-                    <div class="col s6">
-                        <input type="file" id="input-file-now" class="dropify" file-model="imageFile" data-max-file-size="3M" data-allowed-file-extensions="jpg png">
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <a href="" class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
-                <a class="modal-action modal-close waves-effect waves-green btn-flat" ng-click="changeProfileImage()">Cambiar</a>
-            </div>
-        </div>
-
-        @* Input for address and the map location *@
-        <div class="row">
-            <div class="col s4">
-                <div id="map" style="width: 256px; height: 256px"></div>
-            </div>
-            <div class="col s8">
-                <div class="row">
-                    <div class="input-field col s6">
-                        <input id="clientAddress" type="text" class="validate" onfocus="geolocate()" autofocus ng-model="user.address">
-                        <label for="clientAddress">Dirección</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s6 offset-s8">
-                        <a class="waves-effect wave-light btn" ng-click="changeAddress()" onclick="setMarker()">Cambiar ubicacion</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        @* Delete account button *@
-        <div class="row">
-            <div class="col s4 offset-s8">
-                <a class="waves-effect waves-light red btn" ng-click="openDeleteAccountModal()">Borrar cuenta</a>
-            </div>
-        </div>
-
-        @* Delete account modal *@
-        <div id="deleteAccountModal" class="modal">
-            <div class="modal-content">
-                <h4>Advertencia</h4>
-                <div class="row">
-                    <p>
-                        Al borrar la cuenta se borraran todos los datos que estén asociados a la misma.
-                        Esta acción no se puede anular, aunque si se podrá crear una cuenta nueva con el
-                        mismo email. Si esta de acuerdo y quiere eliminar la cuenta haga click en 'Aceptar',
-                        de lo contrario haga click en 'Cancelar'.
-                    </p>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a class="modal-action modal-close waves-effect waves greeen btn-flat">Cancelar</a>
-                <a class="modal-action modal-close waves-effect waves greeen btn-flat" ng-click="deleteAccount()">Aceptar</a>
-            </div>
-        </div>
-    </div>
-
-}{
-    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/clientProfile.css")">
-    <link rel="stylesheet" href="@routes.Assets.versioned("external/dropify/dist/css/dropify.css")">
-} {
-    @*Google Maps Functionality*@
-    <script>
-            // This example displays an address form, using the autocomplete feature
-            // of the Google Places API to help users fill in the information.
-
-            var placeSearch, autocomplete;
-            var componentForm = {
-                street_number: 'short_name',
-                route: 'long_name',
-                locality: 'long_name',
-                administrative_area_level_1: 'short_name',
-                country: 'long_name',
-                postal_code: 'short_name'
-            };
-
-            function initAutocomplete() {
-                // Create the autocomplete object, restricting the search to geographical
-                // location types.
-                autocomplete = new google.maps.places.Autocomplete(
-                        (document.getElementById('clientAddress')),
-                        {types: ['geocode']});
-
-                // When the user selects an address from the dropdown, populate the address
-                // fields in the form.
-                // autocomplete.addListener('place_changed', fillInAddress);
-            }
-
-            // Not used here. It may be useful form autocomplete the address input even if the user don't select
-            // one from the dropdown.
-            /*
-            // [START region_fillForm]
-            function fillInAddress() {
-                // Get the place details from the autocomplete object.
-                var place = autocomplete.getPlace();
-
-                for (var component in componentForm) {
-                    document.getElementById(component).value = '';
-                    document.getElementById(component).disabled = false;
-                }
-
-                // Get each component of the address from the place details
-                // and fill the corresponding field on the form.
-                for (var i = 0; i < place.address_components.length; i++) {
-                    var addressType = place.address_components[i].types[0];
-                    if (componentForm[addressType]) {
-                        var val = place.address_components[i][componentForm[addressType]];
-                        document.getElementById(addressType).value = val;
-                    }
-                }
-            }
-            // [END region_fillForm]
-            */
-
-            // [START region_geolocation]
-            // Bias the autocomplete object to the user's geographical location,
-            // as supplied by the browser's 'navigator.geolocation' object.
-            function geolocate() {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function (position) {
-                        var geolocation = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude
-                        };
-                        var circle = new google.maps.Circle({
-                            center: geolocation,
-                            radius: position.coords.accuracy
-                        });
-                        autocomplete.setBounds(circle.getBounds());
-                    });
-                }
-            }
-            // [END region_geolocation]
-
-            var map;
-
-            // This function creates and initialize the Google map.
-            function initMap() {
-                map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 15
-                });
-
-                var latLng = {lat: -34.603684, lng: -58.381559}; //Buenos Aires.
-                map.setCenter(latLng);
-
-            }
-
-            var marker;
-
-            // This function puts a marker (into the map) in the owner address location.
-            function setMarker() {
-                if (marker != undefined){
-                    clearMarker();
-                }
-                var address = document.getElementById('clientAddress').value;
-                var geoCoder = new google.maps.Geocoder();
-                geoCoder.geocode({'address': address}, function (results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-                        map.setCenter(results[0].geometry.location);
-                        marker = new google.maps.Marker({
-                            position: results[0].geometry.location,
-                            map: map
-                        });
-                    }
-                })
-            }
-
-            function clearMarker() {
-                marker.setMap(null);
-            }
-
-            // This function init all the referred to the Google map functionality.
-            function initGoogleMapFunctionality() {
-                initAutocomplete();
-                initMap();
-            }
-
-            //This function executes when the page is fully loaded.
-            window.onload = function () {
-                setMarker();
-            }
-
-    </script>
-
-    <script src="@routes.Assets.versioned("javascripts/clientProfile.js")"></script>
-    <script src="@routes.Assets.versioned("external/dropify/dist/js/dropify.min.js")"></script>
-
-    @* Dropify utilities *@
-    <script type="text/javascript">
-
-            /* Change the default messages, and errors of the input */
-            $('.dropify').dropify({
-                messages: {
-                    'default': 'Arrastre y suelte la imagen aqui o haga click.',
-                    'replace': 'Arrastre y suelte o haga click para remplazar.',
-                    'remove': 'remover',
-                    'error': 'Ooooops, algo salio mal.'
-                },
-                error:{
-                    'fileSize' : 'La imagen es demasiado grande (3 Mb max).',
-                    'fileExtension' : 'El formato de imagen no esta permitido ({{ value }} solamente).'
-                }
-            });
-
-    </script>
-
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDM9GdrRT-5ML6OHeHGIIs0zNFjJmOaQUM&libraries=places&callback=initGoogleMapFunctionality"></script>
-
-
-}
+    }{
+        <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/owner/ownerProfile.css")">
+    } {
+        <script src="@routes.Assets.versioned("javascripts/utils/geocode.js")"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDM9GdrRT-5ML6OHeHGIIs0zNFjJmOaQUM&libraries=places&callback=initGoogleMapFunctionality"></script>
+        <script src="@routes.Assets.versioned("external/ngMap/ng-map.min.js")"></script>
+        <script src="@routes.Assets.versioned("javascripts/client/clientProfile.js")"></script>
+    }
