@@ -18,10 +18,7 @@ GET     /logout                     controllers.LoginController.logout
 GET     /client/home                controllers.HomeController.clientHome
 GET     /client/profile             controllers.ClientProfileController.clientProfile
 GET     /client/profile/user        controllers.ClientProfileController.getClient
-POST    /client/changePassword      controllers.ClientProfileController.changePassword
-POST    /client/changeBioInfo       controllers.ClientProfileController.changeBioInfo
-POST    /client/changeAddress       controllers.ClientProfileController.changeAddress
-POST    /client/changeProfileImage  controllers.ClientProfileController.changeProfileImage
+GET     /client/restaurant          controllers.HomeController.clientRestaurant
 POST    /client/deleteAccount       controllers.ClientProfileController.deleteAccount
 
 #Restaurant
@@ -59,3 +56,8 @@ GET     /all/users                  controllers.RegisterController.getUsers
 GET     /all/locals                 controllers.RegisterController.getLocals
 GET     /all/days                   controllers.HomeController.getDays
 GET     /all/cuisines               controllers.HomeController.getCuisines
+
+#Qualification
+GET     /qualification/:cid/:rid    controllers.QualificationController.getUserRestaurantQualification(cid: String, rid: String)
+GET     /qualification/:rid         controllers.QualificationController.getResaurantQualification(rid: String)
+POST    /qualification              controllers.QualificationController.addQualification

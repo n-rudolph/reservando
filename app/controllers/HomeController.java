@@ -38,4 +38,8 @@ public class HomeController extends Controller {
         return ok(Json.toJson(Cuisine.all()));
     }
 
+    public Result clientRestaurant() {
+        return ok(restaurant.render());
+    }
+
 }

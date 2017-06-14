@@ -42,6 +42,14 @@ create table photo (
   constraint pk_photo primary key (id))
 ;
 
+create table qualification (
+  id                        bigint not null,
+  qualification             double,
+  client_id                 bigint,
+  restaurant_id             bigint,
+  constraint pk_qualification primary key (id))
+;
+
 create table reservation (
   id                        bigint not null,
   amount                    integer,
@@ -119,6 +127,8 @@ create sequence meal_seq;
 
 create sequence photo_seq;
 
+create sequence qualification_seq;
+
 create sequence reservation_seq;
 
 create sequence restaurant_seq;
@@ -133,16 +143,20 @@ alter table meal add constraint fk_meal_photo_3 foreign key (photo_id) reference
 create index ix_meal_photo_3 on meal (photo_id);
 alter table meal add constraint fk_meal_restaurant_4 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
 create index ix_meal_restaurant_4 on meal (restaurant_id);
-alter table reservation add constraint fk_reservation_client_5 foreign key (client_id) references user (id) on delete restrict on update restrict;
-create index ix_reservation_client_5 on reservation (client_id);
-alter table reservation add constraint fk_reservation_local_6 foreign key (local_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_reservation_local_6 on reservation (local_id);
-alter table restaurant add constraint fk_restaurant_owner_7 foreign key (owner_id) references user (id) on delete restrict on update restrict;
-create index ix_restaurant_owner_7 on restaurant (owner_id);
-alter table restaurant add constraint fk_restaurant_photo_8 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
-create index ix_restaurant_photo_8 on restaurant (photo_id);
-alter table user add constraint fk_user_photo_9 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
-create index ix_user_photo_9 on user (photo_id);
+alter table qualification add constraint fk_qualification_client_5 foreign key (client_id) references user (id) on delete restrict on update restrict;
+create index ix_qualification_client_5 on qualification (client_id);
+alter table qualification add constraint fk_qualification_restaurant_6 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_qualification_restaurant_6 on qualification (restaurant_id);
+alter table reservation add constraint fk_reservation_client_7 foreign key (client_id) references user (id) on delete restrict on update restrict;
+create index ix_reservation_client_7 on reservation (client_id);
+alter table reservation add constraint fk_reservation_local_8 foreign key (local_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_reservation_local_8 on reservation (local_id);
+alter table restaurant add constraint fk_restaurant_owner_9 foreign key (owner_id) references user (id) on delete restrict on update restrict;
+create index ix_restaurant_owner_9 on restaurant (owner_id);
+alter table restaurant add constraint fk_restaurant_photo_10 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
+create index ix_restaurant_photo_10 on restaurant (photo_id);
+alter table user add constraint fk_user_photo_11 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
+create index ix_user_photo_11 on user (photo_id);
 
 
 
@@ -178,6 +192,8 @@ drop table if exists meal;
 
 drop table if exists photo;
 
+drop table if exists qualification;
+
 drop table if exists reservation;
 
 drop table if exists restaurant;
@@ -199,6 +215,8 @@ drop sequence if exists delivery_order_seq;
 drop sequence if exists meal_seq;
 
 drop sequence if exists photo_seq;
+
+drop sequence if exists qualification_seq;
 
 drop sequence if exists reservation_seq;
 

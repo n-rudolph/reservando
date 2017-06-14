@@ -45,4 +45,8 @@ public class Client extends User {
         return find.where().eq("email", email).findUnique();
     }
 
+    public static Client byId(long id){
+        return find.byId(id);
+    }
+
 }
