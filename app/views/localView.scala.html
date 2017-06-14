@@ -1,0 +1,111 @@
+@()
+@views.html.main("Reservando"){
+    @clientNav()
+
+    <div ng-controller="LocalViewCtrl">
+        <div class="container body">
+            <div class="row">
+                <div class="col m4">
+                    <h4>{{local.name}}</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col m8">
+                    <ul class="tabs">
+                        <li class="tab col m4"><a href="#information">Información</a></li>
+                        <li class="tab col m4"><a href="#localization">Ubicación</a></li>
+                        <li class="tab col m4"><a href="#qualifications">Calificaciones</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div id="information">
+                    <div class="row">
+                        <div class="col m10">
+                            <div class="row">
+                                <div class="col m12">
+                                    <h5>{{local.description}}</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col m12">
+                                    <h5>Horario: desde {{local.openingHour}} hasta {{local.closingHour}}</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col m12">
+                                    <h5>Tipos de comidas:</h5>
+                                    <div class="row">
+                                        <div class="col m8 offset-m3">
+                                            <h5 ng-repeat="cuisine in local.cuisines">
+                                                <i class="small material-icons">done</i>
+                                                {{cuisine.name}}
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="row">
+                                <div class="col m6 offset-m3">
+                                    <ul>
+                                        <li class="large" ng-repeat="cuisine in local.cuisines">
+                                            <i class="small material-icons">done</i>
+                                            {{cuisine.name}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>*@
+                            @*<div class="row">
+                                <div class="col m6">
+                                    <ul class="collection">
+                                        <li class="collection-item green" ng-repeat="cuisine in local.cuisines">{{cuisine.name}}</li>
+                                    </ul>
+                                </div>
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+                <div id="localization">
+                    <div class="row">
+                        <div class="col m12">
+                            <h5>{{local.address}}</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col m6">
+                            <img class="responsive-img" width="256px" height="256px" ng-src="@routes.Assets.versioned("/images/defaultLocalizationImage.png")">
+                        </div>
+                    </div>
+                </div>
+                <div id="qualifications">
+                    <div class="row">
+                        <div class="col 4">
+                            <h5>IMPLEMENTAR!</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-show="local.local">
+                <div class="fixed-action-btn">
+                    <a class="waves-effect btn-large red">
+                        <i class="material-icons left">schedule</i>
+                        Reservar
+                    </a>
+                </div>
+            </div>
+            <div class="row" ng-hide="local.local">
+                <div class="fixed-action-btn">
+                    <a class="waves-effect btn-large red">
+                        <i class="material-icons left">list</i>
+                        Pedido
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}{
+    @Html("")
+}{
+    <script src="@routes.Assets.versioned("javascripts/localView.js")"></script>
+}

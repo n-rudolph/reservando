@@ -38,7 +38,7 @@ public class Restaurant extends Model{
     @Nullable
     private Photo photo;
 
-    private static Finder<Long, Restaurant> finder = new Finder<Long,Restaurant>(Restaurant.class);
+    public static Finder<Long, Restaurant> finder = new Finder<Long,Restaurant>(Restaurant.class);
 
     public Restaurant() {
         published = false;
