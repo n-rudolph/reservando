@@ -45,13 +45,15 @@ app.service('serverCommunication', ['$http','$q', function ($http, $q){
 
 
 
-app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', function($scope, $http, serverCommunication){
+app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$window', function($scope, $http, serverCommunication, $window){
 
     $scope.obj = {
         results: null,
         showSearch: false,
         noResult: false
     };
+
+    $scope.local = local;
 
     $scope.search = function(){
         var dataToPost = {wordToSearch: $scope.wordToSearch,
@@ -82,40 +84,20 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', funct
        return $scope.obj.showSearch && $scope.obj.noResult;
     };
 
+    $scope.openLocal = function(local){
+        var dataToPost = {localSelectedId: local.id};
+        serverCommunication.postToUrl(dataToPost,"/client/changeLocalSelected","","")
+            .then(function (responseData){
+                $window.location.href = "/client/viewLocal";
+            })
+            .catch(function (error) {
+
+            });
+    };
+
+
 
 }]);
-
-//TO TEST!
-/*
-var defaultDescription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras fermentum nec elit at ultricies. Sed libero odio, lacinia nec diam eget, facilisis aliquam sapien. Mauris non ultricies nibh. Nullam ex augue, pellentesque id mattis vitae, pharetra nec eros. Mauris ac libero metus. Aenean dignissim tellus rutrum sem viverra viverra. Integer dapibus enim ac fermentum eleifend. Fusce mollis lectus in justo ultricies, et aliquet ligula semper. Donec ultrices consequat tincidunt. Duis fringilla justo orci, id volutpat augue venenatis id. Aliquam elementum neque eu nibh sagittis, non luctus purus laoreet. Quisque ut velit dignissim, condimentum velit sit amet, egestas ligula. In blandit lobortis lectus volutpat volutpat. Donec cursus at leo sit amet aliquet. Phasellus pulvinar facilisis condimentum. Nulla vel risus placerat, cursus ipsum et, varius magna.";
-var showSearch = true;
-var results = [
-    {
-        name: "Result1",
-        localization: "Loc.1",
-        description: defaultDescription
-    },
-    {
-        name: "Result2",
-        localization: "Loc.2",
-        description: defaultDescription
-    },
-    {
-        name: "Result3",
-        localization: "Loc.3",
-        description: defaultDescription
-    },
-    {
-        name: "Result4",
-        localization: "Loc.4",
-        description: defaultDescription
-    },
-    {
-        name: "Result5",
-        localization: "Loc.5",
-        description: defaultDescription
-    }
-];*/
 
 
 

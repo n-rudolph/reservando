@@ -18,12 +18,15 @@ GET     /logout                     controllers.LoginController.logout
 GET     /client/home                controllers.HomeController.clientHome
 GET     /client/profile             controllers.ClientProfileController.clientProfile
 GET     /client/profile/user        controllers.ClientProfileController.getClient
+GET     /client/viewLocal           controllers.ClientHomeController.openLocal
+GET     /client/getLocalSelected    controllers.ClientHomeController.getLocalSelected
 POST    /client/changePassword      controllers.ClientProfileController.changePassword
 POST    /client/changeBioInfo       controllers.ClientProfileController.changeBioInfo
 POST    /client/changeAddress       controllers.ClientProfileController.changeAddress
 POST    /client/changeProfileImage  controllers.ClientProfileController.changeProfileImage
 POST    /client/deleteAccount       controllers.ClientProfileController.deleteAccount
 POST    /client/search              controllers.ClientHomeController.search
+POST    /client/changeLocalSelected controllers.ClientHomeController.setLocalSelected
 
 #Restaurant
 POST    /restaurant                                 controllers.RestaurantController.addRestaurant
