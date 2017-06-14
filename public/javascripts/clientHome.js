@@ -53,8 +53,6 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         noResult: false
     };
 
-    $scope.local = local;
-
     $scope.search = function(){
         var dataToPost = {wordToSearch: $scope.wordToSearch,
             filterByName: $scope.filterByName,

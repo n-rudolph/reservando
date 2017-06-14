@@ -12,12 +12,13 @@
                                 <div class="btn-floating accent-color" ng-click="openRestaurants()"><i class="material-icons">view_list</i></div>
                         </h5>
                     </div>
-                    <table class="center responsive-table stripped" ng-show="restaurants.length != 0">
+                    <table class="center responsive-table highlight centered" ng-show="restaurants.length != 0">
                         <thead>
                             <tr>
                                 <th data-field="id">Nombre</th>
                                 <th data-field="name">Tipo</th>
                                 <th data-field="state">Estado</th>
+                                <th data-field="state">Publicar</th>
                                 <th data-field="price">Modificar/Ver</th>
                             </tr>
                         </thead>
@@ -27,12 +28,14 @@
                                 <td>{{restaurant.name}}</td>
                                 <td>{{restaurant.local ? "Local" : "Delivery"}}</td>
                                 <td>{{restaurant.published ? "Publicado" : "No Publicado"}}</td>
+                                <td ng-hide="restaurant.published"><i class="material-icons publish" ng-click="publicateRestaurant(restaurant, true)">publish</i></td>
+                                <td ng-show="restaurant.published"><i class="material-icons unpublish" ng-click="publicateRestaurant(restaurant, false)">publish</i></td>
                                 <td><i class="material-icons view" ng-click="openRestaurantProfile(restaurant)">edit</i></td>
                             </tr>
                         </tbody>
                     </table>
-                    <div class="row" ng-show="continues">
-                        <div class="btn" ng-click="openRestaurants()">Ver más Restaurantes</div>
+                    <div class="row continues" ng-show="continues">
+                        <div class="btn hoverable " ng-click="openRestaurants()">Ver más Restaurantes</div>
                     </div>
                     <div class="my-restaurant-container valign-wrapper" ng-show="restaurants.length == 0">
                         <div class="valign center empty-msg">

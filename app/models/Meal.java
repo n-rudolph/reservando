@@ -3,9 +3,12 @@ package models;
 
 import com.avaje.ebean.Model;
 
+import javax.annotation.Nullable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import java.util.List;
 
 @Entity
 public class Meal extends Model {
@@ -14,20 +17,32 @@ public class Meal extends Model {
     private String name;
     private String description;
     private double price;
-    @OneToMany
+    @OneToOne
+    @Nullable
     private Photo photo;
+    private boolean isDeleted;
 
-    public static Finder<Long, Meal> find = new Finder<Long,Meal>(Meal.class);
+    @ManyToOne
+    private Restaurant restaurant;
+
 
     public Meal() {
+        isDeleted = false;
     }
 
-    public Meal(long id, String name, String description, double price, Photo photo) {
+    public Meal(String name, String description, double price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        isDeleted = false;
+    }
+
+    public Meal(long id, String name, String description, double price) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.photo = photo;
+        isDeleted = false;
     }
 
     public long getId() {
@@ -73,5 +88,28 @@ public class Meal extends Model {
     public Meal setImage(Photo photo) {
         this.photo = photo;
         return this;
+    }
+
+    public Meal setDeleted(boolean isDeleted){
+        this.isDeleted = isDeleted;
+        return this;
+    }
+    public boolean isDeleted(){
+        return isDeleted;
+    }
+
+    public Meal setRestaurant(Restaurant restaurant){
+        this.restaurant = restaurant;
+        return this;
+    }
+
+    private static Finder<Long, Meal> finder = new Finder<Long,Meal>(Meal.class);
+
+    public static Meal byId(long id) {
+        return finder.byId(id);
+    }
+
+    public static List<Meal> getByRestaurant(Restaurant restaurant) {
+        return finder.where().eq("restaurant", restaurant).findList();
     }
 }

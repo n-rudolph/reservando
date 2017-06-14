@@ -20,11 +20,9 @@ public class RegisterController extends Controller{
                 return badRequest("El email ya se encuentra en uso");
             if (jsonNode.path("userType").isMissingNode() || !jsonNode.path("userType").asBoolean()){
                 Client aClient = new Client(jsonNode.path("firstName").asText(),jsonNode.path("lastName").asText(),jsonNode.path("address").asText(), jsonNode.path("email").asText(), jsonNode.path("password").asText(), null, Collections.emptyList());
-                aClient.setPhotoPath("images/defaultMenProfileImage.png");//Set the default user profile image path.
                 aClient.save();
             }else{
                 Owner aOwner = new Owner(jsonNode.path("firstName").asText(),jsonNode.path("lastName").asText(),jsonNode.path("address").asText(), jsonNode.path("email").asText(), jsonNode.path("password").asText(), null, Collections.emptyList());
-                aOwner.setPhotoPath("images/defaultMenProfileImage.png");//Set the default user profile image path.
                 aOwner.save();
             }
             session().clear();

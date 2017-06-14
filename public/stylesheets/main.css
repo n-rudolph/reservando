@@ -11,3 +11,8 @@ main {
 nav .brand-logo{
     padding-left: 10px;
 }
+
+#restaurantDropdown{
+    top: auto !important;
+    width: auto !important;
+}

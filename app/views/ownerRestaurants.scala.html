@@ -10,10 +10,10 @@
         </div>
         <div class="row" ng-repeat="restaurant in restaurants">
             <div class="col s12">
-                <div class="restaurant-card z-depth-2">
+                <div class="restaurant-card z-depth-2 hoverable">
                     <div class="row">
                         <div class="col m2 img-container">
-                            <img ng-src="http://lorempixel.com/100/100/nature/6" class="responsive-img">
+                            <img src="@routes.Assets.versioned("{{restaurant.photo.path}}")" class="circle responsive-img" width="100%" height="100%">
                         </div>
                         <div class="col m8 info-container valign-wrapper">
                             <div class="valign">
@@ -48,7 +48,7 @@
             <div class="progress" ng-show="loading">
                 <div class="indeterminate"></div>
             </div>
-            <div class="center btn btn-large" ng-show="hasNext" ng-click="nextPage()" ng-disable="loading">Cargar más</div>
+            <div class="center btn btn-large load-more" ng-show="hasNext" ng-click="nextPage()" ng-disable="loading">Cargar más</div>
             <div class="progress" ng-show="loading">
                 <div class="indeterminate"></div>
             </div>

@@ -4,11 +4,6 @@ import com.google.inject.Inject;
 import modules.Utilities.DataBasePopulator;
 import play.inject.ApplicationLifecycle;
 
-
-
-/**
- * Created by Gustavo on 26/3/17.
- */
 public class AppStartup {
 
     @Inject

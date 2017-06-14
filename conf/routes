@@ -35,10 +35,15 @@ GET     /restaurants/firsts                         controllers.RestaurantContro
 GET     /restaurants/of-owner/:page/:size/:seed     controllers.RestaurantController.getRestaurantsFromOwner(page: String, size: String, seed: String)
 GET     /restaurant/:rid                            controllers.RestaurantController.getRestaurant(rid: String)
 POST    /restaurant/state/:rid                      controllers.RestaurantController.changeState(rid: String)
+PUT     /restaurant/:rid                            controllers.RestaurantController.update(rid: String)
+PUT     /restaurant/:rid/photo                      controllers.RestaurantController.updatePhoto(rid: String)
 DELETE  /restaurant/:rid                            controllers.RestaurantController.delete(rid: String)
 
-#Delivery
-POST    /delivery/edit              controllers.DeliveryController.editDelivery
+#Meal
+GET     /menu/:rid                  controllers.MealController.getMenu(rid: String)
+POST    /meal/:rid                  controllers.MealController.newMeal(rid: String)
+PUT     /meal/:mid                  controllers.MealController.update(mid: String)
+DELETE  /meal/:mid                  controllers.MealController.delete(mid: String)
 
 #Owner
 GET     /owner/home                 controllers.HomeController.ownerHome
@@ -47,13 +52,12 @@ GET     /owner/profile              controllers.OwnerProfileController.ownerProf
 GET     /owner/restaurant           controllers.HomeController.ownerRestaurant
 GET     /owner/restaurants          controllers.HomeController.ownerRestaurants
 GET     /owner/profile/user         controllers.OwnerProfileController.getOwner
-POST    /owner/changePassword       controllers.OwnerProfileController.changePassword
-POST    /owner/changeBioInfo        controllers.OwnerProfileController.changeBioInfo
-POST    /owner/changeAddress        controllers.OwnerProfileController.changeAddress
-POST    /owner/changeProfileImage   controllers.OwnerProfileController.changeProfileImage
 POST    /owner/deleteAccount        controllers.OwnerProfileController.deleteAccount
 
-
+#User
+PUT     /user/photo                 controllers.UserController.changePhoto
+PUT     /user/info                  controllers.UserController.changeInfo
+PUT     /user/password              controllers.UserController.changePassword
 
 GET     /all/users                  controllers.RegisterController.getUsers
 GET     /all/locals                 controllers.RegisterController.getLocals

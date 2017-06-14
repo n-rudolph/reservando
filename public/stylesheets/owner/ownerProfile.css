@@ -1,0 +1,76 @@
+/* Valid input */
+.input-field input.valid {
+    border-bottom: 1px forestgreen ;
+
+}
+/* Invalid input */
+.input-field input.invalid {
+    border-bottom: 1px red;
+}
+
+/* Active input */
+.input-field.suffix i.active {
+    color: #26a69a;
+}
+
+.info-buttons a{
+    width: 100%;
+}
+
+.show-info{
+    margin-top: 50px;
+}
+
+.big-btn{
+    width: 100%;
+}
+
+ng-map{
+    height: 200px !important;
+}
+
+.file-select{
+    width: 100%;
+}
+
+.file-select input{
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.file-select{
+    position: static !important;
+    cursor: pointer !important;
+}
+
+.file-select span{
+    color: white;
+}
+
+#changePasswordModal h4, #deleteAccountModal h4, #deleteAccountModal h5{
+    width: 100%;
+    text-align: center;
+}
+
+#deleteAccountModal{
+    height: 30% !important;
+}
+
+#deleteAccountModal btn{
+    width: auto;
+}
+
+#deleteAccountModal .modal-content{
+   height: 200px;
+}
+
+
+.delete-footer div{
+    margin: auto 5px auto 5px !important;
+}
+
+.delete-btn:hover{
+    background-color: red;
+    color: white;
+}

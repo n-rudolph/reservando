@@ -1,8 +1,5 @@
 package models;
 
-
-import org.joda.time.DateTime;
-
 import javax.persistence.*;
 import java.util.List;
 

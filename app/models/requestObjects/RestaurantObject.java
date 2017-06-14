@@ -17,6 +17,7 @@ public class RestaurantObject {
     public String startTime;
     public String endTime;
     public List<Cuisine> cuisines;
+    public PhotoObject photo;
 
     public Delivery toDelivery(Owner owner){
         return new Delivery(

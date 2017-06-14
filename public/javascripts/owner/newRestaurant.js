@@ -2,29 +2,15 @@ var app = angular.module("reservandoApp");
 
 app.requires.push('ui.materialize');
 
-app.directive('fileModel', ['$parse', function($parse){
-    return{
-        restrict: 'A',
-        link: function (scope, element, attrs) {
-            var model = $parse(attrs.fileModel);
-            var modelSetter = model.assign;
-
-            element.bind('change', function(){
-                scope.$apply(function(){
-                    modelSetter(scope, element[0].files[0]);
-                })
-            })
-        }
-    }
-}]);
-
-app.controller("NewRestaurantCtrl", function ($scope, $http) {
+app.controller("NewRestaurantCtrl", function ($scope, $http, $window, $timeout) {
 
     $scope.days = [];
     $scope.cuisines = [];
 
     $scope.selectedDays = [];
     $scope.selectedCuisines = [];
+
+    $scope.photos = [];
 
     $('.dropify').dropify();
 
@@ -39,13 +25,13 @@ app.controller("NewRestaurantCtrl", function ($scope, $http) {
         }
     );
 
-    $scope.reserRestaurant = function(){
+    $scope.resetRestaurant = function(){
         $scope.restaurant = {
             days: [],
             cuisines: []
         };
     };
-    $scope.reserRestaurant();
+    $scope.resetRestaurant();
 
     $scope.resetErrors = function() {
         $scope.errors = {
@@ -57,7 +43,8 @@ app.controller("NewRestaurantCtrl", function ($scope, $http) {
             days: false,
             time: false,
             cuisines: false,
-            photo: false
+            photo: false,
+            photoSize: false
         };
     };
     $scope.resetErrors();
@@ -85,6 +72,8 @@ app.controller("NewRestaurantCtrl", function ($scope, $http) {
         $scope.restaurant.address = $("#address").val();
         if ($scope.checkInfo()) {
             $http.post("/restaurant", $scope.restaurant).then($scope.successCallback, $scope.errorCallback);
+        } else{
+            $window.location.href = "#top";
         }
     };
 
@@ -149,15 +138,32 @@ app.controller("NewRestaurantCtrl", function ($scope, $http) {
                 $scope.addCuisine($scope.selectedCuisines[j]);
             }
         }
+
+        if ($scope.photos.length == 0){
+            errors++;
+            $scope.errors.photo = true;
+        }else{
+            if ($scope.photos[0].size > 2000000){
+                errors++;
+                $scope.errors.photoSize = true;
+            } else {
+                $scope.restaurant.photo = $scope.photos[0];
+            }
+        }
         return errors == 0;
     };
 
     $scope.successCallback = function(response) {
-        Materialize.toast("Se ha guardado con exito", 2000, "green");
+        Materialize.toast("Se ha creado el restaurant con éxito", 2000, "green");
+        $window.location.href = "#top";
+        $timeout(function(){
+            $window.location.href = "/owner/home";
+        }, 1000);$window.location.href = "#top";
     };
 
     $scope.errorCallback = function(response) {
-        Materialize.toast("Ha ocurrido un error", 2000, "red");
+        $window.location.href = "#top";
+        Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
     };
 
 });
