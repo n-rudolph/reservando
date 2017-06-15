@@ -3,6 +3,14 @@
 
 # --- !Ups
 
+create table address (
+  id                        bigint not null,
+  address                   varchar(255),
+  lat                       double,
+  lng                       double,
+  constraint pk_address primary key (id))
+;
+
 create table cuisine (
   id                        bigint not null,
   name                      varchar(255),
@@ -83,11 +91,12 @@ create table user (
   id                        bigint not null,
   first_name                varchar(255) not null,
   last_name                 varchar(255) not null,
-  address                   varchar(255) not null,
+  address_id                bigint not null,
   email                     varchar(255) not null,
   password                  varchar(255) not null,
   photo_id                  bigint,
   photo_path                varchar(255),
+  constraint uq_user_address_id unique (address_id),
   constraint uq_user_email unique (email),
   constraint uq_user_photo_id unique (photo_id),
   constraint pk_user primary key (id))
@@ -117,6 +126,8 @@ create table user_cuisine (
   cuisine_id                     bigint not null,
   constraint pk_user_cuisine primary key (user_id, cuisine_id))
 ;
+create sequence address_seq;
+
 create sequence cuisine_seq;
 
 create sequence day_seq;
@@ -155,8 +166,10 @@ alter table restaurant add constraint fk_restaurant_owner_9 foreign key (owner_i
 create index ix_restaurant_owner_9 on restaurant (owner_id);
 alter table restaurant add constraint fk_restaurant_photo_10 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
 create index ix_restaurant_photo_10 on restaurant (photo_id);
-alter table user add constraint fk_user_photo_11 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
-create index ix_user_photo_11 on user (photo_id);
+alter table user add constraint fk_user_address_11 foreign key (address_id) references address (id) on delete restrict on update restrict;
+create index ix_user_address_11 on user (address_id);
+alter table user add constraint fk_user_photo_12 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
+create index ix_user_photo_12 on user (photo_id);
 
 
 
@@ -179,6 +192,8 @@ alter table user_cuisine add constraint fk_user_cuisine_cuisine_02 foreign key (
 # --- !Downs
 
 SET REFERENTIAL_INTEGRITY FALSE;
+
+drop table if exists address;
 
 drop table if exists cuisine;
 
@@ -205,6 +220,8 @@ drop table if exists restaurant_cuisine;
 drop table if exists user;
 
 SET REFERENTIAL_INTEGRITY TRUE;
+
+drop sequence if exists address_seq;
 
 drop sequence if exists cuisine_seq;
 

@@ -23,7 +23,7 @@ public class Client extends User {
     public Client() {
     }
 
-    public Client(String firstName, String lastName, String address, String email, String password, Photo photo, List<Cuisine> cuisines) {
+    public Client(String firstName, String lastName, Address address, String email, String password, Photo photo, List<Cuisine> cuisines) {
         super(firstName, lastName, address, email, password, photo);
         this.cuisinePreferences = cuisines;
     }

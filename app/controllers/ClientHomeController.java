@@ -1,22 +1,15 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.sun.org.apache.regexp.internal.RE;
 import models.Cuisine;
 import models.Restaurant;
 import play.libs.Json;
 import play.mvc.*;
-import views.html.localView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Gustavo on 4/6/17.
- */
 public class ClientHomeController extends Controller {
-
-    private Long localSelectedId;
 
     public Result search(){
         JsonNode jsonNode = request().body().asJson();
@@ -61,21 +54,6 @@ public class ClientHomeController extends Controller {
         }
 
         return ok(Json.toJson(results));
-    }
-
-    public Result openLocal(){
-        return ok(localView.render());
-    }
-
-    public Result setLocalSelected(){
-        JsonNode jsonNode = request().body().asJson();
-        localSelectedId = jsonNode.path("localSelectedId").asLong();
-        return ok();
-    }
-
-    public Result getLocalSelected(){
-        Restaurant restaurantSelected = Restaurant.finder.byId(localSelectedId);
-        return ok(Json.toJson(restaurantSelected));
     }
 
     private List<Restaurant> filterByCuisine(List<Restaurant> restaurants, String cuisine){

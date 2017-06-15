@@ -1,6 +1,3 @@
-/**
- * Created by Gustavo on 11/6/17.
- */
 var app = angular.module("reservandoApp");
 
 app.service('serverCommunication', ['$http','$q', function ($http, $q){

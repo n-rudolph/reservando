@@ -19,7 +19,8 @@ public class User extends Model {
     @NotNull
     private String lastName;
     @NotNull
-    private String address;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
 
     @NotNull
     @Column(unique = true)
@@ -37,7 +38,7 @@ public class User extends Model {
     public User() {
     }
 
-    public User(String firstName, String lastName, String address, String email, String password, Photo photo) {
+    public User(String firstName, String lastName, Address address, String email, String password, Photo photo) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -73,11 +74,11 @@ public class User extends Model {
         return this;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public User setAddress(String address) {
+    public User setAddress(Address address) {
         this.address = address;
         return this;
     }

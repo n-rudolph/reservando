@@ -7,6 +7,11 @@ app.controller("loginCtrl", function ($scope, $http) {
         $('.tooltipped').tooltip({delay: 50});
     });
 
+    $scope.errors = {
+        address: false
+    };
+    $scope.address = {};
+
     $scope.bigImageHolder = true;
     $scope.bigContentHolder = false;
 
@@ -37,25 +42,26 @@ app.controller("loginCtrl", function ($scope, $http) {
     };
 
     $scope.register = function(){
-       $scope.address = $("#address").val();
+        $scope.address.addressString = $("#address").val();
+        $scope.geocodeAddress()
+    };
 
-       if ($scope.validateRegister()){
-           var data = {
-               firstName : $scope.firstName,
-               lastName : $scope.lastName,
-               email : $scope.email,
-               password : $scope.password,
-               address : $scope.address,
-               userType : $scope.userType
-           };
-           $http.post("/register", data).then(function(response) {
-               window.location.href = response.data;
-           },function(response){
-               Materialize.toast(response.data, 3000, "red");
-           });
-       }
-
-
+    $scope.registerUser = function(){
+        if ($scope.validateRegister()){
+            var data = {
+                firstName : $scope.firstName,
+                lastName : $scope.lastName,
+                email : $scope.email,
+                password : $scope.password,
+                address : $scope.address,
+                userType : $scope.userType == undefined ? false : $scope.userType
+            };
+            $http.post("/register", data).then(function(response) {
+                window.location.href = response.data;
+            },function(response){
+                Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 3000, "red");
+            });
+        }
     };
 
     $scope.validateRegister = function(){
@@ -82,6 +88,21 @@ app.controller("loginCtrl", function ($scope, $http) {
        }
        return !error;
    };
+
+    $scope.geocodeAddress = function() {
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({'address': $scope.address.addressString}, function(results, status) {
+            if (status === 'OK') {
+                $scope.address.lat = results[0].geometry.location.lat();
+                $scope.address.lng = results[0].geometry.location.lng();
+                $scope.registerUser();
+            } else {
+                $scope.error = true;
+                Materialize.toast("La dirección no es valida", 2000, "red");
+                return false;
+            }
+        });
+    };
    
    //login functionality
     

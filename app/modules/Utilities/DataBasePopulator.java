@@ -56,11 +56,11 @@ public class DataBasePopulator {
     //This method add defaults users into the database.
     public void populatePrimaryUsers(){
         if (Owner.getUserByEmail("owner@gmail.com") == null){
-            Owner owner = new Owner("Juan", "Perez", "Av Peron 1500, Pilar, Buenos Aires, Argentina" ,"owner@gmail.com","reservando10", null, null);
+            Owner owner = new Owner("Juan", "Perez", new Address("Av Peron 1500, Pilar, Buenos Aires, Argentina", 43, 43) ,"owner@gmail.com","reservando10", null, null);
             owner.save();
         }
         if (Client.getUserByEmail("client@gmail.com") == null){
-            Client client = new Client("Pablo", "Torres", "Av Peron 1400, Pilar, Buenos Aires, Argentina" ,"client@gmail.com","reservando10", null, null);
+            Client client = new Client("Pablo", "Torres", new Address("Av Peron 1500, Pilar, Buenos Aires, Argentina", 43, 43),"client@gmail.com","reservando10", null, null);
             client.save();
         }
     }

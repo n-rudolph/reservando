@@ -95,7 +95,7 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
         serverCommunication.postToUrl(data,'/client/deleteAccount','','')
             .then(function(){
                 //Redirects to the login page.
-                $window.location.href = "http://localhost:9000/";
+                $window.location.href = "/";
             })
             .catch(function (err) {
             })
@@ -125,7 +125,11 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
         $scope.editUser = {
             firstName: $scope.user.firstName,
             lastName: $scope.user.lastName,
-            address: $scope.user.address,
+            address: {
+                addressString: $scope.user.address.address,
+                lat: $scope.user.address.lat,
+                lng: $scope.user.address.lng
+            },
             email: $scope.user.email
         }
     };
@@ -165,6 +169,10 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
 
     $scope.saveEditUser = function(){
         $scope.resetErrors();
+        $scope.geocodeAddress();
+    };
+
+    $scope.submitUser = function(){
         if ($scope.checkEditInfo()){
             $http.put("/user/info", $scope.editUser).then(function(response){
                 var data = response.data;
@@ -186,6 +194,20 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
         }else{
             Materialize.toast("Hay errores en los campos.", 2000, "red");
         }
+    };
+
+    $scope.geocodeAddress = function() {
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({'address': $scope.editUser.address.addressString}, function(results, status) {
+            if (status === 'OK') {
+                $scope.editUser.address.lat = results[0].geometry.location.lat();
+                $scope.editUser.address.lng = results[0].geometry.location.lng();
+                $scope.submitUser();
+            } else {
+                $scope.errors.address = true;
+                Materialize.toast("La dirección no es valida", 2000, "red");
+            }
+        });
     };
 
     $scope.checkEditInfo = function(){

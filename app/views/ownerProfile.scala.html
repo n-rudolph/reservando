@@ -23,7 +23,7 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="ownerEmail" type="text" autofocus ng-model="user.address" readonly>
+                            <input id="ownerEmail" type="text" autofocus ng-model="user.address.address" readonly>
                             <label for="ownerEmail">Dirección</label>
                         </div>
                     </div>
@@ -32,7 +32,8 @@
             <div class="row">
                 <div class="col s4">
                     <div class="row">
-                        <ng-map center="[40.74, -74.18]">
+                        <ng-map center="[{{user.address.lat}}, {{user.address.lng}}]">
+                            <marker position="{{user.address.lat}}, {{user.address.lng}}"></marker>
                         </ng-map>
                     </div>
                 </div>
@@ -103,7 +104,7 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="ownerAddress" type="text" class="validate" onfocus="geolocate()" autofocus ng-model="editUser.address" ng-class="{invalid: errors.address}">
+                            <input id="ownerAddress" type="text" class="validate" onfocus="geolocate()" autofocus ng-model="editUser.address.addressString" ng-class="{invalid: errors.address}">
                             <label for="ownerAddress">Dirección</label>
                         </div>
                     </div>
