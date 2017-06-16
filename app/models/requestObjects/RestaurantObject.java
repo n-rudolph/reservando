@@ -8,7 +8,7 @@ import java.util.List;
 
 public class RestaurantObject {
     public String name;
-    public String address;
+    public AddressObject address;
     public String description;
     public boolean isLocal;
     public int capacity;
@@ -23,7 +23,7 @@ public class RestaurantObject {
         return new Delivery(
                 name,
                 description,
-                address,
+                address.toAddress(),
                 startTime,
                 endTime,
                 days,
@@ -37,7 +37,7 @@ public class RestaurantObject {
         return new Local(
                 name,
                 description,
-                address,
+                address.toAddress(),
                 startTime,
                 endTime,
                 days,

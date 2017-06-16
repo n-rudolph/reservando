@@ -20,12 +20,12 @@ public class Local extends Restaurant{
     public Local() {
     }
 
-    public Local(String name, String address){
+    public Local(String name, Address address){
         super(name, address, true);
         this.reservations = new ArrayList<>();
     }
 
-    public Local(String name, String description, String address, String openingHour,
+    public Local(String name, String description, Address address, String openingHour,
                  String closingHour, List<Day> openingDays, List<Cuisine> cuisines,
                  int capacity, List<Meal> menu, Owner owner) {
         super(name, description, address, openingHour, closingHour, openingDays, cuisines, true, owner, menu);

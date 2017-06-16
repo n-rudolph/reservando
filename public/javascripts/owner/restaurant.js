@@ -76,7 +76,11 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
 
     $scope.setEditModel = function (){
         $scope.restaurantEdit.name = $scope.restaurant.name;
-        $scope.restaurantEdit.address = $scope.restaurant.address;
+        $scope.restaurantEdit.address = {
+            addressString: $scope.restaurant.address.address,
+            lat: $scope.restaurant.address.lat,
+            lng: $scope.restaurant.address.lng
+        };
         $scope.restaurantEdit.description = $scope.restaurant.description;
         $scope.restaurantEdit.isLocal = $scope.restaurant.local;
         $scope.restaurantEdit.radius = $scope.restaurant.radius;
@@ -136,6 +140,11 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
 
     $scope.updateRestaurant = function(){
         $scope.resetErrors();
+        $scope.restaurantEdit.address.addressString = $(".addressUnique").val();
+        $scope.geocodeAddress();
+    };
+
+    $scope.restaurantSubmit = function(){
         if ($scope.checkFields()){
             $http.put("/restaurant/"+$scope.restaurant.id, $scope.restaurantEdit).then(function(response){
                 Materialize.toast("Restaurant modificado con éxito", 2000, "green");
@@ -151,15 +160,26 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
         }
     };
 
+    $scope.geocodeAddress = function() {
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({'address': $scope.restaurantEdit.address.addressString}, function(results, status) {
+            if (status === 'OK') {
+                $scope.restaurantEdit.address.lat = results[0].geometry.location.lat();
+                $scope.restaurantEdit.address.lng = results[0].geometry.location.lng();
+                $scope.restaurantSubmit();
+            } else {
+                $scope.errors.address = true;
+                $scope.checkInfo();
+                Materialize.toast("La dirección no es valida", 2000, "red");
+            }
+        });
+    };
+
     $scope.checkFields = function(){
         var errors = 0;
         if (!$scope.restaurantEdit.name || $scope.restaurantEdit.name.length == 0){
             errors++;
             $scope.errors.name = true;
-        }
-        if (!$scope.restaurantEdit.address || $scope.restaurantEdit.address.length == 0){
-            errors++;
-            $scope.errors.address = true;
         }
         if ($scope.restaurantEdit.isLocal){
             if (!$scope.restaurantEdit.capacity || $scope.restaurantEdit.capacity < 0){

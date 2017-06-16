@@ -16,11 +16,11 @@ public class Delivery extends Restaurant {
     public Delivery() {
     }
 
-    public Delivery(String name, String address){
+    public Delivery(String name, Address address){
         super(name, address, false);
     }
 
-    public Delivery(String name, String description, String address, String openingHour,
+    public Delivery(String name, String description, Address address, String openingHour,
                     String closingHour, List<Day> openingDays, List<Cuisine> cuisines,
                     double radius, List<Meal> menu, Owner owner) {
         super(name, description, address, openingHour, closingHour, openingDays, cuisines, false, owner, menu);

@@ -66,11 +66,14 @@ public class RestaurantController extends Controller {
             local.setCapacity(restaurantEditObject.capacity)
                     .setName(restaurantEditObject.name)
                     .setDescription(restaurantEditObject.description)
-                    .setAddress(restaurantEditObject.address)
                     .setOpeningHour(restaurantEditObject.startTime)
                     .setClosingHour(restaurantEditObject.endTime)
                     .setCuisines(restaurantEditObject.cuisines)
-                    .setOpeningDays(restaurantEditObject.days);
+                    .setOpeningDays(restaurantEditObject.days)
+                    .getAddress()
+                    .setAddress(restaurantEditObject.address.addressString)
+                    .setLng(restaurantEditObject.address.lng)
+                    .setLat(restaurantEditObject.address.lat);
 
             local.update();
             return ok(Json.toJson(local));
@@ -79,11 +82,14 @@ public class RestaurantController extends Controller {
             delivery.setRadius(restaurantEditObject.radius)
                     .setName(restaurantEditObject.name)
                     .setDescription(restaurantEditObject.description)
-                    .setAddress(restaurantEditObject.address)
                     .setOpeningHour(restaurantEditObject.startTime)
                     .setClosingHour(restaurantEditObject.endTime)
                     .setCuisines(restaurantEditObject.cuisines)
-                    .setOpeningDays(restaurantEditObject.days);
+                    .setOpeningDays(restaurantEditObject.days)
+                    .getAddress()
+                    .setAddress(restaurantEditObject.address.addressString)
+                    .setLng(restaurantEditObject.address.lng)
+                    .setLat(restaurantEditObject.address.lat);
             delivery.update();
             return ok(Json.toJson(delivery));
         }

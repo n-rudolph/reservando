@@ -13,7 +13,7 @@ public class DeliveryResponse {
     public String closingHour;
     public List<Day> openingDays;
     public List<Cuisine> cuisines;
-    public String address;
+    public Address address;
     public boolean published;
     public boolean isLocal;
     public Photo photo;

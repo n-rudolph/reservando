@@ -36,7 +36,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <p class="address"><i class="material-icons">location_on</i>{{restaurant.address}}</p>
+                    <p class="address"><i class="material-icons">location_on</i>{{restaurant.address.address}}</p>
                     <p class="cuisine"><i class="material-icons">restaurant</i><span ng-repeat="cuisine in restaurant.cuisines">{{ $first ? "" : ","}} {{cuisine.name}}</span></p>
                 </div>
                 <div class="row">
@@ -60,7 +60,7 @@
                 </div>
                 <div class="row">
                     <div class="col s6 input-field">
-                        <input type="text" id="address" class="validate field" onfocus="geolocate()" placeholder="" ng-model="restaurantEdit.address" ng-class="{invalid: errors.address}">
+                        <input type="text" id="address" class="validate field addressUnique" onfocus="geolocate()" placeholder="" ng-model="restaurantEdit.address.addressString" ng-class="{invalid: errors.address}">
                         <label for="address">Dirección</label>
                     </div>
                     <div class="col s6 input-field" ng-hide="restaurantEdit.isLocal">
@@ -129,7 +129,8 @@
                     <p>{{restaurant.description}}</p>
                 </div>
                 <div class="row">
-                    <ng-map center="[40.74, -74.18]">
+                    <ng-map center="[{{restaurant.address.lat}}, {{restaurant.address.lng}}]">
+                        <marker position="{{restaurant.address.lat}}, {{restaurant.address.lng}}"></marker>
                     </ng-map>
                 </div>
             </div>
@@ -308,7 +309,8 @@
 } {
     <script src="@routes.Assets.versioned("external/materialize-clockpicker/dist/js/materialize.clockpicker.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/utils/geocode.js")"></script>
-    <script src="http://maps.google.com/maps/api/js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDNJwDk0rZ2ZO0Ie2THXiFNIyPRrpwD1iE&libraries=places&callback=initAutocomplete"
+    async defer></script>
     <script src="@routes.Assets.versioned("external/ngMap/ng-map.min.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/owner/restaurant.js")"></script>
 }

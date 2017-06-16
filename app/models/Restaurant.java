@@ -26,7 +26,8 @@ public class Restaurant extends Model{
     @ManyToMany
     private List<Cuisine> cuisines;
     @NotNull
-    private String address;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
     private boolean published;
     private boolean isLocal;
     @ManyToOne
@@ -44,7 +45,7 @@ public class Restaurant extends Model{
         published = false;
     }
 
-    public Restaurant (String name, String address, boolean isLocal){
+    public Restaurant (String name, Address address, boolean isLocal){
         this.name = name;
         this.address = address;
         published = false;
@@ -54,7 +55,7 @@ public class Restaurant extends Model{
         menu = new ArrayList<>();
         isDeleted = false;
     }
-    public Restaurant(String name, String description, String address,
+    public Restaurant(String name, String description, Address address,
                       String openingHour, String closingHour, List<Day> openingDays,
                       List<Cuisine> cuisines, boolean isLocal, Owner owner, List<Meal> menu) {
         this.name = name;
@@ -134,11 +135,11 @@ public class Restaurant extends Model{
         return this;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public Restaurant setAddress(String address) {
+    public Restaurant setAddress(Address address) {
         this.address = address;
         return this;
     }

@@ -74,7 +74,7 @@ create table restaurant (
   description               varchar(255),
   opening_hour              varchar(255),
   closing_hour              varchar(255),
-  address                   varchar(255) not null,
+  address_id                bigint not null,
   published                 boolean,
   is_local                  boolean,
   owner_id                  bigint,
@@ -82,6 +82,7 @@ create table restaurant (
   photo_id                  bigint,
   radius                    double,
   capacity                  integer,
+  constraint uq_restaurant_address_id unique (address_id),
   constraint uq_restaurant_photo_id unique (photo_id),
   constraint pk_restaurant primary key (id))
 ;
@@ -162,14 +163,16 @@ alter table reservation add constraint fk_reservation_client_7 foreign key (clie
 create index ix_reservation_client_7 on reservation (client_id);
 alter table reservation add constraint fk_reservation_local_8 foreign key (local_id) references restaurant (id) on delete restrict on update restrict;
 create index ix_reservation_local_8 on reservation (local_id);
-alter table restaurant add constraint fk_restaurant_owner_9 foreign key (owner_id) references user (id) on delete restrict on update restrict;
-create index ix_restaurant_owner_9 on restaurant (owner_id);
-alter table restaurant add constraint fk_restaurant_photo_10 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
-create index ix_restaurant_photo_10 on restaurant (photo_id);
-alter table user add constraint fk_user_address_11 foreign key (address_id) references address (id) on delete restrict on update restrict;
-create index ix_user_address_11 on user (address_id);
-alter table user add constraint fk_user_photo_12 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
-create index ix_user_photo_12 on user (photo_id);
+alter table restaurant add constraint fk_restaurant_address_9 foreign key (address_id) references address (id) on delete restrict on update restrict;
+create index ix_restaurant_address_9 on restaurant (address_id);
+alter table restaurant add constraint fk_restaurant_owner_10 foreign key (owner_id) references user (id) on delete restrict on update restrict;
+create index ix_restaurant_owner_10 on restaurant (owner_id);
+alter table restaurant add constraint fk_restaurant_photo_11 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
+create index ix_restaurant_photo_11 on restaurant (photo_id);
+alter table user add constraint fk_user_address_12 foreign key (address_id) references address (id) on delete restrict on update restrict;
+create index ix_user_address_12 on user (address_id);
+alter table user add constraint fk_user_photo_13 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
+create index ix_user_photo_13 on user (photo_id);
 
 
 
