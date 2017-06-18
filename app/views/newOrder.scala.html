@@ -1,0 +1,128 @@
+@()
+@views.html.main("Reservando") {
+    @clientNav()
+    <div class="container" ng-controller="NewOrderCtrl">
+        <div class="row title">
+            <h3>Nuevo pedido para {{restaurant.name}}</h3>
+        </div>
+        <div class="row address">
+            <div class="row"><h5>Dirección de entrega</h5></div>
+            <div class="row">
+                <div class="col s6">
+                    <div class="row">
+                        <div class="col s12" ng-hide="editAddress">
+                            <div class="input-field">
+                                <i class="material-icons prefix" >place</i>
+                                <input type="text" ng-model="orderObject.address" id="currentAddress" class="active" disabled>
+                                <label for="currentAddress" class="active">Dirección</label>
+                            </div>
+                        </div>
+                        <div class="col s12" ng-hide="editAddress">
+                            <div class="input-field">
+                                <div class="btn btn-large fullBtn" ng-click="toggleEditAddress(true)">Cambiar dirección</div>
+                            </div>
+                        </div>
+                        <div class="col s12" ng-show="editAddress">
+                            <div class="input-field">
+                                <i class="material-icons prefix" >place</i>
+                                <input type="text" ng-model="orderObject.address" id="address" onfocus="geolocate()" ng-blur="validateNewAddress()">
+                                <label for="address" class="active">Dirección</label>
+                            </div>
+                        </div>
+                        <div class="col s12" ng-show="editAddress">
+                            <div class="input-field">
+                                <div class="btn btn-large fullBtn" ng-click="getGeolocateAddress()" >Geolocalizar</div>
+                            </div>
+                        </div>
+                        <div class="col s12" ng-show="editAddress">
+                            <div class="input-field">
+                                <div class="btn btn-large fullBtn" ng-click="toggleEditAddress(false)">Usar mi dirección</div>
+                            </div>
+                        </div>
+                        <div class="col s12" ng-show="editAddress">
+                            <div class="input-field">
+                                <div class="btn btn-large fullBtn" ng-click="changeAddress()">Confirmar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div class="row">
+                        <ng-map center="[{{coordinates.lat}}, {{coordinates.lng}}]">
+                            <marker position="{{coordinates.lat}}, {{coordinates.lng}}"></marker>
+                        </ng-map>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row menu">
+            <div class="col s7">
+                <div class="row"><h5>Platos</h5></div>
+                <div class="row">
+                    <table class="centered highlight">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Plato</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr ng-repeat="orderEntry in orderObject.menu">
+                                <td><img ng-src="@routes.Assets.versioned("{{orderEntry.meal.photo.path}}")" alt=""></td>
+                                <td>{{orderEntry.meal.name}}</td>
+                                <td>${{orderEntry.meal.price}}</td>
+                                <td>
+                                    <input type="number" ng-model="orderEntry.amount" min="0">
+                                </td>
+                                <td>${{calculateSubtotal(orderEntry)}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col s5">
+                <div class="row"><h5>Total</h5></div>
+                <div class="row">
+                    <div class="col s12">
+                        <p>
+                            <input name="discount" type="checkbox" id="discount" ng-click="hasDiscount = !hasDiscount"/>
+                            <label for="discount">Tengo un cupon de descuento</label>
+                        </p>
+                    </div>
+                    <div class="col s7" ng-show="hasDiscount">
+                        <div class="input-field">
+                            <i class="material-icons prefix" ng-click="checkCode()">done</i>
+                            <input type="text" ng-model="discCode" id="discountCode">
+                            <label for="discountCode">Codigo de descuento</label>
+                        </div>
+                    </div>
+                    <div class="col s5" ng-show="validCode">
+                        <div class="input-field">
+                            <p>Descuento: {{discount.discount}}%</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"><h4>Total: ${{total}}</h4></div>
+            </div>
+        </div>
+        <div class="row buttons">
+            <div class="col s6 offset-s3" >
+                <div class="btn-large btn fullBtn" ng-click="saveOrder()" ng-show="total != 0">Realizar pedido</div>
+                <div class="btn-large btn fullBtn disabled" ng-show="total == 0">Realizar pedido</div>
+            </div>
+        </div>
+    </div>
+} {
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/client/newOrder.css")">
+} {
+    <script src="@routes.Assets.versioned("javascripts/utils/geocode.js")"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDx5ARsKyUaIV0uBUuCs7M6HxvUOtvcm-E&libraries=places&callback=initAutocomplete"
+    async defer></script>
+    <script src="@routes.Assets.versioned("external/ngMap/ng-map.min.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/client/newOrder.js")"></script>
+}

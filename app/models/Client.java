@@ -12,8 +12,6 @@ public class Client extends User {
 
     @ManyToMany
     private List<Cuisine> cuisinePreferences;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<DeliveryOrder> deliveryOrders;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     private List<Reservation> reservations;
@@ -39,7 +37,6 @@ public class Client extends User {
 
     public List<Reservation> getReservations(){return reservations;}
 
-    public List<DeliveryOrder> getDeliveryOrders(){return deliveryOrders;}
 
     public static Client getClientByEmail(String email){
         return find.where().eq("email", email).findUnique();
@@ -47,6 +44,10 @@ public class Client extends User {
 
     public static Client byId(long id){
         return find.byId(id);
+    }
+
+    public static Client byEmail(String email){
+        return find.where().eq("email", email).findUnique();
     }
 
 }

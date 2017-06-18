@@ -5,9 +5,6 @@ app.requires.push('ngMap');
 
 app.controller("RestaurantCtrl", function ($scope, $http, $window) {
 
-    $scope.days = [];
-    $scope.cuisines = [];
-
     $scope.getRestaurant = function(){
         var id = $window.location.href.split("id=")[1];
         $http.get("/restaurant/"+ id).then(
@@ -18,17 +15,6 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
         );
     };
     $scope.getRestaurant();
-
-    $http.get("/all/days").then(
-        function(response) {
-            $scope.days = response.data;
-        }
-    );
-    $http.get("/all/cuisines").then(
-        function(response) {
-            $scope.cuisines = response.data;
-        }
-    );
 
     $scope.showCuisines = function(){
         var list = $scope.restaurant.cuisines;
@@ -67,6 +53,16 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
         $http.get().then(function(response) {
             $scope.totalQualification = response.data;
         });
+    };
+
+    // Order and Reservation
+
+    $scope.openOrderPage = function(id){
+        $window.location.href = "/order?id="+ id;
+    };
+
+    $scope.openReservationPage = function(id) {
+        $window.location.href = "/reservation?id="+ id;
     };
 
 });

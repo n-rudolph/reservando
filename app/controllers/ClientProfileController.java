@@ -32,7 +32,7 @@ public class ClientProfileController extends Controller {
     public Result deleteAccount(){
         Client client = getCurrentClient();
         List<Reservation> reservations = client.getReservations();
-        List<DeliveryOrder> deliveryOrders =client.getDeliveryOrders();
+        List<DeliveryOrder> deliveryOrders = DeliveryOrder.getClientOrders(client);
         for (Reservation reservation:reservations) {
             DateTime reservationDate = reservation.getDate();
             DateTime currentDate = new DateTime();

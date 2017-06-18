@@ -136,4 +136,16 @@ public class DataBasePopulator {
         }
         return cuisinesList;
     }
+
+    public void populateDiscountCodes() {
+        if (Discount.all().size() == 0) {
+            final Discount discount = new Discount("1q2w3e", 30);
+            discount.setUsed();
+            discount.save();
+            final Discount discount2 = new Discount("q1w2e3", 20);
+            discount2.save();
+            final Discount discount3 = new Discount("123qwe", 50);
+            discount3.save();
+        }
+    }
 }

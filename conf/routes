@@ -62,3 +62,10 @@ GET     /all/cuisines               controllers.HomeController.getCuisines
 GET     /qualification/:cid/:rid    controllers.QualificationController.getUserRestaurantQualification(cid: String, rid: String)
 GET     /qualification/:rid         controllers.QualificationController.getResaurantQualification(rid: String)
 POST    /qualification              controllers.QualificationController.addQualification
+
+#Order
+GET     /order                      controllers.OrderController.view
+POST    /order                      controllers.OrderController.newOrder
+
+#Discount
+GET     /discount/:code             controllers.DiscountController.getDiscount(code: String)

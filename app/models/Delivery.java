@@ -8,8 +8,6 @@ import java.util.List;
 public class Delivery extends Restaurant {
 
     private double radius;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<DeliveryOrder> deliveryOrders;
 
     private static Finder<Long, Delivery> finder = new Finder<>(Delivery.class);
 
@@ -35,8 +33,6 @@ public class Delivery extends Restaurant {
         this.radius = radius;
         return this;
     }
-
-    public List<DeliveryOrder> getDeliveryOrders(){return deliveryOrders;}
 
     public static Delivery byId(long id){
         return finder.byId(id);

@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,18 +14,19 @@ public class DeliveryOrder extends Model {
     private Client client;
     @ManyToOne
     private Delivery delivery;
-    @ManyToMany
-    private List<Meal> meals;
-    private Address address;
-    private double discount;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<MealOrder> meals;
+    private String address;
+    @OneToOne
+    @Nullable
+    private Discount discount;
 
-    public static Finder<Long, DeliveryOrder> find = new Finder<Long, DeliveryOrder>(DeliveryOrder.class);
+    private static Finder<Long, DeliveryOrder> finder = new Finder<Long, DeliveryOrder>(DeliveryOrder.class);
 
     public DeliveryOrder() {
     }
 
-    public DeliveryOrder(long id, Client client, Delivery delivery, List<Meal> meals, Address address, double discount) {
-        this.id = id;
+    public DeliveryOrder(Client client, Delivery delivery, List<MealOrder> meals, String address, Discount discount) {
         this.client = client;
         this.delivery = delivery;
         this.meals = meals;
@@ -59,30 +61,38 @@ public class DeliveryOrder extends Model {
         return this;
     }
 
-    public List<Meal> getMeals() {
+    public List<MealOrder> getMeals() {
         return meals;
     }
 
-    public DeliveryOrder setMeals(List<Meal> meals) {
+    public DeliveryOrder setMeals(List<MealOrder> meals) {
         this.meals = meals;
         return this;
     }
 
-    public Address getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public DeliveryOrder setAddress(Address address) {
+    public DeliveryOrder setAddress(String address) {
         this.address = address;
         return this;
     }
 
-    public double getDiscount() {
+    public Discount getDiscount() {
         return discount;
     }
 
-    public DeliveryOrder setDiscount(double discount) {
+    public DeliveryOrder setDiscount(Discount discount) {
         this.discount = discount;
         return this;
+    }
+
+    public static List<DeliveryOrder> getClientOrders(Client client){
+        return finder.where().eq("client", client).findList();
+    }
+
+    public static List<DeliveryOrder> all(){
+        return finder.all();
     }
 }
