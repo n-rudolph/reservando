@@ -18,8 +18,8 @@
         <div class="progress" ng-show="loading">
             <div class="indeterminate"></div>
         </div>
-        <div class="row">
-            <div class="col s12 info-contanier" ng-hide="editMode">
+        <div class="row" ng-hide="editMode">
+            <div class="col s12 info-container">
                 <div class="row title">
                     <div class="col s7">
                         <h3>{{restaurant.name}}</h3>
@@ -35,14 +35,30 @@
                         <div class="btn rigth" ng-click="toggleEditMode(true)">Modificar</div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s6 info-contanier" ng-hide="editMode">
                 <div class="row">
                     <p class="address"><i class="material-icons">location_on</i>{{restaurant.address.address}}</p>
+                </div>
+                <div class="row">
                     <p class="cuisine"><i class="material-icons">restaurant</i><span ng-repeat="cuisine in restaurant.cuisines">{{ $first ? "" : ","}} {{cuisine.name}}</span></p>
                 </div>
                 <div class="row">
                     <p class="opening-days" ng-show="restaurant.days.length() == 7"><i class="material-icons">data_range</i> Todos los días</p>
                     <p class="opening-days" ng-hide="restaurant.days.length() == 7"><i class="material-icons">date_range</i><span ng-repeat="day in restaurant.openingDays">{{$first?"":", "}}{{day.day}}</span></p>
+                </div>
+                <div class="row">
                     <p class="opening-time"><i class="material-icons">schedule</i> De {{restaurant.openingHour}} a {{restaurant.closingHour}}</p>
+                </div>
+                <div class="row">
+                    <p class="opening-time"><i class="material-icons">query_builder</i> Tiempo promedio de entrega: {{restaurant.responseTime}}</p>
+                </div>
+            </div>
+            <div class="col s6 info-container" ng-hide="editMode">
+                <div class="row">
+                    <p>{{restaurant.description}}</p>
                 </div>
             </div>
             <div class="col s12 info-container-edit" ng-show="editMode">
@@ -63,13 +79,13 @@
                         <input type="text" id="address" class="validate field addressUnique" onfocus="geolocate()" placeholder="" ng-model="restaurantEdit.address.addressString" ng-class="{invalid: errors.address}">
                         <label for="address">Dirección</label>
                     </div>
-                    <div class="col s6 input-field" ng-hide="restaurantEdit.isLocal">
+                    <div class="col s3 input-field" ng-hide="restaurantEdit.isLocal">
                         <input type="number" id="radius-edit" ng-model="restaurantEdit.radius" ng-class="{invalid: errors.radius}">
-                        <label for="radius-edit">Radio</label>
+                        <label for="radius-edit">Radio (km)</label>
                     </div>
-                    <div class="col s6 input-field" ng-show="restaurantEdit.isLocal" ng-class="{invalid: errors.capacity}">
-                        <input type="number" id="capacity-edit" ng-model="restaurantEdit.capacity">
-                        <label for="capacity-edit">Capacidad</label>
+                    <div class="col s3 input-field" ng-hide="restaurantEdit.isLocal" ng-class="{invalid: errors.responseTime}">
+                        <input type="number" id="responseTime-edit" ng-model="restaurantEdit.responseTime">
+                        <label for="ResponseTime-edit">Tiempor promedio de entrega (min)</label>
                     </div>
                 </div>
                 <div class="row">
@@ -125,9 +141,6 @@
         </div>
         <div class="row" ng-hide="editMode">
             <div class="col s6">
-                <div class="row">
-                    <p>{{restaurant.description}}</p>
-                </div>
                 <div class="row">
                     <ng-map center="[{{restaurant.address.lat}}, {{restaurant.address.lng}}]">
                         <marker position="{{restaurant.address.lat}}, {{restaurant.address.lng}}"></marker>

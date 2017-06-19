@@ -43,7 +43,8 @@ app.controller("NewRestaurantCtrl", function ($scope, $http, $window, $timeout) 
             time: false,
             cuisines: false,
             photo: false,
-            photoSize: false
+            photoSize: false,
+            responseTime: false
         };
     };
     $scope.resetErrors();
@@ -112,6 +113,10 @@ app.controller("NewRestaurantCtrl", function ($scope, $http, $window, $timeout) 
             if (!$scope.restaurant.radius || $scope.restaurant.radius < 0){
                 errors++;
                 $scope.errors.radius = true;
+            }
+            if (!$scope.restaurant.responseTime){
+                errors++;
+                $scope.errors.responseTime = true;
             }
         }
         if (!$scope.restaurant.description || $scope.restaurant.description.length == 0){

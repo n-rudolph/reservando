@@ -16,4 +16,5 @@ public class RestaurantEditObject {
     public String startTime;
     public String endTime;
     public List<Cuisine> cuisines;
+    public int responseTime;
 }

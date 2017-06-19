@@ -51,9 +51,13 @@
                     <input type="number" id="capacity" ng-model="restaurant.capacity" ng-class="{customInvalid: errors.capacity}">
                     <label for="capacity">Capacidad</label>
                 </div>
-                <div class="input-field col s12" ng-hide="restaurant.isLocal">
+                <div class="input-field col s6" ng-hide="restaurant.isLocal">
                     <input type="number" id="radius" ng-model="restaurant.radius" ng-class="{invalid: errors.radius}">
                     <label for="radius">Radio (km)</label>
+                </div>
+                <div class="input-field col s6" ng-hide="restaurant.isLocal">
+                    <input type="number" id="responseTime" ng-model="restaurant.responseTime" ng-class="{invalid: errors.responseTime}">
+                    <label for="responseTime">Tiempo promedio de respuesta (min)</label>
                 </div>
             </div>
         </div>

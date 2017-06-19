@@ -99,6 +99,7 @@ create table restaurant (
   is_deleted                boolean,
   photo_id                  bigint,
   radius                    double,
+  response_time             integer,
   capacity                  integer,
   constraint uq_restaurant_address_id unique (address_id),
   constraint uq_restaurant_photo_id unique (photo_id),

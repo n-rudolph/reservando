@@ -8,6 +8,7 @@ import java.util.List;
 public class Delivery extends Restaurant {
 
     private double radius;
+    private int responseTime;
 
     private static Finder<Long, Delivery> finder = new Finder<>(Delivery.class);
 
@@ -20,9 +21,10 @@ public class Delivery extends Restaurant {
 
     public Delivery(String name, String description, Address address, String openingHour,
                     String closingHour, List<Day> openingDays, List<Cuisine> cuisines,
-                    double radius, List<Meal> menu, Owner owner) {
+                    double radius, List<Meal> menu, Owner owner, int responseTime) {
         super(name, description, address, openingHour, closingHour, openingDays, cuisines, false, owner, menu);
         this.radius = radius;
+        this.responseTime = responseTime;
     }
 
     public double getRadius() {
@@ -31,6 +33,15 @@ public class Delivery extends Restaurant {
 
     public Delivery setRadius(double radius) {
         this.radius = radius;
+        return this;
+    }
+
+    public int getResponseTime() {
+        return responseTime;
+    }
+
+    public Delivery setResponseTime(int responseTime) {
+        this.responseTime = responseTime;
         return this;
     }
 

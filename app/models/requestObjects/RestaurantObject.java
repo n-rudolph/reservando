@@ -18,6 +18,7 @@ public class RestaurantObject {
     public String endTime;
     public List<Cuisine> cuisines;
     public PhotoObject photo;
+    public int responseTime;
 
     public Delivery toDelivery(Owner owner){
         return new Delivery(
@@ -30,7 +31,8 @@ public class RestaurantObject {
                 cuisines,
                 radius,
                 Collections.emptyList(),
-                owner);
+                owner,
+                responseTime);
     }
 
     public Local toLocal(Owner owner){

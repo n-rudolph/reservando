@@ -37,7 +37,8 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
             time: false,
             cuisines: false,
             photo: false,
-            photoSize: false
+            photoSize: false,
+            responseTime: false
         };
     };
     $scope.resetErrors();
@@ -85,6 +86,7 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
         $scope.restaurantEdit.isLocal = $scope.restaurant.local;
         $scope.restaurantEdit.radius = $scope.restaurant.radius;
         $scope.restaurantEdit.capacity = $scope.restaurant.capacity;
+        $scope.restaurantEdit.responseTime = $scope.restaurant.responseTime;
         $scope.initTime = $scope.restaurant.startTime;
         $scope.endTime = $scope.restaurant.endTime;
 
@@ -191,6 +193,10 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
             if (!$scope.restaurantEdit.radius || $scope.restaurantEdit.radius < 0){
                 errors++;
                 $scope.errors.radius = true;
+            }
+            if (!$scope.restaurantEdit.responseTime || $scope.restaurantEdit.responseTime < 0){
+                errors++;
+                $scope.errors.responseTime = true;
             }
         }
         if (!$scope.restaurantEdit.description || $scope.restaurantEdit.description.length == 0){

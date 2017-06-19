@@ -80,6 +80,7 @@ public class RestaurantController extends Controller {
         }else {
             final Delivery delivery = Delivery.byId(id);
             delivery.setRadius(restaurantEditObject.radius)
+                    .setResponseTime(restaurantEditObject.responseTime)
                     .setName(restaurantEditObject.name)
                     .setDescription(restaurantEditObject.description)
                     .setOpeningHour(restaurantEditObject.startTime)

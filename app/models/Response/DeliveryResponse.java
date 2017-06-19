@@ -18,6 +18,7 @@ public class DeliveryResponse {
     public boolean isLocal;
     public Photo photo;
     public double radius;
+    public int responseTime;
 
     public DeliveryResponse(Delivery delivery){
         this.id = delivery.getId();
@@ -32,5 +33,6 @@ public class DeliveryResponse {
         this.isLocal = delivery.isLocal();
         this.photo = delivery.getPhoto();
         this.radius = delivery.getRadius();
+        this.responseTime = delivery.getResponseTime();
     }
 }
