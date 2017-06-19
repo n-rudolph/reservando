@@ -95,4 +95,8 @@ public class DeliveryOrder extends Model {
     public static List<DeliveryOrder> all(){
         return finder.all();
     }
+
+    public static DeliveryOrder byId(long id) {
+        return finder.byId(id);
+    }
 }
