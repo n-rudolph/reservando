@@ -29,6 +29,7 @@ create table delivery_order (
   delivery_id               bigint,
   address                   varchar(255),
   discount_id               bigint,
+  time_placed               timestamp,
   constraint uq_delivery_order_discount_id unique (discount_id),
   constraint pk_delivery_order primary key (id))
 ;

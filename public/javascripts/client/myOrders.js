@@ -28,6 +28,15 @@ app.controller("MyOrdersCtrl", function ($scope, $http, $window, $timeout) {
             total = total * (1 - (order.discount.discount / 100));
         return total;
     };
+
+    $scope.getDateTimeFormat = function(timeObject){
+
+        var minute = timeObject.minuteOfHour;
+        if (timeObject.minuteOfHour < 10){
+            minute = "0"+minute;
+        }
+        return timeObject.dayOfMonth +"/"+ timeObject.monthOfYear +"/"+ timeObject.yearOfEra + "  " + timeObject.hourOfDay+":"+ minute;
+    }
 });
 
 

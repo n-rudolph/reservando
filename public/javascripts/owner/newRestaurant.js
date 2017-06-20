@@ -178,7 +178,7 @@ app.controller("NewRestaurantCtrl", function ($scope, $http, $window, $timeout) 
         $window.location.href = "#top";
         $timeout(function(){
             $window.location.href = "/owner/home";
-        }, 1000);$window.location.href = "#top";
+        }, 500);$window.location.href = "#top";
     };
 
     $scope.errorCallback = function(response) {
