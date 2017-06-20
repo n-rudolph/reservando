@@ -52,7 +52,7 @@
                 <div class="row">
                     <p class="opening-time"><i class="material-icons">schedule</i> De {{restaurant.openingHour}} a {{restaurant.closingHour}}</p>
                 </div>
-                <div class="row">
+                <div class="row" ng-hide="restaurant.isLocal">
                     <p class="opening-time"><i class="material-icons">query_builder</i> Tiempo promedio de entrega: {{restaurant.responseTime}}</p>
                 </div>
             </div>
@@ -79,13 +79,21 @@
                         <input type="text" id="address" class="validate field addressUnique" onfocus="geolocate()" placeholder="" ng-model="restaurantEdit.address.addressString" ng-class="{invalid: errors.address}">
                         <label for="address">Dirección</label>
                     </div>
-                    <div class="col s3 input-field" ng-hide="restaurantEdit.isLocal">
+                    <div class="col s2 input-field" ng-hide="restaurantEdit.isLocal">
                         <input type="number" id="radius-edit" ng-model="restaurantEdit.radius" ng-class="{invalid: errors.radius}">
                         <label for="radius-edit">Radio (km)</label>
                     </div>
-                    <div class="col s3 input-field" ng-hide="restaurantEdit.isLocal" ng-class="{invalid: errors.responseTime}">
-                        <input type="number" id="responseTime-edit" ng-model="restaurantEdit.responseTime">
-                        <label for="ResponseTime-edit">Tiempor promedio de entrega (min)</label>
+                    <div class="col s4 input-field" ng-hide="restaurantEdit.isLocal">
+                        <input type="number" id="responseTime-edit" ng-model="restaurantEdit.responseTime" ng-class="{invalid: errors.responseTime}">
+                        <label for="responseTime-edit">Tiempo promedio de entrega (min)</label>
+                    </div>
+                    <div class="col s2 input-field" ng-show="restaurantEdit.isLocal">
+                        <input type="number" id="capacity-edit" ng-model="restaurantEdit.capacity" ng-class="{invalid: errors.capacity}">
+                        <label for="capacity-edit">Capacidad</label>
+                    </div>
+                    <div class="col s4 input-field" ng-show="restaurantEdit.isLocal">
+                        <input type="number" id="minsBetweenTurns-edit" ng-model="restaurantEdit.minsBetweenTurns" ng-class="{invalid: errors.minsBetweenTurns}">
+                        <label for="minsBetweenTurns-edit">Tiempo entre turnos (min)</label>
                     </div>
                 </div>
                 <div class="row">

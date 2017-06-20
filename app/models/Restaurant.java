@@ -18,6 +18,7 @@ public class Restaurant extends Model{
     private long id;
     @NotNull
     private String name;
+    @Column(columnDefinition = "TEXT")
     private String description;
     private String openingHour;
     private String closingHour;

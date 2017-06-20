@@ -64,6 +64,7 @@ public class RestaurantController extends Controller {
         if (restaurantEditObject.isLocal){
             final Local local = Local.getLocalById(id);
             local.setCapacity(restaurantEditObject.capacity)
+                    .setMinsBetweenTurns(restaurantEditObject.minsBetweenTurns)
                     .setName(restaurantEditObject.name)
                     .setDescription(restaurantEditObject.description)
                     .setOpeningHour(restaurantEditObject.startTime)
@@ -76,7 +77,7 @@ public class RestaurantController extends Controller {
                     .setLat(restaurantEditObject.address.lat);
 
             local.update();
-            return ok(Json.toJson(local));
+            return ok(Json.toJson(new LocalResponse(local)));
         }else {
             final Delivery delivery = Delivery.byId(id);
             delivery.setRadius(restaurantEditObject.radius)

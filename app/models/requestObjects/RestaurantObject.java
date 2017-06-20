@@ -19,6 +19,7 @@ public class RestaurantObject {
     public List<Cuisine> cuisines;
     public PhotoObject photo;
     public int responseTime;
+    public int minsBetweenTurns;
 
     public Delivery toDelivery(Owner owner){
         return new Delivery(
@@ -46,6 +47,7 @@ public class RestaurantObject {
                 cuisines,
                 capacity,
                 Collections.emptyList(),
-                owner);
+                owner,
+                minsBetweenTurns);
     }
 }

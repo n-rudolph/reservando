@@ -90,7 +90,7 @@ create table restaurant (
   dtype                     varchar(10) not null,
   id                        bigint not null,
   name                      varchar(255) not null,
-  description               varchar(255),
+  description               TEXT,
   opening_hour              varchar(255),
   closing_hour              varchar(255),
   address_id                bigint not null,
@@ -102,6 +102,7 @@ create table restaurant (
   radius                    double,
   response_time             integer,
   capacity                  integer,
+  mins_between_turns        integer,
   constraint uq_restaurant_address_id unique (address_id),
   constraint uq_restaurant_photo_id unique (photo_id),
   constraint pk_restaurant primary key (id))

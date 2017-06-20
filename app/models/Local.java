@@ -11,6 +11,7 @@ import java.util.List;
 public class Local extends Restaurant{
 
     private int capacity;
+    private int minsBetweenTurns;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     private List<Reservation> reservations;
@@ -27,10 +28,11 @@ public class Local extends Restaurant{
 
     public Local(String name, String description, Address address, String openingHour,
                  String closingHour, List<Day> openingDays, List<Cuisine> cuisines,
-                 int capacity, List<Meal> menu, Owner owner) {
+                 int capacity, List<Meal> menu, Owner owner, int minsBetweenTurns) {
         super(name, description, address, openingHour, closingHour, openingDays, cuisines, true, owner, menu);
         this.capacity = capacity;
         this.reservations = new ArrayList<>();
+        this.minsBetweenTurns = minsBetweenTurns;
     }
 
     public int getCapacity() {
@@ -39,6 +41,15 @@ public class Local extends Restaurant{
 
     public Local setCapacity(int capacity) {
         this.capacity = capacity;
+        return this;
+    }
+
+    public int getMinsBetweenTurns() {
+        return minsBetweenTurns;
+    }
+
+    public Local setMinsBetweenTurns(int minsBetweenTurns) {
+        this.minsBetweenTurns = minsBetweenTurns;
         return this;
     }
 
