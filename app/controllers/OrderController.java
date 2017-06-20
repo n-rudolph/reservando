@@ -2,7 +2,9 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Client;
+import models.Delivery;
 import models.DeliveryOrder;
+import models.Owner;
 import models.Response.OrderResponse;
 import models.requestObjects.OrderObject;
 import play.libs.Json;
@@ -10,6 +12,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +23,9 @@ public class OrderController extends Controller {
     }
     public Result myOrdersView(){
         return ok(myOrders.render());
+    }
+    public Result ownerOrdersView() {
+        return ok(ownerMyOrders.render());
     }
 
 
@@ -53,7 +59,13 @@ public class OrderController extends Controller {
         return ok("");
     }
 
-    public Result getOwnerOrders(String oId){
-        return ok("");
+    public Result getOwnerOrders(){
+        final String email = session().get("email");
+        final Owner owner = Owner.getOwnerbyEmail(email);
+        final List<Delivery> deliveries = owner.getRestaurants().stream().filter(restaurant -> !restaurant.isLocal()).map(restaurant -> ((Delivery) restaurant)).collect(Collectors.toList());
+
+        final List<OrderResponse> orderResponses = deliveries.stream().map(DeliveryOrder::getRestaurantOrders).flatMap(Collection::stream).map(OrderResponse::new).collect(Collectors.toList());
+
+        return ok(Json.toJson(orderResponses));
     }
 }

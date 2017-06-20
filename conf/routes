@@ -65,8 +65,10 @@ POST    /qualification              controllers.QualificationController.addQuali
 
 #Order
 GET     /order                      controllers.OrderController.view
+GET     /owner/my-orders            controllers.OrderController.ownerOrdersView
 GET     /my-orders                  controllers.OrderController.myOrdersView
 GET     /orders/client              controllers.OrderController.getClientOrders
+GET     /orders/owner               controllers.OrderController.getOwnerOrders
 GET     /order/:oId                 controllers.OrderController.getOrder(oId: String)
 POST    /order                      controllers.OrderController.newOrder
 

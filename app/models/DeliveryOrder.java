@@ -112,4 +112,8 @@ public class DeliveryOrder extends Model {
     public static DeliveryOrder byId(long id) {
         return finder.byId(id);
     }
+
+    public static List<DeliveryOrder> getRestaurantOrders(Delivery delivery) {
+        return finder.where().eq("delivery", delivery).findList();
+    }
 }
