@@ -81,7 +81,7 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'serverCommunication','$wi
                     Materialize.toast("La contraseña anterior no es valida", 2000, "red");
                     $("#changePasswordModal").closeModal();
                 }else {
-                    Materialize.toast("Ha ocurrido un erros. Intentelo más tarde.", 2000, "red");
+                    Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
                 }
             });
         }else{

@@ -20,13 +20,15 @@ GET     /client/profile             controllers.ClientProfileController.clientPr
 GET     /client/profile/user        controllers.ClientProfileController.getClient
 GET     /client/viewLocal           controllers.ClientHomeController.openLocal
 GET     /client/getLocalSelected    controllers.ClientHomeController.getLocalSelected
+GET     /client/searchAll           controllers.ClientHomeController.searchAll
 POST    /client/changePassword      controllers.ClientProfileController.changePassword
 POST    /client/changeBioInfo       controllers.ClientProfileController.changeBioInfo
 POST    /client/changeAddress       controllers.ClientProfileController.changeAddress
 POST    /client/changeProfileImage  controllers.ClientProfileController.changeProfileImage
-POST    /client/deleteAccount       controllers.ClientProfileController.deleteAccount
+POST    /client/deleteAccount       controllers.ClientProfileController.deleteAccount()
 POST    /client/search              controllers.ClientHomeController.search
-POST    /client/changeLocalSelected controllers.ClientHomeController.setLocalSelected
+POST    /client/changeLocalSelected controllers.ClientHomeController.setLocalSelected()
+POST    /client/getRecommendations  controllers.ClientHomeController.getRecommendations
 
 #Restaurant
 POST    /restaurant                                 controllers.RestaurantController.addRestaurant
@@ -46,20 +48,20 @@ PUT     /meal/:mid                  controllers.MealController.update(mid: Strin
 DELETE  /meal/:mid                  controllers.MealController.delete(mid: String)
 
 #Owner
-GET     /owner/home                 controllers.HomeController.ownerHome
-GET     /owner/new-restaurant       controllers.HomeController.newRestaurant
-GET     /owner/profile              controllers.OwnerProfileController.ownerProfile
-GET     /owner/restaurant           controllers.HomeController.ownerRestaurant
-GET     /owner/restaurants          controllers.HomeController.ownerRestaurants
-GET     /owner/profile/user         controllers.OwnerProfileController.getOwner
-POST    /owner/deleteAccount        controllers.OwnerProfileController.deleteAccount
+GET     /owner/home                  controllers.HomeController.ownerHome
+GET     /owner/new-restaurant        controllers.HomeController.newRestaurant
+GET     /owner/profile               controllers.OwnerProfileController.ownerProfile
+GET     /owner/restaurant            controllers.HomeController.ownerRestaurant
+GET     /owner/restaurants           controllers.HomeController.ownerRestaurants
+GET     /owner/profile/user          controllers.OwnerProfileController.getOwner
+POST    /owner/deleteAccount         controllers.OwnerProfileController.deleteAccount()
 
 #User
-PUT     /user/photo                 controllers.UserController.changePhoto
-PUT     /user/info                  controllers.UserController.changeInfo
-PUT     /user/password              controllers.UserController.changePassword
+PUT     /user/photo                  controllers.UserController.changePhoto
+PUT     /user/info                   controllers.UserController.changeInfo
+PUT     /user/password               controllers.UserController.changePassword
 
-GET     /all/users                  controllers.RegisterController.getUsers
-GET     /all/locals                 controllers.RegisterController.getLocals
-GET     /all/days                   controllers.HomeController.getDays
-GET     /all/cuisines               controllers.HomeController.getCuisines
+GET     /all/users                   controllers.RegisterController.getUsers
+GET     /all/locals                  controllers.RegisterController.getLocals
+GET     /all/days                    controllers.HomeController.getDays
+GET     /all/cuisines                controllers.HomeController.getCuisines
