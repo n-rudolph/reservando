@@ -13,6 +13,7 @@ import play.mvc.Result;
 import views.html.*;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,7 +52,11 @@ public class OrderController extends Controller {
         final String email = session().get("email");
         final Client client = Client.byEmail(email);
 
-        final List<OrderResponse> collect = DeliveryOrder.getClientOrders(client).stream().map(OrderResponse::new).collect(Collectors.toList());
+        final List<OrderResponse> collect = DeliveryOrder.getClientOrders(client).stream().map(OrderResponse::new).sorted((o1, o2) -> {
+            if (o1.timePlaced.isBefore(o2.timePlaced))
+                return -1;
+            return 1;
+        }).collect(Collectors.toList());
         return ok(Json.toJson(collect));
     }
 
@@ -64,7 +69,11 @@ public class OrderController extends Controller {
         final Owner owner = Owner.getOwnerbyEmail(email);
         final List<Delivery> deliveries = owner.getRestaurants().stream().filter(restaurant -> !restaurant.isLocal()).map(restaurant -> ((Delivery) restaurant)).collect(Collectors.toList());
 
-        final List<OrderResponse> orderResponses = deliveries.stream().map(DeliveryOrder::getRestaurantOrders).flatMap(Collection::stream).map(OrderResponse::new).collect(Collectors.toList());
+        final List<OrderResponse> orderResponses = deliveries.stream().map(DeliveryOrder::getRestaurantOrders).flatMap(Collection::stream).map(OrderResponse::new).sorted((o1, o2) -> {
+            if (o1.timePlaced.isBefore(o2.timePlaced))
+                return 1;
+            return -1;
+        }).collect(Collectors.toList());
 
         return ok(Json.toJson(orderResponses));
     }

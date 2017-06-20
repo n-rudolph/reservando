@@ -8,13 +8,13 @@
         <div class="row">
             <ul class="collapsible popout" data-collapsible="accordion">
                 <li ng-repeat="order in orders">
-                    <div class="collapsible-header" ng-class="{'active': $first}"><i class="material-icons"><i class="material-icons">local_shipping</i></i>{{order.delivery.name}} -  {{getDateTimeFormat(order.timePlaced)}}<span class="right" ng-show="isExpire(order)">FINALIZADO</span></div>
+                    <div class="collapsible-header" ng-class="{'active': $first}"><i class="material-icons"><i class="material-icons">local_shipping</i></i>{{order.deliveryName}} -  {{getDateTimeFormat(order.timePlaced)}}<span class="right" ng-show="isExpire(order)">FINALIZADO</span></div>
                     <div class="collapsible-body container">
                         <div class="row">
                             <div class="col s6">
                                 <div class="row">
                                     <h5>Cliente</h5>
-                                    <h6>{{order.client.firstName}} {{order.client.lastName}}</h6>
+                                    <h6>{{order.clientName}}</h6>
                                 </div>
                             </div>
                         </div>
