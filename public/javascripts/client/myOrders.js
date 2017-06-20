@@ -36,6 +36,16 @@ app.controller("MyOrdersCtrl", function ($scope, $http, $window, $timeout) {
             minute = "0"+minute;
         }
         return timeObject.dayOfMonth +"/"+ timeObject.monthOfYear +"/"+ timeObject.yearOfEra + "  " + timeObject.hourOfDay+":"+ minute;
+    };
+
+    $scope.isExpire = function(order){
+        var date = Date.now();
+        var responseTime = order.delivery.responseTime;
+
+        var placedDate = new Date(order.timePlaced.yearOfEra, order.timePlaced.monthOfYear -1, order.timePlaced.dayOfMonth, order.timePlaced.hourOfDay, order.timePlaced.minuteOfHour, 0, 0);
+
+        placedDate.setMinutes(placedDate.getMinutes() + responseTime);
+        return date >= placedDate;
     }
 });
 

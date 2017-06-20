@@ -9,3 +9,14 @@
 .title{
     text-align: center;
 }
+
+.collapsible-header > span{
+    text-align: right;
+    background-color: orange;
+    border-radius: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 2rem;
+    color: white;
+    margin-top: 7px;
+}
