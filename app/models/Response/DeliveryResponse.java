@@ -13,11 +13,12 @@ public class DeliveryResponse {
     public String closingHour;
     public List<Day> openingDays;
     public List<Cuisine> cuisines;
-    public String address;
+    public Address address;
     public boolean published;
     public boolean isLocal;
     public Photo photo;
     public double radius;
+    public int responseTime;
 
     public DeliveryResponse(Delivery delivery){
         this.id = delivery.getId();
@@ -32,5 +33,6 @@ public class DeliveryResponse {
         this.isLocal = delivery.isLocal();
         this.photo = delivery.getPhoto();
         this.radius = delivery.getRadius();
+        this.responseTime = delivery.getResponseTime();
     }
 }

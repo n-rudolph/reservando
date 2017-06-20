@@ -7,7 +7,7 @@ import java.util.List;
 
 public class RestaurantEditObject {
     public String name;
-    public String address;
+    public AddressObject address;
     public String description;
     public boolean isLocal;
     public int capacity;
@@ -16,4 +16,6 @@ public class RestaurantEditObject {
     public String startTime;
     public String endTime;
     public List<Cuisine> cuisines;
+    public int responseTime;
+    public int minsBetweenTurns;
 }

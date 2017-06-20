@@ -8,23 +8,23 @@ import java.util.List;
 public class Delivery extends Restaurant {
 
     private double radius;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<DeliveryOrder> deliveryOrders;
+    private int responseTime;
 
     private static Finder<Long, Delivery> finder = new Finder<>(Delivery.class);
 
     public Delivery() {
     }
 
-    public Delivery(String name, String address){
+    public Delivery(String name, Address address){
         super(name, address, false);
     }
 
-    public Delivery(String name, String description, String address, String openingHour,
+    public Delivery(String name, String description, Address address, String openingHour,
                     String closingHour, List<Day> openingDays, List<Cuisine> cuisines,
-                    double radius, List<Meal> menu, Owner owner) {
+                    double radius, List<Meal> menu, Owner owner, int responseTime) {
         super(name, description, address, openingHour, closingHour, openingDays, cuisines, false, owner, menu);
         this.radius = radius;
+        this.responseTime = responseTime;
     }
 
     public double getRadius() {
@@ -36,7 +36,14 @@ public class Delivery extends Restaurant {
         return this;
     }
 
-    public List<DeliveryOrder> getDeliveryOrders(){return deliveryOrders;}
+    public int getResponseTime() {
+        return responseTime;
+    }
+
+    public Delivery setResponseTime(int responseTime) {
+        this.responseTime = responseTime;
+        return this;
+    }
 
     public static Delivery byId(long id){
         return finder.byId(id);

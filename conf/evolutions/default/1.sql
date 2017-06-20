@@ -3,6 +3,14 @@
 
 # --- !Ups
 
+create table address (
+  id                        bigint not null,
+  address                   varchar(255),
+  lat                       double,
+  lng                       double,
+  constraint pk_address primary key (id))
+;
+
 create table cuisine (
   id                        bigint not null,
   name                      varchar(255),
@@ -19,8 +27,19 @@ create table delivery_order (
   id                        bigint not null,
   client_id                 bigint,
   delivery_id               bigint,
-  discount                  double,
+  address                   varchar(255),
+  discount_id               bigint,
+  time_placed               timestamp,
+  constraint uq_delivery_order_discount_id unique (discount_id),
   constraint pk_delivery_order primary key (id))
+;
+
+create table discount (
+  id                        bigint not null,
+  code                      varchar(255),
+  discount                  integer,
+  is_used                   boolean,
+  constraint pk_discount primary key (id))
 ;
 
 create table meal (
@@ -35,11 +54,27 @@ create table meal (
   constraint pk_meal primary key (id))
 ;
 
+create table meal_order (
+  id                        bigint not null,
+  delivery_order_id         bigint not null,
+  meal_id                   bigint,
+  amount                    integer,
+  constraint pk_meal_order primary key (id))
+;
+
 create table photo (
   id                        bigint not null,
   name                      varchar(255),
   path                      varchar(255),
   constraint pk_photo primary key (id))
+;
+
+create table qualification (
+  id                        bigint not null,
+  qualification             double,
+  client_id                 bigint,
+  restaurant_id             bigint,
+  constraint pk_qualification primary key (id))
 ;
 
 create table reservation (
@@ -55,17 +90,20 @@ create table restaurant (
   dtype                     varchar(10) not null,
   id                        bigint not null,
   name                      varchar(255) not null,
-  description               varchar(255),
+  description               TEXT,
   opening_hour              varchar(255),
   closing_hour              varchar(255),
-  address                   varchar(255) not null,
+  address_id                bigint not null,
   published                 boolean,
   is_local                  boolean,
   owner_id                  bigint,
   is_deleted                boolean,
   photo_id                  bigint,
   radius                    double,
+  response_time             integer,
   capacity                  integer,
+  mins_between_turns        integer,
+  constraint uq_restaurant_address_id unique (address_id),
   constraint uq_restaurant_photo_id unique (photo_id),
   constraint pk_restaurant primary key (id))
 ;
@@ -75,22 +113,17 @@ create table user (
   id                        bigint not null,
   first_name                varchar(255) not null,
   last_name                 varchar(255) not null,
-  address                   varchar(255) not null,
+  address_id                bigint not null,
   email                     varchar(255) not null,
   password                  varchar(255) not null,
   photo_id                  bigint,
   photo_path                varchar(255),
+  constraint uq_user_address_id unique (address_id),
   constraint uq_user_email unique (email),
   constraint uq_user_photo_id unique (photo_id),
   constraint pk_user primary key (id))
 ;
 
-
-create table delivery_order_meal (
-  delivery_order_id              bigint not null,
-  meal_id                        bigint not null,
-  constraint pk_delivery_order_meal primary key (delivery_order_id, meal_id))
-;
 
 create table restaurant_day (
   restaurant_id                  bigint not null,
@@ -109,15 +142,23 @@ create table user_cuisine (
   cuisine_id                     bigint not null,
   constraint pk_user_cuisine primary key (user_id, cuisine_id))
 ;
+create sequence address_seq;
+
 create sequence cuisine_seq;
 
 create sequence day_seq;
 
 create sequence delivery_order_seq;
 
+create sequence discount_seq;
+
 create sequence meal_seq;
 
+create sequence meal_order_seq;
+
 create sequence photo_seq;
+
+create sequence qualification_seq;
 
 create sequence reservation_seq;
 
@@ -129,26 +170,34 @@ alter table delivery_order add constraint fk_delivery_order_client_1 foreign key
 create index ix_delivery_order_client_1 on delivery_order (client_id);
 alter table delivery_order add constraint fk_delivery_order_delivery_2 foreign key (delivery_id) references restaurant (id) on delete restrict on update restrict;
 create index ix_delivery_order_delivery_2 on delivery_order (delivery_id);
-alter table meal add constraint fk_meal_photo_3 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
-create index ix_meal_photo_3 on meal (photo_id);
-alter table meal add constraint fk_meal_restaurant_4 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_meal_restaurant_4 on meal (restaurant_id);
-alter table reservation add constraint fk_reservation_client_5 foreign key (client_id) references user (id) on delete restrict on update restrict;
-create index ix_reservation_client_5 on reservation (client_id);
-alter table reservation add constraint fk_reservation_local_6 foreign key (local_id) references restaurant (id) on delete restrict on update restrict;
-create index ix_reservation_local_6 on reservation (local_id);
-alter table restaurant add constraint fk_restaurant_owner_7 foreign key (owner_id) references user (id) on delete restrict on update restrict;
-create index ix_restaurant_owner_7 on restaurant (owner_id);
-alter table restaurant add constraint fk_restaurant_photo_8 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
-create index ix_restaurant_photo_8 on restaurant (photo_id);
-alter table user add constraint fk_user_photo_9 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
-create index ix_user_photo_9 on user (photo_id);
+alter table delivery_order add constraint fk_delivery_order_discount_3 foreign key (discount_id) references discount (id) on delete restrict on update restrict;
+create index ix_delivery_order_discount_3 on delivery_order (discount_id);
+alter table meal add constraint fk_meal_photo_4 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
+create index ix_meal_photo_4 on meal (photo_id);
+alter table meal add constraint fk_meal_restaurant_5 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_meal_restaurant_5 on meal (restaurant_id);
+alter table meal_order add constraint fk_meal_order_delivery_order_6 foreign key (delivery_order_id) references delivery_order (id) on delete restrict on update restrict;
+create index ix_meal_order_delivery_order_6 on meal_order (delivery_order_id);
+alter table qualification add constraint fk_qualification_client_7 foreign key (client_id) references user (id) on delete restrict on update restrict;
+create index ix_qualification_client_7 on qualification (client_id);
+alter table qualification add constraint fk_qualification_restaurant_8 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_qualification_restaurant_8 on qualification (restaurant_id);
+alter table reservation add constraint fk_reservation_client_9 foreign key (client_id) references user (id) on delete restrict on update restrict;
+create index ix_reservation_client_9 on reservation (client_id);
+alter table reservation add constraint fk_reservation_local_10 foreign key (local_id) references restaurant (id) on delete restrict on update restrict;
+create index ix_reservation_local_10 on reservation (local_id);
+alter table restaurant add constraint fk_restaurant_address_11 foreign key (address_id) references address (id) on delete restrict on update restrict;
+create index ix_restaurant_address_11 on restaurant (address_id);
+alter table restaurant add constraint fk_restaurant_owner_12 foreign key (owner_id) references user (id) on delete restrict on update restrict;
+create index ix_restaurant_owner_12 on restaurant (owner_id);
+alter table restaurant add constraint fk_restaurant_photo_13 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
+create index ix_restaurant_photo_13 on restaurant (photo_id);
+alter table user add constraint fk_user_address_14 foreign key (address_id) references address (id) on delete restrict on update restrict;
+create index ix_user_address_14 on user (address_id);
+alter table user add constraint fk_user_photo_15 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
+create index ix_user_photo_15 on user (photo_id);
 
 
-
-alter table delivery_order_meal add constraint fk_delivery_order_meal_delive_01 foreign key (delivery_order_id) references delivery_order (id) on delete restrict on update restrict;
-
-alter table delivery_order_meal add constraint fk_delivery_order_meal_meal_02 foreign key (meal_id) references meal (id) on delete restrict on update restrict;
 
 alter table restaurant_day add constraint fk_restaurant_day_restaurant_01 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
 
@@ -166,17 +215,23 @@ alter table user_cuisine add constraint fk_user_cuisine_cuisine_02 foreign key (
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
+drop table if exists address;
+
 drop table if exists cuisine;
 
 drop table if exists day;
 
 drop table if exists delivery_order;
 
-drop table if exists delivery_order_meal;
+drop table if exists discount;
 
 drop table if exists meal;
 
+drop table if exists meal_order;
+
 drop table if exists photo;
+
+drop table if exists qualification;
 
 drop table if exists reservation;
 
@@ -190,15 +245,23 @@ drop table if exists user;
 
 SET REFERENTIAL_INTEGRITY TRUE;
 
+drop sequence if exists address_seq;
+
 drop sequence if exists cuisine_seq;
 
 drop sequence if exists day_seq;
 
 drop sequence if exists delivery_order_seq;
 
+drop sequence if exists discount_seq;
+
 drop sequence if exists meal_seq;
 
+drop sequence if exists meal_order_seq;
+
 drop sequence if exists photo_seq;
+
+drop sequence if exists qualification_seq;
 
 drop sequence if exists reservation_seq;
 

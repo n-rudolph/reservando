@@ -25,12 +25,12 @@
                                         {{restaurant.isLocal ? "Local" : "Delivery"}}
                                     </div>
                                     <div class="col m7">
-                                        {{restaurant.address}}
+                                        {{restaurant.address.address}}
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col m12">
-                                        {{restaurant.description}}
+                                        {{restaurant.description.substring(0, restaurant.description.length <= 150? restaurant.description.length : 150)}}
                                     </div>
                                 </div>
                             </div>

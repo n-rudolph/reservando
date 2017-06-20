@@ -37,7 +37,7 @@ public class DataBasePopulator {
 
             Owner owner = (Owner) Owner.getUserByEmail("owner@gmail.com");
 
-            Local newLocal = new Local(name, "Test Description it must be change (description too long)", address, openingHour, closingHour, openingDays, cuisinesList, capacityDefault, meals, owner);
+            Local newLocal = new Local(name, description, new Address(address, -43,-60), openingHour, closingHour, openingDays, cuisinesList, capacityDefault, meals, owner, 30);
             if(!Local.all().contains(newLocal)) newLocal.save();
 
             long localId = newLocal.getId();
@@ -56,11 +56,11 @@ public class DataBasePopulator {
     //This method add defaults users into the database.
     public void populatePrimaryUsers(){
         if (Owner.getUserByEmail("owner@gmail.com") == null){
-            Owner owner = new Owner("Juan", "Perez", "Av Peron 1500, Pilar, Buenos Aires, Argentina" ,"owner@gmail.com","reservando10", null, null);
+            Owner owner = new Owner("Juan", "Perez", new Address("Av Peron 1500, Pilar, Buenos Aires, Argentina", 43, 43) ,"owner@gmail.com","reservando10", null, null);
             owner.save();
         }
         if (Client.getUserByEmail("client@gmail.com") == null){
-            Client client = new Client("Pablo", "Torres", "Av Peron 1400, Pilar, Buenos Aires, Argentina" ,"client@gmail.com","reservando10", null, null);
+            Client client = new Client("Pablo", "Torres", new Address("Av Peron 1500, Pilar, Buenos Aires, Argentina", 43, 43),"client@gmail.com","reservando10", null, null);
             client.save();
         }
     }
@@ -135,5 +135,17 @@ public class DataBasePopulator {
             } else cuisinesList.add(Cuisine.getCuisine(cuisine));
         }
         return cuisinesList;
+    }
+
+    public void populateDiscountCodes() {
+        if (Discount.all().size() == 0) {
+            final Discount discount = new Discount("1q2w3e", 30);
+            discount.setUsed();
+            discount.save();
+            final Discount discount2 = new Discount("q1w2e3", 20);
+            discount2.save();
+            final Discount discount3 = new Discount("123qwe", 50);
+            discount3.save();
+        }
     }
 }

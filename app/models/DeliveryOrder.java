@@ -1,7 +1,9 @@
 package models;
 
 import com.avaje.ebean.Model;
+import org.joda.time.DateTime;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,18 +15,21 @@ public class DeliveryOrder extends Model {
     private Client client;
     @ManyToOne
     private Delivery delivery;
-    @ManyToMany
-    private List<Meal> meals;
-    private Address address;
-    private double discount;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<MealOrder> meals;
+    private String address;
+    @OneToOne
+    @Nullable
+    private Discount discount;
+    private DateTime timePlaced;
 
-    public static Finder<Long, DeliveryOrder> find = new Finder<Long, DeliveryOrder>(DeliveryOrder.class);
+    private static Finder<Long, DeliveryOrder> finder = new Finder<Long, DeliveryOrder>(DeliveryOrder.class);
 
     public DeliveryOrder() {
     }
 
-    public DeliveryOrder(long id, Client client, Delivery delivery, List<Meal> meals, Address address, double discount) {
-        this.id = id;
+    public DeliveryOrder(Client client, Delivery delivery, List<MealOrder> meals, String address, Discount discount) {
+        this.timePlaced = DateTime.now();
         this.client = client;
         this.delivery = delivery;
         this.meals = meals;
@@ -59,30 +64,56 @@ public class DeliveryOrder extends Model {
         return this;
     }
 
-    public List<Meal> getMeals() {
+    public List<MealOrder> getMeals() {
         return meals;
     }
 
-    public DeliveryOrder setMeals(List<Meal> meals) {
+    public DeliveryOrder setMeals(List<MealOrder> meals) {
         this.meals = meals;
         return this;
     }
 
-    public Address getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public DeliveryOrder setAddress(Address address) {
+    public DeliveryOrder setAddress(String address) {
         this.address = address;
         return this;
     }
 
-    public double getDiscount() {
+    @Nullable
+    public Discount getDiscount() {
         return discount;
     }
 
-    public DeliveryOrder setDiscount(double discount) {
+    public DeliveryOrder setDiscount(@Nullable Discount discount) {
         this.discount = discount;
         return this;
+    }
+
+    public DateTime getTimePlaced() {
+        return timePlaced;
+    }
+
+    public DeliveryOrder setTimePlaced(DateTime timePlaced) {
+        this.timePlaced = timePlaced;
+        return this;
+    }
+
+    public static List<DeliveryOrder> getClientOrders(Client client){
+        return finder.where().eq("client", client).findList();
+    }
+
+    public static List<DeliveryOrder> all(){
+        return finder.all();
+    }
+
+    public static DeliveryOrder byId(long id) {
+        return finder.byId(id);
+    }
+
+    public static List<DeliveryOrder> getRestaurantOrders(Delivery delivery) {
+        return finder.where().eq("delivery", delivery).findList();
     }
 }

@@ -12,8 +12,6 @@ app.controller("NewRestaurantCtrl", function ($scope, $http, $window, $timeout) 
 
     $scope.photos = [];
 
-    $('.dropify').dropify();
-
     $http.get("/all/days").then(
         function(response) {
             $scope.days = response.data;
@@ -28,7 +26,8 @@ app.controller("NewRestaurantCtrl", function ($scope, $http, $window, $timeout) 
     $scope.resetRestaurant = function(){
         $scope.restaurant = {
             days: [],
-            cuisines: []
+            cuisines: [],
+            address: {}
         };
     };
     $scope.resetRestaurant();
@@ -44,7 +43,8 @@ app.controller("NewRestaurantCtrl", function ($scope, $http, $window, $timeout) 
             time: false,
             cuisines: false,
             photo: false,
-            photoSize: false
+            photoSize: false,
+            responseTime: false
         };
     };
     $scope.resetErrors();
@@ -69,7 +69,12 @@ app.controller("NewRestaurantCtrl", function ($scope, $http, $window, $timeout) 
     };
 
     $scope.submitRestaurant = function(){
-        $scope.restaurant.address = $("#address").val();
+        $scope.restaurant.address.addressString = $("#address").val();
+        $scope.resetErrors();
+        $scope.geocodeAddress();
+    };
+
+    $scope.restaurantSubmit = function(){
         if ($scope.checkInfo()) {
             $http.post("/restaurant", $scope.restaurant).then($scope.successCallback, $scope.errorCallback);
         } else{
@@ -77,15 +82,26 @@ app.controller("NewRestaurantCtrl", function ($scope, $http, $window, $timeout) 
         }
     };
 
+    $scope.geocodeAddress = function() {
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({'address': $scope.restaurant.address.addressString}, function(results, status) {
+            if (status === 'OK') {
+                $scope.restaurant.address.lat = results[0].geometry.location.lat();
+                $scope.restaurant.address.lng = results[0].geometry.location.lng();
+                $scope.restaurantSubmit();
+            } else {
+                $scope.errors.address = true;
+                $scope.checkInfo();
+                Materialize.toast("La dirección no es valida", 2000, "red");
+            }
+        });
+    };
+
     $scope.checkInfo = function(){
         var errors = 0;
         if (!$scope.restaurant.name || $scope.restaurant.name.length == 0){
             errors++;
             $scope.errors.name = true;
-        }
-        if (!$scope.restaurant.address || $scope.restaurant.address.length == 0){
-            errors++;
-            $scope.errors.address = true;
         }
         if ($scope.restaurant.isLocal){
             if (!$scope.restaurant.capacity || $scope.restaurant.capacity < 0){
@@ -97,6 +113,10 @@ app.controller("NewRestaurantCtrl", function ($scope, $http, $window, $timeout) 
             if (!$scope.restaurant.radius || $scope.restaurant.radius < 0){
                 errors++;
                 $scope.errors.radius = true;
+            }
+            if (!$scope.restaurant.responseTime){
+                errors++;
+                $scope.errors.responseTime = true;
             }
         }
         if (!$scope.restaurant.description || $scope.restaurant.description.length == 0){
@@ -158,7 +178,7 @@ app.controller("NewRestaurantCtrl", function ($scope, $http, $window, $timeout) 
         $window.location.href = "#top";
         $timeout(function(){
             $window.location.href = "/owner/home";
-        }, 1000);$window.location.href = "#top";
+        }, 500);$window.location.href = "#top";
     };
 
     $scope.errorCallback = function(response) {

@@ -64,26 +64,34 @@ public class RestaurantController extends Controller {
         if (restaurantEditObject.isLocal){
             final Local local = Local.getLocalById(id);
             local.setCapacity(restaurantEditObject.capacity)
+                    .setMinsBetweenTurns(restaurantEditObject.minsBetweenTurns)
                     .setName(restaurantEditObject.name)
                     .setDescription(restaurantEditObject.description)
-                    .setAddress(restaurantEditObject.address)
                     .setOpeningHour(restaurantEditObject.startTime)
                     .setClosingHour(restaurantEditObject.endTime)
                     .setCuisines(restaurantEditObject.cuisines)
-                    .setOpeningDays(restaurantEditObject.days);
+                    .setOpeningDays(restaurantEditObject.days)
+                    .getAddress()
+                    .setAddress(restaurantEditObject.address.addressString)
+                    .setLng(restaurantEditObject.address.lng)
+                    .setLat(restaurantEditObject.address.lat);
 
             local.update();
-            return ok(Json.toJson(local));
+            return ok(Json.toJson(new LocalResponse(local)));
         }else {
             final Delivery delivery = Delivery.byId(id);
             delivery.setRadius(restaurantEditObject.radius)
+                    .setResponseTime(restaurantEditObject.responseTime)
                     .setName(restaurantEditObject.name)
                     .setDescription(restaurantEditObject.description)
-                    .setAddress(restaurantEditObject.address)
                     .setOpeningHour(restaurantEditObject.startTime)
                     .setClosingHour(restaurantEditObject.endTime)
                     .setCuisines(restaurantEditObject.cuisines)
-                    .setOpeningDays(restaurantEditObject.days);
+                    .setOpeningDays(restaurantEditObject.days)
+                    .getAddress()
+                    .setAddress(restaurantEditObject.address.addressString)
+                    .setLng(restaurantEditObject.address.lng)
+                    .setLat(restaurantEditObject.address.lat);
             delivery.update();
             return ok(Json.toJson(delivery));
         }

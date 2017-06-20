@@ -12,11 +12,12 @@ public class LocalResponse {
     public String closingHour;
     public List<Day> openingDays;
     public List<Cuisine> cuisines;
-    public String address;
+    public Address address;
     public boolean published;
     public boolean isLocal;
     public Photo photo;
     public int capacity;
+    public int minsBetweenTurns;
 
     public LocalResponse(Local local){
         this.id = local.getId();
@@ -31,5 +32,6 @@ public class LocalResponse {
         this.isLocal = local.isLocal();
         this.photo = local.getPhoto();
         this.capacity = local.getCapacity();
+        this.minsBetweenTurns = local.getMinsBetweenTurns();
     }
 }

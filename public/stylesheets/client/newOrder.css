@@ -1,0 +1,12 @@
+td img{
+    max-width: 100px;
+    width: 100px;
+}
+
+td input{
+    max-width: 50px;
+}
+
+.fullBtn{
+    width: 100%;
+}
