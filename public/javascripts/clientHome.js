@@ -1,6 +1,4 @@
-/**
- * Created by Gustavo on 3/6/17.
- */
+
 var app = angular.module("reservandoApp");
 
 app.service('serverCommunication', ['$http','$q', function ($http, $q){
@@ -42,8 +40,6 @@ app.service('serverCommunication', ['$http','$q', function ($http, $q){
     }
 
 }]);
-
-
 
 app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$window', function($scope, $http, serverCommunication, $window){
 
@@ -147,15 +143,8 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         return ($scope.result.showSearchWithoutFilters || $scope.result.showSearchWithFilters)
     };
 
-    $scope.openLocal = function(){
-        /*var dataToPost = {localSelectedId: local.id};
-        serverCommunication.postToUrl(dataToPost,"/client/changeLocalSelected","","")
-            .then(function (responseData){
-                $window.location.href = "/client/viewLocal";
-            })
-            .catch(function (error) {
-
-            });*/
+    $scope.openLocal = function(restaurantId){
+        $window.location.href = "/client/restaurant?id="+restaurantId;
     };
 
     $scope.searchForAutocomplete = function(){

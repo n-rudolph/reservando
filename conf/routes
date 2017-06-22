@@ -20,13 +20,8 @@ GET     /client/profile             controllers.ClientProfileController.clientPr
 GET     /client/profile/user        controllers.ClientProfileController.getClient
 GET     /client/restaurant          controllers.HomeController.clientRestaurant
 POST    /client/deleteAccount       controllers.ClientProfileController.deleteAccount
-GET     /client/viewLocal           controllers.ClientHomeController.openLocal
 GET     /client/getLocalSelected    controllers.ClientHomeController.getLocalSelected
 GET     /client/searchAll           controllers.ClientHomeController.searchAll
-#POST    /client/changePassword      controllers.ClientProfileController.changePassword
-#POST    /client/changeBioInfo       controllers.ClientProfileController.changeBioInfo
-#POST    /client/changeAddress       controllers.ClientProfileController.changeAddress
-#POST    /client/changeProfileImage  controllers.ClientProfileController.changeProfileImage
 POST    /client/deleteAccount       controllers.ClientProfileController.deleteAccount()
 POST    /client/search              controllers.ClientHomeController.search
 POST    /client/changeLocalSelected controllers.ClientHomeController.setLocalSelected()
@@ -81,6 +76,11 @@ GET     /orders/client              controllers.OrderController.getClientOrders
 GET     /orders/owner               controllers.OrderController.getOwnerOrders
 GET     /order/:oId                 controllers.OrderController.getOrder(oId: String)
 POST    /order                      controllers.OrderController.newOrder
+
+#Reservation
+GET     /reservation                controllers.ReservationController.view
+POST    /reservation                controllers.ReservationController.save
+DELETE  /resercation                controllers.ReservationController.delete
 
 #Discount
 GET     /discount/:code             controllers.DiscountController.getDiscount(code: String)

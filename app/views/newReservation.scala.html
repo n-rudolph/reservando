@@ -1,0 +1,123 @@
+@()
+@views.html.main("Reservando") {
+    @clientNav()
+    <div class="container" ng-controller="NewReservationCtrl">
+        <div class="row title">
+            <h3>Nuevo pedido para {{restaurant.name}}</h3>
+        </div>
+        <div class="row">
+            <div class="col s6">
+                <div class="row">
+                    <div class="col s12">
+                        <h5>Seleccionar fecha</h5>
+                    </div>
+                    <div class="col s12">
+                        <div class="input-field">
+                            <input type="text" input-date id="selectedDay" ng-model="reservation.date"
+                                months-full="{{ month }}"
+                                months-short="{{ monthShort }}"
+                                weekdays-full="{{ weekdaysFull }}"
+                                weekdays-short="{{ weekdaysShort }}"
+                                weekdays-letter="{{ weekdaysLetter }}"
+                                disable ="disable"
+                                ng-change="checkComplete()"
+                            >
+                            <label for="selectedDay" class="active">Fecha</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <h5>Seleccionar horario</h5>
+                    </div>
+                    <div class="col s12">
+                        <div class="timeChip hoverable valign-wrapper waves-effect waves-red waves-ripple z-depth-2" ng-repeat="turn in turns" ng-class="{'selected': $index == selectedTurnIndex, 'z-depth-4': $index == selectedTurnIndex}" ng-click="selectTurn($index)">
+                            <span>{{turn}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <h5>Cantidad de personas</h5>
+                    </div>
+                    <div class="col s12">
+                        <div class="input-field">
+                            <input type="number" name="amount" id="amount" ng-model="reservation.amount"
+                                ng-change="checkComplete()" min="1" max="{{restaurant.capacity}}">
+                            <label for="amount">Cantidad de personas (Maximo {{restaurant.capacity}})</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <p>
+                            <input name="discount" type="checkbox" id="discount" ng-click="hasDiscount = !hasDiscount"/>
+                            <label for="discount">Tengo un cupon de descuento</label>
+                        </p>
+                    </div>
+                    <div class="col s7" ng-show="hasDiscount">
+                        <div class="input-field">
+                            <i class="material-icons prefix" ng-click="checkCode()">done</i>
+                            <input type="text" ng-model="discCode" id="discountCode">
+                            <label for="discountCode">Codigo de descuento</label>
+                        </div>
+                    </div>
+                    <div class="col s5" ng-show="validCode">
+                        <div class="input-field">
+                            <p>Descuento: {{discount.discount}}%</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row buttons">
+                    <div class="col s6 offset-s3" >
+                        <div class="btn-large btn fullBtn" ng-click="saveReservation()" ng-show="reservationComplete">Realizar pedido</div>
+                        <div class="btn-large btn fullBtn disabled" ng-hide="reservationComplete">Realizar pedido</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s6">
+                <div class="row">
+                    <div class="col s12">
+                        <div class="row">
+                            <ng-map center="[{{coordinates.lat}}, {{coordinates.lng}}]">
+                                <marker position="{{coordinates.lat}}, {{coordinates.lng}}"></marker>
+                            </ng-map>
+                        </div>
+                    </div>
+                    <div class="col s12">
+                        <div class="row"><h5>Platos</h5></div>
+                        <div class="row">
+                            <table class="centered highlight">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Plato</th>
+                                        <th>Precio</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr ng-repeat="meal in menu">
+                                        <td><img ng-src="@routes.Assets.versioned("{{meal.photo.path}}")" alt=""></td>
+                                        <td>{{meal.name}}</td>
+                                        <td>${{meal.price}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+} {
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/client/newReservation.css")">
+} {
+    <script src="@routes.Assets.versioned("javascripts/utils/geocode.js")"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDx5ARsKyUaIV0uBUuCs7M6HxvUOtvcm-E&libraries=places&callback=initAutocomplete"
+    async defer></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-materialize/0.2.2/angular-materialize.min.js"></script>
+    <script src="@routes.Assets.versioned("external/ngMap/ng-map.min.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/client/newReservation.js")"></script>
+}

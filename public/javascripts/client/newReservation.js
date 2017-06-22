@@ -1,0 +1,149 @@
+var app = angular.module("reservandoApp");
+app.requires.push('ngMap');
+app.requires.push('ui.materialize');
+
+app.controller("NewReservationCtrl", function ($scope, $http, $window, $timeout) {
+
+    $scope.reservation = {};
+    $scope.hasDiscount = false;
+    $scope.discCode = "";
+    $scope.discount = {};
+
+    $scope.month = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    $scope.monthShort = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    $scope.weekdaysFull = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
+    $scope.weekdaysLetter = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
+    $scope.disable = [true];
+
+    $scope.getRestaurant = function(){
+        var id = $window.location.href.split("id=")[1];
+        $http.get("/restaurant/"+ id).then(
+            function (response){
+                $scope.restaurant = response.data;
+                var disable =[true];
+                for(var i = 0; i < $scope.restaurant.openingDays.length; i++) {
+                    if ($scope.restaurant.openingDays[i].id == 7){
+                        disable.push(1);
+                    }else{
+                        disable.push($scope.restaurant.openingDays[i].id + 1)
+                    }
+                }
+                $scope.disable = disable;
+                $scope.defineTurns();
+                $scope.orderObject.dId = $scope.restaurant.id;
+                $scope.orderObject.address = $scope.restaurant.address.address;
+                $scope.coordinates.lat = $scope.restaurant.address.lat;
+                $scope.coordinates.lng = $scope.restaurant.address.lng;
+                $scope.getMenu();
+            }
+        );
+    };
+    $scope.getRestaurant();
+
+
+    // Turnos
+
+    $scope.defineTurns = function(){
+        $scope.turns = [];
+        var currentHour = Number($scope.restaurant.openingHour.split(":")[0]);
+        var currentMin = Number($scope.restaurant.openingHour.split(":")[1]);
+
+        var closingHour = Number($scope.restaurant.closingHour.split(":")[0]);
+        var closingMin = Number($scope.restaurant.closingHour.split(":")[1]);
+
+        var minsBetweenTurns = $scope.restaurant.minsBetweenTurns;
+
+        while(!$scope.checkIfFinishTurn(currentHour, currentMin, closingHour, closingMin)){
+            var hour = ""+ currentHour;
+            if (currentHour < 10)
+                hour = "0"+ hour;
+            var minutes = ""+ currentMin;
+            if (currentMin < 10)
+                minutes = "0"+ minutes;
+            $scope.turns.push(hour+":"+minutes);
+
+            currentMin += minsBetweenTurns;
+            if (currentMin >= 60){
+                currentHour++;
+                if (currentHour>=24)
+                    currentHour = 0;
+                currentMin-=60;
+            }
+        }
+    };
+
+    $scope.checkIfFinishTurn = function(currentHour, currentMin, closingHour, closingMin){
+        if (currentHour > closingHour)
+            return true;
+        else if(currentHour < closingHour){
+            return false;
+        } else {
+            return currentMin >= closingMin;
+        }
+    };
+
+    $scope.selectTurn = function(index){
+        if($scope.selectedTurnIndex == index)
+            $scope.selectedTurnIndex = undefined;
+        else {
+            $scope.selectedTurnIndex = index;
+        }
+        $scope.checkComplete();
+    };
+
+    // Meal
+
+    $scope.getMenu = function(){
+        $http.get("/menu/"+$scope.restaurant.id).then(function(response){
+            $scope.menu = response.data;
+        });
+    };
+
+    $scope.checkCode = function(){
+        $scope.invalidCode = false;
+        $scope.validCode = false;
+        $http.get("/discount/"+$scope.discCode).then(function(response){
+            if (response.data === "1" || response.data === "2"){
+                Materialize.toast("El codigo no es valido", 2000, "red");
+                $scope.invalidCode = true;
+                $scope.discount = {};
+            } else {
+                $scope.discount = response.data;
+                $scope.validCode = true;
+                $scope.calculateTotal();
+            }
+        });
+    };
+
+    $scope.saveReservation = function(){
+        if ($scope.validCode)
+            $scope.reservation.discountCode = $scope.discCode;
+        else $scope.reservation.discountCode = "";
+        $scope.reservation.localId = $scope.restaurant.id;
+        $scope.reservation.turn = $scope.turns[$scope.selectedTurnIndex];
+
+        $http.post("/reservation", $scope.reservation).then(function(response){
+            Materialize.toast("La reserva se ha procesado con éxito.", 2000, "green");
+            $timeout(function(){
+                $window.location.href = "/client/restaurant?id="+$scope.restaurant.id;
+            }, 1000);
+        }, function(response){
+            Materialize.toast("Ha ocurrido un error. Intentelo más tarde");
+        });
+    };
+
+    $scope.checkComplete = function(){
+        if ($scope.reservation.date == undefined || $scope.reservation.date.length == 0) {
+            $scope.reservationComplete = false;
+            return;
+        }
+        if ($scope.reservation.amount == undefined || $scope.reservation.amount < 1 || $scope.reservation.amount > $scope.restaurant.capacity){
+            $scope.reservationComplete = false;
+            return;
+        }
+        $scope.reservationComplete = !($scope.selectedTurnIndex == undefined);
+    }
+
+});
+
+
