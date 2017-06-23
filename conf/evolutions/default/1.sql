@@ -80,9 +80,12 @@ create table qualification (
 create table reservation (
   id                        bigint not null,
   amount                    integer,
-  date                      timestamp,
+  date                      varchar(255),
+  turn                      varchar(255),
   client_id                 bigint,
   local_id                  bigint,
+  discount_id               bigint,
+  constraint uq_reservation_discount_id unique (discount_id),
   constraint pk_reservation primary key (id))
 ;
 
@@ -186,16 +189,18 @@ alter table reservation add constraint fk_reservation_client_9 foreign key (clie
 create index ix_reservation_client_9 on reservation (client_id);
 alter table reservation add constraint fk_reservation_local_10 foreign key (local_id) references restaurant (id) on delete restrict on update restrict;
 create index ix_reservation_local_10 on reservation (local_id);
-alter table restaurant add constraint fk_restaurant_address_11 foreign key (address_id) references address (id) on delete restrict on update restrict;
-create index ix_restaurant_address_11 on restaurant (address_id);
-alter table restaurant add constraint fk_restaurant_owner_12 foreign key (owner_id) references user (id) on delete restrict on update restrict;
-create index ix_restaurant_owner_12 on restaurant (owner_id);
-alter table restaurant add constraint fk_restaurant_photo_13 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
-create index ix_restaurant_photo_13 on restaurant (photo_id);
-alter table user add constraint fk_user_address_14 foreign key (address_id) references address (id) on delete restrict on update restrict;
-create index ix_user_address_14 on user (address_id);
-alter table user add constraint fk_user_photo_15 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
-create index ix_user_photo_15 on user (photo_id);
+alter table reservation add constraint fk_reservation_discount_11 foreign key (discount_id) references discount (id) on delete restrict on update restrict;
+create index ix_reservation_discount_11 on reservation (discount_id);
+alter table restaurant add constraint fk_restaurant_address_12 foreign key (address_id) references address (id) on delete restrict on update restrict;
+create index ix_restaurant_address_12 on restaurant (address_id);
+alter table restaurant add constraint fk_restaurant_owner_13 foreign key (owner_id) references user (id) on delete restrict on update restrict;
+create index ix_restaurant_owner_13 on restaurant (owner_id);
+alter table restaurant add constraint fk_restaurant_photo_14 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
+create index ix_restaurant_photo_14 on restaurant (photo_id);
+alter table user add constraint fk_user_address_15 foreign key (address_id) references address (id) on delete restrict on update restrict;
+create index ix_user_address_15 on user (address_id);
+alter table user add constraint fk_user_photo_16 foreign key (photo_id) references photo (id) on delete restrict on update restrict;
+create index ix_user_photo_16 on user (photo_id);
 
 
 

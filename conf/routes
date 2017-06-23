@@ -80,7 +80,7 @@ POST    /order                      controllers.OrderController.newOrder
 #Reservation
 GET     /reservation                controllers.ReservationController.view
 POST    /reservation                controllers.ReservationController.save
-DELETE  /resercation                controllers.ReservationController.delete
+DELETE  /reservation/:id            controllers.ReservationController.delete(id: String)
 
 #Discount
 GET     /discount/:code             controllers.DiscountController.getDiscount(code: String)

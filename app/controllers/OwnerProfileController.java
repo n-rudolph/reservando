@@ -35,7 +35,7 @@ public class OwnerProfileController extends Controller {
             if(restaurant.isLocal()){
                 List<Reservation> reservations = ((Local) restaurant).getReservations();
                 for (Reservation reservation: reservations) {
-                    DateTime reservationDate = reservation.getDate();
+                    DateTime reservationDate = new DateTime(reservation.getDate());
                     DateTime currentDate = new DateTime();
                     //Here is check is all the reservation has finished, or more specific if there is any reservation
                     //for the future. If there is one or more reservations for the future, the owner can not delete his

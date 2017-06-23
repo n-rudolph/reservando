@@ -34,7 +34,7 @@ public class ClientProfileController extends Controller {
         List<Reservation> reservations = client.getReservations();
         List<DeliveryOrder> deliveryOrders = DeliveryOrder.getClientOrders(client);
         for (Reservation reservation:reservations) {
-            DateTime reservationDate = reservation.getDate();
+            DateTime reservationDate = new DateTime(reservation.getDate());
             DateTime currentDate = new DateTime();
             //Here is check is all the reservation has finished, or more specific if there is any reservation
             //for the future. If there is one or more reservations for the future, the client can not delete his
