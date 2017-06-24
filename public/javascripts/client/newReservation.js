@@ -8,6 +8,7 @@ app.controller("NewReservationCtrl", function ($scope, $http, $window, $timeout)
     $scope.hasDiscount = false;
     $scope.discCode = "";
     $scope.discount = {};
+    $scope.coordinates = {};
 
     $scope.month = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     $scope.monthShort = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
@@ -122,7 +123,8 @@ app.controller("NewReservationCtrl", function ($scope, $http, $window, $timeout)
 
         var dateSplit = $scope.reservation.date2.split(" ");
         var timeSplit = $scope.reservation.turn.split(":");
-        var date = new Date(Number(dateSplit[2]), $scope.month.indexOf(dateSplit[1]) + 1, Number(dateSplit[0]), Number(timeSplit[0]), Number(timeSplit[1]), 0, 0);
+        var month = dateSplit[1].substring(0, dateSplit[1].length -1);
+        var date = new Date(Number(dateSplit[2]), $scope.month.indexOf(month) + 1, Number(dateSplit[0]), Number(timeSplit[0]), Number(timeSplit[1]), 0, 0);
         $scope.reservation.date = date.getTime();
 
         $http.post("/reservation", $scope.reservation).then(function(response){

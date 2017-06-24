@@ -4,13 +4,14 @@ app.controller("MyReservationsCtrl", function ($scope, $http, $window, $timeout)
 
     $scope.reservations = [];
 
-    $http.get("/reservation/client").then(function(response){
+    $http.get("/reservation/owner").then(function(response){
         $scope.reservations = response.data;
+        console.log(response.data);
     });
 
 
     $scope.toRestaurant = function(reservation) {
-        $window.location.href = '/client/restaurant?id='+reservation.local.id;
+        $window.location.href = '/owner/restaurant?id='+reservation.local.id;
     };
 
     $scope.deleteReservation = function(reservation, index) {
@@ -43,7 +44,7 @@ app.controller("MyReservationsCtrl", function ($scope, $http, $window, $timeout)
     };
 
     $scope.isExpire = function(reservation){
-        var date = new Date(Date.now());
+        var date = Date.now();
         var placedDate = new Date(reservation.date.yearOfEra, reservation.date.monthOfYear -1, reservation.date.dayOfMonth, reservation.date.hourOfDay, reservation.date.minuteOfHour, 0, 0);
         return date >= placedDate;
     }

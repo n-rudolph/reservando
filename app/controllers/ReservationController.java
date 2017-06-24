@@ -49,7 +49,10 @@ public class ReservationController extends Controller{
         final String email = session().get("email");
         final Client client = Client.byEmail(email);
 
-        return ok(Json.toJson(Reservation.byClient(client).stream().map(ReservationResponse::new).collect(Collectors.toList())));
+        return ok(Json.toJson(Reservation.byClient(client).stream()
+                .map(ReservationResponse::new)
+                .sorted((r1, r2) -> r1.date.isBefore(r2.date)? 1 : -1)
+                .collect(Collectors.toList())));
     }
 
     public Result getOwnerReservations() {
@@ -62,6 +65,7 @@ public class ReservationController extends Controller{
         final List<ReservationResponse> response = locals.stream().map(Reservation::byLocal)
                 .flatMap(Collection::stream)
                 .map(ReservationResponse::new)
+                .sorted((r1, r2) -> r1.date.isBefore(r2.date)? 1 : -1)
                 .collect(Collectors.toList());
 
         return ok(Json.toJson(response));
