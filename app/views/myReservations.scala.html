@@ -28,9 +28,9 @@
                                                 <td>Cantidad de personas:</td>
                                                 <td>{{reservation.amount}}</td>
                                             </tr>
-                                            <tr ng-show="order.discount">
+                                            <tr ng-show="reservation.discount">
                                                 <td>Codigo de descuento:</td>
-                                                <td>{{order.discount.code}} - {{order.discount.discount}}%</td>
+                                                <td>{{reservation.discount.code}} - {{reservation.discount.discount}}%</td>
                                             </tr>
                                         </tbody>
                                     </table>

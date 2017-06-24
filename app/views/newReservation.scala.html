@@ -50,21 +50,31 @@
                 </div>
                 <div class="row">
                     <div class="col s12">
+                        <h5>Cupon de descuento</h5>
+                    </div>
+                    <div class="col s12">
                         <p>
                             <input name="discount" type="checkbox" id="discount" ng-click="hasDiscount = !hasDiscount"/>
                             <label for="discount">Tengo un cupon de descuento</label>
                         </p>
                     </div>
-                    <div class="col s7" ng-show="hasDiscount">
+                    <div class="col s6" ng-show="hasDiscount">
                         <div class="input-field">
-                            <i class="material-icons prefix" ng-click="checkCode()">done</i>
-                            <input type="text" ng-model="discCode" id="discountCode">
+                            <input type="text" ng-model="discCode" id="discountCode" ng-change="resetCode()">
                             <label for="discountCode">Codigo de descuento</label>
                         </div>
                     </div>
-                    <div class="col s5" ng-show="validCode">
+                    <div class="col s4" ng-show="validCode">
                         <div class="input-field">
-                            <p>Descuento: {{discount.discount}}%</p>
+                            <input type="text" ng-model="discount.discount" id="disc" readonly>
+                            <label for="disc">Descuento (%)</label>
+                        </div>
+                    </div>
+                    <div class="col s2" ng-show="hasDiscount">
+                        <div class="input-field">
+                            <i class="material-icons prefix send tooltipped" ng-click="checkCode()" ng-show="!invalidCode && !validCode" data-position="right" data-delay="120" data-tooltip="Verificar codigo">send</i>
+                            <i class="material-icons prefix" ng-show="validCode">check_circle</i>
+                            <i class="material-icons prefix" ng-show="invalidCode">error</i>
                         </div>
                     </div>
                 </div>

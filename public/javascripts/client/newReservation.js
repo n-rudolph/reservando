@@ -113,6 +113,11 @@ app.controller("NewReservationCtrl", function ($scope, $http, $window, $timeout)
             }
         });
     };
+    $scope.resetCode = function(){
+        $scope.invalidCode = false;
+        $scope.validCode = false;
+        $scope.discount = {};
+    };
 
     $scope.saveReservation = function(){
         if ($scope.validCode)
@@ -133,7 +138,7 @@ app.controller("NewReservationCtrl", function ($scope, $http, $window, $timeout)
                 $window.location.href = "/client/restaurant?id="+$scope.restaurant.id;
             }, 1000);
         }, function(response){
-            Materialize.toast("Ha ocurrido un error. Intentelo más tarde");
+            Materialize.toast("Ha ocurrido un error. Intentelo más tarde", 2000, "red");
         });
     };
 

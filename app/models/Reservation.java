@@ -19,7 +19,7 @@ public class Reservation extends Model {
     private Client client;
     @ManyToOne
     private Local local;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @Nullable
     private Discount discount;
 

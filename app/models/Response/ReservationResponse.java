@@ -21,6 +21,10 @@ public class ReservationResponse {
         this.date = r.getDate();
         this.clientName = r.getClient().getFirstName() + " " + r.getClient().getlastName();
         this.local = r.getLocal();
-        this.discount = r.getDiscount();
+        if (r.getDiscount() != null){
+            this.discount = Discount.byId(r.getDiscount().getId());
+        } else {
+            this.discount = null;
+        }
     }
 }

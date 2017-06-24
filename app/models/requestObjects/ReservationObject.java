@@ -15,6 +15,8 @@ public class ReservationObject {
     public Reservation toReservation(Client client) {
         final Local local = Local.getLocalById(localId);
         final Discount discount = Discount.byCode(discountCode);
+        discount.setUsed();
+        discount.update();
         return new Reservation(client, local, amount, date, discount);
     }
 }

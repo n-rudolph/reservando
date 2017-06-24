@@ -27,3 +27,13 @@ td input{
     background-color: #ffcdd2;
     font-size: 16px;
 }
+
+.prefix{
+    color: orange;
+}
+
+.send:hover {
+    color: darkgoldenrod;
+    cursor: pointer;
+}
+
