@@ -79,6 +79,10 @@ POST    /order                      controllers.OrderController.newOrder
 
 #Reservation
 GET     /reservation                controllers.ReservationController.view
+GET     /reservation/client         controllers.ReservationController.getClientReservations
+GET     /reservation/owner          controllers.ReservationController.getOwnerReservations
+GET     /my-reservations            controllers.ReservationController.viewClientReservations
+GET     /owner/my-reservations      controllers.ReservationController.viewOwnerReservations
 POST    /reservation                controllers.ReservationController.save
 DELETE  /reservation/:id            controllers.ReservationController.delete(id: String)
 

@@ -1,0 +1,77 @@
+@()
+@views.html.main("Reservando") {
+    @ownerNav()
+    <div class="container" ng-controller="MyOrdersCtrl">
+        <div class="row title">
+            <h3>Mis Pedidos</h3>
+        </div>
+        <div class="row">
+            <ul class="collapsible popout" data-collapsible="accordion">
+                <li ng-repeat="order in orders">
+                    <div class="collapsible-header" ng-class="{'active': $first}"><i class="material-icons"><i class="material-icons">local_shipping</i></i>{{order.deliveryName}} -  {{getDateTimeFormat(order.timePlaced)}}<span class="right" ng-show="isExpire(order)">FINALIZADO</span></div>
+                    <div class="collapsible-body container">
+                        <div class="row">
+                            <div class="col s6">
+                                <div class="row">
+                                    <h5>Cliente</h5>
+                                    <h6>{{order.clientName}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s6">
+                                <div class="row"><h5>Información</h5></div>
+                                <div class="row">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>Dirección de entrega:</td>
+                                                <td>{{order.address}}</td>
+                                            </tr>
+                                            <tr ng-show="order.discount">
+                                                <td>Codigo de descuento:</td>
+                                                <td>{{order.discount.code}} - {{order.discount.discount}}%</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Precio total:</td>
+                                                <td>${{calculateTotal(order)}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col s6">
+                                <div class="row"><h5>Platos</h5></div>
+                                <div class="row">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <td>Platos</td>
+                                                <td>Nombre</td>
+                                                <td>Precio</td>
+                                                <td>Cantidad</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="orderMeal in order.meals">
+                                                <td></td>
+                                                <td>{{orderMeal.meal.name}}</td>
+                                                <td>${{orderMeal.meal.price}}</td>
+                                                <td>{{orderMeal.amount}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+} {
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/client/newOrder.css")">
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/client/myOrders.css")">
+} {
+    <script src="@routes.Assets.versioned("javascripts/owner/myOrders.js")"></script>
+}

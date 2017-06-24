@@ -80,8 +80,7 @@ create table qualification (
 create table reservation (
   id                        bigint not null,
   amount                    integer,
-  date                      varchar(255),
-  turn                      varchar(255),
+  date                      timestamp,
   client_id                 bigint,
   local_id                  bigint,
   discount_id               bigint,

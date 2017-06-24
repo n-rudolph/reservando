@@ -14,8 +14,7 @@ public class Reservation extends Model {
     @Id
     private long id;
     private int amount;
-    private String date;
-    private String turn;
+    private DateTime date;
     @ManyToOne
     private Client client;
     @ManyToOne
@@ -29,12 +28,11 @@ public class Reservation extends Model {
     public Reservation() {
     }
 
-    public Reservation(Client client, Local local, int amount, String date, String turn, @Nullable Discount discount) {
+    public Reservation(Client client, Local local, int amount, DateTime date, @Nullable Discount discount) {
         this.client = client;
         this.local = local;
         this.amount = amount;
         this.date = date;
-        this.turn = turn;
         this.discount = discount;
     }
 
@@ -56,11 +54,11 @@ public class Reservation extends Model {
         return this;
     }
 
-    public String getDate() {
+    public DateTime getDate() {
         return date;
     }
 
-    public Reservation setDate(String date) {
+    public Reservation setDate(DateTime date) {
         this.date = date;
         return this;
     }
@@ -83,15 +81,6 @@ public class Reservation extends Model {
         return this;
     }
 
-    public String getTurn() {
-        return turn;
-    }
-
-    public Reservation setTurn(String turn) {
-        this.turn = turn;
-        return this;
-    }
-
     @Nullable
     public Discount getDiscount() {
         return discount;
@@ -104,5 +93,13 @@ public class Reservation extends Model {
 
     public static Reservation byId(long id) {
         return finder.byId(id);
+    }
+
+    public static List<Reservation> byClient(Client client) {
+        return finder.where().eq("client", client).findList();
+    }
+
+    public static List<Reservation> byLocal(Local local) {
+        return finder.where().eq("local", local).findList();
     }
 }

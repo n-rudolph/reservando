@@ -47,7 +47,7 @@ public class DataBasePopulator {
             testReservation.setAmount(4);
             testReservation.setClient((Client) Client.getUserByEmail("client@gmail.com"));
             DateTime dateTime = new DateTime(2017,6,12,12,30);
-            testReservation.setDate(dateTime.toString());
+            testReservation.setDate(dateTime);
             testReservation.setLocal(Local.getLocalById(localId));
             testReservation.save();
         }

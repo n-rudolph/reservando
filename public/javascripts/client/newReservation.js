@@ -30,8 +30,6 @@ app.controller("NewReservationCtrl", function ($scope, $http, $window, $timeout)
                 }
                 $scope.disable = disable;
                 $scope.defineTurns();
-                $scope.orderObject.dId = $scope.restaurant.id;
-                $scope.orderObject.address = $scope.restaurant.address.address;
                 $scope.coordinates.lat = $scope.restaurant.address.lat;
                 $scope.coordinates.lng = $scope.restaurant.address.lng;
                 $scope.getMenu();
@@ -122,6 +120,11 @@ app.controller("NewReservationCtrl", function ($scope, $http, $window, $timeout)
         $scope.reservation.localId = $scope.restaurant.id;
         $scope.reservation.turn = $scope.turns[$scope.selectedTurnIndex];
 
+        var dateSplit = $scope.reservation.date2.split(" ");
+        var timeSplit = $scope.reservation.turn.split(":");
+        var date = new Date(Number(dateSplit[2]), $scope.month.indexOf(dateSplit[1]) + 1, Number(dateSplit[0]), Number(timeSplit[0]), Number(timeSplit[1]), 0, 0);
+        $scope.reservation.date = date.getTime();
+
         $http.post("/reservation", $scope.reservation).then(function(response){
             Materialize.toast("La reserva se ha procesado con éxito.", 2000, "green");
             $timeout(function(){
@@ -133,7 +136,7 @@ app.controller("NewReservationCtrl", function ($scope, $http, $window, $timeout)
     };
 
     $scope.checkComplete = function(){
-        if ($scope.reservation.date == undefined || $scope.reservation.date.length == 0) {
+        if ($scope.reservation.date2 == undefined || $scope.reservation.date2.length == 0) {
             $scope.reservationComplete = false;
             return;
         }
