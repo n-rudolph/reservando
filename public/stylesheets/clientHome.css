@@ -10,3 +10,6 @@
 #recommendations{
     margin-top: 15%;
 }
+ng-map{
+    height: 400px;
+}

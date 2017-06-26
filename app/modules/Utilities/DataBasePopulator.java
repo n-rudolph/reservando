@@ -29,6 +29,9 @@ public class DataBasePopulator {
             String description = localInfo[2];
             String[] cuisines = localInfo[3].split("-");
             List<Cuisine> cuisinesList = getCuisines(cuisines);
+            String [] latLngCoordinates = localInfo[5].split(":")[1].split(",");
+            double lat = Double.parseDouble(latLngCoordinates[0]);
+            double lgn = Double.parseDouble(latLngCoordinates[1]);
             String openingHour = "11:30";
             String closingHour = "12:30";
             List<Day> openingDays = getDefaultOpeningDays();
@@ -37,7 +40,7 @@ public class DataBasePopulator {
 
             Owner owner = (Owner) Owner.getUserByEmail("owner@gmail.com");
 
-            Local newLocal = new Local(name, description, new Address(address, -43,-60), openingHour, closingHour, openingDays, cuisinesList, capacityDefault, meals, owner, 30);
+            Local newLocal = new Local(name, description, new Address(address, lat, lgn), openingHour, closingHour, openingDays, cuisinesList, capacityDefault, meals, owner, 30);
             if(!Local.all().contains(newLocal)) newLocal.save();
 
             long localId = newLocal.getId();

@@ -1,7 +1,9 @@
 /**
  * Created by Gustavo on 3/6/17.
  */
-var app = angular.module("reservandoApp");
+var app = angular.module("reservandoApp", ['ngMap']);
+
+//app.requires.push('ngMap');
 
 app.service('serverCommunication', ['$http','$q', function ($http, $q){
     this.postToUrl = function(data, uploadUrl, successResponse, errorResponse){
@@ -45,10 +47,9 @@ app.service('serverCommunication', ['$http','$q', function ($http, $q){
 
 
 
-app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$window', function($scope, $http, serverCommunication, $window){
-
+app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$window', 'NgMap','$timeout',
+    function($scope, $http, serverCommunication, $window, NgMap, $timeout){
     /*scope needed variables*/
-    
     $scope.result = {
         allResults: [],
         resultsWithFilters: [],
@@ -56,6 +57,9 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         showSearchWithFilters: false,
         noResults: false
     };
+
+    //Var used to avoid initializing the same map more than once.
+    var mapLoaded = false;
     
     $scope.recommendations = {photo: null};
 
@@ -106,8 +110,7 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
     loadUserDataAndRecommendations();
 
     //Assign the enter key to the action of search, when the cursor is on the input search bar.
-    document.getElementById("searchInput")
-        .addEventListener("keyup", function(event){
+    document.getElementById("searchInput").addEventListener("keyup", function(event){
             event.preventDefault();
             if(event.keyCode === 13){
                 document.getElementById("searchButton").click();
@@ -115,7 +118,6 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         });
 
     $scope.search = function(){
-
         resetPreviousResultsSearched();
         resetPreviousResultsWithFilters();
 
@@ -124,6 +126,8 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
             serverCommunication.postToUrl(dataToPost,"/client/search","","")
                 .then(function(responseData){
                     $scope.result.allResults = responseData;
+                    initMap();
+                    loadMarkers();
                     $scope.result.showSearchWithoutFilters = true;
                     $scope.result.showSearchWithFilters = false;
                     responseData.length === 0 ? $scope.result.noResults = true : $scope.result.noResults = false;
@@ -131,6 +135,7 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
                 })
                 .catch(function(error){
                     Materialize.toast("No se pudo realizar la busqueda, intente más tarde.", 3000, "red");
+                    console.log(error);
                 })
         }
     };
@@ -192,11 +197,9 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         }
         /*Filters applied force to show restaurants or deliveries (not both)*/
         else if($scope.filtersApplied.showRestaurants ||  $scope.filtersApplied.showDeliveries){
-            console.log("enter here!");
             for(var i = 0; i < $scope.result.allResults.length; i++){
                 var resultWithFiltersLength = $scope.result.resultsWithFilters.length;
-                console.log("resultWithFiltersLength: " + resultWithFiltersLength);
-                
+
                 if($scope.result.allResults[i].local){
                     if($scope.filtersApplied.showRestaurants){
                         $scope.result.resultsWithFilters[resultWithFiltersLength] = $scope.result.allResults[i];
@@ -238,8 +241,14 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         $scope.result.showSearchWithoutFilters = false;
         $scope.result.showSearchWithFilters = true;
 
+        initMap();
+        loadMarkers();
     };
 
+    $scope.showInfoMarker = function(evt, result){
+        $scope.restaurantSelectedInMap = result;
+        $scope.map.showInfoWindow('myInfoWindow', this);
+    };
 
     /*Useful functions*/
 
@@ -330,6 +339,37 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         for(var i = 0; i < $scope.filtersApplied.showThisCuisines.length; i++){
             $scope.filtersApplied.showThisCuisines[i].isActive = true;
         }
+    };
+
+    /*This function is used to init the ng-map, without using this function the map will be all grey
+    * unless manually resize.*/
+    var initMap = function () {
+        if(!mapLoaded){
+            NgMap.getMap("results-map").then(function(){
+                $scope.map = NgMap.initMap("results-map");
+                mapLoaded = true;
+            });
+        }
+    };
+
+    /*This function is used to load all the markers of the restaurants in the map*/
+    var loadMarkers = function(){
+        //Timeout is needed to avoid getting 'map undefined'.
+        $timeout(function(){
+            var bounds = new google.maps.LatLngBounds();
+            var resultsToUse;
+
+            if($scope.result.showSearchWithoutFilters){resultsToUse = $scope.result.allResults;}
+            else {resultsToUse = $scope.result.resultsWithFilters;}
+
+            for(var i = 0; i < resultsToUse.length; i++){
+                var address = resultsToUse[i].address;
+                bounds.extend(new google.maps.LatLng(address.lat, address.lng));
+            }
+
+            $scope.map.setCenter(bounds.getCenter());
+            $scope.map.fitBounds(bounds);
+        }, 2000);
     }
 
 }]);

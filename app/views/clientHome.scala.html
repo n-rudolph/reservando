@@ -145,6 +145,34 @@
                </div>
            </div>
 
+           @*Result in a map*@
+           <div class="row" ng-show="showResults()">
+               <div class="col m12">
+                   <ng-map id="results-map" zoom="11" lazy-init="true">
+                       <info-window id="myInfoWindow">
+                            <div ng-non-bindable>
+                                <div class="row">
+                                    <div class="col m12">
+                                        <h5>{{restaurantSelectedInMap.name}}</h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col m6">
+                                        <img width="200" class="responsive-img" ng-src="@routes.Assets.versioned("{{restaurantSelectedInMap.photo.path}}")" ng-show="restaurantSelectedInMap.photo" align="left">
+                                        <img width="200" class="responsive-img" ng-src="@routes.Assets.versioned("images/placeholder/restaurant.jpg")" ng-hide="restaurantSelectedInMap.photo" align="left">
+                                    </div>
+                                    <div class="col m2 offset-m2">
+                                        <a class="waves-effect waves-light btn" ng-click="">Ver</a>
+                                    </div>
+                                </div>
+                            </div>
+                       </info-window>
+                       <marker id="{{restaurant.id}}" ng-repeat="restaurant in result.allResults" position="[{{restaurant.address.lat}},{{restaurant.address.lng}}]" on-click="showInfoMarker(event, restaurant)">
+                       </marker>
+                   </ng-map>
+               </div>
+           </div>
+
            @*Recommendations*@
            <div id="recommendations">
                <div class="row">
@@ -180,5 +208,8 @@
     <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/clientHome.css")">
 }{
     <script src="@routes.Assets.versioned("javascripts/clientHome.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/utils/geocode.js")"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyDM9GdrRT-5ML6OHeHGIIs0zNFjJmOaQUM&libraries=places&callback=initGoogleMapFunctionality"></script>
+    <script src="@routes.Assets.versioned("external/ngMap/ng-map.min.js")"></script>
 
 }
