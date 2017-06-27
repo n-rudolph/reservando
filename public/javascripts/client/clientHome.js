@@ -115,7 +115,7 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
             if(event.keyCode === 13){
                 document.getElementById("searchButton").click();
             }
-        });
+    });
 
     $scope.search = function(){
         resetPreviousResultsSearched();
@@ -152,15 +152,8 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         return ($scope.result.showSearchWithoutFilters || $scope.result.showSearchWithFilters)
     };
 
-    $scope.openLocal = function(){
-        /*var dataToPost = {localSelectedId: local.id};
-        serverCommunication.postToUrl(dataToPost,"/client/changeLocalSelected","","")
-            .then(function (responseData){
-                $window.location.href = "/client/viewLocal";
-            })
-            .catch(function (error) {
-
-            });*/
+    $scope.openLocal = function(restaurantId){
+        $window.location.href = "restaurant?id=" + restaurantId;
     };
 
     $scope.searchForAutocomplete = function(){
@@ -369,6 +362,10 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
 
             $scope.map.setCenter(bounds.getCenter());
             $scope.map.fitBounds(bounds);
+            //Zoom out a little bit if the result on the map is only one.
+            if(resultsToUse.length === 1){
+                $scope.map.setZoom(14);
+            }
         }, 2000);
     }
 

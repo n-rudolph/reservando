@@ -7,7 +7,6 @@ import models.Cuisine;
 import models.Restaurant;
 import play.libs.Json;
 import play.mvc.*;
-import views.html.localView;
 
 import java.util.*;
 
@@ -78,7 +77,7 @@ public class ClientHomeController extends Controller {
     }
 
     public Result openLocal(){
-        return ok(localView.render());
+        return ok();
     }
 
     public Result setLocalSelected(){

@@ -127,5 +127,21 @@ app.controller("loginCtrl", function ($scope, $http) {
             Materialize.toast(response.data, 3000, "red");
         });
             
-    }
+    };
+
+    //Assign the enter key to the action of login, when the cursor is on the input loginMail.
+    document.getElementById("loginMail").addEventListener("keyup", function(event){
+        event.preventDefault();
+        if(event.keyCode === 13){
+            $scope.login();
+        }
+    });
+
+    //Assign the enter key to the action of login, when the cursor is on the input loginPassword.
+    document.getElementById("loginPassword").addEventListener("keyup", function(event){
+        event.preventDefault();
+        if(event.keyCode === 13){
+            $scope.login();
+        }
+    });
 });
