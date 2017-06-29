@@ -45,6 +45,8 @@ public class Delivery extends Restaurant {
         return this;
     }
 
+    public static List<Delivery> all(){return finder.all();}
+
     public static Delivery byId(long id){
         return finder.byId(id);
     }

@@ -104,7 +104,7 @@
                                    </div>
                                    <div class="col m2">
                                        <div class="row"></div>
-                                       <a class="waves-effect waves-light btn-large" ng-click="openLocal(result.id)">Ver</a>
+                                       <a class="waves-effect waves-light btn-large" ng-click="openRestaurant(result.id)">Ver</a>
                                    </div>
                                </div>
                            </li>
@@ -127,7 +127,7 @@
                                    </div>
                                    <div class="col m2">
                                        <div class="row"></div>
-                                       <a class="waves-effect waves-light btn-large" ng-click="openLocal(result.id)">Ver</a>
+                                       <a class="waves-effect waves-light btn-large" ng-click="openRestaurant(result.id)">Ver</a>
                                    </div>
                                </div>
                            </li>
@@ -162,7 +162,7 @@
                                         <img width="200" class="responsive-img" ng-src="@routes.Assets.versioned("images/placeholder/restaurant.jpg")" ng-hide="restaurantSelectedInMap.photo" align="left">
                                     </div>
                                     <div class="col m2 offset-m2">
-                                        <a class="waves-effect waves-light btn" ng-click="openLocal(restaurantSelectedInMap.id)">Ver</a>
+                                        <a class="waves-effect waves-light btn" ng-click="openRestaurant(restaurantSelectedInMap.id)">Ver</a>
                                     </div>
                                 </div>
                             </div>
@@ -180,12 +180,13 @@
                        <h5>Sugerencias</h5>
                    </div>
                </div>
+
                <div class="row">
                    <div class="col m12">
                        <div class="slider">
-                           <button ng-click="openLocal()">
-                               <ul class="slides">
-                                   <li ng-repeat="recommendation in recommendations">
+                           <ul class="slides">
+                               <li ng-repeat="recommendation in recommendations">
+                                   <a ng-click="openRestaurant(recommendation.id)">
                                        @*Throwing a Not Found. Correct later*@
                                        @*<img class="responsive-img" ng-src="@routes.Assets.versioned("{{recommendation.photo.path}}")" ng-show="recommendation.photo">*@
                                        <img class="responsive-img" ng-src="@routes.Assets.versioned("images/placeholder/restaurant.jpg")" ng-hide="recommendation.photo">
@@ -194,9 +195,9 @@
                                            <h3>{{recommendation.name}}</h3>
                                            <h5 class="ligh grey-text text-lighten-3 truncate">{{recommendation.description}}</h5>
                                        </div>
-                                   </li>
-                               </ul>
-                           </button>
+                                   </a>
+                               </li>
+                           </ul>
                        </div>
                    </div>
                </div>

@@ -150,7 +150,7 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         return ($scope.result.showSearchWithoutFilters || $scope.result.showSearchWithFilters)
     };
 
-    $scope.openLocal = function(restaurantId){
+    $scope.openRestaurant = function(restaurantId){
         $window.location.href = "restaurant?id=" + restaurantId;
     };
 

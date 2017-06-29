@@ -15,8 +15,7 @@ public class DataBasePopulator {
 
     //This method add defaults locals into the database.
     public void populateLocals(){
-        if (Restaurant.allRestaurants().size() != 0)
-            return;
+        if (Local.all().size() != 0) return;
         loadAllDaysIntoDb();
         //loadDefaultCuisinesIntoDb();
         String relativePath = "app/modules/Utilities/Local List Pilar.txt";
@@ -53,6 +52,35 @@ public class DataBasePopulator {
             testReservation.setDate(dateTime);
             testReservation.setLocal(Local.getLocalById(localId));
             testReservation.save();
+        }
+    }
+    
+    public void populateDeliveries(){
+        if (Delivery.all().size() != 0) return;
+        String relativePath = "app/modules/Utilities/Delivery List Pilar.txt";
+        List<String> restaurants = readFile(relativePath);
+
+        for (String restaurant : restaurants) {
+            String[] deliveryInfo = restaurant.split("-/");
+            String name = deliveryInfo[0];
+            String address = deliveryInfo[1];
+            String description = deliveryInfo[2];
+            String[] cuisines = deliveryInfo[3].split("-");
+            List<Cuisine> cuisinesList = getCuisines(cuisines);
+            String[] latLngCoordinates = deliveryInfo[5].split(":")[1].split(",");
+            double lat = Double.parseDouble(latLngCoordinates[0]);
+            double lgn = Double.parseDouble(latLngCoordinates[1]);
+            String openingHour = "11:30";
+            String closingHour = "12:30";
+            List<Day> openingDays = getDefaultOpeningDays();
+            List<Meal> meals = new ArrayList<>();
+
+            Owner owner = (Owner) Owner.getUserByEmail("owner@gmail.com");
+            double defaultRadius = 10;
+            int defaultResponseTime = 30;
+            
+            Delivery newDelivery = new Delivery(name, description, new Address(address, lat, lgn), openingHour, closingHour, openingDays, cuisinesList, defaultRadius, meals, owner, defaultResponseTime);
+            if (!Delivery.all().contains(newDelivery)) newDelivery.save();
         }
     }
 

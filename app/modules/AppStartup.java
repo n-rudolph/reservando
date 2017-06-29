@@ -15,6 +15,7 @@ public class AppStartup {
         DataBasePopulator dataBasePopulator = new DataBasePopulator();
         dataBasePopulator.populatePrimaryUsers();
         dataBasePopulator.populateLocals();
+        dataBasePopulator.populateDeliveries();
         dataBasePopulator.populateDiscountCodes();
     }
 }
