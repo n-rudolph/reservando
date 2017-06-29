@@ -57,4 +57,8 @@ public class Discount extends Model{
     public static List<Discount> all() {
         return finder.all();
     }
+
+    public static Discount byId(Long id) {
+        return finder.byId(id);
+    }
 }

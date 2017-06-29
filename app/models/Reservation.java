@@ -4,6 +4,7 @@ import com.avaje.ebean.Model;
 import org.joda.time.DateTime;
 import play.libs.Time;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.util.List;
 
@@ -18,17 +19,21 @@ public class Reservation extends Model {
     private Client client;
     @ManyToOne
     private Local local;
+    @OneToOne(cascade = CascadeType.REMOVE)
+    @Nullable
+    private Discount discount;
 
-    public static Finder<Long, Reservation> find = new Finder<Long,Reservation>(Reservation.class);
+    private static Finder<Long, Reservation> finder = new Finder<Long,Reservation>(Reservation.class);
 
     public Reservation() {
     }
 
-    public Reservation(long id, int amount, DateTime date) {
-        this.id = id;
+    public Reservation(Client client, Local local, int amount, DateTime date, @Nullable Discount discount) {
+        this.client = client;
+        this.local = local;
         this.amount = amount;
         this.date = date;
-
+        this.discount = discount;
     }
 
     public long getId() {
@@ -74,5 +79,27 @@ public class Reservation extends Model {
     public Reservation setLocal(Local local) {
         this.local = local;
         return this;
+    }
+
+    @Nullable
+    public Discount getDiscount() {
+        return discount;
+    }
+
+    public Reservation setDiscount(@Nullable Discount discount) {
+        this.discount = discount;
+        return this;
+    }
+
+    public static Reservation byId(long id) {
+        return finder.byId(id);
+    }
+
+    public static List<Reservation> byClient(Client client) {
+        return finder.where().eq("client", client).findList();
+    }
+
+    public static List<Reservation> byLocal(Local local) {
+        return finder.where().eq("local", local).findList();
     }
 }

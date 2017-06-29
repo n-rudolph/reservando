@@ -1,0 +1,67 @@
+@()
+@views.html.main("Reservando"){
+    @clientNav()
+    <div ng-controller="ClientQualificationCtrl">
+        <div class="container body">
+            <div class="row">
+                <div class="col s12 center-align">
+                    <h4>Calificar</h4>
+                </div>
+                <div class="row">
+                    <form class="col s8 offset-s2">
+                        <div class="row">
+                            <div class="input-field">
+                                <input id="userNameInput" type="email" ng-value="reservation.client.email" disabled autofocus>
+                                <label for="userNameInput">Usuario</label>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="reservation.local.local">
+                            <div class="input-field">
+                                <input id="restaurantNameInput" type="text" ng-value="reservation.local.name" disabled autofocus>
+                                <label for="restaurantNameInput">Restaurant</label>
+                            </div>
+                        </div>
+                        <div class="row" ng-hide="reservation.local.local">
+                            <div class="input-field">
+                                <input id="restaurantNameInput" type="text" value="resto" disabled>
+                                <label for="restaurantNameInput">Restaurant</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field">
+                                <select id="qualification"
+                                required autofocus>
+                                    <option value="-1" disabled selected>Seleccione una opción</option>
+                                    <option value="1">Malo</option>
+                                    <option value="2">Regular</option>
+                                    <option value="3">Bueno</option>
+                                    <option value="4">Muy Bueno</option>
+                                    <option value="5">Exelente</option>
+                                </select>
+                                <label>Calificación</label>
+                                <span class="error" ng-show="qualificationError">Debe seleccionar una opción</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field">
+                                <textarea id="commentsTextarea" class="materialize-textarea validate field" data-length="120"
+                                ng-model="comments" ng-class="{invalid: commentError}" ng-change="validateQualification()"></textarea>
+                                <label for="commentsTextarea">Comentarios</label>
+                                <span class="error" ng-show="commentError">Debe realizar un comentario</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <a class="waves-effect waves-light btn-large" ng-click="qualify()">Calificar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}{
+    @*Stylesheets*@
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/client/clientQualification.css")">
+
+}{
+    <script src="@routes.Assets.versioned("javascripts/client/clientQualification.js")"></script>
+}

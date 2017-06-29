@@ -14,7 +14,12 @@ public class QualificationController extends Controller {
 
     public Result addQualification(){
         final JsonNode jsonNode = request().body().asJson();
-        final Qualification newQualification = Json.fromJson(jsonNode, QualificationObject.class).toQualification();
+        final double qualification = jsonNode.path("qualification").asDouble();
+        final Client client = Json.fromJson(jsonNode.path("client"), Client.class);
+        final Restaurant restaurant = Json.fromJson(jsonNode.path("restaurant"), Restaurant.class);
+
+        /*final Qualification newQualification = Json.fromJson(jsonNode, QualificationObject.class).toQualification();*/
+        final Qualification newQualification = new Qualification(qualification,client,restaurant);
 
         final Qualification oldQualification = Qualification.getQualification(newQualification.getRestaurant(), newQualification.getClient());
 
@@ -31,7 +36,7 @@ public class QualificationController extends Controller {
         return ok(Json.toJson(response));
     }
 
-    public Result getResaurantQualification(String rid){
+    public Result getRestaurantQualification(String rid){
         final Restaurant restaurant = Restaurant.byId(Long.parseLong(rid));
         return ok(Json.toJson(Qualification.getRestaurantQualification(restaurant)));
     }

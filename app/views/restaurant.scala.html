@@ -38,7 +38,7 @@
                         <p class="opening-time"><i class="material-icons">schedule</i> De {{restaurant.openingHour}} a {{restaurant.closingHour}}</p>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" ng-hide="restaurant.isLocal || restaurant.local">
                     <div class="col s12">
                         <p class="opening-time"><i class="material-icons">query_builder</i> Tiempo promedio de entrega: {{restaurant.responseTime}}</p>
                     </div>

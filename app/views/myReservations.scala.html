@@ -1,0 +1,57 @@
+@()
+@views.html.main("Reservando") {
+    @clientNav()
+    <div class="container" ng-controller="MyReservationsCtrl">
+        <div class="row title">
+            <h3>Mis Reservas</h3>
+        </div>
+        <div class="row">
+            <ul class="collapsible popout" data-collapsible="accordion">
+                <li ng-repeat="reservation in reservations">
+                    <div class="collapsible-header" ng-class="{'active': $first}"><i class="material-icons"><i class="material-icons">restaurant</i></i>{{reservation.local.name}}  -  {{getDateTimeFormat(reservation.date)}}<span class="right" ng-show="isExpire(reservation)">FINALIZADO</span></div>
+                    <div class="collapsible-body container">
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="row"><h5>Información</h5></div>
+                                <div class="row">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>Fecha:</td>
+                                                <td>{{getDate(reservation.date)}}</td>
+                                                <td>Dirección:</td>
+                                                <td>{{reservation.local.address.address}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Hora:</td>
+                                                <td>{{getTime(reservation.date)}}</td>
+                                                <td>Cantidad de personas:</td>
+                                                <td>{{reservation.amount}}</td>
+                                            </tr>
+                                            <tr ng-show="reservation.discount">
+                                                <td>Codigo de descuento:</td>
+                                                <td>{{reservation.discount.code}} - {{reservation.discount.discount}}%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="col s6"><div class="btn btn-large fullBtn" ng-click="toRestaurant(reservation)">Ver Restaurant</div></div>
+                                    <div class="col s6"><div class="btn btn-large red fullBtn" ng-click="deleteReservation(reservation, $index)">Cancelar Reserva</div></div>
+                                </div>
+                                <div class="row" ng-show="isExpire(reservation)">
+                                    <div class="col s6 offset-s3"><div class="btn btn-large fullBtn center-align" ng-click="qualify(reservation.id)">Calificar</div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+} {
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/client/newOrder.css")">
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/client/myOrders.css")">
+} {
+    <script src="@routes.Assets.versioned("javascripts/client/myReservations.js")"></script>
+}

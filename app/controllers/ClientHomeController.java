@@ -1,18 +1,15 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.sun.org.apache.regexp.internal.RE;
 import models.Client;
 import models.Cuisine;
 import models.Restaurant;
 import play.libs.Json;
 import play.mvc.*;
+import views.html.clientQualification;
 
 import java.util.*;
 
-/**
- * Created by Gustavo on 4/6/17.
- */
 public class ClientHomeController extends Controller {
 
     private Long localSelectedId;
@@ -24,7 +21,7 @@ public class ClientHomeController extends Controller {
 
         /*Search by name*/
         List<Restaurant> searchedByName = Restaurant.finder.where()
-                .ieq("name", wordToSearch).findList();
+                .icontains("name", wordToSearch).findList();
         results.addAll(searchedByName);
 
         /*Search by cuisine*/
@@ -76,10 +73,6 @@ public class ClientHomeController extends Controller {
         return ok(Json.toJson(Restaurant.finder.where().findList()));
     }
 
-    public Result openLocal(){
-        return ok();
-    }
-
     public Result setLocalSelected(){
         JsonNode jsonNode = request().body().asJson();
         localSelectedId = jsonNode.path("localSelectedId").asLong();
@@ -107,6 +100,10 @@ public class ClientHomeController extends Controller {
 
 
         return ok(Json.toJson(result));
+    }
+
+    public Result makeQualification(){
+        return ok(clientQualification.render());
     }
 
     private List<Restaurant> filterByCuisine(List<Restaurant> restaurants, String cuisine){

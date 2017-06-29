@@ -1,6 +1,4 @@
-/**
- * Created by Gustavo on 3/6/17.
- */
+
 var app = angular.module("reservandoApp", ['ngMap']);
 
 //app.requires.push('ngMap');
@@ -60,7 +58,7 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
 
     //Var used to avoid initializing the same map more than once.
     var mapLoaded = false;
-    
+
     $scope.recommendations = {photo: null};
 
     // To test! It must be implemented when the address change to an object.

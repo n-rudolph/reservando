@@ -1,0 +1,39 @@
+td img{
+    max-width: 100px;
+    width: 100px;
+}
+
+td input{
+    max-width: 50px;
+}
+
+.fullBtn{
+    width: 100%;
+}
+
+.timeChip{
+    width: 100px;
+    height: 50px;
+    display: inline-flex;
+    margin: 1em;
+    border-radius: 10px;
+    border: 2px solid red;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+}
+
+.timeChip.selected{
+    background-color: #ffcdd2;
+    font-size: 16px;
+}
+
+.prefix{
+    color: orange;
+}
+
+.send:hover {
+    color: darkgoldenrod;
+    cursor: pointer;
+}
+
