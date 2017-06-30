@@ -15,18 +15,18 @@ POST    /login                      controllers.LoginController.login
 GET     /logout                     controllers.LoginController.logout
 
 #Client
-GET     /client/home                controllers.HomeController.clientHome
-GET     /client/profile             controllers.ClientProfileController.clientProfile
-GET     /client/profile/user        controllers.ClientProfileController.getClient
-GET     /client/restaurant          controllers.HomeController.clientRestaurant
-POST    /client/deleteAccount       controllers.ClientProfileController.deleteAccount
-GET     /client/getLocalSelected    controllers.ClientHomeController.getLocalSelected
-GET     /client/searchAll           controllers.ClientHomeController.searchAll
-POST    /client/deleteAccount       controllers.ClientProfileController.deleteAccount()
-POST    /client/search              controllers.ClientHomeController.search
-POST    /client/changeLocalSelected controllers.ClientHomeController.setLocalSelected()
-POST    /client/getRecommendations  controllers.ClientHomeController.getRecommendations
-GET     /client/makeQualification   controllers.ClientHomeController.makeQualification
+GET     /client/home                            controllers.HomeController.clientHome
+GET     /client/profile                         controllers.ClientProfileController.clientProfile
+GET     /client/profile/user                    controllers.ClientProfileController.getClient
+GET     /client/restaurant                      controllers.HomeController.clientRestaurant
+POST    /client/deleteAccount                   controllers.ClientProfileController.deleteAccount
+GET     /client/getLocalSelected                controllers.ClientHomeController.getLocalSelected
+GET     /client/searchAll                       controllers.ClientHomeController.searchAll
+POST    /client/deleteAccount                   controllers.ClientProfileController.deleteAccount()
+POST    /client/search                          controllers.ClientHomeController.search
+POST    /client/changeLocalSelected             controllers.ClientHomeController.setLocalSelected()
+POST    /client/getRecommendations              controllers.ClientHomeController.getRecommendations
+GET     /client/makeQualification/:rid/:loc     controllers.ClientHomeController.makeQualification(rid:Long, loc: Boolean)
 
 #Restaurant
 POST    /restaurant                                 controllers.RestaurantController.addRestaurant
@@ -80,7 +80,7 @@ GET     /reservation/client         controllers.ReservationController.getClientR
 GET     /reservation/owner          controllers.ReservationController.getOwnerReservations
 GET     /my-reservations            controllers.ReservationController.viewClientReservations
 GET     /owner/my-reservations      controllers.ReservationController.viewOwnerReservations
-GET     /reservationById/:id        controllers.ReservationController.getReservationById(id: String)
+GET     /reservation/:rId           controllers.ReservationController.getReservation(rId: String)
 POST    /reservation                controllers.ReservationController.save
 DELETE  /reservation/:id            controllers.ReservationController.delete(id: String)
 

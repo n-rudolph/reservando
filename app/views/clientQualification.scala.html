@@ -11,20 +11,20 @@
                     <form class="col s8 offset-s2">
                         <div class="row">
                             <div class="input-field">
-                                <input id="userNameInput" type="email" ng-value="reservation.client.email" disabled autofocus>
+                                <input id="userNameInput" type="email" ng-value="client" disabled autofocus>
                                 <label for="userNameInput">Usuario</label>
                             </div>
                         </div>
-                        <div class="row" ng-show="reservation.local.local">
+                        <div class="row" ng-show="reservation">
                             <div class="input-field">
                                 <input id="restaurantNameInput" type="text" ng-value="reservation.local.name" disabled autofocus>
                                 <label for="restaurantNameInput">Restaurant</label>
                             </div>
                         </div>
-                        <div class="row" ng-hide="reservation.local.local">
+                        <div class="row" ng-hide="reservation">
                             <div class="input-field">
-                                <input id="restaurantNameInput" type="text" value="resto" disabled>
-                                <label for="restaurantNameInput">Restaurant</label>
+                                <input id="restaurantNameInput" type="text" value="order.deliveryName" disabled>
+                                <label for="restaurantNameInput">Delivery</label>
                             </div>
                         </div>
                         <div class="row">

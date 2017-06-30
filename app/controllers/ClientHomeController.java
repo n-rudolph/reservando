@@ -1,6 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import models.Client;
 import models.Cuisine;
 import models.Restaurant;
@@ -102,7 +103,7 @@ public class ClientHomeController extends Controller {
         return ok(Json.toJson(result));
     }
 
-    public Result makeQualification(){
+    public Result makeQualification(Long id, Boolean local){
         return ok(clientQualification.render());
     }
 

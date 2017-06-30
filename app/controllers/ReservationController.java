@@ -71,9 +71,10 @@ public class ReservationController extends Controller{
         return ok(Json.toJson(response));
     }
 
-    public Result getReservationById(String id){
-        final Reservation reservation = Reservation.byId(Long.parseLong(id));
-        if(reservation == null) return badRequest("Reservation not exist");
-        return ok(Json.toJson(reservation));
+    public Result getReservation(String rId){
+        final Reservation reservation = Reservation.byId(Long.parseLong(rId));
+        final ReservationResponse response = new ReservationResponse(reservation);
+        if(reservation == null) return badRequest("Reservation does not exist");
+        return ok(Json.toJson(response));
     }
 }

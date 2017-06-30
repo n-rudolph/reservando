@@ -43,17 +43,42 @@ app.service('serverCommunication', ['$http','$q', function ($http, $q){
 app.controller("ClientQualificationCtrl",['$scope', 'serverCommunication', '$window','$timeout',
     function($scope, serverCommunication, $window, $timeout){
 
-    $scope.getReservation = function(){
-        var reservationId = $window.location.href.split("id=")[1];
-        serverCommunication.getFromUrl("/reservationById/" + reservationId, "", "")
+    $scope.getReservation = function(reservationId){
+        serverCommunication.getFromUrl("/reservation/" + reservationId, "", "")
             .then(function(data){
                 $scope.reservation = data;
+                //$scope.client = $scope.reservation.clientName;
+                $scope.client = $scope.reservation.clientName;
             })
             .catch(function(error){
                 Materialize.toast("Ocurrio un error, intente mas tarde.")
             });
     };
-    $scope.getReservation();
+
+    $scope.getOrder = function (orderId) {
+        serverCommunication.getFromUrl("/order/" + orderId , "", "")
+            .then(function(data){
+                $scope.order = data;
+                //$scope.client = $scope.order.clientName;
+            })
+            .catch(function(error){
+                Materialize.toast("Ocurrio un error, intente mas tarde.")
+            })
+    };
+
+    $scope.loadOrderOrReservation = function(){
+        var restaurantId = $window.location.href.split("/")[5];
+        var isLocal = $window.location.href.split("/")[6];
+
+        if(isLocal == "true") {
+            $scope.getReservation(restaurantId);
+        }
+
+        else $scope.getOrder(restaurantId);
+    };
+
+    $scope.loadOrderOrReservation();
+
 
     $(document).ready(function() {
         $('select').material_select();
@@ -64,9 +89,13 @@ app.controller("ClientQualificationCtrl",['$scope', 'serverCommunication', '$win
         if($scope.validateQualification()){
             var qualification = document.getElementById("qualification").value;
             var comments = $scope.comments;
-            var data = {qualification: qualification,
-                        client: $scope.reservation.client,
-                        restaurant: $scope.reservation.local};
+            var restaurant = $scope.reservation === undefined? $scope.order.delivery : $scope.reservation.local;
+            var data = {
+                qualification: qualification,
+                client: $scope.reservation.client,
+                restaurant: restaurant
+            };
+
             serverCommunication.postToUrl(data,"/qualification","Calificación realizada","Ha ocurrido un problema, intente mas tarde")
                 .then(function (response) {
                     $timeout(function () {
@@ -78,8 +107,6 @@ app.controller("ClientQualificationCtrl",['$scope', 'serverCommunication', '$win
                 });
 
         }
-
-
     };
 
     $scope.validateQualification = function () {

@@ -17,7 +17,10 @@ public class MealResponse {
         this.price = meal.getPrice();
         this.description = meal.getDescription();
 
-        final long photoId = meal.getImage().getId();
-        this.photo = Photo.finder.byId(photoId);
+        if(meal.getImage() != null){
+            final long photoId = meal.getImage().getId();
+            this.photo = Photo.finder.byId(photoId);
+        }
+
     }
 }
