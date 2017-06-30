@@ -4,10 +4,7 @@ package models;
 import com.avaje.ebean.Model;
 
 import javax.annotation.Nullable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -15,6 +12,7 @@ public class Meal extends Model {
     @Id
     private long id;
     private String name;
+    @Column(columnDefinition = "TEXT")
     private String description;
     private double price;
     @OneToOne
@@ -112,4 +110,6 @@ public class Meal extends Model {
     public static List<Meal> getByRestaurant(Restaurant restaurant) {
         return finder.where().eq("restaurant", restaurant).findList();
     }
+
+    public static List<Meal> all(){return finder.all();}
 }

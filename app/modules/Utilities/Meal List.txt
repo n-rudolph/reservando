@@ -1,0 +1,50 @@
+Peruana-/Arroz con mariscos-Arroz con variedad de mariscos-280.00-/Arroz chaufa de carne-Arroz con trozos de carne salteados-160.00-/
+Parrilla-/Parrilla completa para 2-Carne, chorizo, morcilla, achuras, chimichurri y salsa criolla para 2 personas.-225.00-/Parrilla completa para 4-Carne, chorizo, morcilla, achuras, chimichurri y salsa criolla para 4 personas-338.00-/
+Mediterránea-/Lasaña de carne gratinada con bechamel-Un plato sencillo pero delicioso.  El toque mediterráneo se lo dan las verduras salteadas como el calabacín, las berenjenas y el champiñón que le sirven de acompañamiento.-150.00-/Arroz negro con calamar-Su intenso sabor y su combinación de ingredientes convierten a este plato en uno de los manjares más nutritivos del mediterráneo.  El color oscuro del arroz le viene de la tinta del calamar.-225.00-/
+Brunch-/Infusión mas budin-DESCRIPTION-25.00-/Infusión + tostada de pan de campo-Tostada con queso untable, mermelada cacera y manteca.-45.00-/
+Vegetariana-/Ensalada Cesár-Mix de lechugas, croutons, pollo, parmesano y aderezo César.-70.00-/Ensalada Caprese-Tomate, muzzarella, albahaca y mix de hojas verdes con salsa pesto.-70.00-/
+Francesa-/Quenelle-Las quenelles se hacen con una pasta de sémola de trigo o harina mezclada con mantequilla, huevos y leche o agua a la que se añade bien algún tipo de carne desmenuzada de pescado, ternera, ave, o bien tuétano.-200.00-/Cassoulet-Guiso hecho con alubias blancas o frijoles, y distintas partes de carne animal.-250.00-/
+Pastas-/Lasagna con salsa mixta-DESCRIPTION-100.00-/Ñoquis de papa y ricota-DESCRIPTION-85.00-/
+Pescados y Mariscos-/Carpaccio de pulpo a la oliva-Finos cortes de pulpo marinados en salsa de olivas negras-130.00-/Tartare de salmón-Pequeños cortes de salmón, cebollita y huevo, sazonado con toque de soya y emulsión de mayonesa.-150.00-/
+Carnes-/Milanesa de carne-DESCRIPTION-90.00-/Milanesa napolitana de carne-DESCRIPTION-100.00-/
+Fusión-/Lehmeyun clásico-Carnes vacunas maceradas al limon con pimientos cebolla y perejil fresco.-83.00-/Kebab cordero-Macerado en vino tinto y horneado (a leña), con salsa tannat, mix de verdes, papines al romero y queso azul.-225.00-/
+Mexicana-/Taco de ternera (3 unidades)-DESCRIPTION-140.00-/Taco vegetariano (3 unidades)-Sabor natural del pimiento, cebolla y champignones, aderezado con abundante salsa de palta, queso crema y ají.-120.00-/
+Finger Foods-/Nachos con cheddar-Nachos con Dip de salsa cheddar.-95.00-/Crispy prawns-7 langostinos jumbo rebozados con dip de coleslaw hony + papas fritas.-148.00-/
+Picadas-/Picada clásica-Picada chica (comen 3 y pican 5 ) o picada grande (comen seis y pican 8). Salame Milan, jamón cocido, jamón crudo, mortadela, matambre, queso dambo, Mar del Plata, queso sardo, aceitunas verdes, aceitunas negras y antipasto vegetal.-515.00-/Picada de ahumados-Picada chica (comen tres y pican cinco ) o picada grande (comen seis y pican 8). Jamón cocido ahumado, bondiola tandilera, panceta ahumada natural, lomo a las finas hierbas, leberwurst, pastrome ahumado, salame ahumado, salmon o trucha ahumada, quesillo ahumado, queso Holanda, queso azul (roquefort), pepinillos en vinagre, aceitunas rellenas, aceitunas griegas y pan.-780.00-/
+China-/Chao fan mixto vegetariano-DESCRIPTION-110.00-/Pollo saltado con salsa de ostra-DESCRIPTION-175.00-/
+Niguiris-/Niguiri salmón fresco (5 unidades)-Bollitos de arroz, cubiertos con una delicada lonja de salmón fresco.-100.00-/Niguiri de langostino ahumado (10 unidades)-DESCRIPTION-170.00-/
+Sashimis-/Sashimi Salmón Rosado-DESCRIPTION-42.00-/Sashimi trucha arco iris-DESCRIPTION-42.00-/
+Geishas-/Geishas salmón (10 unidades)-Rellena de palta, Philadelphia y por fuera salmón fresco.-172.70-/Geishas langostino (10 unidades)-Rellena de langostino, mango, Philadelphia y por fuera salmón fresco.-172.70-/
+Temakis-/Temaki museo-Conito de arroz, relleno de salmón, queso philadelphia y palta, cubierto de alga nori, enrollados a mano.-85.00-/Temaki Oyshiki-Conito de arroz, relleno de camarón, queso philadelphia y pepino, cubierto de alga nori, enrollados a mano.-85.00-/
+Chirashi-/Chirashi langostinos, palta y phila (grande)-Colchón de arroz de sushi, con langostinos, palta, Philadelphia y salsa teriyaki.-181.50-/Chirashi pepino, palta y phila-Colchón de arroz de sushi, con pepino, palta y Philadelphia.-137.50-/
+Tiraditos-/Tiradito de pescado-Finos cortes de pescado, marinados en nuestra leche de tigre.-135.00-/Tiradito mediterráneo-Finos cortes de pescado blanco, marinados en aceite de oliva, concasé de tomate, mostaza antigua y jugo de limón.-135.00-/
+Ceviches-/Ceviche de pescado clásico-Dados de pescado, marinados en nuestra leche de tigre.-115.00-/Ceviche nikkei-Ceviche de pescado y pulpo, marinado en salsa ponzú.-125.00-/
+Postres-/Tiramisú-DESCRIPTION-65.00-/Flan casero-DESCRIPTION-50.00-/
+Bebidas-/Refresco 1.5 L-Coca, fanta o sprite-50.00-/Cerveza Heineken 1 L-DESCRIPTION-120.00-/
+Vinos-/Vino de la casa 750 ml-DESCRIPTION-130.00-/Vino Trapiche merlot 750 ml-DESCRIPTION-210.00-/
+Empanadas salteñas al horno-/Empanada de carne suave (unidad)-DESCRIPTION-30.00-/Empanada de jamón y queso (unidad)-DESCRIPTION-30.00-/
+Norteamericana-/Baby bacon-Ojo de bife cubierto con queso, panceta, barbacoa con papas fritas.-230.00-/Red house steak-Ojo de bife cubierto de muzzarella, jamón cocido y morrones asados, con papas fritas.-230.00-/
+Empanadas-/Empanada de carne (unidad)-DESCRIPTION-24.00-/Empanada de Pollo (unidad)-DESCRIPTION-24.00-/
+Pizzas-/Pizza con muzzarrella-DESCRIPTION-110.00-/Pizza con anchoas-DESCRIPTION-175.00-/
+Entradas-/Papas rústicas-DESCRIPTION-85.00-/Rabas a la provenzal-DESCRIPTION-130.00-/
+Rolls-/California roll (12 unidades)-Kanikama, palta y salsa teriyaki.-178.00-/Salmón cocido roll (12 unidades)-Salmón cocido, salsa teriyaki y palta.-178.00-/
+Makis-/Maki de salmón (6 unidades)-DESCRIPTION-135.00-/Maki de langostino (6 unidades)-DESCRIPTION-140.00-/
+Pizzetas-/Pizzeta con muzzarella-DESCRIPTION-100.00-/Pizzeta napolitana-DESCRIPTION-130.00-/
+Calzones-/Calzone napolitano (grande)-Salsa de tomate, muzzrella, jamón cocido, ajo, cubierto con rodajas de tomates.-200.00-/Calzone cuatro quesos (grande)-Salsa de tomate, muzzarella, provolone, fontina, roquefort, cubierto de cebolla fresca.-220.00-/
+Fainá-/Fainá (porción)-DESCRIPTION-18.00-/Fainá capresse (porción)-DESCRIPTION-25.00-/
+Panes-/Pan de ajo-DESCRIPTION-40.00-/Pan de provolone-DESCRIPTION-50.00-/
+Sándwiches-/Sándwich tostado-Jamón y queso.-90.00-/Sándwich tostado completo-Jamón, queso, tomate, lechuga y huevo.-110.00-/
+Minutas-/Lomito en pan-DESCRIPTION-95.00-/Papas fritas (porción grande)-DESCRIPTION-110.00-/
+Ensaladas-/Salmón salad-Salmón grillado con salsa de maracuyá sobre mix de hojas verdes.-150-/Nosu salad-Misculin verde, tomates cherry y vegetales asados con una porción de salmón ahumado en finas tiras.-155.00-/
+Wrap-/Wrap de atún-Atún, lechuga, queso, tomate, choclo, semillas y queso crema.-90.00-/Wrap de salmón ahumado-Rúcula, tomates secos, queso crema con ciboulette y almendras tostadas.-115.00-/
+Tablas-/Tabla I  Combinado de rolls clásicos (20 piezas)-Incluye 2 niguiris y 2 geishas de salmón.-335.00-/Tabla II  Combinado de salmón y langostinos (15 piezas)-Philadelphia rolls, New York rolls, phila rolls, langostino rolls, futurama rolls, niguiris y geishas de salmón.-315.00-/
+Menú kids-/Menú kids 1 | 6 patitas de pollo + papas fritas + bebida-Menores de 8 años.-105.00-/Menú kids 2 | 6 patitas de pollo + puré de papa + bebida-Menores de 8 años.-105.00
+Salteados al wok-/Yakimeshi con pollo-Arroz salteado con verduras y pollo.-175.00-/Yakisoba con vegetales-Fideos salteados con vegetales.-148.00-/
+Especiales Nosu-/Pollo a los tres aromas-Jengibre, albahaca y ajo le dan su aroma a éste exquisito plato, además del vino oriental y condimentos varios. Servido con arroz blanco.-220.00-/Red pork-Anís estrellado, verdeo, salsa de soja, frutas cítricas, además de macerarse durante 24 hs. , dan un sabor inigualable a éste plato.-210-/
+Rolls de salmón y langostinos-/Philadelphia roll (12 unidades)-Salmón fresco y Philadelphia.-215.00-/New York roll (12 unidades)-Salmón fresco y palta.-215.00-/
+Premium rolls-/Ahumado roll (12 unidades)-Langostino rebozado y queso envuelto en salmón ahumado.-240.00-/Shitake roll (12 unidades)-Hongos shitake, salmón y corona de bacon picado.-240.00-/
+Hot rolls-/Hot Buenos Aires roll (12 unidades)-Salmón, palta y qeuso rebozado y frito.-240.00-/Hot sensei roll (12 unidades)-Langostino, palta y queso rebozado y frito con salsa de mayonesa y verdeo.-240.00-/
+Nigiris-/Nigiri de salmón fresco (6 unidades)-DESCRIPTION-148.00-/Nigiri de langostinos (6 unidades)-DESCRIPTION-160.00-/
+Hamburguesas caseras-/Hamburguesa clásica-Lechuga, cheddar y tomate.-84.00-/Hamburguesa bacon-Cheddar y bacon.-108.00-/
+Cocina-/Churrasco de cerdo a la pizza con papas bastón-DESCRIPTION-110.00-/Costillitas de cerdo con papas rústicas-DESCRIPTION-110.00-/
+Menú light-/Milanesa de soja con ensalada mixta-DESCRIPTION-85.00-/Tarta con ensalada mixta-DESCRIPTION-80.00-/

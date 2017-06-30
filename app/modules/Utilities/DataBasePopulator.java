@@ -17,7 +17,6 @@ public class DataBasePopulator {
     public void populateLocals(){
         if (Local.all().size() != 0) return;
         loadAllDaysIntoDb();
-        //loadDefaultCuisinesIntoDb();
         String relativePath = "app/modules/Utilities/Local List Pilar.txt";
         List<String> restaurants = readFile(relativePath);
 
@@ -28,19 +27,22 @@ public class DataBasePopulator {
             String description = localInfo[2];
             String[] cuisines = localInfo[3].split("-");
             List<Cuisine> cuisinesList = getCuisines(cuisines);
-            String [] latLngCoordinates = localInfo[5].split(":")[1].split(",");
+            String[] mealsName = localInfo[4].split("-");
+            List<Meal> mealsList = getMeals(mealsName);
+            String [] latLngCoordinates = localInfo[6].split(":")[1].split(",");
             double lat = Double.parseDouble(latLngCoordinates[0]);
             double lgn = Double.parseDouble(latLngCoordinates[1]);
             String openingHour = "11:30";
             String closingHour = "12:30";
             List<Day> openingDays = getDefaultOpeningDays();
             int capacityDefault = 100;
-            List<Meal> meals = new ArrayList<>();
 
             Owner owner = (Owner) Owner.getUserByEmail("owner@gmail.com");
 
-            Local newLocal = new Local(name, description, new Address(address, lat, lgn), openingHour, closingHour, openingDays, cuisinesList, capacityDefault, meals, owner, 30);
-            if(!Local.all().contains(newLocal)) newLocal.save();
+            Local newLocal = new Local(name, description, new Address(address, lat, lgn), openingHour, closingHour, openingDays, cuisinesList, capacityDefault, mealsList, owner, 30);
+            /*if(!Local.all().contains(newLocal)) newLocal.save();*/
+            newLocal.save();
+            setRestaurantForMeals(mealsList, newLocal);
 
             long localId = newLocal.getId();
 
@@ -54,7 +56,8 @@ public class DataBasePopulator {
             testReservation.save();
         }
     }
-    
+
+    //This method add defaults deliveries into the database.
     public void populateDeliveries(){
         if (Delivery.all().size() != 0) return;
         String relativePath = "app/modules/Utilities/Delivery List Pilar.txt";
@@ -67,20 +70,36 @@ public class DataBasePopulator {
             String description = deliveryInfo[2];
             String[] cuisines = deliveryInfo[3].split("-");
             List<Cuisine> cuisinesList = getCuisines(cuisines);
-            String[] latLngCoordinates = deliveryInfo[5].split(":")[1].split(",");
+            String[] mealsName = deliveryInfo[4].split("-");
+            List<Meal> mealsList = getMeals(mealsName);
+            String[] latLngCoordinates = deliveryInfo[6].split(":")[1].split(",");
             double lat = Double.parseDouble(latLngCoordinates[0]);
             double lgn = Double.parseDouble(latLngCoordinates[1]);
             String openingHour = "11:30";
             String closingHour = "12:30";
             List<Day> openingDays = getDefaultOpeningDays();
-            List<Meal> meals = new ArrayList<>();
 
             Owner owner = (Owner) Owner.getUserByEmail("owner@gmail.com");
             double defaultRadius = 10;
             int defaultResponseTime = 30;
-            
-            Delivery newDelivery = new Delivery(name, description, new Address(address, lat, lgn), openingHour, closingHour, openingDays, cuisinesList, defaultRadius, meals, owner, defaultResponseTime);
-            if (!Delivery.all().contains(newDelivery)) newDelivery.save();
+
+            Delivery newDelivery = new Delivery(name, description, new Address(address, lat, lgn), openingHour, closingHour, openingDays, cuisinesList, defaultRadius, mealsList, owner, defaultResponseTime);
+            /*if (!Delivery.all().contains(newDelivery)) newDelivery.save();*/
+            newDelivery.save();
+            setRestaurantForMeals(mealsList, newDelivery);
+        }
+    }
+
+    //This method add defaults discount codes into the database.
+    public void populateDiscountCodes() {
+        if (Discount.all().size() == 0) {
+            final Discount discount = new Discount("1q2w3e", 30);
+            discount.setUsed();
+            discount.save();
+            final Discount discount2 = new Discount("q1w2e3", 20);
+            discount2.save();
+            final Discount discount3 = new Discount("123qwe", 50);
+            discount3.save();
         }
     }
 
@@ -168,15 +187,50 @@ public class DataBasePopulator {
         return cuisinesList;
     }
 
-    public void populateDiscountCodes() {
-        if (Discount.all().size() == 0) {
-            final Discount discount = new Discount("1q2w3e", 30);
-            discount.setUsed();
-            discount.save();
-            final Discount discount2 = new Discount("q1w2e3", 20);
-            discount2.save();
-            final Discount discount3 = new Discount("123qwe", 50);
-            discount3.save();
+    //This method returns some defaults meals (List<Meal>), when a an array of 'type of meal' is passed.
+    private List<Meal> getMeals(String[] mealsName){
+        List<Meal> mealsToReturn = new ArrayList<>();
+        String relativePath = "app/modules/Utilities/Meal List.txt";
+        List<String> mealsDefault = readFile(relativePath);
+
+        for (String mealName : mealsName){
+            for (String mealDefault : mealsDefault){
+                String[] mealsDefaultFormat = mealDefault.split("-/");
+                String mealDefaultName = mealsDefaultFormat[0];
+
+                if(mealDefaultName.equals(mealName)){
+                    String[] meal1Info = mealsDefaultFormat[1].split("-");
+                    String meal1Name = meal1Info[0];
+                    String meal1Description = meal1Info[1].equals("DESCRIPTION") ? "" : meal1Info[1];
+                    String meal1Price = meal1Info[2];
+
+                    Meal meal1 = new Meal(meal1Name, meal1Description, Double.parseDouble(meal1Price));
+                    meal1.save();
+
+                    mealsToReturn.add(meal1);
+
+                    String[] meal2Info = mealsDefaultFormat[2].split("-");
+                    String meal2Name = meal2Info[0];
+                    String meal2Description = meal2Info[1].equals("DESCRIPTION") ? "" : meal2Info[1];
+                    String meal2Price = meal2Info[2];
+
+                    Meal meal2 = new Meal(meal2Name, meal2Description, Double.parseDouble(meal2Price));
+                    meal2.save();
+
+                    mealsToReturn.add(meal2);
+                    break;
+                }
+            }
         }
+        return mealsToReturn;
+    }
+
+    private void setRestaurantForMeals(List<Meal> meals, Restaurant restaurant){
+        for (Meal meal : meals){
+            meal.setRestaurant(restaurant);
+            meal.save();
+        }
+        /*restaurant.setMenu(meals);
+        restaurant.save();*/
     }
 }
