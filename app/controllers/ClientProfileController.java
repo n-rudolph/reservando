@@ -43,6 +43,19 @@ public class ClientProfileController extends Controller {
                 return internalServerError("No se ha podido eliminar la cuenta debido a que tiene reservaciones pendientes.");
             }
         }
+
+        for (DeliveryOrder deliveryOrder: deliveryOrders){
+            DateTime orderDatePlaced = deliveryOrder.getTimePlaced();
+            DateTime orderDateFinished = orderDatePlaced.plusMinutes(deliveryOrder.getDelivery().getResponseTime());
+            DateTime currentDate = new DateTime();
+            //Here is check is all the orders has finished, or more specific if there is any order
+            //for the future. If there is one or more order for the future, the client can not delete his
+            //account.
+            if(orderDateFinished.isAfter(currentDate)){
+                return internalServerError("No se ha podido eliminar la cuenta debido a que tiene ordenes pendientes.");
+            }
+        }
+
         //This deletes the user and all the all the orders and reservations.
         client.delete();
         session().clear();

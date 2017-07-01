@@ -56,6 +56,9 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row" ng-show="isExpired(order)">
+                            <div class="col s6 offset-s3"><div class="btn btn-large fullBtn center-align" ng-click="qualify(order.id)">Calificar</div></div>
+                        </div>
                     </div>
                 </li>
             </ul>

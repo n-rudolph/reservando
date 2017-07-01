@@ -30,14 +30,6 @@ public class HomeController extends Controller {
         return ok(ownerRestaurants.render());
     }
     public Result ownerRestaurant() { return ok(ownerRestaurantProfile.render()); }
-
-    public Result getDays() {
-        return ok(Json.toJson(Day.all()));
-    }
-    public Result getCuisines() {
-        return ok(Json.toJson(Cuisine.all()));
-    }
-
     public Result clientRestaurant() {
         return ok(restaurant.render());
     }

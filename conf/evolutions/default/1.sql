@@ -45,7 +45,7 @@ create table discount (
 create table meal (
   id                        bigint not null,
   name                      varchar(255),
-  description               varchar(255),
+  description               TEXT,
   price                     double,
   photo_id                  bigint,
   is_deleted                boolean,

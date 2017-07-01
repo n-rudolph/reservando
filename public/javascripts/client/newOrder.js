@@ -12,13 +12,21 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
     $scope.discCode = "";
     $scope.discount = {};
 
+    $scope.getClient = function () {
+        $http.get("/client/profile/user").then(function(response){
+            $scope.client = response;
+        })
+    };
+    $scope.getClient();
+
     $scope.getRestaurant = function(){
         var id = $window.location.href.split("id=")[1];
         $http.get("/restaurant/"+ id).then(
             function (response){
                 $scope.restaurant = response.data;
                 $scope.orderObject.dId = $scope.restaurant.id;
-                $scope.orderObject.address = $scope.restaurant.address.address;
+                //$scope.orderObject.address = $scope.restaurant.address.address;
+                $scope.orderObject.address = $scope.client.address;
                 $scope.coordinates.lat = $scope.restaurant.address.lat;
                 $scope.coordinates.lng = $scope.restaurant.address.lng;
                 $scope.getMenu();

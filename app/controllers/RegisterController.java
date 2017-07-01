@@ -1,10 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Client;
-import models.Local;
-import models.Owner;
-import models.User;
+import models.*;
 import models.requestObjects.UserRegisterObject;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -36,13 +33,5 @@ public class RegisterController extends Controller {
 
     private boolean uniqueEmail(String email) {
         return !User.isEmailInUse(email);
-    }
-
-    public Result getUsers() {
-        return ok(Json.toJson(User.all()));
-    }
-
-    public Result getLocals() {
-        return ok(Json.toJson(Local.all()));
     }
 }

@@ -49,7 +49,7 @@ app.controller("MyReservationsCtrl", function ($scope, $http, $window, $timeout)
     };
 
     $scope.qualify = function(reservationID){
-        $window.location.href = "client/makeQualification?id=" + reservationID;
+        $window.location.href = "client/makeQualification/" + reservationID +"/" + true;
     }
 });
 

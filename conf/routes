@@ -15,16 +15,14 @@ POST    /login                      controllers.LoginController.login
 GET     /logout                     controllers.LoginController.logout
 
 #Client
-GET     /client/home                controllers.HomeController.clientHome
-GET     /client/profile             controllers.ClientProfileController.clientProfile
-GET     /client/profile/user        controllers.ClientProfileController.getClient
-GET     /client/restaurant          controllers.HomeController.clientRestaurant
-POST    /client/deleteAccount       controllers.ClientProfileController.deleteAccount
-GET     /client/getLocalSelected    controllers.ClientHomeController.getLocalSelected
-GET     /client/searchAll           controllers.ClientHomeController.searchAll
-POST    /client/search              controllers.ClientHomeController.search
-POST    /client/changeLocalSelected controllers.ClientHomeController.setLocalSelected()
-POST    /client/getRecommendations  controllers.ClientHomeController.getRecommendations
+GET     /client/home                            controllers.HomeController.clientHome
+GET     /client/profile                         controllers.ClientProfileController.clientProfile
+GET     /client/profile/user                    controllers.ClientProfileController.getClient
+GET     /client/restaurant                      controllers.HomeController.clientRestaurant
+GET     /client/searchAllRestaurants            controllers.ClientHomeController.searchAllRestaurants
+POST    /client/deleteAccount                   controllers.ClientProfileController.deleteAccount
+POST    /client/search                          controllers.ClientHomeController.search
+POST    /client/getRecommendations              controllers.ClientHomeController.getRecommendations
 
 #Restaurant
 POST    /restaurant                                 controllers.RestaurantController.addRestaurant
@@ -82,9 +80,18 @@ GET     /reservation/client         controllers.ReservationController.getClientR
 GET     /reservation/owner          controllers.ReservationController.getOwnerReservations
 GET     /my-reservations            controllers.ReservationController.viewClientReservations
 GET     /owner/my-reservations      controllers.ReservationController.viewOwnerReservations
-GET     /reservationById/:id        controllers.ReservationController.getReservationById(id: String)
+GET     /reservation/:rId           controllers.ReservationController.getReservation(rId: String)
 POST    /reservation                controllers.ReservationController.save
 DELETE  /reservation/:id            controllers.ReservationController.delete(id: String)
 
 #Discount
 GET     /discount/:code             controllers.DiscountController.getDiscount(code: String)
+
+#Debug
+GET     /all/users                  controllers.DebugController.getUsers
+GET     /all/locals                 controllers.DebugController.getLocals
+GET     /all/deliveries             controllers.DebugController.getDeliveries
+GET     /all/restaurants            controllers.DebugController.getRestaurants
+GET     /all/days                   controllers.DebugController.getDays
+GET     /all/cuisines               controllers.DebugController.getCuisines
+GET     /all/meals                  controllers.DebugController.getMeals
