@@ -1,7 +1,6 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import models.Client;
 import models.Cuisine;
 import models.Restaurant;

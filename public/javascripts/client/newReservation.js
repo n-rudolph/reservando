@@ -109,7 +109,6 @@ app.controller("NewReservationCtrl", function ($scope, $http, $window, $timeout)
             } else {
                 $scope.discount = response.data;
                 $scope.validCode = true;
-                $scope.calculateTotal();
             }
         });
     };
@@ -120,7 +119,7 @@ app.controller("NewReservationCtrl", function ($scope, $http, $window, $timeout)
     };
 
     $scope.saveReservation = function(){
-        if ($scope.validCode)
+        if ($scope.validCode && $scope.hasDiscount)
             $scope.reservation.discountCode = $scope.discCode;
         else $scope.reservation.discountCode = "";
         $scope.reservation.localId = $scope.restaurant.id;

@@ -64,7 +64,7 @@
                             <label for="discountCode">Codigo de descuento</label>
                         </div>
                     </div>
-                    <div class="col s4" ng-show="validCode">
+                    <div class="col s4" ng-show="validCode && hasDiscount">
                         <div class="input-field">
                             <input type="text" ng-model="discount.discount" id="disc" readonly>
                             <label for="disc">Descuento (%)</label>

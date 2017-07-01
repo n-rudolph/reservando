@@ -80,7 +80,7 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
       for (var i = 0; i < $scope.orderObject.menu.length; i++){
           total += $scope.calculateSubtotal2($scope.orderObject.menu[i]);
       }
-      if ($scope.validCode)
+      if ($scope.validCode && $scope.hasDiscount)
           total = total * (1 - ($scope.discount.discount / 100));
       $scope.total = total;
     };
@@ -135,9 +135,14 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
             }
         });
     };
+    $scope.resetCode = function(){
+        $scope.invalidCode = false;
+        $scope.validCode = false;
+        $scope.discount = {};
+    };
 
     $scope.saveOrder = function(){
-        if ($scope.validCode)
+        if ($scope.validCode && $scope.hasDiscount)
             $scope.orderObject.discountCode = $scope.discCode;
         else $scope.orderObject.discountCode = "";
 
