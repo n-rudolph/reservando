@@ -11,12 +11,6 @@ public class DebugController extends Controller {
         return ok(Json.toJson(User.all()));
     }
 
-    public Result getLocals() {
-        return ok(Json.toJson(Local.all()));
-    }
-
-    public Result getDeliveries() { return ok(Json.toJson(Delivery.all())); }
-
     public Result getRestaurants() { return ok(Json.toJson(Restaurant.allRestaurants())); }
 
     public Result getDays() {

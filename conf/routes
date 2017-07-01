@@ -55,8 +55,6 @@ PUT     /user/photo                 controllers.UserController.changePhoto
 PUT     /user/info                  controllers.UserController.changeInfo
 PUT     /user/password              controllers.UserController.changePassword
 
-GET     /all/users                  controllers.RegisterController.getUsers
-GET     /all/locals                 controllers.RegisterController.getLocals
 GET     /all/days                   controllers.HomeController.getDays
 GET     /all/cuisines               controllers.HomeController.getCuisines
 
@@ -89,8 +87,6 @@ GET     /discount/:code             controllers.DiscountController.getDiscount(c
 
 #Debug
 GET     /all/users                  controllers.DebugController.getUsers
-GET     /all/locals                 controllers.DebugController.getLocals
-GET     /all/deliveries             controllers.DebugController.getDeliveries
 GET     /all/restaurants            controllers.DebugController.getRestaurants
 GET     /all/days                   controllers.DebugController.getDays
 GET     /all/cuisines               controllers.DebugController.getCuisines
