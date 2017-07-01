@@ -102,11 +102,11 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'serverCommunication','$wi
     };
 
     $scope.openChangePasswordModal = function() {
-        $('#changePasswordModal').openModal();
+        $('#changePasswordModal').modal('open');
     };
 
     $scope.openDeleteAccountModal = function () {
-        $('#deleteAccountModal').openModal();
+        $('#deleteAccountModal').modal('open');
     };
 
     //Edit Mode

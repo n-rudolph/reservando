@@ -45,14 +45,20 @@ public class OwnerProfileController extends Controller {
                     }
                 }
             }
-            //DeliveryOrder model must be change in order to implement some logic for the pending orders and the
-            //finished ones.
-           /* else {
-                List<DeliveryOrder> deliveryOrders = ((Delivery) restaurant).getDeliveryOrders();
-                for (DeliveryOrder deliveryOrder: deliveryOrders) {
-                    //Here must goes the logic to know if a delivery order has been finished or not.
+            else {
+                List<DeliveryOrder> deliveryOrders = DeliveryOrder.getRestaurantOrders((Delivery) restaurant);
+                for (DeliveryOrder deliveryOrder: deliveryOrders){
+                    DateTime orderDatePlaced = deliveryOrder.getTimePlaced();
+                    DateTime orderDateFinished = orderDatePlaced.plusMinutes(deliveryOrder.getDelivery().getResponseTime());
+                    DateTime currentDate = new DateTime();
+                    //Here is check is all the orders has finished, or more specific if there is any order
+                    //for the future. If there is one or more order for the future, the owner can not delete his
+                    //account.
+                    if(orderDateFinished.isAfter(currentDate)){
+                        return internalServerError("No se ha podido eliminar la cuenta debido a que tiene ordenes pendientes.");
+                    }
                 }
-            }*/
+            }
         }
         //This deletes the user and all the restaurants that he owns.
         owner.delete();
