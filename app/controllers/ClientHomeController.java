@@ -70,19 +70,8 @@ public class ClientHomeController extends Controller {
         return ok(Json.toJson(results));
     }
 
-    public Result searchAll(){
+    public Result searchAllRestaurants(){
         return ok(Json.toJson(Restaurant.finder.where().findList()));
-    }
-
-    public Result setLocalSelected(){
-        JsonNode jsonNode = request().body().asJson();
-        localSelectedId = jsonNode.path("localSelectedId").asLong();
-        return ok();
-    }
-
-    public Result getLocalSelected(){
-        Restaurant restaurantSelected = Restaurant.finder.byId(localSelectedId);
-        return ok(Json.toJson(restaurantSelected));
     }
 
     public Result getRecommendations(){

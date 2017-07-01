@@ -155,7 +155,7 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
     };
 
     $scope.searchForAutocomplete = function(){
-        serverCommunication.getFromUrl("/client/searchAll","","")
+        serverCommunication.getFromUrl("/client/searchAllRestaurants","","")
             .then(function (responseData) {
                 $(document).ready(function(){
                     $('input.autocomplete').autocomplete({

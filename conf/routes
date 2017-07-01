@@ -19,12 +19,10 @@ GET     /client/home                            controllers.HomeController.clien
 GET     /client/profile                         controllers.ClientProfileController.clientProfile
 GET     /client/profile/user                    controllers.ClientProfileController.getClient
 GET     /client/restaurant                      controllers.HomeController.clientRestaurant
+GET     /client/searchAllRestaurants            controllers.ClientHomeController.searchAllRestaurants
 POST    /client/deleteAccount                   controllers.ClientProfileController.deleteAccount
-GET     /client/getLocalSelected                controllers.ClientHomeController.getLocalSelected
-GET     /client/searchAll                       controllers.ClientHomeController.searchAll
 POST    /client/deleteAccount                   controllers.ClientProfileController.deleteAccount()
 POST    /client/search                          controllers.ClientHomeController.search
-POST    /client/changeLocalSelected             controllers.ClientHomeController.setLocalSelected()
 POST    /client/getRecommendations              controllers.ClientHomeController.getRecommendations
 GET     /client/makeQualification/:rid/:loc     controllers.ClientHomeController.makeQualification(rid:Long, loc: Boolean)
 
