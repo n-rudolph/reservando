@@ -43,21 +43,10 @@ public class DataBasePopulator {
             /*if(!Local.all().contains(newLocal)) newLocal.save();*/
             newLocal.save();
             setRestaurantForMeals(mealsList, newLocal);
-
-            long localId = newLocal.getId();
-
-            //Creates a reservation to test the owner delete account.
-            Reservation testReservation = new Reservation();
-            testReservation.setAmount(4);
-            testReservation.setClient((Client) Client.getUserByEmail("client@gmail.com"));
-            DateTime dateTime = new DateTime(2017,6,12,12,30);
-            testReservation.setDate(dateTime);
-            testReservation.setLocal(Local.getLocalById(localId));
-            testReservation.save();
         }
     }
 
-    //This method add defaults deliveries into the database.
+    //This method adds defaults deliveries into the database.
     public void populateDeliveries(){
         if (Delivery.all().size() != 0) return;
         String relativePath = "app/modules/Utilities/Delivery List Pilar.txt";
@@ -90,7 +79,7 @@ public class DataBasePopulator {
         }
     }
 
-    //This method add defaults discount codes into the database.
+    //This method adds defaults discount codes into the database.
     public void populateDiscountCodes() {
         if (Discount.all().size() == 0) {
             final Discount discount = new Discount("1q2w3e", 30);
@@ -103,7 +92,7 @@ public class DataBasePopulator {
         }
     }
 
-    //This method add defaults users into the database.
+    //This method adds defaults users into the database.
     public void populatePrimaryUsers(){
         if (Owner.getUserByEmail("owner@gmail.com") == null){
             Owner owner = new Owner("Juan", "Perez", new Address("Av Peron 1500, Pilar, Buenos Aires, Argentina", 43, 43) ,"owner@gmail.com","reservando10", null, null);
@@ -113,6 +102,14 @@ public class DataBasePopulator {
             Client client = new Client("Pablo", "Torres", new Address("Av Peron 1500, Pilar, Buenos Aires, Argentina", 43, 43),"client@gmail.com","reservando10", null, null);
             client.save();
         }
+    }
+
+    //This method adds some, expired and non expired, orders and reservation into the database.
+    public void populateReservationsAndOrders(){
+        addExpiredOrders();
+        addNonExpiredOrders();
+        addExpiredReservations();
+        addNonExpiredReservations();
     }
 
     //This method reads a file and returns a list<String> of the file line's.
@@ -225,12 +222,84 @@ public class DataBasePopulator {
         return mealsToReturn;
     }
 
+    //This method sets a given Restaurant, to each Meal pass as a List.
     private void setRestaurantForMeals(List<Meal> meals, Restaurant restaurant){
         for (Meal meal : meals){
             meal.setRestaurant(restaurant);
             meal.save();
         }
-        /*restaurant.setMenu(meals);
-        restaurant.save();*/
     }
+
+    //This method add some non expired reservations to the database.
+    private void addNonExpiredReservations(){
+        List<Local> locals = Local.all();
+        
+        for (Local local : locals){
+            Reservation reservation = new Reservation();
+            reservation.setAmount(4);
+            reservation.setClient((Client) Client.getUserByEmail("client@gmail.com"));
+            DateTime inAnHour = DateTime.now().plusHours(1);
+            reservation.setDate(inAnHour);
+            reservation.setLocal(Local.getLocalById(local.getId()));
+            reservation.save();
+        }
+    }
+
+    //This method add some expired reservations to the database.
+    private void addExpiredReservations(){
+        List<Local> locals = Local.all();
+
+        for (Local local : locals){
+            Reservation reservation = new Reservation();
+            reservation.setAmount(4);
+            reservation.setClient((Client) Client.getUserByEmail("client@gmail.com"));
+            DateTime yesterday = DateTime.now().minusDays(1);
+            reservation.setDate(yesterday);
+            reservation.setLocal(Local.getLocalById(local.getId()));
+            reservation.save();
+        }
+    }
+
+    //This method add some non expired orders to the database.
+    private void addNonExpiredOrders(){
+        List<Delivery> deliveries = Delivery.all();
+
+        for (Delivery delivery : deliveries){
+            Client client = (Client) Client.getUserByEmail("client@gmail.com");
+            String address = Client.getClientByEmail("client@gmail.com").getAddress().getAddress();
+
+            List<MealOrder> meals = getSomeMealOrders(delivery, 3);
+            DeliveryOrder order = new DeliveryOrder(client, delivery, meals, address, null);
+            order.save();
+        }
+    }
+
+    //This method add some expired orders to the database.
+    private void addExpiredOrders(){
+        List<Delivery> deliveries = Delivery.all();
+
+        for (Delivery delivery : deliveries){
+            Client client = (Client) Client.getUserByEmail("client@gmail.com");
+            String address = Client.getClientByEmail("client@gmail.com").getAddress().getAddress();
+
+            List<MealOrder> meals = getSomeMealOrders(delivery, 3);
+            DeliveryOrder order = new DeliveryOrder(client, delivery, meals, address, null);
+            order.setTimePlaced(DateTime.now().minusDays(1));
+            order.save();
+        }
+    }
+
+    //This method returns a list with an specific quantity of MealOrder from an specific delivery.
+    private List<MealOrder> getSomeMealOrders(Delivery delivery, int quantity){
+        List<Meal> meals = delivery.getMenu();
+        List<MealOrder> mealOrders = new ArrayList<>();
+
+        for (int i = 0; i < meals.size() && i < quantity; i++){
+            MealOrder mealOrder = new MealOrder(meals.get(i).getId(),2);
+            mealOrders.add(mealOrder);
+        }
+
+        return mealOrders;
+    }
+
 }

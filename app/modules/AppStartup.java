@@ -17,5 +17,6 @@ public class AppStartup {
         dataBasePopulator.populateLocals();
         dataBasePopulator.populateDeliveries();
         dataBasePopulator.populateDiscountCodes();
+        dataBasePopulator.populateReservationsAndOrders();
     }
 }
