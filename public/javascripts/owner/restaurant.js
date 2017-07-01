@@ -1,5 +1,6 @@
 var app = angular.module("reservandoApp");
 
+app.requires.push('ngRateIt');
 app.requires.push('ui.materialize');
 app.requires.push('ngMap');
 
@@ -21,10 +22,21 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
             function (response){
                 $scope.restaurant = response.data;
                 $scope.getMenu();
+                $scope.getRestaurantQualification();
             }
         );
     };
     $scope.getRestaurant();
+
+    // Qualification
+
+    $scope.totalQualification = -1;
+
+    $scope.getRestaurantQualification = function(){
+        $http.get("/qualification/"+$scope.restaurant.id).then(function(response) {
+            $scope.totalQualification = response.data;
+        });
+    };
 
     $scope.resetErrors = function() {
         $scope.errors = {

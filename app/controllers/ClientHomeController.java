@@ -6,7 +6,6 @@ import models.Cuisine;
 import models.Restaurant;
 import play.libs.Json;
 import play.mvc.*;
-import views.html.clientQualification;
 
 import java.util.*;
 
@@ -100,10 +99,6 @@ public class ClientHomeController extends Controller {
 
 
         return ok(Json.toJson(result));
-    }
-
-    public Result makeQualification(){
-        return ok(clientQualification.render());
     }
 
     private List<Restaurant> filterByCuisine(List<Restaurant> restaurants, String cuisine){

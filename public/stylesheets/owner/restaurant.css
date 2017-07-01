@@ -1,4 +1,4 @@
-.title h3, .title p{
+.title h3, .title p, .ngrateit, .calificacion{
     display: inline;
 }
 .title p {

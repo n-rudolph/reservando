@@ -6,12 +6,10 @@ import models.Restaurant;
 
 public class QualificationObject {
     public String rid;
-    public String cid;
     public double qualification;
 
-    public Qualification toQualification(){
+    public Qualification toQualification(Client client){
         final Restaurant restaurant = Restaurant.byId(Long.parseLong(rid));
-        final Client client = Client.byId(Long.parseLong(cid));
-        return new Qualification(qualification, client, restaurant);
+        return new Qualification(qualification, client.getId(), restaurant.getId());
     }
 }

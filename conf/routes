@@ -22,11 +22,9 @@ GET     /client/restaurant          controllers.HomeController.clientRestaurant
 POST    /client/deleteAccount       controllers.ClientProfileController.deleteAccount
 GET     /client/getLocalSelected    controllers.ClientHomeController.getLocalSelected
 GET     /client/searchAll           controllers.ClientHomeController.searchAll
-POST    /client/deleteAccount       controllers.ClientProfileController.deleteAccount()
 POST    /client/search              controllers.ClientHomeController.search
 POST    /client/changeLocalSelected controllers.ClientHomeController.setLocalSelected()
 POST    /client/getRecommendations  controllers.ClientHomeController.getRecommendations
-GET     /client/makeQualification   controllers.ClientHomeController.makeQualification
 
 #Restaurant
 POST    /restaurant                                 controllers.RestaurantController.addRestaurant
@@ -65,9 +63,9 @@ GET     /all/days                   controllers.HomeController.getDays
 GET     /all/cuisines               controllers.HomeController.getCuisines
 
 #Qualification
-GET     /qualification/:cid/:rid    controllers.QualificationController.getUserRestaurantQualification(cid: String, rid: String)
+GET     /qualification/client/:rid    controllers.QualificationController.getUserRestaurantQualification(rid: String)
 GET     /qualification/:rid         controllers.QualificationController.getRestaurantQualification(rid: String)
-POST    /qualification              controllers.QualificationController.addQualification
+PUT     /qualification              controllers.QualificationController.addQualification
 
 #Order
 GET     /order                      controllers.OrderController.view

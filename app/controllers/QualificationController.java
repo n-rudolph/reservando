@@ -14,14 +14,11 @@ public class QualificationController extends Controller {
 
     public Result addQualification(){
         final JsonNode jsonNode = request().body().asJson();
-        final double qualification = jsonNode.path("qualification").asDouble();
-        final Client client = Json.fromJson(jsonNode.path("client"), Client.class);
-        final Restaurant restaurant = Json.fromJson(jsonNode.path("restaurant"), Restaurant.class);
+        final String email = session().get("email");
+        final Client client = Client.byEmail(email);
+        final Qualification newQualification = Json.fromJson(jsonNode, QualificationObject.class).toQualification(client);
 
-        /*final Qualification newQualification = Json.fromJson(jsonNode, QualificationObject.class).toQualification();*/
-        final Qualification newQualification = new Qualification(qualification,client,restaurant);
-
-        final Qualification oldQualification = Qualification.getQualification(newQualification.getRestaurant(), newQualification.getClient());
+        final Qualification oldQualification = Qualification.getQualification(newQualification.getRestaurantId(), newQualification.getClientId());
 
         if (oldQualification == null){
             newQualification.save();
@@ -32,18 +29,18 @@ public class QualificationController extends Controller {
 
         final QualificationResponse response = new QualificationResponse();
         response.clientQual = newQualification.getQualification();
-        response.generalQual = Qualification.getRestaurantQualification(newQualification.getRestaurant());
+        response.generalQual = Qualification.getRestaurantQualification(newQualification.getRestaurantId());
         return ok(Json.toJson(response));
     }
 
     public Result getRestaurantQualification(String rid){
         final Restaurant restaurant = Restaurant.byId(Long.parseLong(rid));
-        return ok(Json.toJson(Qualification.getRestaurantQualification(restaurant)));
+        return ok(Json.toJson(Qualification.getRestaurantQualification(restaurant.getId())));
     }
 
-    public Result getUserRestaurantQualification(String cid, String rid){
-        final Client client = Client.byId(Long.parseLong(cid));
+    public Result getUserRestaurantQualification(String rid){
+        final Client client = Client.getClientByEmail(session().get("email"));
         final Restaurant restaurant = Restaurant.byId(Long.parseLong(rid));
-        return ok(Json.toJson(Qualification.getQualification(restaurant, client)));
+        return ok(Json.toJson(Qualification.getQualification(restaurant.getId(), client.getId())));
     }
 }
