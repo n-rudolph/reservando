@@ -3,7 +3,7 @@
     @clientNav()
     <div class="container" ng-controller="NewReservationCtrl">
         <div class="row title">
-            <h3>Nuevo pedido para {{restaurant.name}}</h3>
+            <h3>Nueva reserva en {{restaurant.name}}</h3>
         </div>
         <div class="row">
             <div class="col s6">
@@ -81,7 +81,7 @@
                 <div class="row buttons">
                     <div class="col s6 offset-s3" >
                         <div class="btn-large btn fullBtn" ng-click="saveReservation()" ng-show="reservationComplete">Realizar pedido</div>
-                        <div class="btn-large btn fullBtn disabled" ng-hide="reservationComplete">Realizar pedido</div>
+                        <div class="btn-large btn fullBtn disabled" ng-hide="reservationComplete">Realizar reserva</div>
                     </div>
                 </div>
             </div>

@@ -1,10 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Client;
-import models.Delivery;
-import models.DeliveryOrder;
-import models.Owner;
+import models.*;
 import models.Response.OrderResponse;
 import models.requestObjects.OrderObject;
 import play.libs.Json;
@@ -37,6 +34,15 @@ public class OrderController extends Controller {
 
         final DeliveryOrder deliveryOrder = orderObject.toOrder(client);
         deliveryOrder.save();
+        deliveryOrder.getDelivery().getCuisines().forEach(cuisine -> {
+            final CuisinePreference cuisinePreference = CuisinePreference.byClientCuisine(client.getId(), cuisine.getId());
+            if (cuisinePreference == null){
+                final CuisinePreference c = new CuisinePreference(cuisine.getId(), client.getId());
+                c.save();
+            } else {
+                cuisinePreference.incrementAmount().update();
+            }
+        });
 
         return ok(Json.toJson(deliveryOrder));
     }

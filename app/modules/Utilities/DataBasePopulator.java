@@ -42,6 +42,8 @@ public class DataBasePopulator {
             Local newLocal = new Local(name, description, new Address(address, lat, lgn), openingHour, closingHour, openingDays, cuisinesList, capacityDefault, mealsList, owner, 30);
             /*if(!Local.all().contains(newLocal)) newLocal.save();*/
             newLocal.save();
+            newLocal.setPublished(true);
+            newLocal.update();
             setRestaurantForMeals(mealsList, newLocal);
         }
     }
@@ -75,6 +77,8 @@ public class DataBasePopulator {
             Delivery newDelivery = new Delivery(name, description, new Address(address, lat, lgn), openingHour, closingHour, openingDays, cuisinesList, defaultRadius, mealsList, owner, defaultResponseTime);
             /*if (!Delivery.all().contains(newDelivery)) newDelivery.save();*/
             newDelivery.save();
+            newDelivery.setPublished(true);
+            newDelivery.update();
             setRestaurantForMeals(mealsList, newDelivery);
         }
     }

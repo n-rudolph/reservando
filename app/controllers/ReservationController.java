@@ -35,6 +35,15 @@ public class ReservationController extends Controller{
 
         final Reservation reservation = reservationObject.toReservation(client);
         reservation.save();
+        reservation.getLocal().getCuisines().forEach(cuisine -> {
+            final CuisinePreference cuisinePreference = CuisinePreference.byClientCuisine(client.getId(), cuisine.getId());
+            if (cuisinePreference == null){
+                final CuisinePreference c = new CuisinePreference(cuisine.getId(), client.getId());
+                c.save();
+            } else {
+                cuisinePreference.incrementAmount().update();
+            }
+        });
         return ok(Json.toJson(reservation));
     }
 

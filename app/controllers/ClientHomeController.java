@@ -3,11 +3,13 @@ package controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Client;
 import models.Cuisine;
+import models.CuisinePreference;
 import models.Restaurant;
 import play.libs.Json;
 import play.mvc.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ClientHomeController extends Controller {
 
@@ -20,12 +22,12 @@ public class ClientHomeController extends Controller {
 
         /*Search by name*/
         List<Restaurant> searchedByName = Restaurant.finder.where()
-                .icontains("name", wordToSearch).findList();
+                .icontains("name", wordToSearch).findList().stream().filter(restaurant -> !restaurant.isDeleted() && restaurant.isPublished()).collect(Collectors.toList());
         results.addAll(searchedByName);
 
         /*Search by cuisine*/
         //It must be change if a better (efficient) way of search is found.
-        List<Restaurant> searchedByCuisine = Restaurant.finder.findList();
+        List<Restaurant> searchedByCuisine = Restaurant.finder.findList().stream().filter(restaurant -> !restaurant.isDeleted() && restaurant.isPublished()).collect(Collectors.toList());
         results.addAll(filterByCuisine(searchedByCuisine, wordToSearch));
 
         /*This is if the filter needs to be done in the server side, delete if not necessary
@@ -69,25 +71,35 @@ public class ClientHomeController extends Controller {
     }
 
     public Result searchAllRestaurants(){
-        return ok(Json.toJson(Restaurant.finder.where().findList()));
+        return ok(Json.toJson(Restaurant.finder.where().findList().stream().filter(restaurant -> !restaurant.isDeleted() && restaurant.isPublished()).collect(Collectors.toList())));
     }
 
     public Result getRecommendations(){
-        JsonNode jsonNode = request().body().asJson();
-        int quantity = jsonNode.path("quantity").asInt();
-        String clientEmail = jsonNode.path("userEmail").asText();
-        Client client = Client.getClientByEmail(clientEmail);
-        List<Restaurant> result;
+        final String email = session().get("email");
+        Client client = Client.getClientByEmail(email);
 
-        //Search if the client has some recommendations. TO IMPLEMENT!
-        if(true){
-            result = getRecommendations(quantity,client);
+        final List<CuisinePreference> preferences = CuisinePreference.byClientId(client.getId()).stream().sorted((p1, p2) -> {
+            if (p1.getAmount() > p2.getAmount())
+                return -1;
+            else if (p1.getAmount() == p2.getAmount()) {
+                return 0;
+            } else return 1;
+        }).collect(Collectors.toList());
+
+        if (preferences.size() == 0){
+            return ok(Json.toJson(getRandomRestaurants(6, new ArrayList<>())));
+        } else {
+            List<Restaurant> restaurants = new ArrayList<>();
+            int max = preferences.size() > 6 ? 6 : preferences.size();
+            for (int i = 0; i < max; i++){
+                setRandomRestaurantByCuisineToList(preferences.get(i).getCuisineId(), restaurants);
+            }
+            int randomAmount = 6 - preferences.size();
+            if (randomAmount > 0) {
+                getRandomRestaurants(6, restaurants);
+            }
+            return ok(Json.toJson(restaurants));
         }
-        //Else gives some randoms restaurants as recommendation.
-        else result = getRandomRestaurants(quantity);
-
-
-        return ok(Json.toJson(result));
     }
 
     private List<Restaurant> filterByCuisine(List<Restaurant> restaurants, String cuisine){
@@ -107,71 +119,31 @@ public class ClientHomeController extends Controller {
         return first+second;
     }
 
-    private List<Restaurant> getRandomRestaurants(int quantity){
-        return Restaurant.finder.order().desc("id").setMaxRows(quantity).findList();
+    private List<Restaurant> getRandomRestaurants(int maxQuantity, List<Restaurant> currentList){
+        final List<Restaurant> all = Restaurant.finder.all().stream().filter(restaurant -> !restaurant.isDeleted() && restaurant.isPublished()).collect(Collectors.toList());
+        while(currentList.size() < maxQuantity){
+            int randomIndex = new Random().nextInt(all.size());
+            final Restaurant restaurant = all.get(randomIndex);
+            if (!currentList.contains(restaurant))
+                currentList.add(restaurant);
+        }
+        return currentList;
     }
 
-    /*The get recommendations works with the top cuisines of the restaurants that the user looks*/
-    private List<Restaurant> getRecommendations(int quantity, Client client){
-        List<Long> restaurantsIds = new ArrayList<>();
-
-        //To Test.
-        restaurantsIds.add((long) 0);
-        restaurantsIds.add((long) 2);
-        restaurantsIds.add((long) 19);
-
-        HashMap<Cuisine, Integer> cuisineQuantityMap = new HashMap<>();
-        List<Restaurant> result = new ArrayList<>();
-
-        for(Long restaurantId : restaurantsIds){
-            Restaurant restaurant = Restaurant.finder.where().idEq(restaurantId).findUnique();
-            if(restaurant != null){
-                for(Cuisine cuisine: restaurant.getCuisines()){
-                    if(cuisineQuantityMap.containsKey(cuisine)){
-                        int previousValue = cuisineQuantityMap.get(cuisine);
-                        cuisineQuantityMap.put(cuisine, previousValue + 1);
-                    }
-                    else {
-                        cuisineQuantityMap.put(cuisine, 1);
-                    }
-
-                }
+    private List<Restaurant> setRandomRestaurantByCuisineToList(long cuisineId, List<Restaurant> restaurants) {
+        final List<Restaurant> byCuisine = Restaurant.getByCuisine(cuisineId);
+        Collections.shuffle(byCuisine);
+        int index = 0;
+        while(index < byCuisine.size()) {
+            if (!restaurants.contains(byCuisine.get(index))){
+                restaurants.add(byCuisine.get(index));
+                break;
             }
+            index ++;
         }
-
-        List<Cuisine> mostViewCuisines = new ArrayList<>();
-        for(int i = 0; i < quantity; i++){
-            Cuisine mostView = new Cuisine();
-            int mostViewCuisineValue = 0;
-            Iterator<Cuisine> cuisineIterator = cuisineQuantityMap.keySet().iterator();
-            if(cuisineIterator.hasNext()){
-                while (cuisineIterator.hasNext()){
-                    Cuisine currentCuisine = cuisineIterator.next();
-                    int currentValue = cuisineQuantityMap.get(currentCuisine);
-                    if (currentValue > mostViewCuisineValue){
-                        mostViewCuisineValue = currentValue;
-                        mostView = currentCuisine;
-                    }
-                }
-                mostViewCuisines.add(mostView);
-                cuisineQuantityMap.remove(mostView);
-            }
-
+        if (index == byCuisine.size()){
+            getRandomRestaurants(restaurants.size(), restaurants);
         }
-
-        List<Restaurant> allRestaurants = Restaurant.finder.where().findList();
-        for(Restaurant restaurant : allRestaurants){
-            if(result.size() == quantity) break;
-            List<Cuisine> cuisines = restaurant.getCuisines();
-            for (Cuisine mostViewCuisine : mostViewCuisines) {
-                if (cuisines.contains(mostViewCuisine)) {
-                    result.add(restaurant);
-                    break;
-                }
-            }
-
-        }
-
-        return result;
+        return restaurants;
     }
 }

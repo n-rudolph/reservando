@@ -17,6 +17,14 @@ create table cuisine (
   constraint pk_cuisine primary key (id))
 ;
 
+create table cuisine_preference (
+  id                        bigint not null,
+  cuisine_id                bigint,
+  client_id                 bigint,
+  amount                    integer,
+  constraint pk_cuisine_preference primary key (id))
+;
+
 create table day (
   id                        bigint not null,
   day                       varchar(255),
@@ -148,6 +156,8 @@ create sequence address_seq;
 
 create sequence cuisine_seq;
 
+create sequence cuisine_preference_seq;
+
 create sequence day_seq;
 
 create sequence delivery_order_seq;
@@ -219,6 +229,8 @@ drop table if exists address;
 
 drop table if exists cuisine;
 
+drop table if exists cuisine_preference;
+
 drop table if exists day;
 
 drop table if exists delivery_order;
@@ -248,6 +260,8 @@ SET REFERENTIAL_INTEGRITY TRUE;
 drop sequence if exists address_seq;
 
 drop sequence if exists cuisine_seq;
+
+drop sequence if exists cuisine_preference_seq;
 
 drop sequence if exists day_seq;
 
