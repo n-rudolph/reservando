@@ -92,10 +92,7 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
                 serverCommunication.postToUrl(dataToPost,"/client/getRecommendations","","")
                     .then(function (responseData) {
                         $scope.recommendations = responseData;
-                        $(document).ready(function(){
-                            $('.slider').slider({height: "40%"});
-                        });
-
+                        console.log(responseData);
                     })
                     .catch(function(error){
 
@@ -365,6 +362,19 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
                 $scope.map.setZoom(14);
             }
         }, 2000);
+    };
+
+    $scope.printCuisines = function(restaurant) {
+        if (restaurant == null || restaurant == undefined)
+            return "";
+        var cuisineString = "";
+        var tokken = "";
+        for (var i = 0; i < restaurant.cuisines.length; i++){
+            cuisineString += tokken;
+            cuisineString += restaurant.cuisines[i].name;
+            tokken = " - ";
+        }
+        return cuisineString;
     }
 
 }]);
