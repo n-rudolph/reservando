@@ -1,8 +1,10 @@
 var app = angular.module("reservandoApp");
-
+app.requires.push('ui.materialize');
 app.controller("MyReservationsCtrl", function ($scope, $http, $window, $timeout) {
 
     $scope.reservations = [];
+    $scope.minIndex = 0;
+    $scope.maxIndex = 8;
 
     $http.get("/reservation/owner").then(function(response){
         $scope.reservations = response.data;
@@ -47,6 +49,15 @@ app.controller("MyReservationsCtrl", function ($scope, $http, $window, $timeout)
         var date = Date.now();
         var placedDate = new Date(reservation.date.yearOfEra, reservation.date.monthOfYear -1, reservation.date.dayOfMonth, reservation.date.hourOfDay, reservation.date.minuteOfHour, 0, 0);
         return date >= placedDate;
+    };
+
+    $scope.filterByPage = function(item, index) {
+        return index >= $scope.minIndex && index <= $scope.maxIndex
+    };
+
+    $scope.changePage = function(page) {
+        $scope.minIndex = (page-1) * 9;
+        $scope.maxIndex = (page * 9) - 1;
     }
 });
 

@@ -1,8 +1,10 @@
 var app = angular.module("reservandoApp");
-
+app.requires.push('ui.materialize');
 app.controller("MyReservationsCtrl", function ($scope, $http, $window, $timeout) {
 
     $scope.reservations = [];
+    $scope.minIndex = 0;
+    $scope.maxIndex = 8;
 
     $http.get("/reservation/client").then(function(response){
         $scope.reservations = response.data;
@@ -48,8 +50,13 @@ app.controller("MyReservationsCtrl", function ($scope, $http, $window, $timeout)
         return date >= placedDate;
     };
 
-    $scope.qualify = function(reservationID){
-        $window.location.href = "client/makeQualification/" + reservationID +"/" + true;
+    $scope.filterByPage = function(item, index) {
+        return index >= $scope.minIndex && index <= $scope.maxIndex
+    };
+
+    $scope.changePage = function(page) {
+        $scope.minIndex = (page-1) * 9;
+        $scope.maxIndex = (page * 9) - 1;
     }
 });
 

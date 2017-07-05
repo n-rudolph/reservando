@@ -3,56 +3,20 @@
     @clientNav()
     <div ng-controller="ClientHomeCtrl">
        <div class="container body">
-
            @*Search bar*@
            <div>
-               <div class="row">
-                   <div class="input-field col m6 offset-m3">
+               <div class="row hoverable search-container">
+                   <div class="input-field col m6">
                        <input placeholder="Busque por nombre o cocina" id="searchInput" type="text" ng-model="wordToSearch" class="autocomplete" ng-change="searchForAutocomplete()">
                    </div>
-                   <div class="col m2">
-                       <a id="searchButton" class="waves-effect wave-light btn" ng-click="search()">Buscar</a>
+                   <div class="col m3">
+                       <a id="searchButton" class="waves-effect wave-light btn-large btn big-btn" ng-click="search()">Buscar</a>
+                   </div>
+                   <div class="col m3">
+                       <div class="waves-effect wave-light btn-large btn big-btn" ng-click="searchNearMe()">Geolocalizar</div>
                    </div>
                </div>
            </div>
-
-           @*Another way to see, delete if not used*@
-           @*Search filters*@
-           @*<div>
-               <div class="row">
-                   <div class="col m6 offset-m3">
-                       <div class="row">
-                           <div class="col m4">
-                               <input type="radio" class="with-gap" id="filterByName" name="filterGroup" ng-model="filterByName" ng-value="true">
-                               <label for="filterByName">Nombre</label>
-                           </div>
-                           <div class="col m4">
-                               <input type="radio" class="with-gap" id="filterByCuisine" name="filterGroup" ng-model="filterByCuisine" ng-value="false">
-                               <label for="filterByCuisine">Cocina</label>
-                           </div>
-                           <div class="col m4">
-                               <input type="radio" class="with-gap" id="filterByLocalization" name="filterGroup" ng-model="filterByLocalization" disabled="disabled" ng-value="false">
-                               <label for="filterByLocalization">Ubicación</label>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-               <div class="row">
-                   <div class="col m6 offset-m3">
-                       <div class="row">
-                           <div class="col m4">
-                               <input type="radio" class="with-gap" id="filterByLocal" name="filterGroup" ng-model="filterByRestaurant" ng-value="false">
-                               <label for="filterByLocal">Restaurant</label>
-                           </div>
-                           <div class="col m4">
-                               <input type="radio" class="with-gap" id="filterByDelivery" name="filterGroup" ng-model="filterByDelivery" ng-value="false">
-                               <label for="filterByDelivery">Delivery</label>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-           </div>*@
-
            @*Results*@
            <div class="row">
                @*Filters*@
@@ -78,7 +42,7 @@
                       </li>
                       <li class="collection-item">
                           <h5>Cocina:</h5>
-                          <p ng-repeat="cuisine in filtersToShow.cuisines">
+                          <p ng-repeat="cuisine in filtersToShow.cuisines" ng-show="$index < 10">
                               <input type="checkbox" class="filled-in" id="filterByCuisine{{cuisine.name}}" ng-model="filtersApplied.showThisCuisines[getIndex(cuisine)].isActive" ng-change="applyFilters()" ng-checked="true">
                               <label for="filterByCuisine{{cuisine.name}}">{{cuisine.name}}</label>
                           </p>
@@ -89,30 +53,40 @@
                <div class="col m9" ng-show="showResults()">
                    @*Results without filters*@
                    <div class="row" ng-show="result.showSearchWithoutFilters">
-                       <ul class="collection col m11 offset-m1">
-                           <li class="collection-item" ng-repeat="result in result.allResults">
-                               <div class="row">
-                                   <div class="col m2">
-                                       <img class="responsive-img" ng-src="@routes.Assets.versioned("{{result.photo.path}}")" ng-show="result.photo">
-                                       <img class="responsive-img" ng-src="@routes.Assets.versioned("images/placeholder/restaurant.jpg")" ng-hide="result.photo">
-                                   </div>
-                                   <div class="col m8">
-                                       <span class="title">{{result.name}}</span>
-                                       <p class="truncate">{{result.description}}<br>
-                                           {{result.address.address}}
-                                       </p>
-                                   </div>
-                                   <div class="col m2">
-                                       <div class="row"></div>
-                                       <a class="waves-effect waves-light btn-large" ng-click="openRestaurant(result.id)">Ver</a>
-                                   </div>
+                       <div class="col s4" ng-repeat="result in result.allResults">
+                           <div class="card">
+                               <div class="card-image">
+                                   <img class="responsive-img" ng-src="@routes.Assets.versioned("{{result.photo.path}}")" ng-show="result.photo">
+                                   <img class="responsive-img" ng-src="@routes.Assets.versioned("/images/placeholder/restaurant.jpg")" ng-hide="result.photo">
+                                   <span class="card-title">{{result.name}}</span>
                                </div>
-                           </li>
-                       </ul>
+                               <div class="card-content">
+                                   <p class="truncate">{{printCuisines(result)}}</p>
+                               </div>
+                               <div class="card-action">
+                                   <a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(result.id)">{{result.local ? 'Ver Local' : 'Ver Delivery'}}</a>
+                               </div>
+                           </div>
+                       </div>
                    </div>
                    @*Results with filters*@
                    <div class="row" ng-show="result.showSearchWithFilters">
-                       <ul class="collection col m11 offset-m1">
+                       <div class="col s4" ng-repeat="result in result.resultsWithFilters">
+                           <div class="card">
+                               <div class="card-image">
+                                   <img class="responsive-img" ng-src="@routes.Assets.versioned("{{result.photo.path}}")" ng-show="result.photo">
+                                   <img class="responsive-img" ng-src="@routes.Assets.versioned("/images/placeholder/restaurant.jpg")" ng-hide="result.photo">
+                                   <span class="card-title">{{result.name}}</span>
+                               </div>
+                               <div class="card-content">
+                                   <p class="truncate">{{printCuisines(result)}}</p>
+                               </div>
+                               <div class="card-action">
+                                   <a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(result.id)">{{result.local ? 'Ver Local' : 'Ver Delivery'}}</a>
+                               </div>
+                           </div>
+                       </div>
+                       @*<ul class="collection col m11 offset-m1">
                            <li class="collection-item" ng-repeat="result in result.resultsWithFilters">
                                <div class="row">
                                    <div class="col m2">
@@ -131,7 +105,7 @@
                                    </div>
                                </div>
                            </li>
-                       </ul>
+                       </ul>*@
                    </div>
                </div>
                <div class="col m9" ng-show="noResults()">

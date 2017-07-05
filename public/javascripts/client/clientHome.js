@@ -238,6 +238,49 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         $scope.map.showInfoWindow('myInfoWindow', this);
     };
 
+    $scope.searchNearMe = function() {
+        if (navigator.geolocation){
+            navigator.geolocation.getCurrentPosition($scope.successGeolocation, $scope.errorGeolocation);
+        }
+    };
+    $scope.successGeolocation = function(position){
+        $http.get("/restaurants/nearMe/"+position.coords.latitude+"/"+position.coords.longitude)
+            .then(function (response) {
+                console.log(response);
+            }, function (error) {
+                console.log(error);
+            });
+    };
+    $scope.errorGeolocation = function(error) {
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                Materialize.toast("User denied the request for Geolocation.", 2000, "red");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                Materialize.toast("Location information is unavailable.", 2000, "red");
+                break;
+            case error.TIMEOUT:
+                Materialize.toast("The request to get user location timed out.", 2000, "red");
+                break;
+            case error.UNKNOWN_ERROR:
+                Materialize.toast("An unknown error occurred.", 2000, "red");
+                break;
+        }
+    };
+
+    $scope.printCuisines = function(restaurant) {
+            if (restaurant == null || restaurant == undefined)
+                return "";
+            var cuisineString = "";
+            var tokken = "";
+            for (var i = 0; i < restaurant.cuisines.length; i++){
+                cuisineString += tokken;
+                cuisineString += restaurant.cuisines[i].name;
+                tokken = " - ";
+            }
+            return cuisineString;
+        };
+
     /*Useful functions*/
 
     /*This function is used to load all the filters dynamically*/
@@ -363,20 +406,6 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
             }
         }, 2000);
     };
-
-    $scope.printCuisines = function(restaurant) {
-        if (restaurant == null || restaurant == undefined)
-            return "";
-        var cuisineString = "";
-        var tokken = "";
-        for (var i = 0; i < restaurant.cuisines.length; i++){
-            cuisineString += tokken;
-            cuisineString += restaurant.cuisines[i].name;
-            tokken = " - ";
-        }
-        return cuisineString;
-    }
-
 }]);
 
 

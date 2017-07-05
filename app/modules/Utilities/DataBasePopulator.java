@@ -110,6 +110,7 @@ public class DataBasePopulator {
 
     //This method adds some, expired and non expired, orders and reservation into the database.
     public void populateReservationsAndOrders(){
+        if (DeliveryOrder.all().size() != 0) return;
         addExpiredOrders();
         addNonExpiredOrders();
         addExpiredReservations();

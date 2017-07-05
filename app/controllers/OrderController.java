@@ -59,8 +59,8 @@ public class OrderController extends Controller {
 
         final List<OrderResponse> collect = DeliveryOrder.getClientOrders(client).stream().map(OrderResponse::new).sorted((o1, o2) -> {
             if (o1.timePlaced.isBefore(o2.timePlaced))
-                return -1;
-            return 1;
+                return 1;
+            return -1;
         }).collect(Collectors.toList());
         return ok(Json.toJson(collect));
     }

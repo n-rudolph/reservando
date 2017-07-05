@@ -7,7 +7,7 @@
         </div>
         <div class="row">
             <ul class="collapsible popout" data-collapsible="accordion">
-                <li ng-repeat="reservation in reservations">
+                <li ng-repeat="reservation in reservations | filter: filterByPage">
                     <div class="collapsible-header" ng-class="{'active': $first}"><i class="material-icons"><i class="material-icons">restaurant</i></i>{{reservation.local.name}}  -  {{getDateTimeFormat(reservation.date)}}<span class="right" ng-show="isExpire(reservation)">FINALIZADO</span></div>
                     <div class="collapsible-body container">
                         <div class="row">
@@ -39,14 +39,24 @@
                                     <div class="col s6"><div class="btn btn-large fullBtn" ng-click="toRestaurant(reservation)">Ver Restaurant</div></div>
                                     <div class="col s6"><div class="btn btn-large red fullBtn" ng-click="deleteReservation(reservation, $index)">Cancelar Reserva</div></div>
                                 </div>
-                                <div class="row" ng-show="isExpire(reservation)">
-                                    <div class="col s6 offset-s3"><div class="btn btn-large fullBtn center-align" ng-click="qualify(reservation.id)">Calificar</div></div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </li>
             </ul>
+        </div>
+        <div class="row center-align">
+            <pagination
+            page="1"
+            page-size="9"
+            total="reservations.length"
+            show-prev-next="true"
+            use-simple-prev-next="false"
+            dots="...."
+            hide-if-empty="true"
+            adjacent="2"
+            scroll-top="false"
+            pagination-action="changePage(page)" />
         </div>
     </div>
 } {

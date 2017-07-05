@@ -1,8 +1,10 @@
 var app = angular.module("reservandoApp");
-
+app.requires.push('ui.materialize');
 app.controller("MyOrdersCtrl", function ($scope, $http) {
 
     $scope.orders = [];
+    $scope.minIndex = 0;
+    $scope.maxIndex = 8;
 
     $http.get("/orders/owner").then(function(response){
         $scope.orders = response.data;
@@ -46,6 +48,15 @@ app.controller("MyOrdersCtrl", function ($scope, $http) {
 
         placedDate.setMinutes(placedDate.getMinutes() + responseTime);
         return date >= placedDate;
+    };
+
+    $scope.filterByPage = function(item, index) {
+        return index >= $scope.minIndex && index <= $scope.maxIndex
+    };
+
+    $scope.changePage = function(page) {
+        $scope.minIndex = (page-1) * 9;
+        $scope.maxIndex = (page * 9) - 1;
     }
 });
 

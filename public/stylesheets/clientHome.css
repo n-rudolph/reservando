@@ -1,15 +1,12 @@
-.slider{
-    width: 100%;
-}
-.slider .indicators {
-    bottom: 50%;
-}
-#searchButton {
-    margin-top: 15%;
-}
-#recommendations{
-    margin-top: 15%;
-}
 ng-map{
     height: 400px;
+}
+
+.search-container{
+    border-radius: 2.5px;
+    margin-top: 50px;
+}
+
+.big-btn{
+    width: 100%;
 }

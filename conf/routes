@@ -34,6 +34,7 @@ POST    /restaurant/state/:rid                      controllers.RestaurantContro
 PUT     /restaurant/:rid                            controllers.RestaurantController.update(rid: String)
 PUT     /restaurant/:rid/photo                      controllers.RestaurantController.updatePhoto(rid: String)
 DELETE  /restaurant/:rid                            controllers.RestaurantController.delete(rid: String)
+GET     /restaurants/nearMe/:lat/:lng           controllers.RestaurantController.searchNearMe(lat: String, lng: String)
 
 #Meal
 GET     /menu/:rid                  controllers.MealController.getMenu(rid: String)
