@@ -6,11 +6,25 @@ app.controller("OwnerHomeCtrl", function ($scope, $http, $window) {
 
     $scope.restaurants = [];
     $scope.news = [];
+    $scope.reservations = [];
+    $scope.orders = [];
 
     $scope.getFirsts = function(){
         $http.get("/restaurants/firsts").then(function(response){
             $scope.restaurants = response.data.list;
             $scope.continues = response.data.continues;
+        })
+    };
+    $scope.getFirstReservations = function() {
+        $http.get("/reservation/owner/firsts").then(function(response){
+            $scope.reservations = response.data;
+            console.log(response.data);
+        })
+    };
+    $scope.getFirstOrders = function() {
+        $http.get("/orders/owner/firsts").then(function(response){
+            $scope.orders = response.data;
+            console.log(response.data);
         })
     };
 
@@ -20,6 +34,12 @@ app.controller("OwnerHomeCtrl", function ($scope, $http, $window) {
 
     $scope.openRestaurants = function(){
         $window.location.href = "/owner/restaurants";
+    };
+    $scope.openOrders = function(){
+        $window.location.href = "/owner/my-orders";
+    };
+    $scope.openReservations = function(){
+        $window.location.href = "/owner/my-reservations";
     };
 
     $scope.openRestaurantProfile = function(restaurant){
@@ -39,7 +59,18 @@ app.controller("OwnerHomeCtrl", function ($scope, $http, $window) {
         })
     };
 
+    $scope.getDateTimeFormat = function(timeObject){
+
+        var minute = timeObject.minuteOfHour;
+        if (timeObject.minuteOfHour < 10){
+            minute = "0"+minute;
+        }
+        return timeObject.dayOfMonth +"/"+ timeObject.monthOfYear +"/"+ timeObject.yearOfEra + "  " + timeObject.hourOfDay+":"+ minute;
+    };
+
     $(document).ready(function() {
         $scope.getFirsts();
+        $scope.getFirstReservations();
+        $scope.getFirstOrders();
     });
 });

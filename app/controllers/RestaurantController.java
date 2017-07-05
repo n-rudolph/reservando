@@ -107,9 +107,10 @@ public class RestaurantController extends Controller {
         final String email = session().get("email");
         final Owner ownerbyEmail = Owner.getOwnerbyEmail(email);
         final List<Restaurant> restaurants = ownerbyEmail.getRestaurants().stream().filter(p -> !p.isDeleted()).collect(Collectors.toList());
-        int max = restaurants.size() < 5 ? restaurants.size() : 5;
+        Collections.shuffle(restaurants);
+        int max = restaurants.size() < 6 ? restaurants.size() : 6;
 
-        final RestaurantsResponse response = new RestaurantsResponse(200, "ok", restaurants.subList(0, max), restaurants.size() > 5);
+        final RestaurantsResponse response = new RestaurantsResponse(200, "ok", restaurants.subList(0, max), restaurants.size() > 6);
 
         return ok(Json.toJson(response));
     }

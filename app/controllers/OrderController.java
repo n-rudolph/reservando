@@ -70,16 +70,24 @@ public class OrderController extends Controller {
     }
 
     public Result getOwnerOrders(){
+        final List<OrderResponse> orderResponses = getOrderResponsesList();
+        return ok(Json.toJson(orderResponses));
+    }
+
+    public Result getOwnerFirsts(){
+        final List<OrderResponse> orderResponses = getOrderResponsesList();
+        return ok(Json.toJson(orderResponses.subList(0, 3)));
+    }
+
+    private List<OrderResponse> getOrderResponsesList() {
         final String email = session().get("email");
         final Owner owner = Owner.getOwnerbyEmail(email);
         final List<Delivery> deliveries = owner.getRestaurants().stream().filter(restaurant -> !restaurant.isLocal()).map(restaurant -> ((Delivery) restaurant)).collect(Collectors.toList());
 
-        final List<OrderResponse> orderResponses = deliveries.stream().map(DeliveryOrder::getRestaurantOrders).flatMap(Collection::stream).map(OrderResponse::new).sorted((o1, o2) -> {
+        return deliveries.stream().map(DeliveryOrder::getRestaurantOrders).flatMap(Collection::stream).map(OrderResponse::new).sorted((o1, o2) -> {
             if (o1.timePlaced.isBefore(o2.timePlaced))
                 return 1;
             return -1;
         }).collect(Collectors.toList());
-
-        return ok(Json.toJson(orderResponses));
     }
 }

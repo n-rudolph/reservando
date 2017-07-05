@@ -70,6 +70,7 @@ GET     /owner/my-orders            controllers.OrderController.ownerOrdersView
 GET     /my-orders                  controllers.OrderController.myOrdersView
 GET     /orders/client              controllers.OrderController.getClientOrders
 GET     /orders/owner               controllers.OrderController.getOwnerOrders
+GET     /orders/owner/firsts        controllers.OrderController.getOwnerFirsts
 GET     /order/:oId                 controllers.OrderController.getOrder(oId: String)
 POST    /order                      controllers.OrderController.newOrder
 
@@ -77,6 +78,7 @@ POST    /order                      controllers.OrderController.newOrder
 GET     /reservation                controllers.ReservationController.view
 GET     /reservation/client         controllers.ReservationController.getClientReservations
 GET     /reservation/owner          controllers.ReservationController.getOwnerReservations
+GET     /reservation/owner/firsts   controllers.ReservationController.getOwnerFirsts
 GET     /my-reservations            controllers.ReservationController.viewClientReservations
 GET     /owner/my-reservations      controllers.ReservationController.viewOwnerReservations
 GET     /reservation/:rId           controllers.ReservationController.getReservation(rId: String)
