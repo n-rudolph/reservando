@@ -196,10 +196,10 @@ public class RestaurantController extends Controller {
                     final double rLat = restaurant.getAddress().getLat();
                     final double rLng = restaurant.getAddress().getLng();
                     if (restaurant.isLocal()){
-                        return distance(lat, lng, rLat, rLng) <= 2;
+                        return distance(lat, lng, rLat, rLng) <= 5;
                     } else {
                         final Delivery delivery = Delivery.byId(restaurant.getId());
-                        return distance(lat, lng, rLat, rLng) <= delivery.getRadius();
+                        return false;//distance(lat, lng, rLat, rLng) <= delivery.getRadius();
                     }
                 })
                 .collect(Collectors.toList());
