@@ -59,6 +59,8 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
     $scope.minIndex = 0;
     $scope.maxIndex = 11;
 
+    $scope.showMap = false;
+
     //Var used to avoid initializing the same map more than once.
     var mapLoaded = false;
 
@@ -210,6 +212,10 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
                 initMap();
                 response.data.length === 0 ? $scope.result.noResults = true : $scope.result.noResults = false;
                 loadFilters(response.data);
+                $scope.showMap = true;
+                $timeout(function(){
+                    $scope.showMap = false;
+                }, 50);
             }, function (error) {
                 Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 3000, "red");
             });
@@ -272,6 +278,11 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         $scope.minIndex = (page-1) * 12;
         $scope.maxIndex = (page * 12) - 1;
     };
+
+    $scope.viewMap =function(){
+       initMap();
+       this.showMap=true;
+    } ;
 
     /*Useful functions*/
 
