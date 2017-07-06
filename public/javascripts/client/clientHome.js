@@ -4,6 +4,8 @@ var app = angular.module("reservandoApp");
 app.requires.push('ngMap');
 app.requires.push('ui.materialize');
 app.requires.push('ngAnimate');
+app.requires.push('ngRateIt');
+
 app.service('serverCommunication', ['$http','$q', function ($http, $q){
     this.postToUrl = function(data, uploadUrl, successResponse, errorResponse){
         var defered = $q.defer();
@@ -99,6 +101,7 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         };
         serverCommunication.postToUrl(dataToPost,"/client/getRecommendations","","")
             .then(function (responseData) {
+                console.log(responseData);
                 $scope.recommendations = responseData;
             })
             .catch(function(error){

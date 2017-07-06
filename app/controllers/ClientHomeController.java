@@ -1,10 +1,8 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Client;
-import models.Cuisine;
-import models.CuisinePreference;
-import models.Restaurant;
+import models.*;
+import models.Response.RestaurantResponse;
 import play.libs.Json;
 import play.mvc.*;
 
@@ -67,7 +65,7 @@ public class ClientHomeController extends Controller {
             results.addAll(aux);
         }*/
 
-        return ok(Json.toJson(results));
+        return ok(Json.toJson(results.stream().map(r -> new RestaurantResponse(r, Qualification.getRestaurantQualification(r.getId()))).collect(Collectors.toList())));
     }
 
     public Result searchAllRestaurants(){
@@ -87,7 +85,7 @@ public class ClientHomeController extends Controller {
         }).collect(Collectors.toList());
 
         if (preferences.size() == 0){
-            return ok(Json.toJson(getRandomRestaurants(6, new ArrayList<>())));
+            return ok(Json.toJson(getRandomRestaurants(6, new ArrayList<>()).stream().map(r -> new RestaurantResponse(r, Qualification.getRestaurantQualification(r.getId()))).collect(Collectors.toList())));
         } else {
             List<Restaurant> restaurants = new ArrayList<>();
             int max = preferences.size() > 6 ? 6 : preferences.size();
@@ -98,7 +96,7 @@ public class ClientHomeController extends Controller {
             if (randomAmount > 0) {
                 getRandomRestaurants(6, restaurants);
             }
-            return ok(Json.toJson(restaurants));
+            return ok(Json.toJson(restaurants.stream().map(r -> new RestaurantResponse(r, Qualification.getRestaurantQualification(r.getId()))).collect(Collectors.toList())));
         }
     }
 

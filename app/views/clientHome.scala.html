@@ -77,6 +77,8 @@
                                    <span class="card-title">{{result.name}}</span>
                                </div>
                                <div class="card-content">
+                                   <ng-rate-it ng-model="0" min="0" max="5" read-only="true" ng-show="result.qualification == -1"></ng-rate-it>
+                                   <ng-rate-it ng-model="result.qualification" min="0" max="5" read-only="true" ng-show="result.qualification != -1"></ng-rate-it>
                                    <p class="truncate">{{printCuisines(result)}}</p>
                                </div>
                                <div class="card-action">
@@ -108,19 +110,13 @@
                        <marker ng-repeat="result in filteredResults" position="{{result.address.lat}}, {{result.address.lng}}" on-click="showInfoMarker(event, result)"></marker>
                        <info-window id="myInfoWindow">
                             <div ng-non-bindable>
-                                <div class="row">
-                                    <div class="col m12">
-                                        <h5>{{restaurantSelectedInMap.name}}</h5>
-                                    </div>
+                                <div class="col m2">
+                                    <img width="100" class="responsive-img" ng-src="@routes.Assets.versioned("{{restaurantSelectedInMap.photo.path}}")" ng-show="restaurantSelectedInMap.photo" align="left">
+                                    <img width="100" class="responsive-img" ng-src="@routes.Assets.versioned("images/placeholder/restaurant.jpg")" ng-hide="restaurantSelectedInMap.photo" align="left">
                                 </div>
-                                <div class="row">
-                                    <div class="col m6">
-                                        <img width="200" class="responsive-img" ng-src="@routes.Assets.versioned("{{restaurantSelectedInMap.photo.path}}")" ng-show="restaurantSelectedInMap.photo" align="left">
-                                        <img width="200" class="responsive-img" ng-src="@routes.Assets.versioned("images/placeholder/restaurant.jpg")" ng-hide="restaurantSelectedInMap.photo" align="left">
-                                    </div>
-                                    <div class="col m2 offset-m2">
-                                        <a class="waves-effect waves-light btn" ng-click="openRestaurant(restaurantSelectedInMap.id)">Ver</a>
-                                    </div>
+                                <div class="col m10">
+                                    <h5>{{restaurantSelectedInMap.name}}</h5>
+                                    <a class="waves-effect waves-light btn" ng-click="openRestaurant(restaurantSelectedInMap.id)">Ver</a>
                                 </div>
                             </div>
                        </info-window>
@@ -145,6 +141,8 @@
                                <span class="card-title">{{recommendation.name}}</span>
                            </div>
                            <div class="card-content">
+                               <ng-rate-it ng-model="0" min="0" max="5" read-only="true" ng-show="recommendation.qualification == -1"></ng-rate-it>
+                               <ng-rate-it ng-model="recommendation.qualification" min="0" max="5" read-only="true" ng-show="recommendation.qualification != -1"></ng-rate-it>
                                <p class="truncate">{{printCuisines(recommendation)}}</p>
                            </div>
                            <div class="card-action">
@@ -157,8 +155,10 @@
        </div>
     </div>
 }{
+    <link rel="stylesheet" href="@routes.Assets.versioned("external/angular-rateit-master/src/style/ng-rateit.css")">
     <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/clientHome.css")">
 }{
+    <script src="@routes.Assets.versioned("external/angular-rateit-master/src/ng-rateit.js")"></script>
     <script src="@routes.Assets.versioned("external/angularjs/angular-animate.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/client/clientHome.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/utils/geocode.js")"></script>

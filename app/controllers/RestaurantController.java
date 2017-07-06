@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import models.Response.DeliveryResponse;
 import models.Response.LocalResponse;
+import models.Response.RestaurantResponse;
 import models.Response.RestaurantsResponse;
 import models.requestObjects.PhotoObject;
 import models.requestObjects.RestaurantEditObject;
@@ -190,7 +191,7 @@ public class RestaurantController extends Controller {
         double lat = Double.parseDouble(latString);
         double lng = Double.parseDouble(lngString);
 
-        List<Restaurant> result = Restaurant.allRestaurants().stream()
+        List<RestaurantResponse> result = Restaurant.allRestaurants().stream()
                 .filter(restaurant -> !restaurant.isDeleted() && restaurant.isPublished())
                 .filter(restaurant -> {
                     final double rLat = restaurant.getAddress().getLat();
@@ -202,6 +203,7 @@ public class RestaurantController extends Controller {
                         return distance(lat, lng, rLat, rLng) <= delivery.getRadius();
                     }
                 })
+                .map(r -> new RestaurantResponse(r, Qualification.getRestaurantQualification(r.getId())))
                 .collect(Collectors.toList());
         return ok(Json.toJson(result));
     }
