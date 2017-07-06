@@ -2,6 +2,46 @@
 @views.html.main("Reservando"){
     @clientNav()
     <div ng-controller="ClientHomeCtrl">
+       <div class="sidebar" ng-show="!result.noResults">
+           <div class="col m12">
+               <ul class="collapsible" data-collapsible="accordion">
+                   <li>
+                       <div class="collapsible-header">Filtros</div>
+                   </li>
+                   <li>
+                       <div class="collapsible-header"><i class="material-icons">filter_drama</i>Tipo de local</div>
+                       <div class="collapsible-body">
+                           <p ng-show="filtersToShow.thereAreRestaurants">
+                               <input type="checkbox" class="filled-in" id="filterByRestaurant" ng-model="filtersApplied.showRestaurants" ng-change="applyFilters()" ng-checked="true">
+                               <label for="filterByRestaurant">Restaurant</label>
+                           </p>
+                           <p ng-show="filtersToShow.thereAreDeliveries">
+                               <input type="checkbox" class="filled-in" id="filterByDelivery" ng-model="filtersApplied.showDeliveries" ng-change="applyFilters()" ng-checked="true">
+                               <label for="filterByDelivery">Delivery</label>
+                           </p>
+                       </div>
+                   </li>
+                   <li>
+                       <div class="collapsible-header"><i class="material-icons">place</i>Zona</div>
+                       <div class="collapsible-body">
+                           <p ng-repeat="zone in zones">
+                               <input type="checkbox" class="filled-in" id="filterByZone{{zone.zone}}" ng-checked="true">
+                               <label for="filterByZone{{zone.zone}}">{{zone.zone}}</label>
+                           </p>
+                       </div>
+                   </li>
+                   <li>
+                       <div class="collapsible-header"><i class="material-icons">whatshot</i>Cocina</div>
+                       <div class="collapsible-body">
+                           <p ng-repeat="cuisine in filtersToShow.cuisines" ng-show="$index < 10">
+                               <input type="checkbox" class="filled-in" id="filterByCuisine{{cuisine.name}}" ng-model="filtersApplied.showThisCuisines[getIndex(cuisine)].isActive" ng-change="applyFilters()" ng-checked="true">
+                               <label for="filterByCuisine{{cuisine.name}}">{{cuisine.name}}</label>
+                           </p>
+                       </div>
+                   </li>
+               </ul>
+           </div>
+       </div>
        <div class="container body">
            @*Search bar*@
            <div>
@@ -19,40 +59,10 @@
            </div>
            @*Results*@
            <div class="row">
-               @*Filters*@
-               <div class="col m3" ng-show="filteredResults.length > 0">
-                  <ul class="collection">
-                      <li class="collection-item">
-                          <h5>Tipo de local:</h5>
-                          <p ng-show="filtersToShow.thereAreRestaurants">
-                              <input type="checkbox" class="filled-in" id="filterByRestaurant" ng-model="filtersApplied.showRestaurants" ng-change="applyFilters()" ng-checked="true">
-                              <label for="filterByRestaurant">Restaurant</label>
-                          </p>
-                          <p ng-show="filtersToShow.thereAreDeliveries">
-                              <input type="checkbox" class="filled-in" id="filterByDelivery" ng-model="filtersApplied.showDeliveries" ng-change="applyFilters()" ng-checked="true">
-                              <label for="filterByDelivery">Delivery</label>
-                          </p>
-                      </li>
-                      <li class="collection-item">
-                          <h5>Zona:</h5>
-                          <p ng-repeat="zone in zones">
-                              <input type="checkbox" class="filled-in" id="filterByZone{{zone.zone}}" ng-checked="true">
-                              <label for="filterByZone{{zone.zone}}">{{zone.zone}}</label>
-                          </p>
-                      </li>
-                      <li class="collection-item">
-                          <h5>Cocina:</h5>
-                          <p ng-repeat="cuisine in filtersToShow.cuisines" ng-show="$index < 10">
-                              <input type="checkbox" class="filled-in" id="filterByCuisine{{cuisine.name}}" ng-model="filtersApplied.showThisCuisines[getIndex(cuisine)].isActive" ng-change="applyFilters()" ng-checked="true">
-                              <label for="filterByCuisine{{cuisine.name}}">{{cuisine.name}}</label>
-                          </p>
-                      </li>
-                  </ul>
-               </div>
                @*Results*@
-               <div class="col m9">
+               <div class="col m12">
                    <div class="row">
-                       <div class="col s4" ng-repeat="result in filteredResults = (result.allResults | filter: applyFilter) | filter: filterByPage">
+                       <div class="col s3" ng-repeat="result in filteredResults = (result.allResults | filter: applyFilter) | filter: filterByPage" ng-animate=" 'animate' ">
                            <div class="card">
                                <div class="card-image">
                                    <img class="responsive-img" ng-src="@routes.Assets.versioned("{{result.photo.path}}")" ng-show="result.photo">
@@ -71,7 +81,7 @@
                    <div class="row center-align">
                        <pagination
                        page="currentPage"
-                       page-size="6"
+                       page-size="12"
                        total="filteredResults.length"
                        show-prev-next="true"
                        use-simple-prev-next="false"
@@ -142,6 +152,7 @@
 }{
     <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/clientHome.css")">
 }{
+    <script src="@routes.Assets.versioned("external/angularjs/angular-animate.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/client/clientHome.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/utils/geocode.js")"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyDM9GdrRT-5ML6OHeHGIIs0zNFjJmOaQUM&libraries=places&callback=initGoogleMapFunctionality"></script>

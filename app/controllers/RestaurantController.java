@@ -199,7 +199,7 @@ public class RestaurantController extends Controller {
                         return distance(lat, lng, rLat, rLng) <= 5;
                     } else {
                         final Delivery delivery = Delivery.byId(restaurant.getId());
-                        return false;//distance(lat, lng, rLat, rLng) <= delivery.getRadius();
+                        return distance(lat, lng, rLat, rLng) <= delivery.getRadius();
                     }
                 })
                 .collect(Collectors.toList());

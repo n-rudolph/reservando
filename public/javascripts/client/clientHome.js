@@ -3,6 +3,7 @@ var app = angular.module("reservandoApp");
 
 app.requires.push('ngMap');
 app.requires.push('ui.materialize');
+app.requires.push('ngAnimate');
 app.service('serverCommunication', ['$http','$q', function ($http, $q){
     this.postToUrl = function(data, uploadUrl, successResponse, errorResponse){
         var defered = $q.defer();
@@ -51,12 +52,12 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
     $scope.result = {
         allResults: [],
         showSearchWithoutFilters: false,
-        noResults: false
+        noResults: true
     };
 
     $scope.currentPage = 1;
     $scope.minIndex = 0;
-    $scope.maxIndex = 5;
+    $scope.maxIndex = 11;
 
     //Var used to avoid initializing the same map more than once.
     var mapLoaded = false;
@@ -113,9 +114,10 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
     });
 
     $scope.search = function(){
+        if ($scope.wordToSearch == undefined || $scope.wordToSearch.length == 0)
+            return;
         resetPreviousResultsSearched();
         resetPreviousResultsWithFilters();
-
         var dataToPost = {wordToSearch: $scope.wordToSearch};
         if($scope.wordToSearch.length > 0){
             serverCommunication.postToUrl(dataToPost,"/client/search","","")
@@ -267,8 +269,8 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
 
     $scope.changePage = function(page) {
         $scope.currentPage = page;
-        $scope.minIndex = (page-1) * 6;
-        $scope.maxIndex = (page * 6) - 1;
+        $scope.minIndex = (page-1) * 12;
+        $scope.maxIndex = (page * 12) - 1;
     };
 
     /*Useful functions*/
