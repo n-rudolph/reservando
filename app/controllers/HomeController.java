@@ -1,11 +1,9 @@
 package controllers;
 
-import models.Cuisine;
-import models.Day;
-import play.libs.Json;
+import play.api.i18n.*;
 import play.mvc.*;
-
 import views.html.*;
+import javax.inject.Inject;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -19,8 +17,17 @@ public class HomeController extends Controller {
      * this method will be called when the application receives a
      * <code>GET</code> request with a path of <code>/</code>.
      */
+
+    private MessagesApi messagesApi;
+
+    @Inject
+    public HomeController(MessagesApi messagesApi){
+        this.messagesApi = messagesApi;
+    }
+
     public Result index() {
-        return ok(login.render());
+        play.api.i18n.Messages messages = messagesApi.preferred(request());
+        return ok(login.render(messages));
     }
 
     public Result clientHome() {return ok(clientHome.render());}

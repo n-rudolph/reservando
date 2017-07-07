@@ -1,0 +1,15 @@
+#Login
+login.title = RESERVANDO
+login.subtitle = The best place to order and reserve food
+login.login = Log in
+login.sign.in = Sign in
+login.email = Email
+login.password = Password
+login.name = Name
+login.lastName = Last name
+login.data.tooltip = It must contain: 1 number, length 6
+login.info = Info
+login.validate.password = Validate password
+login.address = Address
+login.client = Client
+login.owner = Owner
