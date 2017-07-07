@@ -1,31 +1,31 @@
-@()
+@(messages: Messages)
 @views.html.main("Reservando") {
-    @clientNav()
+    @clientNav(messages)
     <div class="container" ng-controller="MyOrdersCtrl">
         <div class="row title">
-            <h3>Mis Pedidos</h3>
+            <h3>@Messages("client.orders.my.orders")</h3>
         </div>
         <div class="row">
             <ul class="collapsible popout" data-collapsible="accordion">
                 <li ng-repeat="order in orders | filter: filterByPage">
-                    <div class="collapsible-header" ng-class="{'active': $first}"><i class="material-icons"><i class="material-icons">local_shipping</i></i>{{order.delivery.name}}  -  {{getDateTimeFormat(order.timePlaced)}} <span class="right" ng-show="isExpire(order)">FINALIZADO</span></div>
+                    <div class="collapsible-header" ng-class="{'active': $first}"><i class="material-icons"><i class="material-icons">local_shipping</i></i>{{order.delivery.name}}  -  {{getDateTimeFormat(order.timePlaced)}} <span class="right" ng-show="isExpire(order)">@Messages("client.orders.finished")</span></div>
                     <div class="collapsible-body container">
                         <div class="row">
                             <div class="col s6">
-                                <div class="row"><h5>Información</h5></div>
+                                <div class="row"><h5>@Messages("client.orders.info")</h5></div>
                                 <div class="row">
                                     <table>
                                         <tbody>
                                             <tr>
-                                                <td>Dirección de entrega:</td>
+                                                <td>@Messages("client.orders.delivery.address")</td>
                                                 <td>{{order.address}}</td>
                                             </tr>
                                             <tr ng-show="order.discount">
-                                                <td>Codigo de descuento:</td>
+                                                <td>@Messages("client.orders.discount.code")</td>
                                                 <td>{{order.discount.code}} - {{order.discount.discount}}%</td>
                                             </tr>
                                             <tr>
-                                                <td>Precio total:</td>
+                                                <td>@Messages("client.orders.total.price")</td>
                                                 <td>${{calculateTotal(order)}}</td>
                                             </tr>
                                         </tbody>
@@ -33,15 +33,15 @@
                                 </div>
                             </div>
                             <div class="col s6">
-                                <div class="row"><h5>Platos</h5></div>
+                                <div class="row"><h5>@Messages("client.orders.foods")</h5></div>
                                 <div class="row">
                                     <table>
                                         <thead>
                                             <tr>
-                                                <td>Platos</td>
-                                                <td>Nombre</td>
-                                                <td>Precio</td>
-                                                <td>Cantidad</td>
+                                                <td>@Messages("client.orders.foods")</td>
+                                                <td>@Messages("client.orders.name")</td>
+                                                <td>@Messages("client.orders.price")</td>
+                                                <td>@Messages("client.orders.quantity")</td>
                                             </tr>
                                         </thead>
                                         <tbody>

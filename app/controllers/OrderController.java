@@ -8,6 +8,8 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.*;
+import javax.inject.Inject;
+import play.api.i18n.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,14 +17,24 @@ import java.util.stream.Collectors;
 
 public class OrderController extends Controller {
 
+    private MessagesApi messagesApi;
+
+    @Inject
+    public OrderController(MessagesApi messagesApi){
+       this.messagesApi = messagesApi;
+    }
+
     public Result view(){
-        return ok(newOrder.render());
+        Messages messages = messagesApi.preferred(request());
+        return ok(newOrder.render(messages));
     }
     public Result myOrdersView(){
-        return ok(myOrders.render());
+        Messages messages = messagesApi.preferred(request());
+        return ok(myOrders.render(messages));
     }
     public Result ownerOrdersView() {
-        return ok(ownerMyOrders.render());
+        Messages messages = messagesApi.preferred(request());
+        return ok(ownerMyOrders.render(messages));
     }
 
 

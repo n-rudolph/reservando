@@ -1,9 +1,10 @@
+@(messages: Messages)
 @views.html.main("Reservando") {
     <div id="top"></div>
-    @ownerNav()
+    @ownerNav(messages)
     <div class="container" ng-controller="OwnerRestaurantsCtrl">
         <div class="row">
-            <h3 class="center">Mis Restaurantes</h3>
+            <h3 class="center">@Messages("owner.restaurants.my.restaurants")</h3>
         </div>
         <div class="row">
 
@@ -21,8 +22,11 @@
                                     <div class="col m3 center bold">
                                         {{restaurant.name}}
                                     </div>
-                                    <div class="col m2">
-                                        {{restaurant.isLocal ? "Local" : "Delivery"}}
+                                    <div class="col m2" ng-show="restaurant.local">
+                                        @Messages("owner.restaurants.local")
+                                    </div>
+                                    <div class="col m2" ng-hide="restaurant.local">
+                                        @Messages("owner.restaurants.delivery")
                                     </div>
                                     <div class="col m7">
                                         {{restaurant.address.address}}
@@ -48,7 +52,7 @@
             <div class="progress" ng-show="loading">
                 <div class="indeterminate"></div>
             </div>
-            <div class="center btn btn-large load-more" ng-show="hasNext" ng-click="nextPage()" ng-disable="loading">Cargar más</div>
+            <div class="center btn btn-large load-more" ng-show="hasNext" ng-click="nextPage()" ng-disable="loading">@Messages("owner.restaurants.load.more")</div>
             <div class="progress" ng-show="loading">
                 <div class="indeterminate"></div>
             </div>

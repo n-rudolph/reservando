@@ -1,6 +1,6 @@
-@()
+@(messages: Messages)
 @views.html.main("Reservando") {
-    @clientNav()
+    @clientNav(messages)
     <div class="container" ng-controller="RestaurantCtrl">
         <div class="row image-holder">
             <img ng-src="@routes.Assets.versioned("{{restaurant.photo.path}}")" alt="" class="materialboxed" width="100%" height="300px">
@@ -8,12 +8,12 @@
         <div class="row title">
             <div class="col s8">
                 <h3>{{restaurant.name}}</h3>
-                <p ng-show="!totalQualification || totalQualification == -1">Todavia no fue calificado</p>
+                <p ng-show="!totalQualification || totalQualification == -1">@Messages("client.restaurant.not.rated")</p>
                 <ng-rate-it ng-model="totalQualification" min="0" max="5" read-only="true" ng-hide="!totalQualification || totalQualification == -1"></ng-rate-it>
             </div>
             <div class="col s3 offset-s1">
-                <div class="btn" ng-click="openReservationPage(restaurant.id)" ng-show="restaurant.isLocal">Hacer Reserva</div>
-                <div class="btn" ng-click="openOrderPage(restaurant.id)" ng-hide="restaurant.isLocal">Hacer Pedido</div>
+                <div class="btn" ng-click="openReservationPage(restaurant.id)" ng-show="restaurant.isLocal">@Messages("client.restaurant.make.reservation")</div>
+                <div class="btn" ng-click="openOrderPage(restaurant.id)" ng-hide="restaurant.isLocal">@Messages("client.restaurant.make.order")</div>
             </div>
         </div>
         <div class="row">
@@ -30,25 +30,25 @@
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <p class="opening-days" ng-show="restaurant.days.length() == 7"><i class="material-icons">data_range</i> Todos los días</p>
+                        <p class="opening-days" ng-show="restaurant.days.length() == 7"><i class="material-icons">data_range</i> @Messages("client.restaurant.all.days")</p>
                         <p class="opening-days" ng-hide="restaurant.days.length() == 7"><i class="material-icons">date_range</i><span ng-repeat="day in restaurant.openingDays">{{$first?"":", "}}{{day.day}}</span></p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <p class="opening-time"><i class="material-icons">schedule</i> De {{restaurant.openingHour}} a {{restaurant.closingHour}}</p>
+                        <p class="opening-time"><i class="material-icons">schedule</i> @Messages("client.restaurant.from"): {{restaurant.openingHour}} @Messages("client.restaurant.to"): {{restaurant.closingHour}}</p>
                     </div>
                 </div>
                 <div class="row" ng-hide="restaurant.isLocal || restaurant.local">
                     <div class="col s12">
-                        <p class="opening-time"><i class="material-icons">query_builder</i> Tiempo promedio de entrega: {{restaurant.responseTime}}</p>
+                        <p class="opening-time"><i class="material-icons">query_builder</i> @Messages("client.restaurant.average.delivery.time"): {{restaurant.responseTime}}</p>
                     </div>
                 </div>
             </div>
             <div class="col s6">
                 <div class="row">
-                    <h5 class="calificacion" ng-show="personalQualification == -1">Califica el servicio</h5>
-                    <h5 class="calificacion" ng-hide="personalQualification == -1">Tu calificación</h5>
+                    <h5 class="calificacion" ng-show="personalQualification == -1">@Messages("client.restaurant.rate.service")</h5>
+                    <h5 class="calificacion" ng-hide="personalQualification == -1">@Messages("client.restaurant.your.rating")</h5>
                     <ng-rate-it ng-model="personalQualification" min="0" max="5" ng-click="qualifyRestaurant()" resetable="false" pristine="true"></ng-rate-it>
                 </div>
                 <div class="row">
@@ -69,7 +69,7 @@
             <div class="col s6 menu">
                 <div class="row">
                     <div class="col s2 offset-s5">
-                        <h5>Menu</h5>
+                        <h5>@Messages("client.restaurant.menu")</h5>
                     </div>
                 </div>
                 <div class="row">
@@ -78,8 +78,8 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>Nombre</th>
-                                    <th>Descripción</th>
+                                    <th>@Messages("client.restaurant.name")</th>
+                                    <th>@Messages("client.restaurant.description")</th>
                                 </tr>
                             </thead>
 
@@ -94,7 +94,7 @@
                     </div>
                 </div>
                 <div class="row" ng-hide="menu.length > 0">
-                    <p>El menu todavia no se encuentra definido</p>
+                    <p>@Messages("client.restaurant.the.menu.is.not.defined")</p>
                 </div>
             </div>
         </div>

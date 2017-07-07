@@ -6,6 +6,8 @@ import org.joda.time.DateTime;
 import play.libs.Json;
 import play.mvc.*;
 import views.html.*;
+import javax.inject.Inject;
+import play.api.i18n.*;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -20,7 +22,18 @@ import java.util.List;
  */
 public class ClientProfileController extends Controller {
 
-    public Result clientProfile(){ return ok(clientProfile.render());}
+    private MessagesApi messagesApi;
+
+    @Inject
+    public ClientProfileController(MessagesApi messagesApi){
+        this.messagesApi = messagesApi;
+    }
+
+    public Result clientProfile(){
+        Controller.changeLang("es");
+        Messages messages = messagesApi.preferred(request());
+        return ok(clientProfile.render(messages));
+    }
 
     public Result getClient(){
         Client client = getCurrentClient();

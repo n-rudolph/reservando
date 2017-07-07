@@ -1,5 +1,8 @@
 package controllers;
 
+import models.Cuisine;
+import models.Day;
+import play.libs.Json;
 import play.api.i18n.*;
 import play.mvc.*;
 import views.html.*;
@@ -26,19 +29,33 @@ public class HomeController extends Controller {
     }
 
     public Result index() {
-        play.api.i18n.Messages messages = messagesApi.preferred(request());
+        Messages messages = messagesApi.preferred(request());
         return ok(login.render(messages));
     }
 
-    public Result clientHome() {return ok(clientHome.render());}
-    public Result ownerHome() {return ok(ownerHome.render());}
-    public Result newRestaurant(){return ok(newRestaurant.render());}
-    public Result ownerRestaurants(){
-        return ok(ownerRestaurants.render());
+    public Result clientHome() {
+        Messages messages = messagesApi.preferred(request());
+        return ok(clientHome.render(messages));
     }
-    public Result ownerRestaurant() { return ok(ownerRestaurantProfile.render()); }
+    public Result ownerHome() {
+        Messages messages = messagesApi.preferred(request());
+        return ok(ownerHome.render(messages));
+    }
+    public Result newRestaurant(){
+        Messages messages = messagesApi.preferred(request());
+        return ok(newRestaurant.render(messages));
+    }
+    public Result ownerRestaurants(){
+        Messages messages = messagesApi.preferred(request());
+        return ok(ownerRestaurants.render(messages));
+    }
+    public Result ownerRestaurant() {
+        Messages messages = messagesApi.preferred(request());
+        return ok(ownerRestaurantProfile.render(messages));
+    }
     public Result clientRestaurant() {
-        return ok(restaurant.render());
+        Messages messages = messagesApi.preferred(request());
+        return ok(restaurant.render(messages));
     }
 
     public Result getDays() {

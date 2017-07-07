@@ -1,9 +1,9 @@
-@()
+@(messages: Messages)
 @views.html.main("Reservando") {
-    @ownerNav()
+    @ownerNav(messages)
     <div class="container" ng-controller="NewRestaurantCtrl as ctrl">
         <div class="row">
-            <h2 class="center">Nuevo Restaurant</h2>
+            <h2 class="center">@Messages("owner.new.restaurant.new.restaurant")</h2>
         </div>
         <div class="row">
             <div class="col m4">
@@ -18,61 +18,61 @@
                 <div class="row">
                     <div class="file-field input-field col s12">
                         <label class="btn file-select" for="image-input">
-                            <span>Seleccionar foto</span>
+                            <span>@Messages("owner.new.restaurant.select.photo")</span>
                             <input type="file" multiple ng-file-model="photos" accept="image/*" id="image-input">
                         </label>
                     </div>
-                    <label class="image-error" ng-show="errors.photo">Es necesario ingresar una imagen</label>
-                    <label class="image-error" ng-show="errors.photoSize">Tamaño maximo de la imagen 2mb</label>
+                    <label class="image-error" ng-show="errors.photo">@Messages("owner.new.restaurant.error.photo.miss")</label>
+                    <label class="image-error" ng-show="errors.photoSize">@Messages("owner.new.restaurant.error.photo.size")</label>
                 </div>
             </div>
             <div class="col m8">
-                <h4>Información</h4>
+                <h4>@Messages("owner.new.restaurant.info")</h4>
                 <div class="input-field col s12">
                     <input type="text" id="name" ng-model="restaurant.name" ng-class="{invalid: errors.name}">
-                    <label for="name">Nombre</label>
+                    <label for="name">@Messages("owner.new.restaurant.name")</label>
                 </div>
                 <div class="input-field col s12">
-                    <input id="address" type="text" class="validate field" ng-model="restaurant.address.addressString" onfocus="geolocate()" placeholder="" ng-class="{invalid: errors.address}">
-                    <label for="address">Dirección</label>
+                    <input id="address" type="text" class="validate field" ng-model="restaurant.address.addressString" placeholder="" onfocus="geolocate()" ng-class="{invalid: errors.address}">
+                    <label for="address">@Messages("owner.new.restaurant.address")</label>
                 </div>
                 <div class="input-field col s12" style="height: 30px">
                         <!-- Switch -->
                     <div class="switch">
                         <label>
-                            Delivery
+                            @Messages("owner.new.restaurant.delivery")
                             <input type="checkbox" ng-model="restaurant.isLocal">
                             <span class="lever"></span>
-                            Local
+                            @Messages("owner.new.restaurant.local")
                         </label>
                     </div>
                 </div>
                 <div class="input-field col s12" ng-show="restaurant.isLocal">
                     <input type="number" id="capacity" ng-model="restaurant.capacity" ng-class="{customInvalid: errors.capacity}">
-                    <label for="capacity">Capacidad</label>
+                    <label for="capacity">@Messages("owner.new.restaurant.capacity")</label>
                 </div>
                 <div class="input-field col s6" ng-hide="restaurant.isLocal">
                     <input type="number" id="radius" ng-model="restaurant.radius" ng-class="{invalid: errors.radius}">
-                    <label for="radius">Radio (km)</label>
+                    <label for="radius">@Messages("owner.new.restaurant.radio")</label>
                 </div>
                 <div class="input-field col s6" ng-hide="restaurant.isLocal">
                     <input type="number" id="responseTime" ng-model="restaurant.responseTime" ng-class="{invalid: errors.responseTime}">
-                    <label for="responseTime">Tiempo promedio de respuesta (min)</label>
+                    <label for="responseTime">@Messages("owner.new.restaurant.average.response.time")</label>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s12">
                 <textarea name="description" id="description" cols="30" rows="10" ng-model="restaurant.description" class="materialize-textarea" ng-class="{invalid: errors.description}"></textarea>
-                <label for="description">Descripción</label>
+                <label for="description">@Messages("owner.new.restaurant.description")</label>
             </div>
         </div>
         <div class="row">
-            <h4>Días de atención</h4>
+            <h4>@Messages("owner.new.restaurant.business.days")</h4>
             <div class="col" ng-class="{m3: selectedDays, m12: !selectedDays || selectedDays.length == 0}">
                 <div class="input-field col m12" ng-class="{customInvalid: errors.days}">
                     <select ng-model="selectedDays" material-select multiple watch>
-                        <option value="" disabled selected>Seleccionar</option>
+                        <option value="" disabled selected>@Messages("owner.new.restaurant.select")</option>
                         <option ng-repeat="day in days">{{day.day}}</option>
                     </select>
                 </div>
@@ -82,26 +82,26 @@
             </div>
         </div>
         <div class="row">
-            <h4>Horario de atención</h4>
+            <h4>@Messages("owner.new.restaurant.business.hour")</h4>
             <div class="col m6">
                 <div class="input-field">
-                    <label for="input_starttime">De</label>
+                    <label for="input_starttime">@Messages("owner.new.restaurant.from")</label>
                     <input type="text" id="input_starttime" input-clock data-twelvehour="false" ng-model="restaurant.startTime" ng-class="{invalid: errors.time}">
                 </div>
             </div>
             <div class="col m6">
                 <div class="input-field">
-                    <label for="input_endtime">Hasta</label>
+                    <label for="input_endtime">@Messages("owner.new.restaurant.to")</label>
                     <input type="text" id="input_endtime" input-clock data-twelvehour="false" ng-model="restaurant.endTime" ng-class="{invalid: errors.time}">
                 </div>
             </div>
         </div>
         <div class="row">
-            <h4>Tipo de comida</h4>
+            <h4>@Messages("owner.new.restaurant.type.of.meal")</h4>
             <div class="col" ng-class="{m3: selectedCuisines, m12: !selectedCuisines || selectedCuisines.length == 0}">
                 <div class="input-field col m12" ng-class="{customInvalid: errors.cuisines}">
                     <select ng-model="selectedCuisines" material-select multiple watch >
-                        <option value="" disabled selected>Seleccionar</option>
+                        <option value="" disabled selected>@Messages("owner.new.restaurant.select")</option>
                         <option ng-repeat="cuisine in cuisines">{{cuisine.name}}</option>
                     </select>
                 </div>
@@ -111,7 +111,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="btn btn-large right" ng-click="submitRestaurant()">ENVIAR</div>
+            <div class="btn btn-large right" ng-click="submitRestaurant()">@Messages("owner.new.restaurant.send")</div>
         </div>
     </div>
 } {

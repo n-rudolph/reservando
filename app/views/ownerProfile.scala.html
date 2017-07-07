@@ -1,6 +1,6 @@
-@()
+@(messages: Messages)
 @views.html.main("Reservando") {
-    @ownerNav()
+    @ownerNav(messages)
     <div class="container" ng-controller="OwnerProfileCtrl as profile">
 
         <div class="show-info" ng-hide="editMode">
@@ -18,13 +18,13 @@
                     <div class="row">
                         <div class="input-field col s12">
                             <input id="ownerEmail" type="text" autofocus ng-model="user.email" readonly>
-                            <label for="ownerEmail">Email</label>
+                            <label for="ownerEmail">@Messages("owner.profile.email")</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
                             <input id="ownerEmail" type="text" autofocus ng-model="user.address.address" readonly>
-                            <label for="ownerEmail">Dirección</label>
+                            <label for="ownerEmail">@Messages("owner.profile.address")</label>
                         </div>
                     </div>
                 </div>
@@ -40,15 +40,15 @@
                 <div class="col s8">
                     <div class="row">
                         <div class="col s6">
-                            <div class="btn btn-large waves-effect wave-light big-btn" ng-click="setEditMode(true)">Modificar perfil</div>
+                            <div class="btn btn-large waves-effect wave-light big-btn" ng-click="setEditMode(true)">@Messages("owner.profile.modify.profile")</div>
                         </div>
                         <div class="col s6">
-                            <div class="btn btn-large waves-effect wave-light big-btn" ng-click="openChangePasswordModal()">Modificar contraseña</div>
+                            <div class="btn btn-large waves-effect wave-light big-btn" ng-click="openChangePasswordModal()">@Messages("owner.profile.modify.password")</div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col s12">
-                            <div class="btn btn-large waves-effect waves-light red big-btn" ng-click="openDeleteAccountModal()">Eliminar cuenta</div>
+                            <div class="btn btn-large waves-effect waves-light red big-btn" ng-click="openDeleteAccountModal()">@Messages("owner.profile.delete.account")</div>
                         </div>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
         <div class="edit-info" ng-show="editMode">
             <div class="row">
                 <div class="col s4">
-                    <h3>Editar Perfil</h3>
+                    <h3>@Messages("owner.profile.edit.profile")</h3>
                 </div>
             </div>
             <div class="row">
@@ -70,50 +70,50 @@
                     <div class="row">
                         <div class="file-field input-field col s12" ng-show="photos.length == 0">
                             <label class="btn file-select big-btn" for="image-input">
-                                <span>Seleccionar foto</span>
+                                <span>@Messages("owner.profile.select.photo")</span>
                                 <input type="file" multiple ng-file-model="photos" accept="image/*" id="image-input">
                             </label>
                         </div>
                         <div class="file-field input-field col s12" ng-show="photos.length > 0">
                             <div class="col s6">
-                                <div class="btn waves-effect waves-light big-btn" ng-click="savePhoto()">Guardar</div>
+                                <div class="btn waves-effect waves-light big-btn" ng-click="savePhoto()">@Messages("owner.profile.save")</div>
                             </div>
                             <div class="col s6">
-                                <div class="btn waves-effect waves-light orange big-btn" ng-click="cancelEditPhoto()">Cancelar</div>
+                                <div class="btn waves-effect waves-light orange big-btn" ng-click="cancelEditPhoto()">@Messages("owner.profile.cancel")</div>
                             </div>
                         </div>
-                        <label class="image-error" ng-show="errors.photoSize">Tamaño maximo de la imagen 2mb</label>
+                        <label class="image-error" ng-show="errors.photoSize">@Messages("owner.profile.error.photo.size")</label>
                     </div>
                 </div>
                 <div class="col s8">
                     <div class="row">
                         <div class="input-field col s6">
                             <input id="ownerName" type="text" class="validate" autofocus ng-model="editUser.firstName" ng-class="{invalid: errors.firstName}">
-                            <label for="ownerName">Nombre</label>
+                            <label for="ownerName">@Messages("owner.profile.name")</label>
                         </div>
                         <div class="input-field col s6">
                             <input id="ownerLastname" type="text" class="validate" autofocus ng-model="editUser.lastName" ng-class="{invalid: errors.lastName}">
-                            <label for="ownerLastname">Apellido</label>
+                            <label for="ownerLastname">@Messages("owner.profile.lastName")</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
                             <input id="ownerEmail" type="email" class="validate" autofocus ng-model="editUser.email" ng-class="{invalid: errors.email}">
-                            <label for="ownerEmail">Email</label>
+                            <label for="ownerEmail">@Messages("owner.profile.email")</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
                             <input id="ownerAddress" type="text" class="validate" onfocus="geolocate()" autofocus ng-model="editUser.address.addressString" ng-class="{invalid: errors.address}">
-                            <label for="ownerAddress">Dirección</label>
+                            <label for="ownerAddress">@Messages("owner.profile.address")</label>
                         </div>
                     </div>
                     <div class="row info-buttons">
                         <div class="col s6">
-                            <div class="waves-effect wave-light btn btn-large big-btn big-btn" ng-click="saveEditUser()">Modificar información</div>
+                            <div class="waves-effect wave-light btn btn-large big-btn big-btn" ng-click="saveEditUser()">@Messages("owner.profile.modify.info")</div>
                         </div>
                         <div class="col s6">
-                            <div class="waves-effect wave-light btn btn-large orange big-btn big-btn" ng-click="setEditMode(false)">Cancelar</div>
+                            <div class="waves-effect wave-light btn btn-large orange big-btn big-btn" ng-click="setEditMode(false)">@Messages("owner.profile.cancel")</div>
                         </div>
                     </div>
                 </div>
@@ -124,46 +124,46 @@
         <div id="deleteAccountModal" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <div class="row">
-                    <h4>Eliminar Cuenta</h4>
+                    <h4>@Messages("owner.profile.delete.account")</h4>
                 </div>
                 <div class="row">
-                    <h5>¿Seguro desea eliminar su cuenta?</h5>
+                    <h5>@Messages("owner.profile.delete.account.question")</h5>
                 </div>
             </div>
             <div class="modal-footer delete-footer">
-                <div class="modal-action modal-close waves-effect waves waves-light btn">Cancelar</div>
-                <div class="waves-effect waves waves-red btn btn-flat delete-btn right" ng-click="deleteAccount()">Eliminar cuenta</div>
+                <div class="modal-action modal-close waves-effect waves waves-light btn">@Messages("owner.profile.cancel")</div>
+                <div class="waves-effect waves waves-red btn btn-flat delete-btn right" ng-click="deleteAccount()">@Messages("owner.profile.delete.account")</div>
             </div>
         </div>
         @* Modal for changing the password *@
         <div id="changePasswordModal" class="modal modal-fixed-footer">
             <div class="modal-content container">
                 <div class="row">
-                    <h4>Cambiar contraseña</h4>
+                    <h4>@Messages("owner.profile.change.password")</h4>
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
                         <input id="previousPassword" type="password" class="validate" ng-model="previousPassword">
-                        <label>Contraseña anterior</label>
+                        <label>@Messages("owner.profile.old.password")</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field suffix col s12">
                         <input id="newPassword1" type="password" class="field" ng-model="newPassword1" ng-class="{valid: validPassword && input1Touched, invalid: !validPassword && input1Touched}" ng-change="validatePassword1()">
-                        <label>Nueva contraseña</label>
+                        <label>@Messages("owner.profile.new.password")</label>
                     </div>
 
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
                         <input id="newPassword2" type="password" class="field" ng-model="newPassword2" ng-class="{valid: equalPasswords && input2Touched, invalid: !equalPasswords && input2Touched}" ng-change="validatePassword2()">
-                        <label>Confirmar nueva contraseña</label>
+                        <label>@Messages("owner.profile.confirm.new.password")</label>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <div href="" class=" modal-action modal-close waves-effect waves-red btn-flat">Cancelar</div>
-                <div class="waves-effect waves-green btn-flat" ng-click="changePassword()">Guardar</div>
+                <div href="" class=" modal-action modal-close waves-effect waves-red btn-flat">@Messages("owner.profile.cancel")</div>
+                <div class="waves-effect waves-green btn-flat" ng-click="changePassword()">@Messages("owner.profile.save")</div>
             </div>
         </div>
     </div>
