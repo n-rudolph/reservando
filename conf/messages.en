@@ -248,7 +248,7 @@ owner.restaurant.profile.edit = Edit
 owner.restaurant.profile.delete = Delete
 owner.restaurant.profile.menu.not.defined.yet = The menu is not yet defined
 owner.restaurant.profile.delete.restaurant = Delete restaurant
-owner.restaurant.profile.delete.restaurant.question = Are you sure you want to delete the restaurant?
+owner.restaurant.profile.delete.restaurant.question = Are you sure you want to delete the restaurant
 owner.restaurant.profile.add.meal = Add meal
 owner.restaurant.profile.select.photo = Select photo
 owner.restaurant.profile.error.meal.photo.miss = You must enter an image
@@ -256,7 +256,7 @@ owner.restaurant.profile.error.meal.photo.size = Maximum image size 2mb
 owner.restaurant.profile.price = Price
 owner.restaurant.profile.edit.meal = Edit meal
 owner.restaurant.profile.delete.meal = Delete meal
-owner.restaurant.profile.delete.meal.question = Are you sure you want to delete the meal?
+owner.restaurant.profile.delete.meal.question = Are you sure you want to delete the meal
 
 #Owner Restaurants
 owner.restaurants.my.restaurants = My Restaurants

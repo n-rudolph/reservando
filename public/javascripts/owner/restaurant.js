@@ -121,7 +121,7 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
     };
 
     $scope.openDelete = function() {
-        $('#deleteModal').openModal();
+        $('#deleteModal').modal('open');
     };
 
     $scope.deleteRestaurant = function() {
@@ -129,7 +129,8 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
             Materialize.toast("Restaurant eliminado con exito", 2000, "green", $window.location.href = "/owner/home")
         }, function(response){
             Materialize.toast("Ha ocurrido un error", 2000, "red");
-            $('#deleteModal').closeModal();
+            $('#deleteModal').modal('close');
+            $('#deleteModal').modal('close');
         });
     };
 
@@ -290,7 +291,7 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
 
     $scope.openDeleteMeal = function(index){
         $scope.mealToDeleteIndex = index;
-        $("#deleteMealModal").openModal();
+        $("#deleteMealModal").modal('open');
     };
 
     $scope.deleteMeal = function(){
@@ -321,7 +322,7 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
         $scope.newMealPhotos = [];
         $scope.resetNewMealErrors();
         $("#meal-image-input").val("");
-        $('#newMealModal').openModal();
+        $('#newMealModal').modal('open');
     };
 
     $scope.saveNewMeal = function(){
@@ -394,7 +395,7 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
             photo: meal.photo
         };
         $("#edit-meal-image-input").val("");
-        $("#editMealModal").openModal();
+        $("#editMealModal").modal('open');
     };
 
     $scope.saveEditMeal = function(){

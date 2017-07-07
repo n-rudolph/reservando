@@ -51,7 +51,7 @@
                     <p class="opening-days" ng-hide="restaurant.days.length() == 7"><i class="material-icons">date_range</i><span ng-repeat="day in restaurant.openingDays">{{$first?"":", "}}{{day.day}}</span></p>
                 </div>
                 <div class="row">
-                    <p class="opening-time"><i class="material-icons">schedule</i> De {{restaurant.openingHour}} a {{restaurant.closingHour}}</p>
+                    <p class="opening-time"><i class="material-icons">schedule</i> @Messages("owner.restaurant.profile.from"): {{restaurant.openingHour}} @Messages("owner.restaurant.profile.to"): {{restaurant.closingHour}}</p>
                 </div>
                 <div class="row" ng-hide="restaurant.isLocal">
                     <p class="opening-time"><i class="material-icons">query_builder</i> @Messages("owner.restaurant.profile.average.delivery.time"): {{restaurant.responseTime}}</p>
@@ -151,9 +151,9 @@
         <div class="row" ng-hide="editMode">
             <div class="col s6">
                 <div class="row">
-                    <ng-map center="[{{restaurant.address.lat}}, {{restaurant.address.lng}}]">
+                   @* <ng-map center="[{{restaurant.address.lat}}, {{restaurant.address.lng}}]">
                         <marker position="{{restaurant.address.lat}}, {{restaurant.address.lng}}"></marker>
-                    </ng-map>
+                    </ng-map>*@
                 </div>
             </div>
             <div class="col s6 menu">
@@ -203,7 +203,7 @@
         <div id="deleteModal" class="modal">
             <div class="modal-content">
                 <h4>@Messages("owner.restaurant.profile.delete.restaurant")</h4>
-                <h5>¿Seguro desea eliminar el restaurant <span>{{restaurant.name}}?</span></h5>
+                <h5>@Messages("owner.restaurant.profile.delete.restaurant.question") <span>{{restaurant.name}}?</span></h5>
             </div>
             <div class="modal-footer">
                 <div class="modal-action waves-effect waves-green btn btn-flat" ng-click="deleteRestaurant()">@Messages("owner.restaurant.profile.delete")</div>
@@ -317,7 +317,7 @@
         <div id="deleteMealModal" class="modal">
             <div class="modal-content">
                 <h4>@Messages("owner.restaurant.profile.delete.meal")</h4>
-                <h5>¿Seguro desea eliminar la comida <span>{{mealToDelete.name}}?</span></h5>
+                <h5>@Messages("owner.restaurant.profile.delete.meal.question") <span>{{mealToDelete.name}}?</span></h5>
             </div>
             <div class="modal-footer">
                 <div class="modal-action waves-effect waves-green btn btn-flat" ng-click="deleteMeal()">Eliminar</div>
