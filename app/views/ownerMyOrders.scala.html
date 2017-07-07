@@ -7,7 +7,7 @@
         </div>
         <div class="row">
             <ul class="collapsible popout" data-collapsible="accordion">
-                <li ng-repeat="order in orders">
+                <li ng-repeat="order in orders | filter: filterByPage">
                     <div class="collapsible-header" ng-class="{'active': $first}"><i class="material-icons"><i class="material-icons">local_shipping</i></i>{{order.delivery.name}} -  {{getDateTimeFormat(order.timePlaced)}}<span class="right" ng-show="isExpire(order)">FINALIZADO</span></div>
                     <div class="collapsible-body container">
                         <div class="row">
@@ -67,6 +67,19 @@
                     </div>
                 </li>
             </ul>
+        </div>
+        <div class="row center-align">
+            <pagination
+            page="1"
+            page-size="9"
+            total="orders.length"
+            show-prev-next="true"
+            use-simple-prev-next="false"
+            dots="...."
+            hide-if-empty="true"
+            adjacent="2"
+            scroll-top="false"
+            pagination-action="changePage(page)" />
         </div>
     </div>
 } {

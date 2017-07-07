@@ -15,6 +15,10 @@ nav{
 
 h5{
     text-align: center;
+    height: 40px;
+}
+td{
+    height:61px;
 }
 
 #addRestaurant{
@@ -44,9 +48,8 @@ h5{
 }
 
 .center-panel{
-    border-width: 0 0 0 2px;
-    border-style: solid;
-    border-color: #BDBDBD;
+    border: 0 solid #BDBDBD;
+    border-left-width: 2px;
 }
 
 .custom-chip {
@@ -85,7 +88,7 @@ h5{
     cursor: pointer;
 }
 
-.row.continues{
+.row.continues, .row.resOrdButton{
     text-align: center;
     margin-top: 20px;
 }
@@ -95,6 +98,9 @@ h5{
     background-color: #FF9800;
 }
 
+.row.resOrdButton .btn {
+    background-color: #FF9800;
+}
 @media only screen and (min-width: 993px) {
     .container {
         width: 90%;

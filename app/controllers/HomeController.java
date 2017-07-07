@@ -41,4 +41,11 @@ public class HomeController extends Controller {
         return ok(restaurant.render());
     }
 
+    public Result getDays() {
+        return ok(Json.toJson(Day.all()));
+    }
+    public Result getCuisines() {
+        return ok(Json.toJson(Cuisine.all()));
+    }
+
 }

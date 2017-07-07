@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import models.Response.DeliveryResponse;
 import models.Response.LocalResponse;
+import models.Response.RestaurantResponse;
 import models.Response.RestaurantsResponse;
 import models.requestObjects.PhotoObject;
 import models.requestObjects.RestaurantEditObject;
@@ -107,9 +108,10 @@ public class RestaurantController extends Controller {
         final String email = session().get("email");
         final Owner ownerbyEmail = Owner.getOwnerbyEmail(email);
         final List<Restaurant> restaurants = ownerbyEmail.getRestaurants().stream().filter(p -> !p.isDeleted()).collect(Collectors.toList());
-        int max = restaurants.size() < 5 ? restaurants.size() : 5;
+        Collections.shuffle(restaurants);
+        int max = restaurants.size() < 6 ? restaurants.size() : 6;
 
-        final RestaurantsResponse response = new RestaurantsResponse(200, "ok", restaurants.subList(0, max), restaurants.size() > 5);
+        final RestaurantsResponse response = new RestaurantsResponse(200, "ok", restaurants.subList(0, max), restaurants.size() > 6);
 
         return ok(Json.toJson(response));
     }
@@ -183,5 +185,44 @@ public class RestaurantController extends Controller {
         restaurant.setPhoto(newPhoto);
         restaurant.update();
         return ok(Json.toJson(newPhoto));
+    }
+
+    public Result searchNearMe(String latString, String lngString) {
+        double lat = Double.parseDouble(latString);
+        double lng = Double.parseDouble(lngString);
+
+        List<RestaurantResponse> result = Restaurant.allRestaurants().stream()
+                .filter(restaurant -> !restaurant.isDeleted() && restaurant.isPublished())
+                .filter(restaurant -> {
+                    final double rLat = restaurant.getAddress().getLat();
+                    final double rLng = restaurant.getAddress().getLng();
+                    if (restaurant.isLocal()){
+                        return distance(lat, lng, rLat, rLng) <= 5;
+                    } else {
+                        final Delivery delivery = Delivery.byId(restaurant.getId());
+                        return distance(lat, lng, rLat, rLng) <= delivery.getRadius();
+                    }
+                })
+                .map(r -> new RestaurantResponse(r, Qualification.getRestaurantQualification(r.getId())))
+                .collect(Collectors.toList());
+        return ok(Json.toJson(result));
+    }
+
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        dist = dist * 1.609344;
+        return (dist);
+    }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
     }
 }

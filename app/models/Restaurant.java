@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -71,6 +72,21 @@ public class Restaurant extends Model{
         this.owner = owner;
         isDeleted = false;
         this.menu = menu;
+    }
+
+    public static List<Restaurant> getByCuisine(long cuisineId) {
+        final List<Restaurant> all = finder.all().stream()
+                .filter(restaurant -> !restaurant.isDeleted())
+                .filter(Restaurant::isPublished)
+                .filter(restaurant -> {
+                    final List<Cuisine> cuisines = restaurant.getCuisines();
+                    for (Cuisine cuisine : cuisines) {
+                        if (cuisine.getId() == cuisineId)
+                            return true;
+                    }
+                    return false;
+                }).collect(Collectors.toList());
+        return all;
     }
 
     public long getId() {

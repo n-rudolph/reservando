@@ -10,3 +10,12 @@ td input{
 .fullBtn{
     width: 100%;
 }
+
+.prefix{
+    color: orange;
+}
+
+.send:hover {
+    color: darkgoldenrod;
+    cursor: pointer;
+}

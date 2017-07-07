@@ -1,7 +1,10 @@
 
-var app = angular.module("reservandoApp", ['ngMap']);
+var app = angular.module("reservandoApp");
 
-//app.requires.push('ngMap');
+app.requires.push('ngMap');
+app.requires.push('ui.materialize');
+app.requires.push('ngAnimate');
+app.requires.push('ngRateIt');
 
 app.service('serverCommunication', ['$http','$q', function ($http, $q){
     this.postToUrl = function(data, uploadUrl, successResponse, errorResponse){
@@ -50,11 +53,15 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
     /*scope needed variables*/
     $scope.result = {
         allResults: [],
-        resultsWithFilters: [],
         showSearchWithoutFilters: false,
-        showSearchWithFilters: false,
-        noResults: false
+        noResults: true
     };
+
+    $scope.currentPage = 1;
+    $scope.minIndex = 0;
+    $scope.maxIndex = 11;
+
+    $scope.showMap = false;
 
     //Var used to avoid initializing the same map more than once.
     var mapLoaded = false;
@@ -84,26 +91,22 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         serverCommunication.getFromUrl('/client/profile/user','','')
             .then(function(data){
                 $scope.user = data;
-
-                var dataToPost = {
-                    quantity: 3,
-                    userEmail:$scope.user.email
-                };
-                serverCommunication.postToUrl(dataToPost,"/client/getRecommendations","","")
-                    .then(function (responseData) {
-                        $scope.recommendations = responseData;
-                        $(document).ready(function(){
-                            $('.slider').slider({height: "40%"});
-                        });
-
-                    })
-                    .catch(function(error){
-
-                    });
             })
             .catch(function (err) {
                 //Materialize.toast("No se pudo cargar la información", 3000, "red");
+            });
+        var dataToPost = {
+            quantity: 3,
+            userEmail:""
+        };
+        serverCommunication.postToUrl(dataToPost,"/client/getRecommendations","","")
+            .then(function (responseData) {
+                console.log(responseData);
+                $scope.recommendations = responseData;
             })
+            .catch(function(error){
+
+            });
     };
     loadUserDataAndRecommendations();
 
@@ -116,18 +119,18 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
     });
 
     $scope.search = function(){
+        if ($scope.wordToSearch == undefined || $scope.wordToSearch.length == 0)
+            return;
         resetPreviousResultsSearched();
         resetPreviousResultsWithFilters();
-
         var dataToPost = {wordToSearch: $scope.wordToSearch};
         if($scope.wordToSearch.length > 0){
             serverCommunication.postToUrl(dataToPost,"/client/search","","")
                 .then(function(responseData){
+                    $scope.currentPage = 1;
                     $scope.result.allResults = responseData;
+                    $scope.geoResult = true;
                     initMap();
-                    loadMarkers();
-                    $scope.result.showSearchWithoutFilters = true;
-                    $scope.result.showSearchWithFilters = false;
                     responseData.length === 0 ? $scope.result.noResults = true : $scope.result.noResults = false;
                     loadFilters(responseData);
                 })
@@ -176,70 +179,113 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         }
     };
 
-    $scope.applyFilters = function(){
-
-        /*Resets the previous results with filter*/
-        $scope.result.resultsWithFilters = [];
-        $scope.result.noResults = false;
-        
-        /*Filters applied force to show restaurants and deliveries*/
-        if($scope.filtersApplied.showRestaurants &&  $scope.filtersApplied.showDeliveries){
-            $scope.result.resultsWithFilters = $scope.result.allResults;
-        }
-        /*Filters applied force to show restaurants or deliveries (not both)*/
-        else if($scope.filtersApplied.showRestaurants ||  $scope.filtersApplied.showDeliveries){
-            for(var i = 0; i < $scope.result.allResults.length; i++){
-                var resultWithFiltersLength = $scope.result.resultsWithFilters.length;
-
-                if($scope.result.allResults[i].local){
-                    if($scope.filtersApplied.showRestaurants){
-                        $scope.result.resultsWithFilters[resultWithFiltersLength] = $scope.result.allResults[i];
-                    }
-                }
-                else{
-                    if($scope.filtersApplied.showDeliveries){
-                        $scope.result.resultsWithFilters[resultWithFiltersLength] = $scope.result.allResults[i];
-                    }
+    $scope.applyFilter = function(restaurant) {
+        if (!$scope.filtersApplied.showDeliveries && !restaurant.local)
+            return false;
+        if (!$scope.filtersApplied.showRestaurants && restaurant.local)
+            return false;
+        for (var i =0; i < restaurant.cuisines.length; i++){
+            var cuisine = restaurant.cuisines[i];
+            for (var j = 0; j < $scope.filtersApplied.showThisCuisines.length; j++) {
+                if ($scope.filtersApplied.showThisCuisines[j].isActive &&
+                    $scope.filtersApplied.showThisCuisines[j].name === cuisine.name) {
+                    return true;
                 }
             }
         }
-
-        var auxResults = [];
-
-        /*Filters applied force to show only some cuisines, it filters the previous filter by restaurant or by delivery 
-        list*/
-        for(var f = 0; f < $scope.filtersApplied.showThisCuisines.length; f++){
-            var cuisineSelected = $scope.filtersApplied.showThisCuisines[f];
-            if(cuisineSelected.isActive){
-                for(var j = 0; j < $scope.result.resultsWithFilters.length; j++){
-                    var cuisines = $scope.result.resultsWithFilters[j].cuisines;
-                    for(var k = 0; k < cuisines.length; k++){
-                        if(cuisineSelected.name === cuisines[k].name){
-                            if(!resultAlreadyHere($scope.result.resultsWithFilters[j], auxResults)){
-                                auxResults[auxResults.length] = $scope.result.resultsWithFilters[j];
-                            }
-                            break;
-                        }
-                    }
-
-                }
-            }
-        }
-
-        if(auxResults.length === 0) $scope.result.noResults = true;
-
-        $scope.result.resultsWithFilters = auxResults;
-        $scope.result.showSearchWithoutFilters = false;
-        $scope.result.showSearchWithFilters = true;
-
-        initMap();
-        loadMarkers();
+        return false;
     };
 
     $scope.showInfoMarker = function(evt, result){
         $scope.restaurantSelectedInMap = result;
         $scope.map.showInfoWindow('myInfoWindow', this);
     };
+
+    $scope.searchNearMe = function() {
+        if (navigator.geolocation){
+            navigator.geolocation.getCurrentPosition($scope.successGeolocation, $scope.errorGeolocation);
+        }
+    };
+    $scope.successGeolocation = function(position){
+        $http.get("/restaurants/nearMe/"+position.coords.latitude+"/"+position.coords.longitude)
+            .then(function (response) {
+                $scope.currentPage = 1;
+                $scope.result.allResults = response.data;
+                $scope.geoResult = true;
+                initMap();
+                response.data.length === 0 ? $scope.result.noResults = true : $scope.result.noResults = false;
+                loadFilters(response.data);
+                $scope.showMap = true;
+                $timeout(function(){
+                    $scope.showMap = false;
+                }, 50);
+            }, function (error) {
+                Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 3000, "red");
+            });
+    };
+    $scope.errorGeolocation = function(error) {
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                Materialize.toast("User denied the request for Geolocation.", 2000, "red");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                Materialize.toast("Location information is unavailable.", 2000, "red");
+                break;
+            case error.TIMEOUT:
+                Materialize.toast("The request to get user location timed out.", 2000, "red");
+                break;
+            case error.UNKNOWN_ERROR:
+                Materialize.toast("An unknown error occurred.", 2000, "red");
+                break;
+        }
+    };
+
+    $scope.printCuisines = function(restaurant) {
+            if (restaurant == null || restaurant == undefined)
+                return "";
+            var cuisineString = "";
+            var tokken = "";
+            for (var i = 0; i < restaurant.cuisines.length; i++){
+                cuisineString += tokken;
+                cuisineString += restaurant.cuisines[i].name;
+                tokken = " - ";
+            }
+            return cuisineString;
+        };
+
+    $scope.latAverage = function(){
+        var sum = 0;
+        for(var i = 0; i < $scope.filteredResults.length; i++) {
+            sum += $scope.filteredResults[i].address.lat;
+        }
+        if ($scope.filteredResults.length == 0)
+            return 0;
+        else  return sum/$scope.filteredResults.length;
+    };
+    $scope.lngAverage = function(){
+        var sum = 0;
+        for(var i = 0; i < $scope.filteredResults.length; i++) {
+            sum += $scope.filteredResults[i].address.lng;
+        }
+        if ($scope.filteredResults.length == 0)
+            return 0;
+        else  return sum/$scope.filteredResults.length;
+    };
+
+    $scope.filterByPage = function(item, index) {
+        return index >= $scope.minIndex && index <= $scope.maxIndex
+    };
+
+    $scope.changePage = function(page) {
+        $scope.currentPage = page;
+        $scope.minIndex = (page-1) * 12;
+        $scope.maxIndex = (page * 12) - 1;
+    };
+
+    $scope.viewMap =function(){
+       initMap();
+       this.showMap=true;
+    } ;
 
     /*Useful functions*/
 
@@ -307,14 +353,6 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         return result;
     };
 
-    /*This functions is used to not repeat the same results when the filters are applied*/
-    var resultAlreadyHere = function (result, listResults) {
-        for(var i = 0; i < listResults.length; i++){
-            if(result.id === listResults[i].id) return true;
-        }
-        return false;
-    };
-
     /*This function is used to reset all the previous results of old search*/
     var resetPreviousResultsSearched = function(){
         $scope.result.allResults = [];
@@ -342,31 +380,6 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
             });
         }
     };
-
-    /*This function is used to load all the markers of the restaurants in the map*/
-    var loadMarkers = function(){
-        //Timeout is needed to avoid getting 'map undefined'.
-        $timeout(function(){
-            var bounds = new google.maps.LatLngBounds();
-            var resultsToUse;
-
-            if($scope.result.showSearchWithoutFilters){resultsToUse = $scope.result.allResults;}
-            else {resultsToUse = $scope.result.resultsWithFilters;}
-
-            for(var i = 0; i < resultsToUse.length; i++){
-                var address = resultsToUse[i].address;
-                bounds.extend(new google.maps.LatLng(address.lat, address.lng));
-            }
-
-            $scope.map.setCenter(bounds.getCenter());
-            $scope.map.fitBounds(bounds);
-            //Zoom out a little bit if the result on the map is only one.
-            if(resultsToUse.length === 1){
-                $scope.map.setZoom(14);
-            }
-        }, 2000);
-    }
-
 }]);
 
 

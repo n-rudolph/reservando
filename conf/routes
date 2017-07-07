@@ -23,7 +23,6 @@ GET     /client/searchAllRestaurants            controllers.ClientHomeController
 POST    /client/deleteAccount                   controllers.ClientProfileController.deleteAccount
 POST    /client/search                          controllers.ClientHomeController.search
 POST    /client/getRecommendations              controllers.ClientHomeController.getRecommendations
-GET     /client/makeQualification/:rid/:loc     controllers.ClientHomeController.makeQualification(rid:Long, loc: Boolean)
 
 #Restaurant
 POST    /restaurant                                 controllers.RestaurantController.addRestaurant
@@ -35,6 +34,7 @@ POST    /restaurant/state/:rid                      controllers.RestaurantContro
 PUT     /restaurant/:rid                            controllers.RestaurantController.update(rid: String)
 PUT     /restaurant/:rid/photo                      controllers.RestaurantController.updatePhoto(rid: String)
 DELETE  /restaurant/:rid                            controllers.RestaurantController.delete(rid: String)
+GET     /restaurants/nearMe/:lat/:lng           controllers.RestaurantController.searchNearMe(lat: String, lng: String)
 
 #Meal
 GET     /menu/:rid                  controllers.MealController.getMenu(rid: String)
@@ -56,11 +56,13 @@ PUT     /user/photo                 controllers.UserController.changePhoto
 PUT     /user/info                  controllers.UserController.changeInfo
 PUT     /user/password              controllers.UserController.changePassword
 
+GET     /all/days                   controllers.HomeController.getDays
+GET     /all/cuisines               controllers.HomeController.getCuisines
 
 #Qualification
-GET     /qualification/:cid/:rid    controllers.QualificationController.getUserRestaurantQualification(cid: String, rid: String)
+GET     /qualification/client/:rid    controllers.QualificationController.getUserRestaurantQualification(rid: String)
 GET     /qualification/:rid         controllers.QualificationController.getRestaurantQualification(rid: String)
-POST    /qualification              controllers.QualificationController.addQualification
+PUT     /qualification              controllers.QualificationController.addQualification
 
 #Order
 GET     /order                      controllers.OrderController.view
@@ -68,6 +70,7 @@ GET     /owner/my-orders            controllers.OrderController.ownerOrdersView
 GET     /my-orders                  controllers.OrderController.myOrdersView
 GET     /orders/client              controllers.OrderController.getClientOrders
 GET     /orders/owner               controllers.OrderController.getOwnerOrders
+GET     /orders/owner/firsts        controllers.OrderController.getOwnerFirsts
 GET     /order/:oId                 controllers.OrderController.getOrder(oId: String)
 POST    /order                      controllers.OrderController.newOrder
 
@@ -75,6 +78,7 @@ POST    /order                      controllers.OrderController.newOrder
 GET     /reservation                controllers.ReservationController.view
 GET     /reservation/client         controllers.ReservationController.getClientReservations
 GET     /reservation/owner          controllers.ReservationController.getOwnerReservations
+GET     /reservation/owner/firsts   controllers.ReservationController.getOwnerFirsts
 GET     /my-reservations            controllers.ReservationController.viewClientReservations
 GET     /owner/my-reservations      controllers.ReservationController.viewOwnerReservations
 GET     /reservation/:rId           controllers.ReservationController.getReservation(rId: String)
@@ -86,8 +90,6 @@ GET     /discount/:code             controllers.DiscountController.getDiscount(c
 
 #Debug
 GET     /all/users                  controllers.DebugController.getUsers
-GET     /all/locals                 controllers.DebugController.getLocals
-GET     /all/deliveries             controllers.DebugController.getDeliveries
 GET     /all/restaurants            controllers.DebugController.getRestaurants
 GET     /all/days                   controllers.DebugController.getDays
 GET     /all/cuisines               controllers.DebugController.getCuisines

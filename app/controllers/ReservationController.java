@@ -35,6 +35,15 @@ public class ReservationController extends Controller{
 
         final Reservation reservation = reservationObject.toReservation(client);
         reservation.save();
+        reservation.getLocal().getCuisines().forEach(cuisine -> {
+            final CuisinePreference cuisinePreference = CuisinePreference.byClientCuisine(client.getId(), cuisine.getId());
+            if (cuisinePreference == null){
+                final CuisinePreference c = new CuisinePreference(cuisine.getId(), client.getId());
+                c.save();
+            } else {
+                cuisinePreference.incrementAmount().update();
+            }
+        });
         return ok(Json.toJson(reservation));
     }
 
@@ -56,25 +65,32 @@ public class ReservationController extends Controller{
     }
 
     public Result getOwnerReservations() {
+        final List<ReservationResponse> response = getOwnerReservationsList();
+        return ok(Json.toJson(response));
+    }
+
+    public Result getOwnerFirsts() {
+        final List<ReservationResponse> response = getOwnerReservationsList();
+        return ok(Json.toJson(response.subList(0, 3)));
+    }
+    public Result getReservation(String rId){
+        final Reservation reservation = Reservation.byId(Long.parseLong(rId));
+        final ReservationResponse response = new ReservationResponse(reservation);
+        if(reservation == null) return badRequest("Reservation does not exist");
+        return ok(Json.toJson(response));
+    }
+
+    private List<ReservationResponse> getOwnerReservationsList() {
         final String email = session().get("email");
         final Owner owner = Owner.getOwnerbyEmail(email);
 
         final List<Local> locals = owner.getRestaurants().stream().filter(Restaurant::isLocal)
                 .map(restaurant -> (Local) restaurant).collect(Collectors.toList());
 
-        final List<ReservationResponse> response = locals.stream().map(Reservation::byLocal)
+        return locals.stream().map(Reservation::byLocal)
                 .flatMap(Collection::stream)
                 .map(ReservationResponse::new)
                 .sorted((r1, r2) -> r1.date.isBefore(r2.date)? 1 : -1)
                 .collect(Collectors.toList());
-
-        return ok(Json.toJson(response));
-    }
-
-    public Result getReservation(String rId){
-        final Reservation reservation = Reservation.byId(Long.parseLong(rId));
-        final ReservationResponse response = new ReservationResponse(reservation);
-        if(reservation == null) return badRequest("Reservation does not exist");
-        return ok(Json.toJson(response));
     }
 }

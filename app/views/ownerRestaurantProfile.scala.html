@@ -23,7 +23,8 @@
                 <div class="row title">
                     <div class="col s7">
                         <h3>{{restaurant.name}}</h3>
-                        <p>Todavia no fue calificado</p>
+                        <p ng-show="!totalQualification || totalQualification == -1">Todavia no fue calificado</p>
+                        <ng-rate-it ng-model="totalQualification" min="0" max="5" read-only="true" ng-hide="!totalQualification || totalQualification == -1"></ng-rate-it>
                     </div>
                     <div class="col s3" ng-hide="restaurant.published">
                         <div class="btn publish" ng-click="publicateRestaurant(true)">Publicar</div>
@@ -325,9 +326,11 @@
         </div>
     </div>
 } {
+    <link rel="stylesheet" href="@routes.Assets.versioned("external/angular-rateit-master/src/style/ng-rateit.css")">
     <link rel="stylesheet" href="@routes.Assets.versioned("external/materialize-clockpicker/dist/css/materialize.clockpicker.css")">
     <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/owner/restaurant.css")">
 } {
+    <script src="@routes.Assets.versioned("external/angular-rateit-master/src/ng-rateit.js")"></script>
     <script src="@routes.Assets.versioned("external/materialize-clockpicker/dist/js/materialize.clockpicker.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/utils/geocode.js")"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2QICsNQK9n48VTRB3EX2b6CpbEXNXol4&libraries=places&callback=initAutocomplete"

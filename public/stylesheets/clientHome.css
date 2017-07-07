@@ -1,15 +1,31 @@
-.slider{
+ng-map{
+    height: 350px;
+}
+
+.search-container{
+    border-radius: 2.5px;
+    margin-top: 50px;
+}
+
+.big-btn{
     width: 100%;
 }
-.slider .indicators {
-    bottom: 50%;
+
+.sidebar{
+    opacity: 100;
+    transition: all linear 0.5s;
+    width: 200px;
+    position: fixed;
+    left: 0;
+    height: 90vh;
 }
-#searchButton {
-    margin-top: 15%;
+.ng-hide-remove{
+    opacity: 0;
 }
-#recommendations{
-    margin-top: 15%;
+
+.switch-list{
+    cursor: pointer;
 }
-ng-map{
-    height: 400px;
+.switch-list:hover{
+    color: red;
 }

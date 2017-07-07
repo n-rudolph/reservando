@@ -2,202 +2,152 @@
 @views.html.main("Reservando"){
     @clientNav()
     <div ng-controller="ClientHomeCtrl">
+       <div class="sidebar" ng-show="!result.noResults">
+           <div class="col m12">
+               <ul class="collapsible" data-collapsible="accordion">
+                   <li>
+                       <div class="collapsible-header">Filtros</div>
+                   </li>
+                   <li>
+                       <div class="collapsible-header"><i class="material-icons">restaurant</i>Tipo de local</div>
+                       <div class="collapsible-body">
+                           <p ng-show="filtersToShow.thereAreRestaurants">
+                               <input type="checkbox" class="filled-in" id="filterByRestaurant" ng-model="filtersApplied.showRestaurants" ng-change="applyFilters()" ng-checked="true">
+                               <label for="filterByRestaurant">Restaurant</label>
+                           </p>
+                           <p ng-show="filtersToShow.thereAreDeliveries">
+                               <input type="checkbox" class="filled-in" id="filterByDelivery" ng-model="filtersApplied.showDeliveries" ng-change="applyFilters()" ng-checked="true">
+                               <label for="filterByDelivery">Delivery</label>
+                           </p>
+                       </div>
+                   </li>
+                   <li>
+                       <div class="collapsible-header"><i class="material-icons">place</i>Zona</div>
+                       <div class="collapsible-body">
+                           <p ng-repeat="zone in zones">
+                               <input type="checkbox" class="filled-in" id="filterByZone{{zone.zone}}" ng-checked="true">
+                               <label for="filterByZone{{zone.zone}}">{{zone.zone}}</label>
+                           </p>
+                       </div>
+                   </li>
+                   <li>
+                       <div class="collapsible-header"><i class="material-icons">whatshot</i>Cocina</div>
+                       <div class="collapsible-body">
+                           <p ng-repeat="cuisine in filtersToShow.cuisines" ng-show="$index < 10">
+                               <input type="checkbox" class="filled-in" id="filterByCuisine{{cuisine.name}}" ng-model="filtersApplied.showThisCuisines[getIndex(cuisine)].isActive" ng-change="applyFilters()" ng-checked="true">
+                               <label for="filterByCuisine{{cuisine.name}}">{{cuisine.name}}</label>
+                           </p>
+                       </div>
+                   </li>
+               </ul>
+           </div>
+       </div>
        <div class="container body">
-
            @*Search bar*@
            <div>
-               <div class="row">
-                   <div class="input-field col m6 offset-m3">
+               <div class="row search-container">
+                   <div class="input-field col m6">
                        <input placeholder="Busque por nombre o cocina" id="searchInput" type="text" ng-model="wordToSearch" class="autocomplete" ng-change="searchForAutocomplete()">
                    </div>
-                   <div class="col m2">
-                       <a id="searchButton" class="waves-effect wave-light btn" ng-click="search()">Buscar</a>
+                   <div class="col m3">
+                       <a id="searchButton" class="waves-effect wave-light btn-large btn big-btn" ng-click="search()">Buscar</a>
+                   </div>
+                   <div class="col m3">
+                       <div class="waves-effect wave-light btn-large btn big-btn" ng-click="searchNearMe()">Geolocalizar</div>
                    </div>
                </div>
            </div>
-
-           @*Another way to see, delete if not used*@
-           @*Search filters*@
-           @*<div>
-               <div class="row">
-                   <div class="col m6 offset-m3">
-                       <div class="row">
-                           <div class="col m4">
-                               <input type="radio" class="with-gap" id="filterByName" name="filterGroup" ng-model="filterByName" ng-value="true">
-                               <label for="filterByName">Nombre</label>
-                           </div>
-                           <div class="col m4">
-                               <input type="radio" class="with-gap" id="filterByCuisine" name="filterGroup" ng-model="filterByCuisine" ng-value="false">
-                               <label for="filterByCuisine">Cocina</label>
-                           </div>
-                           <div class="col m4">
-                               <input type="radio" class="with-gap" id="filterByLocalization" name="filterGroup" ng-model="filterByLocalization" disabled="disabled" ng-value="false">
-                               <label for="filterByLocalization">Ubicación</label>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-               <div class="row">
-                   <div class="col m6 offset-m3">
-                       <div class="row">
-                           <div class="col m4">
-                               <input type="radio" class="with-gap" id="filterByLocal" name="filterGroup" ng-model="filterByRestaurant" ng-value="false">
-                               <label for="filterByLocal">Restaurant</label>
-                           </div>
-                           <div class="col m4">
-                               <input type="radio" class="with-gap" id="filterByDelivery" name="filterGroup" ng-model="filterByDelivery" ng-value="false">
-                               <label for="filterByDelivery">Delivery</label>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-           </div>*@
-
            @*Results*@
-           <div class="row">
-               @*Filters*@
-               <div class="col m3" ng-show="showFilters()">
-                  <ul class="collection">
-                      <li class="collection-item">
-                          <h5>Tipo de local:</h5>
-                          <p ng-show="filtersToShow.thereAreRestaurants">
-                              <input type="checkbox" class="filled-in" id="filterByRestaurant" ng-model="filtersApplied.showRestaurants" ng-change="applyFilters()" ng-checked="true">
-                              <label for="filterByRestaurant">Restaurant</label>
-                          </p>
-                          <p ng-show="filtersToShow.thereAreDeliveries">
-                              <input type="checkbox" class="filled-in" id="filterByDelivery" ng-model="filtersApplied.showDeliveries" ng-change="applyFilters()" ng-checked="true">
-                              <label for="filterByDelivery">Delivery</label>
-                          </p>
-                      </li>
-                      <li class="collection-item">
-                          <h5>Zona:</h5>
-                          <p ng-repeat="zone in zones">
-                              <input type="checkbox" class="filled-in" id="filterByZone{{zone.zone}}" ng-checked="true">
-                              <label for="filterByZone{{zone.zone}}">{{zone.zone}}</label>
-                          </p>
-                      </li>
-                      <li class="collection-item">
-                          <h5>Cocina:</h5>
-                          <p ng-repeat="cuisine in filtersToShow.cuisines">
-                              <input type="checkbox" class="filled-in" id="filterByCuisine{{cuisine.name}}" ng-model="filtersApplied.showThisCuisines[getIndex(cuisine)].isActive" ng-change="applyFilters()" ng-checked="true">
-                              <label for="filterByCuisine{{cuisine.name}}">{{cuisine.name}}</label>
-                          </p>
-                      </li>
-                  </ul>
+           <div class="row" ng-show="filteredResults.length > 0">
+               <div class="col m10 offset-m1">
+                   <h4 class="center-align">Resultados</h4>
                </div>
+               <div class="col m1"><span><i class="material-icons small switch-list" ng-hide="showMap" ng-click="viewMap()">map</i></span></div>
+               <div class="col m1"><span><i class="material-icons small switch-list" ng-show="showMap" ng-click="showMap = false">view_list</i></span></div>
+           </div>
+           <div class="row" ng-show="filteredResults.length > 0 && !showMap">
                @*Results*@
-               <div class="col m9" ng-show="showResults()">
-                   @*Results without filters*@
-                   <div class="row" ng-show="result.showSearchWithoutFilters">
-                       <ul class="collection col m11 offset-m1">
-                           <li class="collection-item" ng-repeat="result in result.allResults">
-                               <div class="row">
-                                   <div class="col m2">
-                                       <img class="responsive-img" ng-src="@routes.Assets.versioned("{{result.photo.path}}")" ng-show="result.photo">
-                                       <img class="responsive-img" ng-src="@routes.Assets.versioned("images/placeholder/restaurant.jpg")" ng-hide="result.photo">
-                                   </div>
-                                   <div class="col m8">
-                                       <span class="title">{{result.name}}</span>
-                                       <p class="truncate">{{result.description}}<br>
-                                           {{result.address.address}}
-                                       </p>
-                                   </div>
-                                   <div class="col m2">
-                                       <div class="row"></div>
-                                       <a class="waves-effect waves-light btn-large" ng-click="openRestaurant(result.id)">Ver</a>
-                                   </div>
-                               </div>
-                           </li>
-                       </ul>
-                   </div>
-                   @*Results with filters*@
-                   <div class="row" ng-show="result.showSearchWithFilters">
-                       <ul class="collection col m11 offset-m1">
-                           <li class="collection-item" ng-repeat="result in result.resultsWithFilters">
-                               <div class="row">
-                                   <div class="col m2">
-                                       <img class="responsive-img" ng-src="@routes.Assets.versioned("{{result.photo.path}}")" ng-show="result.photo">
-                                       <img class="responsive-img" ng-src="@routes.Assets.versioned("images/placeholder/restaurant.jpg")" ng-hide="result.photo">
-                                   </div>
-                                   <div class="col m8">
-                                       <span class="title">{{result.name}}</span>
-                                       <p class="truncate">{{result.description}}<br>
-                                           {{result.address.address}}
-                                       </p>
-                                   </div>
-                                   <div class="col m2">
-                                       <div class="row"></div>
-                                       <a class="waves-effect waves-light btn-large" ng-click="openRestaurant(result.id)">Ver</a>
-                                   </div>
-                               </div>
-                           </li>
-                       </ul>
-                   </div>
-               </div>
-               <div class="col m9" ng-show="noResults()">
+               <div class="col m12">
                    <div class="row">
-                       <div class="center-align">
-                           <h5>
-                               No se encontraron resultados
-                           </h5>
+                       <div class="col s3" ng-repeat="result in filteredResults = (result.allResults | filter: applyFilter) | filter: filterByPage" ng-animate=" 'animate' ">
+                           <div class="card">
+                               <div class="card-image">
+                                   <img class="responsive-img" ng-src="@routes.Assets.versioned("{{result.photo.path}}")" ng-show="result.photo">
+                                   <img class="responsive-img" ng-src="@routes.Assets.versioned("/images/placeholder/restaurant.jpg")" ng-hide="result.photo">
+                                   <span class="card-title">{{result.name}}</span>
+                               </div>
+                               <div class="card-content">
+                                   <ng-rate-it ng-model="0" min="0" max="5" read-only="true" ng-show="result.qualification == -1"></ng-rate-it>
+                                   <ng-rate-it ng-model="result.qualification" min="0" max="5" read-only="true" ng-show="result.qualification != -1"></ng-rate-it>
+                                   <p class="truncate">{{printCuisines(result)}}</p>
+                               </div>
+                               <div class="card-action">
+                                   <a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(result.id)">{{result.local ? 'Ver Local' : 'Ver Delivery'}}</a>
+                               </div>
+                           </div>
                        </div>
+                   </div>
+                   <div class="row center-align">
+                       <pagination
+                       page="currentPage"
+                       page-size="12"
+                       total="filteredResults.length"
+                       show-prev-next="true"
+                       use-simple-prev-next="false"
+                       dots="...."
+                       hide-if-empty="true"
+                       adjacent="2"
+                       scroll-top="false"
+                       pagination-action="changePage(page)" />
                    </div>
                </div>
            </div>
 
            @*Result in a map*@
-           <div class="row" ng-show="showResults()">
+           <div class="row" ng-show="filteredResults.length > 0 && showMap">
                <div class="col m12">
-                   <ng-map id="results-map" zoom="11" lazy-init="true">
+                   <ng-map id="results-map" zoom="11" lazy-init="true" center="{{latAverage()}}, {{lngAverage()}}">
+                       <marker ng-repeat="result in filteredResults" position="{{result.address.lat}}, {{result.address.lng}}" on-click="showInfoMarker(event, result)"></marker>
                        <info-window id="myInfoWindow">
                             <div ng-non-bindable>
-                                <div class="row">
-                                    <div class="col m12">
-                                        <h5>{{restaurantSelectedInMap.name}}</h5>
-                                    </div>
+                                <div class="col m2">
+                                    <img width="100" class="responsive-img" ng-src="@routes.Assets.versioned("{{restaurantSelectedInMap.photo.path}}")" ng-show="restaurantSelectedInMap.photo" align="left">
+                                    <img width="100" class="responsive-img" ng-src="@routes.Assets.versioned("images/placeholder/restaurant.jpg")" ng-hide="restaurantSelectedInMap.photo" align="left">
                                 </div>
-                                <div class="row">
-                                    <div class="col m6">
-                                        <img width="200" class="responsive-img" ng-src="@routes.Assets.versioned("{{restaurantSelectedInMap.photo.path}}")" ng-show="restaurantSelectedInMap.photo" align="left">
-                                        <img width="200" class="responsive-img" ng-src="@routes.Assets.versioned("images/placeholder/restaurant.jpg")" ng-hide="restaurantSelectedInMap.photo" align="left">
-                                    </div>
-                                    <div class="col m2 offset-m2">
-                                        <a class="waves-effect waves-light btn" ng-click="openRestaurant(restaurantSelectedInMap.id)">Ver</a>
-                                    </div>
+                                <div class="col m10">
+                                    <h5>{{restaurantSelectedInMap.name}}</h5>
+                                    <a class="waves-effect waves-light btn" ng-click="openRestaurant(restaurantSelectedInMap.id)">Ver</a>
                                 </div>
                             </div>
                        </info-window>
-                       <marker id="{{restaurant.id}}" ng-repeat="restaurant in result.allResults" position="[{{restaurant.address.lat}},{{restaurant.address.lng}}]" on-click="showInfoMarker(event, restaurant)">
-                       </marker>
                    </ng-map>
                </div>
            </div>
 
            @*Recommendations*@
-           <div id="recommendations">
+           <div id="recommendations" ng-show="filteredResults.length == 0">
                <div class="row">
-                   <div class="col m6">
-                       <h5>Sugerencias</h5>
+                   <div class="col m12">
+                       <h4 class="center-align">Sugerencias</h4>
                    </div>
                </div>
 
                <div class="row">
-                   <div class="col m12">
-                       <div class="slider">
-                           <ul class="slides">
-                               <li ng-repeat="recommendation in recommendations">
-                                   <a ng-click="openRestaurant(recommendation.id)">
-                                       @*Throwing a Not Found. Correct later*@
-                                       @*<img class="responsive-img" ng-src="@routes.Assets.versioned("{{recommendation.photo.path}}")" ng-show="recommendation.photo">*@
-                                       <img class="responsive-img" ng-src="@routes.Assets.versioned("images/placeholder/restaurant.jpg")" ng-hide="recommendation.photo">
-
-                                       <div class="caption center-align">
-                                           <h3>{{recommendation.name}}</h3>
-                                           <h5 class="ligh grey-text text-lighten-3 truncate">{{recommendation.description}}</h5>
-                                       </div>
-                                   </a>
-                               </li>
-                           </ul>
+                   <div class="col m4" ng-repeat="recommendation in recommendations">
+                       <div class="card">
+                           <div class="card-image">
+                               <img class="responsive-img" ng-src="@routes.Assets.versioned("{{recommendation.photo.path}}")" ng-show="recommendation.photo">
+                               <img class="responsive-img" ng-src="@routes.Assets.versioned("/images/placeholder/restaurant.jpg")" ng-hide="recommendation.photo">
+                               <span class="card-title">{{recommendation.name}}</span>
+                           </div>
+                           <div class="card-content">
+                               <ng-rate-it ng-model="0" min="0" max="5" read-only="true" ng-show="recommendation.qualification == -1"></ng-rate-it>
+                               <ng-rate-it ng-model="recommendation.qualification" min="0" max="5" read-only="true" ng-show="recommendation.qualification != -1"></ng-rate-it>
+                               <p class="truncate">{{printCuisines(recommendation)}}</p>
+                           </div>
+                           <div class="card-action">
+                               <a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(recommendation.id)">{{recommendation.local ? 'Ver Local' : 'Ver Delivery'}}</a>
+                           </div>
                        </div>
                    </div>
                </div>
@@ -205,8 +155,11 @@
        </div>
     </div>
 }{
+    <link rel="stylesheet" href="@routes.Assets.versioned("external/angular-rateit-master/src/style/ng-rateit.css")">
     <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/clientHome.css")">
 }{
+    <script src="@routes.Assets.versioned("external/angular-rateit-master/src/ng-rateit.js")"></script>
+    <script src="@routes.Assets.versioned("external/angularjs/angular-animate.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/client/clientHome.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/utils/geocode.js")"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyDM9GdrRT-5ML6OHeHGIIs0zNFjJmOaQUM&libraries=places&callback=initGoogleMapFunctionality"></script>

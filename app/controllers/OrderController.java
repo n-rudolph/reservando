@@ -1,10 +1,7 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Client;
-import models.Delivery;
-import models.DeliveryOrder;
-import models.Owner;
+import models.*;
 import models.Response.OrderResponse;
 import models.requestObjects.OrderObject;
 import play.libs.Json;
@@ -37,6 +34,15 @@ public class OrderController extends Controller {
 
         final DeliveryOrder deliveryOrder = orderObject.toOrder(client);
         deliveryOrder.save();
+        deliveryOrder.getDelivery().getCuisines().forEach(cuisine -> {
+            final CuisinePreference cuisinePreference = CuisinePreference.byClientCuisine(client.getId(), cuisine.getId());
+            if (cuisinePreference == null){
+                final CuisinePreference c = new CuisinePreference(cuisine.getId(), client.getId());
+                c.save();
+            } else {
+                cuisinePreference.incrementAmount().update();
+            }
+        });
 
         return ok(Json.toJson(deliveryOrder));
     }
@@ -53,8 +59,8 @@ public class OrderController extends Controller {
 
         final List<OrderResponse> collect = DeliveryOrder.getClientOrders(client).stream().map(OrderResponse::new).sorted((o1, o2) -> {
             if (o1.timePlaced.isBefore(o2.timePlaced))
-                return -1;
-            return 1;
+                return 1;
+            return -1;
         }).collect(Collectors.toList());
         return ok(Json.toJson(collect));
     }
@@ -64,16 +70,24 @@ public class OrderController extends Controller {
     }
 
     public Result getOwnerOrders(){
+        final List<OrderResponse> orderResponses = getOrderResponsesList();
+        return ok(Json.toJson(orderResponses));
+    }
+
+    public Result getOwnerFirsts(){
+        final List<OrderResponse> orderResponses = getOrderResponsesList();
+        return ok(Json.toJson(orderResponses.subList(0, 3)));
+    }
+
+    private List<OrderResponse> getOrderResponsesList() {
         final String email = session().get("email");
         final Owner owner = Owner.getOwnerbyEmail(email);
         final List<Delivery> deliveries = owner.getRestaurants().stream().filter(restaurant -> !restaurant.isLocal()).map(restaurant -> ((Delivery) restaurant)).collect(Collectors.toList());
 
-        final List<OrderResponse> orderResponses = deliveries.stream().map(DeliveryOrder::getRestaurantOrders).flatMap(Collection::stream).map(OrderResponse::new).sorted((o1, o2) -> {
+        return deliveries.stream().map(DeliveryOrder::getRestaurantOrders).flatMap(Collection::stream).map(OrderResponse::new).sorted((o1, o2) -> {
             if (o1.timePlaced.isBefore(o2.timePlaced))
                 return 1;
             return -1;
         }).collect(Collectors.toList());
-
-        return ok(Json.toJson(orderResponses));
     }
 }

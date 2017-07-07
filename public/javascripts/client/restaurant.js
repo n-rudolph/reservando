@@ -1,9 +1,10 @@
 var app = angular.module("reservandoApp");
 
+app.requires.push('ngRateIt');
 app.requires.push('ui.materialize');
 app.requires.push('ngMap');
 
-app.controller("RestaurantCtrl", function ($scope, $http, $window) {
+app.controller("RestaurantCtrl", function ($scope, $http, $window, $timeout) {
 
     $scope.getRestaurant = function(){
         var id = $window.location.href.split("id=")[1];
@@ -11,6 +12,8 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
             function (response){
                 $scope.restaurant = response.data;
                 $scope.getMenu();
+                $scope.getRestaurantQualification();
+                $scope.getUserRestaurantQualification();
             }
         );
     };
@@ -39,20 +42,36 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
 
     // Qualification
 
-    $scope.firstRate = 3;
-    $scope.totalQualification = 3;
-    $scope.personalQualification = 0;
+    $scope.totalQualification = -1;
+    $scope.personalQualification = -1;
 
     $scope.getRestaurantQualification = function(){
-        $http.get().then(function(response) {
+        $http.get("/qualification/"+$scope.restaurant.id).then(function(response) {
             $scope.totalQualification = response.data;
         });
     };
 
     $scope.getUserRestaurantQualification = function(){
-        $http.get().then(function(response) {
-            $scope.totalQualification = response.data;
+        $http.get("/qualification/"+$scope.restaurant.id).then(function(response) {
+            $scope.personalQualification = response.data;
         });
+    };
+
+    $scope.qualifyRestaurant = function() {
+
+        if ($scope.personalQualification != -1){
+            var data = {
+                rid: $scope.restaurant.id,
+                qualification: $scope.personalQualification
+            };
+            $http.put("/qualification", data).then(function(response) {
+                $scope.getRestaurantQualification();
+                Materialize.toast("Se ha calificado al restaurant con éxito.", 2000, "green");
+            }, function(){
+                $scope.getUserRestaurantQualification();
+                Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
+            })
+        }
     };
 
     // Order and Reservation

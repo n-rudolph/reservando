@@ -35,7 +35,9 @@
                         </tbody>
                     </table>
                     <div class="row continues" ng-show="continues">
-                        <div class="btn hoverable " ng-click="openRestaurants()">Ver más Restaurantes</div>
+                        <div class="col s12">
+                            <div class="btn hoverable" ng-click="openRestaurants()">Ver más Restaurantes</div>
+                        </div>
                     </div>
                     <div class="my-restaurant-container valign-wrapper" ng-show="restaurants.length == 0">
                         <div class="valign center empty-msg">
@@ -52,11 +54,41 @@
                     <div class="row">
                         <h5 class="center">Reservas y Pedidos</h5>
                     </div>
-                    <div class="news-container valign-wrapper">
-                        <div class="news-item" ng-repeat="new in news">
+                    <div class="news-container">
+                        <table class="center responsive-table highlight centered" ng-show="reservations.length != 0 || orders.length != 0 ">
+                            <thead>
+                                <tr>
+                                    <th data-field="id">Restaurant</th>
+                                    <th data-field="name">Tipo</th>
+                                    <th data-field="state">Cliente</th>
+                                    <th data-field="state">Fecha y hora</th>
+                                </tr>
+                            </thead>
 
+                            <tbody>
+                                <tr ng-repeat="reservation in reservations">
+                                    <td>{{reservation.local.name}}</td>
+                                    <td>Reserva</td>
+                                    <td>{{reservation.clientName}}</td>
+                                    <td>{{getDateTimeFormat(reservation.date)}}</td>
+                                </tr>
+                                <tr ng-repeat="order in orders">
+                                    <td>{{order.delivery.name}}</td>
+                                    <td>Delivery</td>
+                                    <td>{{order.clientName}}</td>
+                                    <td>{{getDateTimeFormat(order.timePlaced)}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row resOrdButton">
+                            <div class="col s5 offset-s2">
+                                <div class="btn hoverable " ng-click="openReservations()">Ver más Reservas</div>
+                            </div>
+                            <div class="col s5">
+                                <div class="btn hoverable " ng-click="openOrders()">Ver más Pedidos</div>
+                            </div>
                         </div>
-                        <div ng-show="news.length == 0" class="valign center empty-msg">
+                        <div ng-hide="news.length == 0" class="center empty-msg">
                             <h5>Todavia no tienes pedidos o reservaciones</h5>
                         </div>
                     </div>
