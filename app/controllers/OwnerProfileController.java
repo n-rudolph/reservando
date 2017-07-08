@@ -2,12 +2,14 @@ package controllers;
 
 
 import models.*;
+import org.springframework.core.annotation.Order;
 import play.libs.Json;
 import play.mvc.*;
 import views.html.*;
 import org.joda.time.DateTime;
 
 import java.util.List;
+import java.util.Random;
 
 
 /**
@@ -30,38 +32,24 @@ public class OwnerProfileController extends Controller {
 
     public Result deleteAccount(){
         Owner owner = getCurrentOwner();
-        List<Restaurant> restaurants = owner.getRestaurants();
-        for (Restaurant restaurant: restaurants) {
-            if(restaurant.isLocal()){
-                List<Reservation> reservations = ((Local) restaurant).getReservations();
-                for (Reservation reservation: reservations) {
-                    DateTime reservationDate = new DateTime(reservation.getDate());
-                    DateTime currentDate = new DateTime();
-                    //Here is check is all the reservation has finished, or more specific if there is any reservation
-                    //for the future. If there is one or more reservations for the future, the owner can not delete his
-                    //account.
-                    if(reservationDate.isAfter(currentDate)){
-                        return internalServerError("No se ha podido eliminar la cuenta, debido a que tiene reservaciones pendientes.");
-                    }
-                }
+        owner.setEmail("o" + new Random().toString() + new Random().toString() + new Random().toString() + "@p"+new Random().toString()+new Random().toString()+new Random().toString()+".com");
+        owner.setActive();
+        owner.update();
+        owner.getRestaurants().forEach(restaurant -> {
+            restaurant.setDeleted(true);
+            restaurant.update();
+            if (restaurant.isLocal()) {
+                Reservation.byLocal(Local.getLocalById(restaurant.getId())).forEach(reservation -> {
+                    reservation.setActive(false);
+                    reservation.delete();
+                });
+            } else {
+                DeliveryOrder.getRestaurantOrders(Delivery.byId(restaurant.getId())).forEach(deliveryOrder -> {
+                    deliveryOrder.setActive(false);
+                    deliveryOrder.delete();
+                });
             }
-            else {
-                List<DeliveryOrder> deliveryOrders = DeliveryOrder.getRestaurantOrders((Delivery) restaurant);
-                for (DeliveryOrder deliveryOrder: deliveryOrders){
-                    DateTime orderDatePlaced = deliveryOrder.getTimePlaced();
-                    DateTime orderDateFinished = orderDatePlaced.plusMinutes(deliveryOrder.getDelivery().getResponseTime());
-                    DateTime currentDate = new DateTime();
-                    //Here is check is all the orders has finished, or more specific if there is any order
-                    //for the future. If there is one or more order for the future, the owner can not delete his
-                    //account.
-                    if(orderDateFinished.isAfter(currentDate)){
-                        return internalServerError("No se ha podido eliminar la cuenta debido a que tiene ordenes pendientes.");
-                    }
-                }
-            }
-        }
-        //This deletes the user and all the restaurants that he owns.
-        owner.delete();
+        });
         session().clear();
         return ok();
     }

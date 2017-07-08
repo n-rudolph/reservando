@@ -24,6 +24,7 @@ public class DeliveryOrder extends Model {
     private DateTime timePlaced;
 
     private static Finder<Long, DeliveryOrder> finder = new Finder<Long, DeliveryOrder>(DeliveryOrder.class);
+    private boolean active;
 
     public DeliveryOrder() {
     }
@@ -35,6 +36,7 @@ public class DeliveryOrder extends Model {
         this.meals = meals;
         this.address = address;
         this.discount = discount;
+        active = true;
     }
 
     public long getId() {
@@ -115,5 +117,13 @@ public class DeliveryOrder extends Model {
 
     public static List<DeliveryOrder> getRestaurantOrders(Delivery delivery) {
         return finder.where().eq("delivery", delivery).findList();
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }
