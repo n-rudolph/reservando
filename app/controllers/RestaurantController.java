@@ -144,24 +144,14 @@ public class RestaurantController extends Controller {
         //return ok("State modified successfully");
     }
 
-    public Result getRestaurantsFromOwner(String page, String size, String seed){
+    public Result getRestaurantsFromOwner(){
         final String email = session().get("email");
         final Owner owner = Owner.getOwnerbyEmail(email);
         final List<Restaurant> restaurants = owner.getRestaurants();
-        Collections.shuffle(restaurants, new Random(Integer.parseInt(seed)));
+        Collections.shuffle(restaurants);
         Map<String, Object> result = new HashMap<>();
-
-        int start = Integer.parseInt(page) * Integer.parseInt(size);
-        int end = start + Integer.parseInt(size);
-
-        if (end >= restaurants.size()-1){
-            result.put("hasNext", false);
-            end = restaurants.size()-1;
-        }else {
-            result.put("hasNext", true);
-        }
-        final List<Restaurant> resultList = restaurants.subList(start, end);
-        result.put("restaurants", resultList);
+        result.put("hasNext", true);
+        result.put("restaurants", restaurants.stream().map(r -> new RestaurantResponse(r, Qualification.getRestaurantQualification(r.getId()))).collect(Collectors.toList()));
         return ok(Json.toJson(result));
     }
 

@@ -33,6 +33,8 @@ public class User extends Model {
     private Photo photo;
     private String photoPath;
 
+    public boolean active;
+
     public static Finder<Long, User> find = new Finder<Long,User>(User.class);
 
     public User() {
@@ -45,6 +47,7 @@ public class User extends Model {
         this.email = email;
         this.password = password;
         this.photo = photo;
+        this.active = true;
     }
 
     public long getId() {
@@ -130,5 +133,13 @@ public class User extends Model {
 
     public static User findById(long id) {
         return find.byId(id);
+    }
+
+    public void setActive() {
+        active = false;
+    }
+
+    public boolean isActive(){
+        return active;
     }
 }

@@ -24,6 +24,7 @@ public class Reservation extends Model {
     private Discount discount;
 
     private static Finder<Long, Reservation> finder = new Finder<Long,Reservation>(Reservation.class);
+    private boolean active;
 
     public Reservation() {
     }
@@ -34,6 +35,7 @@ public class Reservation extends Model {
         this.amount = amount;
         this.date = date;
         this.discount = discount;
+        active = true;
     }
 
     public long getId() {
@@ -101,5 +103,13 @@ public class Reservation extends Model {
 
     public static List<Reservation> byLocal(Local local) {
         return finder.where().eq("local", local).findList();
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }

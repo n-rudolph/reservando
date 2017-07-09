@@ -263,6 +263,10 @@ owner.restaurants.my.restaurants = Mis Restaurantes
 owner.restaurants.local = Local
 owner.restaurants.delivery = Delivery
 owner.restaurants.load.more = Cargar más
+owner.restaurants.filter.restaurants = Filtrar Restaurantes
+owner.restaurants.address = Dirección:
+owner.restaurants.view.local = Ver Local
+owner.restaurants.view.delivery = Ver Delivery
 
 #Owner NavBar
 owner.navBar.my.restaurants = Mis Restaurantes

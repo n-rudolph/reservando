@@ -38,6 +38,7 @@ create table delivery_order (
   address                   varchar(255),
   discount_id               bigint,
   time_placed               timestamp,
+  active                    boolean,
   constraint uq_delivery_order_discount_id unique (discount_id),
   constraint pk_delivery_order primary key (id))
 ;
@@ -92,6 +93,7 @@ create table reservation (
   client_id                 bigint,
   local_id                  bigint,
   discount_id               bigint,
+  active                    boolean,
   constraint uq_reservation_discount_id unique (discount_id),
   constraint pk_reservation primary key (id))
 ;
@@ -128,6 +130,7 @@ create table user (
   password                  varchar(255) not null,
   photo_id                  bigint,
   photo_path                varchar(255),
+  active                    boolean,
   constraint uq_user_address_id unique (address_id),
   constraint uq_user_email unique (email),
   constraint uq_user_photo_id unique (photo_id),

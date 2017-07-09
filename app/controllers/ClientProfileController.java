@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
+import java.util.Random;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -46,37 +47,17 @@ public class ClientProfileController extends Controller {
         Messages messages = messagesApi.preferred(request());
 
         Client client = getCurrentClient();
-        List<Reservation> reservations = client.getReservations();
-        List<DeliveryOrder> deliveryOrders = DeliveryOrder.getClientOrders(client);
-        for (Reservation reservation:reservations) {
-            DateTime reservationDate = new DateTime(reservation.getDate());
-            DateTime currentDate = new DateTime();
-            //Here is check is all the reservation has finished, or more specific if there is any reservation
-            //for the future. If there is one or more reservations for the future, the client can not delete his
-            //account.
-            if(reservationDate.isAfter(currentDate)){
-                //String error = messages.at("client.profile.server.response.not.available.to.delete.account.pending.reservations","");
-                //return badRequest(error);
-                return internalServerError("No se ha podido eliminar la cuenta debido a que tiene reservaciones pendientes.");
-            }
-        }
-
-        for (DeliveryOrder deliveryOrder: deliveryOrders){
-            DateTime orderDatePlaced = deliveryOrder.getTimePlaced();
-            DateTime orderDateFinished = orderDatePlaced.plusMinutes(deliveryOrder.getDelivery().getResponseTime());
-            DateTime currentDate = new DateTime();
-            //Here is check is all the orders has finished, or more specific if there is any order
-            //for the future. If there is one or more order for the future, the client can not delete his
-            //account.
-            if(orderDateFinished.isAfter(currentDate)){
-                //String error = messages.at("client.profile.server.response.not.available.to.delete.account.pending.orders","");
-                //return badRequest(error);
-                return internalServerError("No se ha podido eliminar la cuenta debido a que tiene ordenes pendientes.");
-            }
-        }
-
-        //This deletes the user and all the all the orders and reservations.
-        client.delete();
+        client.setEmail(new Random().toString() + new Random().toString()+"@"+new Random().toString());
+        client.setActive();
+        client.update();
+        Reservation.byClient(client).forEach(r -> {
+            r.setActive(false);
+            r.delete();
+        });
+        DeliveryOrder.getClientOrders(client).forEach(d -> {
+            d.setActive(false);
+            d.delete();
+        });
         session().clear();
         return ok();
     }
