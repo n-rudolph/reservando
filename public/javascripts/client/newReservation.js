@@ -143,7 +143,7 @@ app.controller("NewReservationCtrl", function ($scope, $http, $window, $timeout)
                 $window.location.href = "/client/restaurant?id="+$scope.restaurant.id;
             }, 1000);
         }, function(response){
-            Materialize.toast("Ha ocurrido un error. Intentelo más tarde", 2000, "red");
+            //Materialize.toast("Ha ocurrido un error. Intentelo más tarde", 2000, "red");
         });
     };
 

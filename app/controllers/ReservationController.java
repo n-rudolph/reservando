@@ -9,7 +9,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.*;
 import javax.inject.Inject;
-import play.api.i18n.*;
+import play.i18n.*;
 
 
 import java.util.Collection;
@@ -25,7 +25,7 @@ public class ReservationController extends Controller{
         this.messagesApi = messagesApi;
     }
 
-    public Result view(){
+    /*public Result view(){
         Messages messages = messagesApi.preferred(request());
         return ok(newReservation.render(messages));
     }
@@ -36,8 +36,8 @@ public class ReservationController extends Controller{
     public Result viewOwnerReservations() {
         Messages messages = messagesApi.preferred(request());
         return ok(ownerMyReservations.render(messages));
-       /* return ok(ownerMyReservations.apply());*/
-    }
+       *//* return ok(ownerMyReservations.apply());*//*
+    }*/
 
     public Result save(){
         final JsonNode body = request().body().asJson();
@@ -61,10 +61,14 @@ public class ReservationController extends Controller{
     }
 
     public Result delete(String id){
+        Messages messages = messagesApi.preferred(request());
+
         final long l = Long.parseLong(id);
         final Reservation reservation = Reservation.byId(l);
         reservation.delete();
-        return ok("deleted successfully");
+        String reservationCancelled = messages.at("reservations.server.response.delete.successfully","");
+        return ok(reservationCancelled);
+        //return ok("deleted successfully");
     }
 
     public Result getClientReservations(){

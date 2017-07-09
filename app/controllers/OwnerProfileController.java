@@ -27,10 +27,10 @@ public class OwnerProfileController extends Controller {
         this.messagesApi = messagesApi;
     }
 
-    public Result ownerProfile(){
+    /*public Result ownerProfile(){
         Messages messages = messagesApi.preferred(request());
         return ok(ownerProfile.render(messages));
-    }
+    }*/
 
     public Result getOwner(){
         Owner owner = getCurrentOwner();

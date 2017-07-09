@@ -2,12 +2,8 @@ package controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
-import org.joda.time.DateTime;
 import play.libs.Json;
 import play.mvc.*;
-import views.html.*;
-import javax.inject.Inject;
-import play.api.i18n.*;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -22,18 +18,10 @@ import java.util.Random;
  * to the application's clientProfile page.
  */
 public class ClientProfileController extends Controller {
-
-    private MessagesApi messagesApi;
-
-    @Inject
-    public ClientProfileController(MessagesApi messagesApi){
-        this.messagesApi = messagesApi;
-    }
-
-    public Result clientProfile(){
+    /*public Result clientProfile(){
         Messages messages = messagesApi.preferred(request());
         return ok(clientProfile.render(messages));
-    }
+    }*/
 
     public Result getClient(){
         Client client = getCurrentClient();
@@ -43,9 +31,6 @@ public class ClientProfileController extends Controller {
     private Client getCurrentClient() { return Client.getClientByEmail(session().get("email")); }
 
     public Result deleteAccount(){
-        //I18N
-        Messages messages = messagesApi.preferred(request());
-
         Client client = getCurrentClient();
         client.setEmail(new Random().toString() + new Random().toString()+"@"+new Random().toString());
         client.setActive();

@@ -159,7 +159,7 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
                 $window.location.href = "/client/restaurant?id="+$scope.restaurant.id;
             }, 1000);
         }, function(response){
-            Materialize.toast("Ha ocurrido un error. Intentelo más tarde");
+            //Materialize.toast("Ha ocurrido un error. Intentelo más tarde");
         });
     }
 

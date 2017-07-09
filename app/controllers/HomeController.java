@@ -57,6 +57,14 @@ public class HomeController extends Controller {
         Messages messages = messagesApi.preferred(request());
         return ok(restaurant.render(messages));
     }
+    public Result clientProfile(){
+        Messages messages = messagesApi.preferred(request());
+        return ok(clientProfile.render(messages));
+    }
+    public Result ownerProfile(){
+        Messages messages = messagesApi.preferred(request());
+        return ok(ownerProfile.render(messages));
+    }
 
     public Result getDays() {
         return ok(Json.toJson(Day.all()));

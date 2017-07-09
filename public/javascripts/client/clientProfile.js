@@ -2,7 +2,7 @@ var app = angular.module("reservandoApp");
 app.requires.push('ngMap');
 
 app.service('serverCommunication', ['$http','$q', function ($http, $q){
-    this.postToUrl = function(data, uploadUrl, successResponse, errorResponse){
+    this.postToUrl = function(data, uploadUrl){
         var defered = $q.defer();
         var promise = defered.promise;
         $http({
@@ -10,22 +10,16 @@ app.service('serverCommunication', ['$http','$q', function ($http, $q){
             url: uploadUrl,
             data: data
         }).success(function(){
-            Materialize.toast(successResponse, 3000, 'green');
+            //Materialize.toast(successResponse, 2000, 'green');
             defered.resolve();
         }).error(function (serverErrorResponse) {
-            //Checks if the server send an error msj.
-            if(serverErrorResponse){
-                Materialize.toast(serverErrorResponse, 3000, 'red');
-            }
-            /*else {
-                Materialize.toast(errorResponse, 3000, 'red');
-            }*/
+            //Materialize.toast(successResponse, 2000, 'red');
             defered.reject();
         });
         return promise;
     };
 
-    this.getFromUrl = function (url, successResponse, errorResponse) {
+    this.getFromUrl = function (url) {
         var defered = $q.defer();
         var promise = defered.promise;
         $http({
@@ -47,12 +41,9 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
 
     /*This load the current user data*/
     var loadUserData = function(){
-        serverCommunication.getFromUrl('/client/profile/user','','')
+        serverCommunication.getFromUrl('/client/profile/user')
             .then(function(data){
                 $scope.user = data;
-            })
-            .catch(function (err) {
-                //Materialize.toast("No se pudo cargar la información", 3000, "red");
             })
     };
     loadUserData();
@@ -75,8 +66,7 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
         };
         if (password.oldPassword && password.newPassword && password.checkPassword){
             $http.put("/user/password", password).then(function(response){
-                Materialize.toast(response,2000,"green");
-                //Materialize.toast("La contraseña se ha cambiado con éxito", 2000, "green");
+                Materialize.toast(response.data,2000,"green");
             }, function(responseError){
                 Materialize.toast(responseError.data, 2000, "red");
                 /*if (response.data == "oldPassword"){
@@ -94,12 +84,10 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
     $scope.deleteAccount = function () {
         /* Ask if it is necessary to request the username and the password for deleting the account.*/
         var data = {data: ''};
-        serverCommunication.postToUrl(data,'/client/deleteAccount','','')
+        serverCommunication.postToUrl(data,'/client/deleteAccount')
             .then(function(){
                 //Redirects to the login page.
                 $window.location.href = "/";
-            })
-            .catch(function (err) {
             })
     };
 

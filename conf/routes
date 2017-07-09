@@ -16,7 +16,8 @@ GET     /logout                     controllers.LoginController.logout
 
 #Client
 GET     /client/home                            controllers.HomeController.clientHome
-GET     /client/profile                         controllers.ClientProfileController.clientProfile
+#GET     /client/profile                         controllers.ClientProfileController.clientProfile
+GET     /client/profile                         controllers.HomeController.clientProfile
 GET     /client/profile/user                    controllers.ClientProfileController.getClient
 GET     /client/restaurant                      controllers.HomeController.clientRestaurant
 GET     /client/searchAllRestaurants            controllers.ClientHomeController.searchAllRestaurants
@@ -45,7 +46,8 @@ DELETE  /meal/:mid                  controllers.MealController.delete(mid: Strin
 #Owner
 GET     /owner/home                 controllers.HomeController.ownerHome
 GET     /owner/new-restaurant       controllers.HomeController.newRestaurant
-GET     /owner/profile              controllers.OwnerProfileController.ownerProfile
+#GET     /owner/profile              controllers.OwnerProfileController.ownerProfile
+GET     /owner/profile              controllers.HomeController.ownerProfile
 GET     /owner/restaurant           controllers.HomeController.ownerRestaurant
 GET     /owner/restaurants          controllers.HomeController.ownerRestaurants
 GET     /owner/profile/user         controllers.OwnerProfileController.getOwner
@@ -65,9 +67,9 @@ GET     /qualification/:rid         controllers.QualificationController.getResta
 PUT     /qualification              controllers.QualificationController.addQualification
 
 #Order
-GET     /order                      controllers.OrderController.view
-GET     /owner/my-orders            controllers.OrderController.ownerOrdersView
-GET     /my-orders                  controllers.OrderController.myOrdersView
+GET     /order                      controllers.OrderControllerRender.view
+GET     /owner/my-orders            controllers.OrderControllerRender.ownerOrdersView
+GET     /my-orders                  controllers.OrderControllerRender.myOrdersView
 GET     /orders/client              controllers.OrderController.getClientOrders
 GET     /orders/owner               controllers.OrderController.getOwnerOrders
 GET     /orders/owner/firsts        controllers.OrderController.getOwnerFirsts
@@ -75,13 +77,13 @@ GET     /order/:oId                 controllers.OrderController.getOrder(oId: St
 POST    /order                      controllers.OrderController.newOrder
 
 #Reservation
-GET     /reservation                controllers.ReservationController.view
+GET     /reservation                controllers.ReservationControllerRender.view
 GET     /reservation/client         controllers.ReservationController.getClientReservations
 GET     /reservation/owner          controllers.ReservationController.getOwnerReservations
 GET     /reservation/owner/firsts   controllers.ReservationController.getOwnerFirsts
 GET     /reservation/owner/firsts   controllers.ReservationController.getOwnerFirsts
-GET     /my-reservations            controllers.ReservationController.viewClientReservations
-GET     /owner/my-reservations      controllers.ReservationController.viewOwnerReservations
+GET     /my-reservations            controllers.ReservationControllerRender.viewClientReservations
+GET     /owner/my-reservations      controllers.ReservationControllerRender.viewOwnerReservations
 GET     /reservation/:rId           controllers.ReservationController.getReservation(rId: String)
 POST    /reservation                controllers.ReservationController.save
 DELETE  /reservation/:id            controllers.ReservationController.delete(id: String)
