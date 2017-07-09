@@ -13,6 +13,8 @@ import modules.ImageUtils;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import javax.inject.Inject;
+import play.i18n.*;
 
 import java.awt.*;
 import java.io.File;
@@ -21,6 +23,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RestaurantController extends Controller {
+
+    private MessagesApi messagesApi;
+
+    @Inject
+    public RestaurantController(MessagesApi messagesApi){
+        this.messagesApi = messagesApi;
+    }
 
     public Result addRestaurant(){
         final JsonNode jsonNode = request().body().asJson();
@@ -117,12 +126,22 @@ public class RestaurantController extends Controller {
     }
 
     public Result changeState(String rid){
+        //I18N
+        Messages messages = messagesApi.preferred(request());
+
         final JsonNode body = request().body().asJson();
         final long id = Long.parseLong(rid);
         final boolean state = body.get("state").asBoolean();
         final Restaurant restaurant = Restaurant.byId(id);
         restaurant.setPublished(state).update();
-        return ok("State modified successfully");
+
+        if (state){
+            String published = messages.at("restaurant.server.response.published.successfully", "");
+            return ok(published);
+        }
+        String unpublished = messages.at("restaurant.server.response.unpublished.successfully","");
+        return ok(unpublished);
+        //return ok("State modified successfully");
     }
 
     public Result getRestaurantsFromOwner(String page, String size, String seed){
@@ -161,25 +180,34 @@ public class RestaurantController extends Controller {
     }
 
     public Result delete(String rid){
+        //I18N
+        Messages messages = messagesApi.preferred(request());
         final long id = Long.parseLong(rid);
         final Restaurant restaurant = Restaurant.byId(id);
         restaurant.setDeleted(true);
         restaurant.update();
-        return ok("restaurant deleted");
+        String restaurantDeleted = messages.at("restaurant.server.response.restaurant.delete.successfully","");
+        return ok(restaurantDeleted);
+        //return ok("restaurant deleted");
     }
 
     public Result updatePhoto(String rid){
+        //I18N
+        Messages messages = messagesApi.preferred(request());
+
         final long id = Long.parseLong(rid);
         final JsonNode jsonNode = request().body().asJson();
         final PhotoObject photoObject = Json.fromJson(jsonNode, PhotoObject.class);
         final Photo newPhoto = ImageUtils.saveImage(photoObject);
         if (newPhoto == null){
-            return badRequest();
+            String error = messages.at("restaurant.server.response.an.error.occurs","");
+            return badRequest(error);
         }
         final Restaurant restaurant = Restaurant.byId(id);
         final Photo oldPhoto = restaurant.getPhoto();
         if (!ImageUtils.deleteImage("./public/images/imgApp/" + oldPhoto.getName())){
-            return badRequest();
+            String error = messages.at("restaurant.server.response.an.error.occurs","");
+            return badRequest(error);
         }
         newPhoto.save();
         restaurant.setPhoto(newPhoto);

@@ -272,3 +272,43 @@ owner.navBar.orders = Pedidos
 owner.navBar.reservations = Reservas
 owner.navBar.profile = Perfil
 owner.navBar.logout = Cerrar Sesión
+
+#Login Server Response
+login.server.response.email.problem = Ha occurido un problema con el email
+login.server.response.password.problem = Ha occurido un problema con la contraseña
+login.server.response.email.not.valid = El email no es valido
+login.server.response.password.not.correct = La contraseña no es correcta
+
+#Register Server Response
+register.server.response.email.in.use = El email ya se encuentra en uso
+
+#User Server Response
+user.server.response.email.in.use = El email ya se encuentra en uso
+user.server.response.an.error.occurred = Ha ocurrido un error. Intentelo más tarde.
+user.server.response.previous.password.not.valid = La contraseña anterior no es valida
+user.server.response.new.passwords.not.match = Las contraseñas no coinciden
+user.server.response.password.change.successfully = La contraseña se ha cambiado con éxito
+
+#Client Profile Server Response
+client.profile.server.response.not.available.to.delete.account.pending.reservations = No se ha podido eliminar la cuenta debido a que tiene reservaciones pendientes.
+client.profile.server.response.not.available.to.delete.account.pending.orders = No se ha podido eliminar la cuenta debido a que tiene ordenes pendientes.
+
+#Reservations Server Response
+reservations.server.response.delete.successfully = Reservación cancelada con éxito
+
+#Discount Server Response
+discount.server.response.invalid.code = El codigo no es valido
+
+#Qualification Server Response
+qualification.server.response.qualification.add.successfully = Se ha calificado al restaurant con éxito.
+
+#Restaurant Server Response
+restaurant.server.response.published.successfully = El restaurant ha sido publicado con exito
+restaurant.server.response.unpublished.successfully = El restaurant se ha despublicado con exito
+restaurant.server.response.image.modify.successfully = Imagen modificada con éxito.
+restaurant.server.response.an.error.occurs = Ha ocurrido un error. Intentelo más tarde.
+restaurant.server.response.restaurant.delete.successfully = Restaurant eliminado con exito
+
+#Meal Server Response
+meal.server.response.delete.successfully = Comida borrada exitosamente
+

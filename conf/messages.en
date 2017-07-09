@@ -272,3 +272,42 @@ owner.navBar.orders = Orders
 owner.navBar.reservations = Reservations
 owner.navBar.profile = Profile
 owner.navBar.logout = Log Out
+
+#Login Server Responses
+login.server.response.email.problem = There has been a problem with the email
+login.server.response.password.problem = There was a problem with the password
+login.server.response.email.not.valid = The email is not valid
+login.server.response.password.not.correct = Password is not correct
+
+#Register Server Response
+register.server.response.email.in.use = Email is already in use
+
+#User Server Response
+user.server.response.email.in.use = Email is already in use
+user.server.response.an.error.occurred = An error has occurred. Please try again later.
+user.server.response.previous.password.not.valid = The old password is not valid
+user.server.response.new.passwords.not.match = Passwords do not match
+user.server.response.password.change.successfully = Password successfully changed
+
+#Client Profile Server Response
+client.profile.server.response.not.available.to.delete.account.pending.reservations = The account could not be deleted because you have pending reservations.
+client.profile.server.response.not.available.to.delete.account.pending.orders = The account could not be deleted because you have pending orders.
+
+#Reservations Server Response
+reservations.server.response.delete.successfully = Reservation canceled successfully
+
+#Discount Server Response
+discount.server.response.invalid.code = The code is not valid
+
+#Qualification Server Response
+qualification.server.response.qualification.add.successfully = The restaurant has been rated successfully.
+
+#Restaurant Server Response
+restaurant.server.response.published.successfully = The restaurant has been successfully published
+restaurant.server.response.unpublished.successfully = The restaurant has been successfully unpublished
+restaurant.server.response.image.modify.successfully = Image modified successfully
+restaurant.server.response.an.error.occurs = An error has occurred. Please try again later.
+restaurant.server.response.restaurant.delete.successfully = Restaurant successfully eliminated
+
+#Meal Server Response
+meal.server.response.delete.successfully = Successfully erased food

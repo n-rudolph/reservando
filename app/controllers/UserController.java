@@ -11,22 +11,36 @@ import modules.ImageUtils;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import javax.inject.Inject;
+import play.i18n.*;
 
 public class UserController extends Controller{
 
+    private MessagesApi messagesApi;
+
+    @Inject
+    public UserController(MessagesApi messagesApi){
+        this.messagesApi = messagesApi;
+    }
+
     public Result changePhoto(){
+        //I18N
+        Messages messages = messagesApi.preferred(request());
+
         final JsonNode body = request().body().asJson();
         final PhotoObject photoObject = Json.fromJson(body, PhotoObject.class);
 
         final User user = User.getUserByEmail(session().get("email"));
         final Photo newPhoto = ImageUtils.saveImage(photoObject);
         if (newPhoto == null){
-            return badRequest();
+            String error = messages.at("user.server.response.an.error.occurred","");
+            return badRequest(error);
         }
         final Photo oldPhoto = user.getPhoto();
         if (oldPhoto != null){
             if (!ImageUtils.deleteImage("./public/images/imgApp/" + oldPhoto.getName())) {
-                return badRequest();
+                String error = messages.at("user.server.response.an.error.occurred","");
+                return badRequest(error);
             }
         }
         newPhoto.save();
@@ -36,6 +50,9 @@ public class UserController extends Controller{
     }
 
     public Result changeInfo(){
+        //I18N
+        Messages messages = messagesApi.preferred(request());
+
         final JsonNode body = request().body().asJson();
         final UserEditObject userEditObject = Json.fromJson(body, UserEditObject.class);
         final User user = User.getUserByEmail(session().get("email"));
@@ -50,7 +67,9 @@ public class UserController extends Controller{
         if (!userEditObject.email.equals(session().get("email"))){
             final User userByEmail = User.getUserByEmail(userEditObject.email);
             if (userByEmail != null){
-                return badRequest("email");
+                String emailInUse = messages.at("user.server.response.email.in.use", "");
+                return badRequest(emailInUse);
+                //return badRequest("email");
             }else{
                 user.setEmail(userEditObject.email);
             }
@@ -61,20 +80,29 @@ public class UserController extends Controller{
     }
 
     public Result changePassword(){
+        //I18N
+        Messages messages = messagesApi.preferred(request());
+
         final JsonNode body = request().body().asJson();
         final ChangePasswordObject passwordObject = Json.fromJson(body, ChangePasswordObject.class);
         final User user = User.getUserByEmail(session().get("email"));
 
         if (!user.getPassword().equals(passwordObject.oldPassword)){
-            return badRequest("oldPassword");
+            String oldPasswordNotCorrect = messages.at("user.server.response.previous.password.not.valid","");
+            return badRequest(oldPasswordNotCorrect);
+            //return badRequest("oldPassword");
         }
 
         if (passwordObject.newPassword.equals(passwordObject.checkPassword)){
             user.setPassword(passwordObject.newPassword);
             user.update();
-            return ok();
+            String passwordChange = messages.at("user.server.response.password.change.successfully","");
+            return ok(passwordChange);
+            //return ok();
         } else{
-            return badRequest("match");
+            String passwordNotMatch = messages.at("user.server.response.new.passwords.not.match","");
+            return badRequest(passwordNotMatch);
+            //return badRequest("match");
         }
 
     }

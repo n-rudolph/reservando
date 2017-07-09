@@ -135,8 +135,8 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
                     loadFilters(responseData);
                 })
                 .catch(function(error){
-                    Materialize.toast("No se pudo realizar la busqueda, intente más tarde.", 3000, "red");
-                    console.log(error);
+                    // Materialize.toast("No se pudo realizar la busqueda, intente más tarde.", 3000, "red");
+                    // console.log(error);
                 })
         }
     };
@@ -220,7 +220,7 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
                     $scope.showMap = false;
                 }, 50);
             }, function (error) {
-                Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 3000, "red");
+                 Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 3000, "red");
             });
     };
     $scope.errorGeolocation = function(error) {

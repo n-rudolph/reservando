@@ -30,7 +30,6 @@ public class ClientProfileController extends Controller {
     }
 
     public Result clientProfile(){
-        Controller.changeLang("es");
         Messages messages = messagesApi.preferred(request());
         return ok(clientProfile.render(messages));
     }
@@ -43,6 +42,9 @@ public class ClientProfileController extends Controller {
     private Client getCurrentClient() { return Client.getClientByEmail(session().get("email")); }
 
     public Result deleteAccount(){
+        //I18N
+        Messages messages = messagesApi.preferred(request());
+
         Client client = getCurrentClient();
         List<Reservation> reservations = client.getReservations();
         List<DeliveryOrder> deliveryOrders = DeliveryOrder.getClientOrders(client);
@@ -53,6 +55,8 @@ public class ClientProfileController extends Controller {
             //for the future. If there is one or more reservations for the future, the client can not delete his
             //account.
             if(reservationDate.isAfter(currentDate)){
+                //String error = messages.at("client.profile.server.response.not.available.to.delete.account.pending.reservations","");
+                //return badRequest(error);
                 return internalServerError("No se ha podido eliminar la cuenta debido a que tiene reservaciones pendientes.");
             }
         }
@@ -65,6 +69,8 @@ public class ClientProfileController extends Controller {
             //for the future. If there is one or more order for the future, the client can not delete his
             //account.
             if(orderDateFinished.isAfter(currentDate)){
+                //String error = messages.at("client.profile.server.response.not.available.to.delete.account.pending.orders","");
+                //return badRequest(error);
                 return internalServerError("No se ha podido eliminar la cuenta debido a que tiene ordenes pendientes.");
             }
         }

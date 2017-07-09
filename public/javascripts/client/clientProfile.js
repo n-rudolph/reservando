@@ -17,9 +17,9 @@ app.service('serverCommunication', ['$http','$q', function ($http, $q){
             if(serverErrorResponse){
                 Materialize.toast(serverErrorResponse, 3000, 'red');
             }
-            else {
+            /*else {
                 Materialize.toast(errorResponse, 3000, 'red');
-            }
+            }*/
             defered.reject();
         });
         return promise;
@@ -52,7 +52,7 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
                 $scope.user = data;
             })
             .catch(function (err) {
-                Materialize.toast("No se pudo cargar la información", 3000, "red");
+                //Materialize.toast("No se pudo cargar la información", 3000, "red");
             })
     };
     loadUserData();
@@ -75,17 +75,19 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
         };
         if (password.oldPassword && password.newPassword && password.checkPassword){
             $http.put("/user/password", password).then(function(response){
-                Materialize.toast("La contraseña se ha cambiado con éxito", 2000, "green");
-            }, function(response){
-                if (response.data == "oldPassword"){
+                Materialize.toast(response,2000,"green");
+                //Materialize.toast("La contraseña se ha cambiado con éxito", 2000, "green");
+            }, function(responseError){
+                Materialize.toast(responseError.data, 2000, "red");
+                /*if (response.data == "oldPassword"){
                     Materialize.toast("La contraseña anterior no es valida", 2000, "red");
                     $("#changePasswordModal").closeModal();
                 }else {
                     Materialize.toast("Ha ocurrido un erros. Intentelo más tarde.", 2000, "red");
-                }
+                }*/
             });
         }else{
-            Materialize.toast("Hay errores en los campos.", 2000, "red");
+            //Materialize.toast("Hay errores en los campos.", 2000, "red");
         }
     };
 
@@ -159,8 +161,9 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
                 $scope.user.photo = response.data;
                 Materialize.toast("Se ha actualizado la foto con éxito", 2000, "green");
                 $scope.cancelEditPhoto();
-            }, function(){
-                Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
+            }, function(responseError){
+                Materialize.toast(responseError.data, 2000, "red");
+                //Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
             });
         }else{
             $scope.errors.photoSize = true;
@@ -182,17 +185,18 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
                 $scope.user.address = data.address;
                 Materialize.toast("Se ha actualizado la información con éxito.", 2000, "green");
                 $scope.setEditMode(false);
-            }, function(response){
-                var data = response.data;
+            }, function(responseError){
+                Materialize.toast(responseError.data, 2000, "red");
+                /*var data = response.data;
                 if (data == "email"){
                     Materialize.toast("El email ya esta ocupado", 2000, "red");
                     $scope.errors.email = true;
                 } else{
                     Materialize.toast("Ha ocurrido un error. Intentelo más tarde", 2000, "red");
-                }
+                }*/
             });
         }else{
-            Materialize.toast("Hay errores en los campos.", 2000, "red");
+            //Materialize.toast("Hay errores en los campos.", 2000, "red");
         }
     };
 

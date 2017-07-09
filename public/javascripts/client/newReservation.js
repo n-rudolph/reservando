@@ -102,14 +102,20 @@ app.controller("NewReservationCtrl", function ($scope, $http, $window, $timeout)
         $scope.invalidCode = false;
         $scope.validCode = false;
         $http.get("/discount/"+$scope.discCode).then(function(response){
-            if (response.data === "1" || response.data === "2"){
+            $scope.discount = response.data;
+            $scope.validCode = true;
+            /*if (response.data === "1" || response.data === "2"){
                 Materialize.toast("El codigo no es valido", 2000, "red");
                 $scope.invalidCode = true;
                 $scope.discount = {};
             } else {
                 $scope.discount = response.data;
                 $scope.validCode = true;
-            }
+            }*/
+        }, function(responseError){
+            Materialize.toast(responseError.data, 2000, "red");
+            $scope.invalidCode = true;
+            $scope.discount = {};
         });
     };
     $scope.resetCode = function(){

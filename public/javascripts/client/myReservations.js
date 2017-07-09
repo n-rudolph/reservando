@@ -19,9 +19,9 @@ app.controller("MyReservationsCtrl", function ($scope, $http, $window, $timeout)
         $http.delete("/reservation/"+reservation.id).then(function(response) {
             $scope.reservations.splice(index, 1);
             Materialize.toast("Reservación cancelada con éxito", 2000, "green");
-        }, function(response){
+        }/*, function(response){
             Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
-        })
+        }*/)
     };
 
     $scope.getDateTimeFormat = function(timeObject){

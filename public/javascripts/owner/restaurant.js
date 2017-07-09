@@ -126,7 +126,8 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
 
     $scope.deleteRestaurant = function() {
         $http.delete("/restaurant/"+$scope.restaurant.id).then(function(response){
-            Materialize.toast("Restaurant eliminado con exito", 2000, "green", $window.location.href = "/owner/home")
+            Materialize.toast(response.data, 2000, "green", $window.location.href = "/owner/home")
+            //Materialize.toast("Restaurant eliminado con exito", 2000, "green", $window.location.href = "/owner/home")
         }, function(response){
             Materialize.toast("Ha ocurrido un error", 2000, "red");
             $('#deleteModal').modal('close');
@@ -143,9 +144,10 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
                     $scope.photos = [];
                     $scope.loading = false;
                     Materialize.toast("Imagen modificada con éxito.", 2000, "green");
-                }, function(){
-                    $scope.loading = false;
-                    Materialize.toast("Ha ocurrido un erros. Intentelo más tarde.", 2000, "red");
+                }, function(responseError){
+                    Materialize.toast(responseError.data, 2000,"red");
+                    /*$scope.loading = false;
+                    Materialize.toast("Ha ocurrido un erros. Intentelo más tarde.", 2000, "red");*/
                 })
         }else {
             $scope.photoError = true;
@@ -169,7 +171,7 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
                 $window.location.href = "#top";
                 $scope.editMode = false;
             }, function(response){
-                Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
+                //Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
             });
         }else{
             Materialize.toast("Hay campos con errores", 2000, "red");
@@ -298,9 +300,10 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
         $http.delete("/meal/"+$scope.menu[$scope.mealToDeleteIndex].id).then(function(response){
             $scope.menu.splice($scope.mealToDeleteIndex, 1);
             $("#deleteMealModal").closeModal();
-            Materialize.toast("Comida eliminada con éxito.", 2000, "green");
+            Materialize.toast(response.data, 2000, "green");
+            //Materialize.toast("Comida eliminada con éxito.", 2000, "green");
         }, function(response){
-            Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
+            //Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
         });
     };
 

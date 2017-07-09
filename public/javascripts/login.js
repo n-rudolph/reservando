@@ -59,7 +59,8 @@ app.controller("loginCtrl", function ($scope, $http) {
             $http.post("/register", data).then(function(response) {
                 window.location.href = response.data;
             },function(response){
-                Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 3000, "red");
+                Materialize.toast(response, 3000, "red");
+                //Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 3000, "red");
             });
         }
     };
