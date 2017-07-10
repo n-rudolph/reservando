@@ -1,6 +1,7 @@
 @(messages: Messages)
 @views.html.main("Reservando") {
     @clientNav(messages)
+    @languageSelector(messages)
     <div class="container" ng-controller="MyOrdersCtrl">
         <div class="row title">
             <h3>@Messages("client.orders.my.orders")</h3>
@@ -80,4 +81,5 @@
     <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/client/myOrders.css")">
 } {
     <script src="@routes.Assets.versioned("javascripts/client/myOrders.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/languageSelector.js")"></script>
 }

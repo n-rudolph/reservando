@@ -1,6 +1,7 @@
 @(messages: Messages)
 @views.html.main("Reservando"){
     @clientNav(messages)
+    @languageSelector(messages)
     <div ng-controller="ClientHomeCtrl">
        <div class="sidebar" ng-show="!result.noResults">
            <div class="col m12">
@@ -54,7 +55,7 @@
                        <a id="searchButton" class="waves-effect wave-light btn-large btn big-btn" ng-click="search()">@Messages("client.home.search")</a>
                    </div>
                    <div class="col m3">
-                       <div class="waves-effect wave-light btn-large btn big-btn" ng-click="searchNearMe()">Cerca mio</div>
+                       @*<div class="waves-effect wave-light btn-large btn big-btn" ng-click="searchNearMe()">Cerca mio</div>*@
                        <div class="waves-effect wave-light btn-large btn big-btn" ng-click="searchNearMe()">@Messages("client.home.near.me")</div>
                    </div>
                </div>
@@ -168,5 +169,6 @@
     <script src="@routes.Assets.versioned("javascripts/utils/geocode.js")"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyDM9GdrRT-5ML6OHeHGIIs0zNFjJmOaQUM&libraries=places&callback=initGoogleMapFunctionality"></script>
     <script src="@routes.Assets.versioned("external/ngMap/ng-map.min.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/languageSelector.js")"></script>
 
 }

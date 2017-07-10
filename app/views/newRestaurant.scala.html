@@ -1,6 +1,7 @@
 @(messages: Messages)
 @views.html.main("Reservando") {
     @ownerNav(messages)
+    @languageSelector(messages)
     <div class="container" ng-controller="NewRestaurantCtrl as ctrl">
         <div class="row">
             <h2 class="center">@Messages("owner.new.restaurant.new.restaurant")</h2>
@@ -123,4 +124,5 @@
     async defer></script>
     <script src="@routes.Assets.versioned("external/materialize-clockpicker/dist/js/materialize.clockpicker.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/owner/newRestaurant.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.versioned("javascripts/languageSelector.js")"></script>
 }

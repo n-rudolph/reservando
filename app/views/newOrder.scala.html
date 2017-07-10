@@ -1,6 +1,7 @@
 @(messages: Messages)
 @views.html.main("Reservando") {
     @clientNav(messages)
+    @languageSelector(messages)
     <div class="container" ng-controller="NewOrderCtrl">
         <div class="row title">
             <h3>@Messages("client.new.order.new.order.for"): {{restaurant.name}}</h3>
@@ -137,4 +138,5 @@
     async defer></script>
     <script src="@routes.Assets.versioned("external/ngMap/ng-map.min.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/client/newOrder.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/languageSelector.js")"></script>
 }

@@ -1,6 +1,7 @@
 @(messages: Messages)
 @views.html.main("Reservando") {
     @clientNav(messages)
+    @languageSelector(messages)
     <div class="container" ng-controller="NewReservationCtrl">
         <div class="row title">
             <h3>@Messages("client.new.reservation.new.reservation.in"): {{restaurant.name}}</h3>
@@ -130,4 +131,5 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-materialize/0.2.2/angular-materialize.min.js"></script>
     <script src="@routes.Assets.versioned("external/ngMap/ng-map.min.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/client/newReservation.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/languageSelector.js")"></script>
 }

@@ -1,6 +1,6 @@
 var app = angular.module("reservandoApp");
 
-app.controller("myController", ['$scope', '$http', '$window', function ($scope, $http, $window) {
+app.controller("langController", ['$scope', '$http', '$window', function ($scope, $http, $window) {
 
     $scope.changeToSpanish = function(){
         var postUrl = "/language/change";

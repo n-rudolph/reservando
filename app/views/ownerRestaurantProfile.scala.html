@@ -1,6 +1,7 @@
 @(messages: Messages)
 @views.html.main("Reservando") {
     @ownerNav(messages)
+    @languageSelector(messages)
     <div class="container" ng-controller="RestaurantCtrl">
         <div class="row image-holder">
             <img ng-src="@routes.Assets.versioned("{{restaurant.photo.path}}")" alt="" class="materialboxed" width="100%" height="300px">
@@ -343,4 +344,5 @@
     async defer></script>
     <script src="@routes.Assets.versioned("external/ngMap/ng-map.min.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/owner/restaurant.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/languageSelector.js")"></script>
 }
