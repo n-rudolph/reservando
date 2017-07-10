@@ -55,7 +55,9 @@ app.controller("OwnerHomeCtrl", function ($scope, $http, $window) {
             }else{
                 Materialize.toast("El restaurant se ha despublicado", 2000, "green");
             }*/
-        }, function(response){
+        }, function(){
+            var error = Messages("error.message.error.occurs.try.later");
+            Materialize.toast(error, 2000, "red");
             //Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
         })
     };

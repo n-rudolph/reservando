@@ -315,3 +315,26 @@ restaurant.server.response.restaurant.delete.successfully = Restaurant successfu
 
 #Meal Server Response
 meal.server.response.delete.successfully = Successfully erased food
+
+#Errors Messages
+error.message.search.could.not.performed = Could not perform search, please try later.
+error.message.error.occurs.try.later = An error has occurred. Please try again later.
+error.message.geolocalization.denied.request = The user denied the Geolocation request.
+error.message.geolocalization.location.unavailable = Location information is not available.
+error.message.geolocalization.request.timeout = The timeout has been exhausted to obtain the user's location.
+error.message.geolocalization.address.not.valid = The address is not valid
+error.message.error.unknown = An unknown error occurred.
+error.message.there.are.error.on.fields = There are errors in the fields.
+
+#Success Messages
+success.message.photo.update.successfully = Photo successfully updated
+success.message.info.update.successfully = The information has been successfully updated.
+success.message.order.placed = The order has been processed successfully.
+success.message.reservation.placed = The reservation has been processed successfully.
+success.message.qualification.made = The restaurant has been rated successful.
+success.message.reservation.cancelled = Reservation canceled successfully
+success.message.restaurant.created = The restaurant has been successfully created
+success.message.image.modify = Image modified successfully.
+success.message.restaurant.modify = Restaurant successfully modified
+success.messages.meal.saved = The food has been saved successfully
+success.messages.meal.updated = The food has been successfully edited

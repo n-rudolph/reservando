@@ -77,6 +77,8 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
                 }*/
             });
         }else{
+            var error = Messages("error.message.there.are.error.on.fields");
+            Materialize.toast(error, 2000, "red");
             //Materialize.toast("Hay errores en los campos.", 2000, "red");
         }
     };
@@ -147,7 +149,9 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
             };
             $http.put("/user/photo", photo).then(function(response){
                 $scope.user.photo = response.data;
-                Materialize.toast("Se ha actualizado la foto con éxito", 2000, "green");
+                var updateSuccessfully = Messages("success.message.photo.update.successfully");
+                Materialize.toast(updateSuccessfully, 2000, "green");
+                //Materialize.toast("Se ha actualizado la foto con éxito", 2000, "green");
                 $scope.cancelEditPhoto();
             }, function(responseError){
                 Materialize.toast(responseError.data, 2000, "red");
@@ -171,7 +175,9 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
                 $scope.user.lastName = data.lastName;
                 $scope.user.email = data.email;
                 $scope.user.address = data.address;
-                Materialize.toast("Se ha actualizado la información con éxito.", 2000, "green");
+                var infoUpdate = Messages("success.message.info.update.successfully");
+                Materialize.toast(infoUpdate, 2000, "green");
+                //Materialize.toast("Se ha actualizado la información con éxito.", 2000, "green");
                 $scope.setEditMode(false);
             }, function(responseError){
                 Materialize.toast(responseError.data, 2000, "red");
@@ -184,6 +190,8 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
                 }*/
             });
         }else{
+            var errorOnFields = Messages("error.message.there.are.error.on.fields");
+            Materialize.toast(errorOnFields, 2000, "red");
             //Materialize.toast("Hay errores en los campos.", 2000, "red");
         }
     };
@@ -197,7 +205,9 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
                 $scope.submitUser();
             } else {
                 $scope.errors.address = true;
-                Materialize.toast("La dirección no es valida", 2000, "red");
+                var addressNotValid = Messages("error.message.geolocalization.address.not.valid");
+                Materialize.toast(addressNotValid, 2000, "red");
+                //Materialize.toast("La dirección no es valida", 2000, "red");
             }
         });
     };

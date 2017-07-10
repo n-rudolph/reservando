@@ -104,14 +104,6 @@ app.controller("NewReservationCtrl", function ($scope, $http, $window, $timeout)
         $http.get("/discount/"+$scope.discCode).then(function(response){
             $scope.discount = response.data;
             $scope.validCode = true;
-            /*if (response.data === "1" || response.data === "2"){
-                Materialize.toast("El codigo no es valido", 2000, "red");
-                $scope.invalidCode = true;
-                $scope.discount = {};
-            } else {
-                $scope.discount = response.data;
-                $scope.validCode = true;
-            }*/
         }, function(responseError){
             Materialize.toast(responseError.data, 2000, "red");
             $scope.invalidCode = true;
@@ -138,11 +130,15 @@ app.controller("NewReservationCtrl", function ($scope, $http, $window, $timeout)
         $scope.reservation.date = date.getTime();
 
         $http.post("/reservation", $scope.reservation).then(function(response){
-            Materialize.toast("La reserva se ha procesado con éxito.", 2000, "green");
+            var reservationSuccess = Messages("success.message.reservation.placed");
+            Materialize.toast(reservationSuccess, 2000, "green");
+            //Materialize.toast("La reserva se ha procesado con éxito.", 2000, "green");
             $timeout(function(){
                 $window.location.href = "/client/restaurant?id="+$scope.restaurant.id;
             }, 1000);
         }, function(response){
+            var error = Messages("error.message.error.occurs.try.later");
+            Materialize.toast(error, 2000, "red");
             //Materialize.toast("Ha ocurrido un error. Intentelo más tarde", 2000, "red");
         });
     };

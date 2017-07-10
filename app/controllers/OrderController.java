@@ -24,7 +24,7 @@ public class OrderController extends Controller {
        this.messagesApi = messagesApi;
     }
 
-    /*public Result view(){
+    public Result view(){
         Messages messages = messagesApi.preferred(request());
         return ok(newOrder.render(messages));
     }
@@ -35,7 +35,7 @@ public class OrderController extends Controller {
     public Result ownerOrdersView() {
         Messages messages = messagesApi.preferred(request());
         return ok(ownerMyOrders.render(messages));
-    }*/
+    }
 
 
     public Result newOrder(){

@@ -129,7 +129,9 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
             Materialize.toast(response.data, 2000, "green", $window.location.href = "/owner/home")
             //Materialize.toast("Restaurant eliminado con exito", 2000, "green", $window.location.href = "/owner/home")
         }, function(response){
-            Materialize.toast("Ha ocurrido un error", 2000, "red");
+            var error = Messages("error.message.error.occurs.try.later");
+            Materialize.toast(error, 2000, "red");
+            //Materialize.toast("Ha ocurrido un error", 2000, "red");
             $('#deleteModal').modal('close');
             $('#deleteModal').modal('close');
         });
@@ -143,7 +145,9 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
                     $scope.restaurant.photo = response.data;
                     $scope.photos = [];
                     $scope.loading = false;
-                    Materialize.toast("Imagen modificada con éxito.", 2000, "green");
+                    var imageUpdate = Messages("success.message.image.modify");
+                    Materialize.toast(imageUpdate, 2000, "green");
+                    //Materialize.toast("Imagen modificada con éxito.", 2000, "green");
                 }, function(responseError){
                     Materialize.toast(responseError.data, 2000,"red");
                     /*$scope.loading = false;
@@ -166,15 +170,21 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
     $scope.restaurantSubmit = function(){
         if ($scope.checkFields()){
             $http.put("/restaurant/"+$scope.restaurant.id, $scope.restaurantEdit).then(function(response){
-                Materialize.toast("Restaurant modificado con éxito", 2000, "green");
+                var restaurantModify = Messages("success.message.restaurant.modify");
+                Materialize.toast(restaurantModify, 2000, "green");
+                //Materialize.toast("Restaurant modificado con éxito", 2000, "green");
                 $scope.restaurant = response.data;
                 $window.location.href = "#top";
                 $scope.editMode = false;
             }, function(response){
+                var error = Messages("error.message.error.occurs.try.later");
+                Materialize.toast(error, 2000, "red");
                 //Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
             });
         }else{
-            Materialize.toast("Hay campos con errores", 2000, "red");
+            var errorOnFields = Messages("error.message.there.are.error.on.fields");
+            Materialize.toast(errorOnFields, 2000, "red");
+            //Materialize.toast("Hay campos con errores", 2000, "red");
             $window.location.href = "#top";
         }
     };
@@ -189,7 +199,9 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
             } else {
                 $scope.errors.address = true;
                 $scope.checkInfo();
-                Materialize.toast("La dirección no es valida", 2000, "red");
+                var error = Messages("error.message.geolocalization.address.not.valid");
+                Materialize.toast(error, 2000, "red");
+                //Materialize.toast("La dirección no es valida", 2000, "red");
             }
         });
     };
@@ -302,7 +314,9 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
             $("#deleteMealModal").closeModal();
             Materialize.toast(response.data, 2000, "green");
             //Materialize.toast("Comida eliminada con éxito.", 2000, "green");
-        }, function(response){
+        }, function(){
+            var error = Messages("error.message.error.occurs.try.later");
+            Materialize.toast(error, 2000, "red");
             //Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
         });
     };
@@ -337,13 +351,19 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
             };
             $http.post("/meal/"+$scope.restaurant.id, $scope.newMeal).then(function(response){
                 $scope.menu.push(response.data);
-                Materialize.toast("Se ha guardado con exito", 2000, "green");
+                var mealSaved = Messages("success.messages.meal.saved");
+                Materialize.toast(mealSaved, 2000, "green");
+                //Materialize.toast("Se ha guardado con exito", 2000, "green");
                 $('#newMealModal').closeModal();
             }, function(response){
-                Materialize.toast("Ha ocurrido un error. Intentelo mas tarde.", 2000, "red");
+                var error = Messages("error.message.error.occurs.try.later");
+                Materialize.toast(error, 2000, "red");
+                //Materialize.toast("Ha ocurrido un error. Intentelo mas tarde.", 2000, "red");
             });
         }else{
-            Materialize.toast("Hay errores en los campos.", 2000, "red");
+            var errorOnFields = Messages("error.message.there.are.error.on.fields");
+            Materialize.toast(errorOnFields, 2000, "red");
+            //Materialize.toast("Hay errores en los campos.", 2000, "red");
         }
     };
 
@@ -407,13 +427,19 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
         if ($scope.checkEditMeal(putData)){
             $http.put("/meal/"+ $scope.editMeal.id, putData).then(function(response){
                 $scope.menu[$scope.editMeal.index] = response.data;
-                Materialize.toast("Se ha editado la comida con éxito.", 2000, "green");
+                var mealEdited = Messages("success.messages.meal.updated");
+                Materialize.toast(mealEdited, 2000, "green");
+                //Materialize.toast("Se ha editado la comida con éxito.", 2000, "green");
                 $("#editMealModal").closeModal();
             }, function(response){
-                Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
+                var error = Messages("error.message.error.occurs.try.later");
+                Materialize.toast(error, 2000, "red");
+                //Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
             });
         }else{
-            Materialize.toast("Hay campos con errores", 2000, "red");
+            var errorOnFields = Messages("error.message.there.are.error.on.fields");
+            Materialize.toast(errorOnFields, 2000, "red");
+            //Materialize.toast("Hay campos con errores", 2000, "red");
         }
     };
 

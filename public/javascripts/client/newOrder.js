@@ -115,7 +115,9 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
                 $scope.coordinates.lat = results[0].geometry.location.lat();
                 $scope.coordinates.lng = results[0].geometry.location.lng();
             } else {
-                Materialize.toast("La dirección no es valida", 2000, "red");
+                var addressNotValid = Messages("error.message.geolocalization.address.not.valid")
+                Materialize.toast(addressNotValid, 2000, "red");
+                //Materialize.toast("La dirección no es valida", 2000, "red");
             }
         });
     };
@@ -127,15 +129,6 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
             $scope.discount = response.data;
             $scope.validCode = true;
             $scope.calculateTotal();
-           /* if (response.data === "1" || response.data === "2"){
-                Materialize.toast("El codigo no es valido", 2000, "red");
-                $scope.invalidCode = true;
-                $scope.discount = {};
-            } else {
-                $scope.discount = response.data;
-                $scope.validCode = true;
-                $scope.calculateTotal();
-            }*/
         }, function(responseError){
             Materialize.toast(responseError.data, 2000, "red");
             $scope.invalidCode = true;
@@ -154,11 +147,15 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
         else $scope.orderObject.discountCode = "";
 
         $http.post("/order", $scope.orderObject).then(function(response){
-            Materialize.toast("El pedido se ha procesado con éxito.", 2000, "green");
+            var succesfull = Messages("success.message.order.placed");
+            Materialize.toast(succesfull, 2000, "green");
+            //Materialize.toast("El pedido se ha procesado con éxito.", 2000, "green");
             $timeout(function(){
                 $window.location.href = "/client/restaurant?id="+$scope.restaurant.id;
             }, 1000);
-        }, function(response){
+        }, function(){
+            var error = Messages("error.message.error.occurs.try.later");
+            Materialize.toast(error, 2000, "red");
             //Materialize.toast("Ha ocurrido un error. Intentelo más tarde");
         });
     }
