@@ -9,7 +9,6 @@ app.controller("langController", ['$scope', '$http', '$window', function ($scope
             url: postUrl,
             data: {lang: "es"}
         }).success(function(){
-            Materialize.toast("OK!", 2000, 'green');
             $window.location.reload();
         }).error(function (serverErrorResponse) {
 
@@ -23,7 +22,6 @@ app.controller("langController", ['$scope', '$http', '$window', function ($scope
             url: uploadUrl,
             data: {lang: "en"}
         }).success(function(){
-            Materialize.toast("OK!", 2000, 'green');
             $window.location.reload();
         }).error(function (serverErrorResponse) {
 
