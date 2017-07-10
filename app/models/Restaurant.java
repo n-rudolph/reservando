@@ -139,7 +139,14 @@ public class Restaurant extends Model{
     }
 
     public Restaurant setOpeningDays(List<Day> openingDays) {
-        this.openingDays = openingDays;
+        for (Day openingDay : openingDays) {
+            if (!this.openingDays.contains(openingDay))
+                this.openingDays.add(openingDay);
+        }
+        for (Day openingDay : this.openingDays) {
+            if (!openingDays.contains(openingDay))
+                this.openingDays.remove(openingDay);
+        }
         return this;
     }
 
@@ -148,7 +155,14 @@ public class Restaurant extends Model{
     }
 
     public Restaurant setCuisines(List<Cuisine> cuisines) {
-        this.cuisines = cuisines;
+        for (Cuisine cuisine : cuisines) {
+            if (!this.cuisines.contains(cuisine))
+                this.cuisines.add(cuisine);
+        }
+        for (Cuisine cuisine : this.cuisines) {
+            if (!cuisines.contains(cuisine))
+                this.cuisines.remove(cuisine);
+        }
         return this;
     }
 
