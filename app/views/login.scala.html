@@ -1,5 +1,6 @@
 @(messages: Messages)
 @views.html.main("Reservando") {
+    @languageSelector(messages)
     <div  ng-controller="loginCtrl">
         <div class="row image-holder height-mod" ng-class="{'small-image-holder': !bigImageHolder, 'big-image-holder': bigImageHolder}"></div>
         <div class="container height-mod" ng-class="{'small-content-holder': !bigContentHolder, 'big-content-holder': bigContentHolder}">
@@ -156,4 +157,5 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDx5ARsKyUaIV0uBUuCs7M6HxvUOtvcm-E&libraries=places&callback=initAutocomplete"
     async defer></script>
     <script src="@routes.Assets.versioned("javascripts/login.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/languageSelector.js")"></script>
 }

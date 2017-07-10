@@ -100,5 +100,5 @@ GET     /all/meals                  controllers.DebugController.getMeals
 
 #Messages (I18N)
 GET     /messages.js                controllers.MessageController.messages()
-POST    /language/spanish           controllers.MessageController.changeLangToSpanish
-POST    /language/english           controllers.MessageController.changeLangToEnglish
+GET     /language                   controllers.MessageController.getCurrentLang
+POST    /language/change            controllers.MessageController.changeLang

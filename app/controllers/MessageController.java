@@ -1,8 +1,10 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import jsmessages.JsMessages;
 import jsmessages.JsMessagesFactory;
 import jsmessages.japi.Helper;
+import play.i18n.Lang;
 import play.libs.Scala;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -24,12 +26,15 @@ public class MessageController extends Controller {
         return ok(jsMessages.apply(Scala.Option("window.Messages"), Helper.messagesFromCurrentHttpContext()));
     }
 
-    public Result changeLangToEnglish(){
-        Controller.changeLang("en");
-        return ok();
+    public Result getCurrentLang(){
+        String currentLang = Controller.lang().toString();
+        return ok(currentLang);
     }
-    public Result changeLangToSpanish(){
-        Controller.changeLang("es");
+
+    public Result changeLang(){
+        JsonNode jsonNode = request().body().asJson();
+        String lang = jsonNode.path("lang").asText();
+        Controller.changeLang(lang);
         return ok();
     }
 }
