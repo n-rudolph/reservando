@@ -1,5 +1,7 @@
 package controllers;
 
+import authentication.SecuredClient;
+import authentication.SecuredOwner;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import models.Response.ReservationResponse;
@@ -7,6 +9,7 @@ import models.requestObjects.ReservationObject;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import views.html.*;
 
 
@@ -16,12 +19,15 @@ import java.util.stream.Collectors;
 
 public class ReservationController extends Controller{
 
+    @Security.Authenticated(SecuredClient.class)
     public Result view(){
         return ok(newReservation.render());
     }
+    @Security.Authenticated(SecuredClient.class)
     public Result viewClientReservations() {
         return ok(myReservations.render());
     }
+    @Security.Authenticated(SecuredOwner.class)
     public Result viewOwnerReservations() {
         return ok(ownerMyReservations.apply());
     }

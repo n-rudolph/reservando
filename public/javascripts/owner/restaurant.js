@@ -101,8 +101,8 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
         $scope.restaurantEdit.capacity = $scope.restaurant.capacity;
         $scope.restaurantEdit.responseTime = $scope.restaurant.responseTime;
         $scope.restaurantEdit.minsBetweenTurns = $scope.restaurant.minsBetweenTurns;
-        $scope.initTime = $scope.restaurant.startTime;
-        $scope.endTime = $scope.restaurant.endTime;
+        $scope.restaurantEdit.cuisines = [];
+        $scope.restaurantEdit.days = [];
 
         for (var i = 0; i< $scope.restaurant.openingDays.length; i++){
             $scope.selectedDays.push($scope.restaurant.openingDays[i].day);
@@ -230,10 +230,7 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
                 $scope.addDay($scope.selectedDays[i]);
             }
         }
-        if (!$scope.restaurantEdit.startTime || $scope.restaurantEdit.startTime.length == 0 || !$scope.restaurantEdit.endTime || $scope.restaurantEdit.endTime.length == 0 ){
-            errors++;
-            $scope.errors.time = true;
-        } else {
+        if (($scope.restaurantEdit.startTime && $scope.restaurantEdit.startTime.length != 0) && ($scope.restaurantEdit.endTime && $scope.restaurantEdit.endTime.length >= 0)) {
             var splitStartTime = $scope.restaurantEdit.startTime.split(":");
             var splitEndTime = $scope.restaurantEdit.endTime.split(":");
 
@@ -246,6 +243,39 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
                     $scope.errors.time = false;
                 }
             }
+        } else if ($scope.restaurantEdit.startTime && $scope.restaurantEdit.startTime.length != 0){
+            splitStartTime = $scope.restaurantEdit.startTime.split(":");
+            splitEndTime = $scope.restaurant.closingHour.split(":");
+
+            if (Number(splitStartTime[0]) > Number(splitEndTime[0])){
+                errors++;
+                $scope.errors.time = false;
+            }else if (Number(splitStartTime[0]) == Number(splitEndTime[0])){
+                if (Number(splitStartTime[1]) >= Number(splitEndTime[1])){
+                    errors++;
+                    $scope.errors.time = false;
+                } else {
+                    $scope.restaurantEdit.endTime = $scope.restaurant.closingHour;
+                }
+            }
+        } else if ($scope.restaurantEdit.endTime && $scope.restaurantEdit.endTime.length >= 0){
+            splitStartTime = $scope.restaurant.openingHour.split(":");
+            splitEndTime = $scope.restaurantEdit.endTime.split(":");
+
+            if (Number(splitStartTime[0]) > Number(splitEndTime[0])){
+                errors++;
+                $scope.errors.time = false;
+            }else if (Number(splitStartTime[0]) == Number(splitEndTime[0])){
+                if (Number(splitStartTime[1]) >= Number(splitEndTime[1])){
+                    errors++;
+                    $scope.errors.time = false;
+                }  else {
+                    $scope.restaurantEdit.startTime = $scope.restaurant.openingHour;
+                }
+            }
+        }  else {
+            $scope.restaurantEdit.startTime = $scope.restaurant.openingHour;
+            $scope.restaurantEdit.endTime = $scope.restaurant.closingHour;
         }
         if (!$scope.selectedCuisines || $scope.selectedCuisines.length == 0){
             errors++;

@@ -1,18 +1,11 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import authentication.SecuredClient;
 import models.*;
-import org.joda.time.DateTime;
 import play.libs.Json;
 import play.mvc.*;
 import views.html.*;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Base64;
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -21,6 +14,7 @@ import java.util.Random;
  */
 public class ClientProfileController extends Controller {
 
+    @Security.Authenticated(SecuredClient.class)
     public Result clientProfile(){ return ok(clientProfile.render());}
 
     public Result getClient(){

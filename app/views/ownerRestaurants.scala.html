@@ -37,7 +37,7 @@
                         <p>{{truncateText(restaurant.address.address, 100)}}</p>
                     </div>
                     <div class="card-action">
-                        <a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(restaurant.id)">{{restaurant.isLocal ? 'Ver Local' : 'Ver Delivery'}}</a>
+                        <a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(restaurant.id)">{{restaurant.local ? 'Ver Local' : 'Ver Delivery'}}</a>
                     </div>
                 </div>
             </div>

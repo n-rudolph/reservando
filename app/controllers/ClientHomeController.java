@@ -1,5 +1,6 @@
 package controllers;
 
+import authentication.SecuredClient;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import models.Response.RestaurantResponse;
@@ -68,6 +69,7 @@ public class ClientHomeController extends Controller {
         return ok(Json.toJson(results.stream().map(r -> new RestaurantResponse(r, Qualification.getRestaurantQualification(r.getId()))).collect(Collectors.toList())));
     }
 
+    @Security.Authenticated(SecuredClient.class)
     public Result searchAllRestaurants(){
         return ok(Json.toJson(Restaurant.finder.where().findList().stream().filter(restaurant -> !restaurant.isDeleted() && restaurant.isPublished()).collect(Collectors.toList())));
     }

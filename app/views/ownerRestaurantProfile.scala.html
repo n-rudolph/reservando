@@ -120,15 +120,21 @@
                 <div class="row">
                     <h4>Horario de atención</h4>
                     <div class="col m6">
+                        <h5>{{restaurant.openingHour}}</h5>
+                    </div>
+                    <div class="col m6">
+                        <h5>{{restaurant.closingHour}}</h5>
+                    </div>
+                    <div class="col m6">
                         <div class="input-field">
                             <label for="input_starttime">De</label>
-                            <input type="text" id="input_starttime" input-clock data-twelvehour="false" ng-model="restaurantEdit.startTime" data-default="{{initTime}}" ng-class="{invalid: errors.time}">
+                            <input type="text" id="input_starttime" input-clock data-twelvehour="false" ng-model="restaurantEdit.startTime" ng-class="{invalid: errors.time}">
                         </div>
                     </div>
                     <div class="col m6">
                         <div class="input-field">
                             <label for="input_endtime">Hasta</label>
-                            <input type="text" id="input_endtime" input-clock data-twelvehour="false" ng-model="restaurantEdit.endTime" data-default="{{endTime}}" ng-class="{invalid: errors.time}">
+                            <input type="text" id="input_endtime" input-clock data-twelvehour="false" ng-model="restaurantEdit.endTime" ng-class="{invalid: errors.time}">
                         </div>
                     </div>
                 </div>

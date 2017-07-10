@@ -1,5 +1,7 @@
 package controllers;
 
+import authentication.SecuredClient;
+import authentication.SecuredOwner;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import models.Response.OrderResponse;
@@ -7,6 +9,7 @@ import models.requestObjects.OrderObject;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import views.html.*;
 
 import java.util.Collection;
@@ -15,12 +18,15 @@ import java.util.stream.Collectors;
 
 public class OrderController extends Controller {
 
+    @Security.Authenticated(SecuredClient.class)
     public Result view(){
         return ok(newOrder.render());
     }
+    @Security.Authenticated(SecuredClient.class)
     public Result myOrdersView(){
         return ok(myOrders.render());
     }
+    @Security.Authenticated(SecuredOwner.class)
     public Result ownerOrdersView() {
         return ok(ownerMyOrders.render());
     }
