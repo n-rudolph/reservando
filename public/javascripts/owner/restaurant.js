@@ -103,6 +103,8 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
         $scope.restaurantEdit.minsBetweenTurns = $scope.restaurant.minsBetweenTurns;
         $scope.restaurantEdit.cuisines = [];
         $scope.restaurantEdit.days = [];
+        $scope.restaurantEdit.startTime = "";
+        $scope.restaurantEdit.endTime = "";
 
         for (var i = 0; i< $scope.restaurant.openingDays.length; i++){
             $scope.selectedDays.push($scope.restaurant.openingDays[i].day);
@@ -245,7 +247,7 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
                 $scope.addDay($scope.selectedDays[i]);
             }
         }
-        if (($scope.restaurantEdit.startTime && $scope.restaurantEdit.startTime.length != 0) && ($scope.restaurantEdit.endTime && $scope.restaurantEdit.endTime.length >= 0)) {
+        if (($scope.restaurantEdit.startTime && $scope.restaurantEdit.startTime.length != 0) && ($scope.restaurantEdit.endTime && $scope.restaurantEdit.endTime.length != 0)) {
             var splitStartTime = $scope.restaurantEdit.startTime.split(":");
             var splitEndTime = $scope.restaurantEdit.endTime.split(":");
 
@@ -272,6 +274,8 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
                 } else {
                     $scope.restaurantEdit.endTime = $scope.restaurant.closingHour;
                 }
+            } else {
+                $scope.restaurantEdit.endTime = $scope.restaurant.closingHour;
             }
         } else if ($scope.restaurantEdit.endTime && $scope.restaurantEdit.endTime.length >= 0){
             splitStartTime = $scope.restaurant.openingHour.split(":");
@@ -287,6 +291,8 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
                 }  else {
                     $scope.restaurantEdit.startTime = $scope.restaurant.openingHour;
                 }
+            } else {
+                $scope.restaurantEdit.startTime = $scope.restaurant.openingHour;
             }
         }  else {
             $scope.restaurantEdit.startTime = $scope.restaurant.openingHour;
@@ -316,7 +322,8 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
     $scope.addDay = function(day){
         for(var i = 0; i < $scope.days.length; i++) {
             if ($scope.days[i].day == day){
-                $scope.restaurantEdit.days.push($scope.days[i]);
+                if ($scope.restaurantEdit.days.indexOf($scope.days[i]) == -1)
+                    $scope.restaurantEdit.days.push($scope.days[i]);
                 return;
             }
         }
