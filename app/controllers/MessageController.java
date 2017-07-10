@@ -23,4 +23,13 @@ public class MessageController extends Controller {
     public Result messages(){
         return ok(jsMessages.apply(Scala.Option("window.Messages"), Helper.messagesFromCurrentHttpContext()));
     }
+
+    public Result changeLangToEnglish(){
+        Controller.changeLang("en");
+        return ok();
+    }
+    public Result changeLangToSpanish(){
+        Controller.changeLang("es");
+        return ok();
+    }
 }

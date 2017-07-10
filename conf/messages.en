@@ -338,3 +338,7 @@ success.message.image.modify = Image modified successfully.
 success.message.restaurant.modify = Restaurant successfully modified
 success.messages.meal.saved = The food has been saved successfully
 success.messages.meal.updated = The food has been successfully edited
+
+#Languages
+language.spanish = Spanish
+language.english = English
