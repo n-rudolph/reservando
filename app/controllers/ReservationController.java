@@ -1,5 +1,7 @@
 package controllers;
 
+import authentication.SecuredClient;
+import authentication.SecuredOwner;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import models.Response.ReservationResponse;
@@ -7,6 +9,7 @@ import models.requestObjects.ReservationObject;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import views.html.*;
 import javax.inject.Inject;
 import play.api.i18n.*;
@@ -25,18 +28,20 @@ public class ReservationController extends Controller{
         this.messagesApi = messagesApi;
     }
 
+    @Security.Authenticated(SecuredClient.class)
     public Result view(){
         Messages messages = messagesApi.preferred(request());
         return ok(newReservation.render(messages));
     }
+    @Security.Authenticated(SecuredClient.class)
     public Result viewClientReservations() {
         Messages messages = messagesApi.preferred(request());
         return ok(myReservations.render(messages));
     }
+    @Security.Authenticated(SecuredOwner.class)
     public Result viewOwnerReservations() {
         Messages messages = messagesApi.preferred(request());
-        return ok(ownerMyReservations.render(messages));
-        //return ok(ownerMyReservations.apply());
+        return ok(ownerMyReservations.apply(messages));
     }
 
     public Result save(){
@@ -61,13 +66,9 @@ public class ReservationController extends Controller{
     }
 
     public Result delete(String id){
-        //Messages messages = messagesApi.preferred(request());
-
         final long l = Long.parseLong(id);
         final Reservation reservation = Reservation.byId(l);
         reservation.delete();
-        //String reservationCancelled = messages.at("reservations.server.response.delete.successfully","");
-        //return ok(reservationCancelled);
         return ok("deleted successfully");
     }
 

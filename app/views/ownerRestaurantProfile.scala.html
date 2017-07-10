@@ -120,6 +120,12 @@
                 <div class="row">
                     <h4>@Messages("owner.restaurant.profile.business.hours")</h4>
                     <div class="col m6">
+                        <h5>{{restaurant.openingHour}}</h5>
+                    </div>
+                    <div class="col m6">
+                        <h5>{{restaurant.closingHour}}</h5>
+                    </div>
+                    <div class="col m6">
                         <div class="input-field">
                             <label for="input_starttime">@Messages("owner.restaurant.profile.from")</label>
                             <input type="text" id="input_starttime" input-clock data-twelvehour="false" ng-model="restaurantEdit.startTime" data-default="{{initTime}}" ng-class="{invalid: errors.time}">
@@ -151,9 +157,9 @@
         <div class="row" ng-hide="editMode">
             <div class="col s6">
                 <div class="row">
-                   @* <ng-map center="[{{restaurant.address.lat}}, {{restaurant.address.lng}}]">
+                    <ng-map center="[{{restaurant.address.lat}}, {{restaurant.address.lng}}]">
                         <marker position="{{restaurant.address.lat}}, {{restaurant.address.lng}}"></marker>
-                    </ng-map>*@
+                    </ng-map>
                 </div>
             </div>
             <div class="col s6 menu">

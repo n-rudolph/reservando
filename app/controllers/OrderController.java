@@ -1,5 +1,7 @@
 package controllers;
 
+import authentication.SecuredClient;
+import authentication.SecuredOwner;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import models.Response.OrderResponse;
@@ -7,6 +9,7 @@ import models.requestObjects.OrderObject;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 import views.html.*;
 import javax.inject.Inject;
 import play.api.i18n.*;
@@ -24,14 +27,17 @@ public class OrderController extends Controller {
        this.messagesApi = messagesApi;
     }
 
+    @Security.Authenticated(SecuredClient.class)
     public Result view(){
         Messages messages = messagesApi.preferred(request());
         return ok(newOrder.render(messages));
     }
+    @Security.Authenticated(SecuredClient.class)
     public Result myOrdersView(){
         Messages messages = messagesApi.preferred(request());
         return ok(myOrders.render(messages));
     }
+    @Security.Authenticated(SecuredOwner.class)
     public Result ownerOrdersView() {
         Messages messages = messagesApi.preferred(request());
         return ok(ownerMyOrders.render(messages));

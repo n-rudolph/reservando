@@ -1,16 +1,9 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import play.libs.Json;
 import play.mvc.*;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Base64;
-import java.util.List;
 import java.util.Random;
 
 /**

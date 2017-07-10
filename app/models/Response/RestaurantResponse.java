@@ -14,7 +14,7 @@ public class RestaurantResponse {
     public List<Cuisine> cuisines;
     public Address address;
     public boolean published;
-    public boolean isLocal;
+    public boolean local;
     public boolean isDeleted;
     public List<Meal> menu;
     public Photo photo;
@@ -31,7 +31,7 @@ public class RestaurantResponse {
         this.cuisines = r.getCuisines();
         this.address = r.getAddress();
         this.published = r.isPublished();
-        this.isLocal = r.isLocal();
+        this.local = r.isLocal();
         this.isDeleted = r.isDeleted();
         this.menu = r.getMenu();
         this.photo = r.getPhoto();

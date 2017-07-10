@@ -1,5 +1,6 @@
 package controllers;
 
+import authentication.SecuredClient;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import models.Response.DeliveryResponse;
@@ -15,6 +16,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import javax.inject.Inject;
 import play.i18n.*;
+import play.mvc.Security;
 
 import java.awt.*;
 import java.io.File;
@@ -205,6 +207,7 @@ public class RestaurantController extends Controller {
         return ok(Json.toJson(newPhoto));
     }
 
+    @Security.Authenticated(SecuredClient.class)
     public Result searchNearMe(String latString, String lngString) {
         double lat = Double.parseDouble(latString);
         double lng = Double.parseDouble(lngString);

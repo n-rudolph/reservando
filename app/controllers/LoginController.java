@@ -1,5 +1,6 @@
 package controllers;
 
+import authentication.SecuredUser;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Client;
 import models.Owner;
@@ -8,6 +9,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import javax.inject.Inject;
 import play.i18n.*;
+import play.mvc.Security;
 
 
 public class LoginController extends Controller{
@@ -62,6 +64,7 @@ public class LoginController extends Controller{
         return ok("/owner/home");
     }
 
+    @Security.Authenticated(SecuredUser.class)
     public Result logout(){
         session().clear();
         return redirect(routes.HomeController.index());

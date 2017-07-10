@@ -1,5 +1,8 @@
 package controllers;
 
+import authentication.NonUserSecured;
+import authentication.SecuredClient;
+import authentication.SecuredOwner;
 import models.Cuisine;
 import models.Day;
 import play.libs.Json;
@@ -28,35 +31,49 @@ public class HomeController extends Controller {
         this.messagesApi = messagesApi;
     }
 
+    @Security.Authenticated(NonUserSecured.class)
     public Result index() {
         Messages messages = messagesApi.preferred(request());
         return ok(login.render(messages));
     }
 
+    @Security.Authenticated(SecuredClient.class)
     public Result clientHome() {
         Messages messages = messagesApi.preferred(request());
         return ok(clientHome.render(messages));
     }
+
+    @Security.Authenticated(SecuredOwner.class)
     public Result ownerHome() {
         Messages messages = messagesApi.preferred(request());
         return ok(ownerHome.render(messages));
     }
+
+    @Security.Authenticated(SecuredOwner.class)
     public Result newRestaurant(){
         Messages messages = messagesApi.preferred(request());
         return ok(newRestaurant.render(messages));
     }
+
+    @Security.Authenticated(SecuredOwner.class)
     public Result ownerRestaurants(){
         Messages messages = messagesApi.preferred(request());
         return ok(ownerRestaurants.render(messages));
     }
+
+    @Security.Authenticated(SecuredOwner.class)
     public Result ownerRestaurant() {
         Messages messages = messagesApi.preferred(request());
         return ok(ownerRestaurantProfile.render(messages));
     }
+
+    @Security.Authenticated(SecuredClient.class)
     public Result clientRestaurant() {
         Messages messages = messagesApi.preferred(request());
         return ok(restaurant.render(messages));
     }
+
+    @Security.Authenticated(SecuredClient.class)
     public Result clientProfile(){
         Messages messages = messagesApi.preferred(request());
         return ok(clientProfile.render(messages));
@@ -69,6 +86,7 @@ public class HomeController extends Controller {
     public Result getDays() {
         return ok(Json.toJson(Day.all()));
     }
+
     public Result getCuisines() {
         return ok(Json.toJson(Cuisine.all()));
     }
