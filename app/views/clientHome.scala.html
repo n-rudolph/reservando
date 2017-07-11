@@ -85,7 +85,8 @@
                                    <p class="truncate">{{printCuisines(result)}}</p>
                                </div>
                                <div class="card-action">
-                                   <a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(result.id)">{{result.local ? 'Ver Local' : 'Ver Delivery'}}</a>
+                                   <a class="btn-flat" style="width: 100%; text-align: center" ng-show="result.local" ng-click="openRestaurant(result.id)">@Messages("client.home.see.local")</a>
+                                   <a class="btn-flat" style="width: 100%; text-align: center" ng-hide="result.local" ng-click="openRestaurant(result.id)">@Messages("client.home.see.delivery")</a>
                                    @*<a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(result.id)">{{result.local ? @Messages("client.home.see.local") : @Messages("client.home.see.delivery")}}</a>*@
                                </div>
                            </div>
@@ -150,7 +151,8 @@
                                <p class="truncate">{{printCuisines(recommendation)}}</p>
                            </div>
                            <div class="card-action">
-                               <a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(recommendation.id)">{{recommendation.local ? 'Ver Local' : 'Ver Delivery'}}</a>
+                               <a class="btn-flat" style="width: 100%; text-align: center" ng-show="recommendation.local" ng-click="openRestaurant(recommendation.id)">@Messages("client.home.see.local")</a>
+                               <a class="btn-flat" style="width: 100%; text-align: center" ng-hide="recommendation.local" ng-click="openRestaurant(recommendation.id)">@Messages("client.home.see.delivery")</a>
                                @*<a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(recommendation.id)">{{recommendation.local ? @Messages("client.home.see.local") : @Messages("client.home.see.delivery")}}</a>*@
                            </div>
                        </div>
