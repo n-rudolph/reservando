@@ -78,6 +78,8 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         showThisCuisines: []
     };
 
+    $scope.filteredResults = [];
+
     /*This load the current user data (the main purpose of this is to load the user recommendations)*/
     var loadUserDataAndRecommendations = function(){
         serverCommunication.getFromUrl('/client/profile/user')
