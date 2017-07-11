@@ -122,7 +122,7 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
                     $scope.currentPage = 1;
                     $scope.result.allResults = responseData;
                     $scope.geoResult = true;
-                    initMap();
+                    //initMap();
                     responseData.length === 0 ? $scope.result.noResults = true : $scope.result.noResults = false;
                     loadFilters(responseData);
                 })
