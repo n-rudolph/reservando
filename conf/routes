@@ -46,7 +46,6 @@ DELETE  /meal/:mid                  controllers.MealController.delete(mid: Strin
 #Owner
 GET     /owner/home                 controllers.HomeController.ownerHome
 GET     /owner/new-restaurant       controllers.HomeController.newRestaurant
-#GET     /owner/profile              controllers.OwnerProfileController.ownerProfile
 GET     /owner/profile              controllers.HomeController.ownerProfile
 GET     /owner/restaurant           controllers.HomeController.ownerRestaurant
 GET     /owner/restaurants          controllers.HomeController.ownerRestaurants

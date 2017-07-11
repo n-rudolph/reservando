@@ -14,6 +14,9 @@ app.controller("OwnerRestaurantsCtrl", function ($scope, $http, $window) {
     $scope.minIndex = 0;
     $scope.maxIndex = 8;
 
+    //Var used when the restaurant has not been rated yet.
+    $scope.nonQualification = 0;
+
     $scope.getRestaurants = function(){
         $scope.loading = true;
         $http.get('/restaurants/of-owner').then(function(response){

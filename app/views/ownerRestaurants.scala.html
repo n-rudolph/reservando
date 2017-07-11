@@ -26,7 +26,7 @@
                     </div>
                     <div class="card-content">
                         <span class="card-title activator grey-text text-darken-4">
-                            <ng-rate-it ng-model="0" min="0" max="5" read-only="true" ng-show="restaurant.qualification == -1"></ng-rate-it>
+                            <ng-rate-it ng-model="nonQualification" min="0" max="5" read-only="true" ng-show="restaurant.qualification == -1"></ng-rate-it>
                             <ng-rate-it ng-model="restaurant.qualification" min="0" max="5" read-only="true" ng-show="restaurant.qualification != -1"></ng-rate-it>
                             <i class="material-icons right">more_vert</i>
                         </span>
