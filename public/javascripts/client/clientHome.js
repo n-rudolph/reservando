@@ -79,6 +79,8 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
     };
 
     $scope.filteredResults = [];
+    //Var used when the restaurant has not been rated yet.
+    $scope.nonQualification = 0;
 
     /*This load the current user data (the main purpose of this is to load the user recommendations)*/
     var loadUserDataAndRecommendations = function(){
@@ -95,7 +97,6 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         };
         serverCommunication.postToUrl(dataToPost,"/client/getRecommendations")
             .then(function (responseData) {
-                console.log(responseData);
                 $scope.recommendations = responseData;
             })
             .catch(function(error){

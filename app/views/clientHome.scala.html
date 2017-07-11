@@ -80,7 +80,7 @@
                                    <span class="card-title">{{result.name}}</span>
                                </div>
                                <div class="card-content">
-                                   <ng-rate-it ng-model="0" min="0" max="5" read-only="true" ng-show="result.qualification == -1"></ng-rate-it>
+                                   <ng-rate-it ng-model="nonQualification" min="0" max="5" read-only="true" ng-show="result.qualification == -1"></ng-rate-it>
                                    <ng-rate-it ng-model="result.qualification" min="0" max="5" read-only="true" ng-show="result.qualification != -1"></ng-rate-it>
                                    <p class="truncate">{{printCuisines(result)}}</p>
                                </div>
@@ -151,7 +151,7 @@
                                <span class="card-title">{{recommendation.name}}</span>
                            </div>
                            <div class="card-content">
-                               <ng-rate-it ng-model="0" min="0" max="5" read-only="true" ng-show="recommendation.qualification == -1"></ng-rate-it>
+                               <ng-rate-it ng-model="nonQualification" min="0" max="5" read-only="true" ng-show="recommendation.qualification == -1"></ng-rate-it>
                                <ng-rate-it ng-model="recommendation.qualification" min="0" max="5" read-only="true" ng-show="recommendation.qualification != -1"></ng-rate-it>
                                <p class="truncate">{{printCuisines(recommendation)}}</p>
                            </div>
