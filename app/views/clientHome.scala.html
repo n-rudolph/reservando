@@ -13,11 +13,11 @@
                        <div class="collapsible-header"><i class="material-icons">restaurant</i>@Messages("client.home.type.of.local")</div>
                        <div class="collapsible-body">
                            <p ng-show="filtersToShow.thereAreRestaurants">
-                               <input type="checkbox" class="filled-in" id="filterByRestaurant" ng-model="filtersApplied.showRestaurants" ng-change="applyFilters()" ng-checked="true">
+                               <input type="checkbox" class="filled-in" id="filterByRestaurant" ng-model="filtersApplied.showRestaurants" ng-checked="true">
                                <label for="filterByRestaurant">@Messages("client.home.restaurant")</label>
                            </p>
                            <p ng-show="filtersToShow.thereAreDeliveries">
-                               <input type="checkbox" class="filled-in" id="filterByDelivery" ng-model="filtersApplied.showDeliveries" ng-change="applyFilters()" ng-checked="true">
+                               <input type="checkbox" class="filled-in" id="filterByDelivery" ng-model="filtersApplied.showDeliveries" ng-checked="true">
                                <label for="filterByDelivery">@Messages("client.home.delivery")</label>
                            </p>
                        </div>
@@ -25,9 +25,9 @@
                    <li>
                        <div class="collapsible-header"><i class="material-icons">place</i>@Messages("client.home.zone")</div>
                        <div class="collapsible-body">
-                           <p ng-repeat="zone in zones">
-                               <input type="checkbox" class="filled-in" id="filterByZone{{zone.zone}}" ng-checked="true">
-                               <label for="filterByZone{{zone.zone}}">{{zone.zone}}</label>
+                           <p ng-repeat="city in filtersToShow.cities">
+                               <input type="checkbox" class="filled-in" id="filterByCity{{city.name}}" ng-model="filtersApplied.showThisCities[getCityIndex(city)].isActive" ng-checked="true">
+                               <label for="filterByCity{{city.name}}">{{city.name}}</label>
                            </p>
                        </div>
                    </li>
@@ -35,7 +35,7 @@
                        <div class="collapsible-header"><i class="material-icons">whatshot</i>@Messages("client.home.cuisine")</div>
                        <div class="collapsible-body">
                            <p ng-repeat="cuisine in filtersToShow.cuisines" ng-show="$index < 10">
-                               <input type="checkbox" class="filled-in" id="filterByCuisine{{cuisine.name}}" ng-model="filtersApplied.showThisCuisines[getIndex(cuisine)].isActive" ng-change="applyFilters()" ng-checked="true">
+                               <input type="checkbox" class="filled-in" id="filterByCuisine{{cuisine.name}}" ng-model="filtersApplied.showThisCuisines[getCuisineIndex(cuisine)].isActive" ng-checked="true">
                                <label for="filterByCuisine{{cuisine.name}}">{{cuisine.name}}</label>
                            </p>
                        </div>

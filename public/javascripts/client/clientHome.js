@@ -69,13 +69,15 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
     $scope.filtersToShow = {
         thereAreRestaurants: false,
         thereAreDeliveries: false,
-        cuisines: []
+        cuisines: [],
+        cities: []
     };
 
     $scope.filtersApplied = {
         showRestaurants: true,
         showDeliveries: true,
-        showThisCuisines: []
+        showThisCuisines: [],
+        showThisCities: []
     };
 
     $scope.filteredResults = [];
@@ -127,7 +129,7 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
                     $scope.geoResult = true;
                     //initMap();
                     responseData.length === 0 ? $scope.result.noResults = true : $scope.result.noResults = false;
-                    loadFilters(responseData);
+                    $scope.loadFilters(responseData);
                 })
                 .catch(function(){
                     var error = Message("error.message.search.could.not.performed");
@@ -166,9 +168,17 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
             })
     };
 
-    $scope.getIndex = function(cuisine){
+    $scope.getCuisineIndex = function(cuisine){
         for(var i = 0; i < $scope.filtersApplied.showThisCuisines.length; i++){
             if($scope.filtersApplied.showThisCuisines[i].name === cuisine.name){
+                return i;
+            }
+        }
+    };
+
+    $scope.getCityIndex = function(city){
+        for(var i = 0; i < $scope.filtersApplied.showThisCities.length; i++){
+            if($scope.filtersApplied.showThisCities[i].name === city.name){
                 return i;
             }
         }
@@ -210,7 +220,7 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
                 $scope.geoResult = true;
                 initMap();
                 response.data.length === 0 ? $scope.result.noResults = true : $scope.result.noResults = false;
-                loadFilters(response.data);
+                $scope.loadFilters(response.data);
                 $scope.showMap = true;
                 $timeout(function(){
                     $scope.showMap = false;
@@ -295,10 +305,11 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
     /*Useful functions*/
 
     /*This function is used to load all the filters dynamically*/
-    var loadFilters = function(results){
+    $scope.loadFilters = function(results){
         $scope.filtersToShow.thereAreRestaurants = false;
         $scope.filtersToShow.thereAreDeliveries = false;
         $scope.filtersToShow.cuisines = [];
+        $scope.filtersToShow.cities = [];
 
         for(var i = 0; i < results.length; i++){
             var restaurant = results[i];
@@ -319,6 +330,37 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
                     $scope.filtersToShow.cuisines[currentIndex] = {name: cuisines[j].name}
                 }
             }
+
+            //loads all the cities which are in the results.
+            var restaurantLatitude =results[i].address.lat;
+            var restaurantLongitude =results[i].address.lng;
+            var geocoder;
+            geocoder = new google.maps.Geocoder();
+            var latlng = new google.maps.LatLng(restaurantLatitude,restaurantLongitude);
+            geocoder.geocode(
+                {'latLng': latlng},
+                function(results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        if (results[0]) {
+                            var address_components = results[0].address_components;
+                            var neighborhood = address_components[2];
+                            var city = address_components[3].short_name;
+                            if(!isThisCityHere(city,$scope.filtersToShow.cities)){
+                                var currentIndex = $scope.filtersToShow.cities.length;
+                                $scope.filtersToShow.cities[currentIndex] = {name: city};
+                                $scope.$digest();
+                            }
+                        }
+                        else  {
+                            console.log("address not found");
+                        }
+                    }
+                    else {
+                        console.log("Geocoder failed due to: " + status);
+                    }
+                }
+            );
+
         }
 
         /*This loads all the cuisines in the filterApplied.cuisines and set the value (isActive) to true */
@@ -328,9 +370,26 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
                 isActive: true
             }
         }
+
+        /*This loads all the cities in the filterApplied.cities and set the value (isActive) to true */
+        for (var q = 0; q < $scope.filtersToShow.cities.length; q++){
+            $scope.filtersApplied.showThisCities[q] = {
+                name: $scope.filtersToShow.cities[q].name,
+                isActive: true
+            }
+        }
+
     };
 
-    /*Function used on the load filters function. Used to not repeat the same value in the filters to show*/
+    /*Function used on the load filters function, to not repeat the same value (city) in the filters to show*/
+    var isThisCityHere = function(city, cityList){
+        for(var i = 0; i < cityList.length; i++){
+            if(cityList[i].name === city) return true;
+        }
+        return false;
+    };
+
+    /*Function used on the load filters function. Used to not repeat the same value (cuisine) in the filters to show*/
     var isThisCuisineHere = function(cuisine, cuisineList){
         for(var i = 0; i < cuisineList.length; i++){
             if((cuisineList[i].name) === cuisine.name) {
