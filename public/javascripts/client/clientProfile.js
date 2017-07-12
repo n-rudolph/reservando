@@ -1,5 +1,6 @@
 var app = angular.module("reservandoApp");
 app.requires.push('ngMap');
+app.requires.push('vsGoogleAutocomplete');
 
 app.service('serverCommunication', ['$http','$q', function ($http, $q){
     this.postToUrl = function(data, uploadUrl, successResponse, errorResponse){
@@ -44,6 +45,10 @@ app.service('serverCommunication', ['$http','$q', function ($http, $q){
 app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$window', function ($scope, $http, serverCommunication, $window) {
 
     $scope.editMode = false;
+    $scope.address = {};
+    $scope.options = {
+        componentRestrictions: { country: 'AR' }
+    };
 
     /*This load the current user data*/
     var loadUserData = function(){

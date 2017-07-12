@@ -5,9 +5,14 @@
 
 create table address (
   id                        bigint not null,
-  address                   varchar(255),
+  complete_address          varchar(255),
   lat                       double,
   lng                       double,
+  place                     varchar(255),
+  city                      varchar(255),
+  state                     varchar(255),
+  country                   varchar(255),
+  district                  varchar(255),
   constraint pk_address primary key (id))
 ;
 

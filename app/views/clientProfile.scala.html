@@ -104,8 +104,11 @@
                         </div>
                         <div class="row">
                             <div class="input-field col s12">
-                                <input id="ownerAddress" type="text" class="validate" onfocus="geolocate()" autofocus ng-model="editUser.address.addressString" ng-class="{invalid: errors.address}">
-                                <label for="ownerAddress">Dirección</label>
+                                <input type="text" id="address"
+                                ng-model="address.name" vs-google-autocomplete="options"
+                                vs-autocomplete-validator vs-place="address.place"
+                                vs-city="address.city" vs-state="address.state" vs-country="address.country"
+                                vs-district="address.district" vs-latitude="address.lat" vs-longitude="address.lng">
                             </div>
                         </div>
                         <div class="row info-buttons">
@@ -173,6 +176,8 @@
     } {
         <script src="@routes.Assets.versioned("javascripts/utils/geocode.js")"></script>
         <script src="@routes.Assets.versioned("external/ngMap/ng-map.min.js")"></script>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDM9GdrRT-5ML6OHeHGIIs0zNFjJmOaQUM"></script>
-        <script src="@routes.Assets.versioned("javascripts/client/clientProfile.js")"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDM9GdrRT-5ML6OHeHGIIs0zNFjJmOaQUM&libraries=places"></script>
+    <script src="@routes.Assets.versioned("external/vs-google-autocomplete/vs-google-autocomplete.js")"></script>
+    <script src="@routes.Assets.versioned("external/vs-google-autocomplete/vs-autocomplete-validator.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/client/clientProfile.js")"></script>
     }

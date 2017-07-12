@@ -32,31 +32,25 @@ public class RestaurantController extends Controller {
         if (restaurantObject.isLocal){
             final Local local = restaurantObject.toLocal(owner);
             final Photo photo = ImageUtils.saveImage(restaurantObject.photo);
-            if (photo != null){
-                local.save();
-                photo.save();
-                local.setPhoto(photo);
-                local.update();
-                owner.addRestaurant(local);
-                owner.update();
-                return ok(Json.toJson(local));
-            }else{
-                return badRequest("error al guardar la imagen");
-            }
+            return savePhoto(owner, local, photo);
         } else {
             final Delivery delivery = restaurantObject.toDelivery(owner);
             final Photo photo = ImageUtils.saveImage(restaurantObject.photo);
-            if (photo != null){
-                photo.save();
-                delivery.save();
-                delivery.setPhoto(photo);
-                delivery.update();
-                owner.addRestaurant(delivery);
-                owner.update();
-                return ok(Json.toJson(delivery));
-            }else{
-                return badRequest("error al guardar la imagen");
-            }
+            return savePhoto(owner, delivery, photo);
+        }
+    }
+
+    private Result savePhoto(Owner owner, Restaurant restaurant, Photo photo) {
+        if (photo != null){
+            restaurant.save();
+            photo.save();
+            restaurant.setPhoto(photo);
+            restaurant.update();
+            owner.addRestaurant(restaurant);
+            owner.update();
+            return ok(Json.toJson(restaurant));
+        }else{
+            return badRequest("error al guardar la imagen");
         }
     }
 
@@ -75,9 +69,15 @@ public class RestaurantController extends Controller {
                     .setCuisines(restaurantEditObject.cuisines)
                     .setOpeningDays(restaurantEditObject.days)
                     .getAddress()
-                    .setAddress(restaurantEditObject.address.addressString)
+                    .setCompleteAddress(restaurantEditObject.address.name)
                     .setLng(restaurantEditObject.address.lng)
                     .setLat(restaurantEditObject.address.lat);
+
+            restaurantEditObject.address.place.ifPresent(s -> local.getAddress().setPlace(s));
+            restaurantEditObject.address.city.ifPresent(s -> local.getAddress().setCity(s));
+            restaurantEditObject.address.state.ifPresent(s -> local.getAddress().setState(s));
+            restaurantEditObject.address.country.ifPresent(s -> local.getAddress().setCountry(s));
+            restaurantEditObject.address.district.ifPresent(s -> local.getAddress().setDistrict(s));
 
             local.update();
             return ok(Json.toJson(new LocalResponse(local)));
@@ -92,9 +92,16 @@ public class RestaurantController extends Controller {
                     .setCuisines(restaurantEditObject.cuisines)
                     .setOpeningDays(restaurantEditObject.days)
                     .getAddress()
-                    .setAddress(restaurantEditObject.address.addressString)
+                    .setCompleteAddress(restaurantEditObject.address.name)
                     .setLng(restaurantEditObject.address.lng)
                     .setLat(restaurantEditObject.address.lat);
+
+            restaurantEditObject.address.place.ifPresent(s -> delivery.getAddress().setPlace(s));
+            restaurantEditObject.address.city.ifPresent(s -> delivery.getAddress().setCity(s));
+            restaurantEditObject.address.state.ifPresent(s -> delivery.getAddress().setState(s));
+            restaurantEditObject.address.country.ifPresent(s -> delivery.getAddress().setCountry(s));
+            restaurantEditObject.address.district.ifPresent(s -> delivery.getAddress().setDistrict(s));
+
             delivery.update();
             return ok(Json.toJson(delivery));
         }

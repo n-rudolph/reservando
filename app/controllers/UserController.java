@@ -43,9 +43,15 @@ public class UserController extends Controller{
         user.setFirstName(userEditObject.firstName)
                 .setLastName(userEditObject.lastName);
         user.getAddress()
-                .setAddress(userEditObject.address.addressString)
+                .setCompleteAddress(userEditObject.address.name)
                 .setLat(userEditObject.address.lat)
                 .setLng(userEditObject.address.lng);
+
+        userEditObject.address.place.ifPresent(s -> user.getAddress().setPlace(s));
+        userEditObject.address.city.ifPresent(s -> user.getAddress().setCity(s));
+        userEditObject.address.state.ifPresent(s -> user.getAddress().setState(s));
+        userEditObject.address.country.ifPresent(s -> user.getAddress().setCountry(s));
+        userEditObject.address.district.ifPresent(s -> user.getAddress().setDistrict(s));
 
         if (!userEditObject.email.equals(session().get("email"))){
             final User userByEmail = User.getUserByEmail(userEditObject.email);

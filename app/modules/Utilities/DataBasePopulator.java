@@ -271,7 +271,7 @@ public class DataBasePopulator {
 
         for (Delivery delivery : deliveries){
             Client client = (Client) Client.getUserByEmail("client@gmail.com");
-            String address = Client.getClientByEmail("client@gmail.com").getAddress().getAddress();
+            String address = Client.getClientByEmail("client@gmail.com").getAddress().getCompleteAddress();
 
             List<MealOrder> meals = getSomeMealOrders(delivery, 3);
             DeliveryOrder order = new DeliveryOrder(client, delivery, meals, address, null);
@@ -285,7 +285,7 @@ public class DataBasePopulator {
 
         for (Delivery delivery : deliveries){
             Client client = (Client) Client.getUserByEmail("client@gmail.com");
-            String address = Client.getClientByEmail("client@gmail.com").getAddress().getAddress();
+            String address = Client.getClientByEmail("client@gmail.com").getAddress().getCompleteAddress();
 
             List<MealOrder> meals = getSomeMealOrders(delivery, 3);
             DeliveryOrder order = new DeliveryOrder(client, delivery, meals, address, null);
