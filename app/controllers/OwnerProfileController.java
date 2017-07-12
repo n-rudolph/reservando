@@ -7,6 +7,8 @@ import play.libs.Json;
 import play.mvc.*;
 import views.html.*;
 import org.joda.time.DateTime;
+import javax.inject.Inject;
+import play.api.i18n.*;
 
 import java.util.List;
 import java.util.Random;
@@ -18,8 +20,17 @@ import java.util.Random;
  */
 public class OwnerProfileController extends Controller {
 
+    private MessagesApi messagesApi;
 
-    public Result ownerProfile(){ return ok(ownerProfile.render());}
+    @Inject
+    public OwnerProfileController(MessagesApi messagesApi){
+        this.messagesApi = messagesApi;
+    }
+
+    /*public Result ownerProfile(){
+        Messages messages = messagesApi.preferred(request());
+        return ok(ownerProfile.render(messages));
+    }*/
 
     public Result getOwner(){
         Owner owner = getCurrentOwner();

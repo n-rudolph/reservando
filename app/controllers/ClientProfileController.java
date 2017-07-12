@@ -1,10 +1,8 @@
 package controllers;
 
-import authentication.SecuredClient;
 import models.*;
 import play.libs.Json;
 import play.mvc.*;
-import views.html.*;
 
 import java.util.Random;
 
@@ -13,9 +11,10 @@ import java.util.Random;
  * to the application's clientProfile page.
  */
 public class ClientProfileController extends Controller {
-
-    @Security.Authenticated(SecuredClient.class)
-    public Result clientProfile(){ return ok(clientProfile.render());}
+    /*public Result clientProfile(){
+        Messages messages = messagesApi.preferred(request());
+        return ok(clientProfile.render(messages));
+    }*/
 
     public Result getClient(){
         Client client = getCurrentClient();

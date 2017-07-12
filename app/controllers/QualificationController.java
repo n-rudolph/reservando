@@ -9,10 +9,22 @@ import models.requestObjects.QualificationObject;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import javax.inject.Inject;
+import play.api.i18n.*;
 
 public class QualificationController extends Controller {
 
+    private MessagesApi messagesApi;
+
+    @Inject
+    public QualificationController(MessagesApi messagesApi){
+        this.messagesApi = messagesApi;
+    }
+
     public Result addQualification(){
+        //I18N
+        Messages messages = messagesApi.preferred(request());
+
         final JsonNode jsonNode = request().body().asJson();
         final String email = session().get("email");
         final Client client = Client.byEmail(email);

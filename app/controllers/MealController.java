@@ -12,11 +12,20 @@ import modules.ImageUtils;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import javax.inject.Inject;
+import play.i18n.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class MealController extends Controller {
+
+    private MessagesApi messagesApi;
+
+    @Inject
+    public MealController(MessagesApi messagesApi){
+        this.messagesApi = messagesApi;
+    }
 
     public Result getMenu(String rid){
         final List<MealResponse> menu = Meal.getByRestaurant(Restaurant.byId(Long.parseLong(rid))).stream().filter(m -> !m.isDeleted()).map(MealResponse::new).collect(Collectors.toList());
@@ -49,11 +58,16 @@ public class MealController extends Controller {
     }
 
     public Result delete(String mid){
+        //I18N
+        Messages messages =  messagesApi.preferred(request());
+
         final long id = Long.parseLong(mid);
         final Meal meal = Meal.byId(id);
         meal.setDeleted(true);
         meal.update();
-        return ok("Meal deleted successfully");
+        String mealDeleted = messages.at("meal.server.response.delete.successfully", "");
+        return ok(mealDeleted);
+        //return ok("Meal deleted successfully");
     }
 
     public Result update(String mid){

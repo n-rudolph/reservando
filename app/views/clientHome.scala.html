@@ -1,28 +1,29 @@
-@()
+@(messages: Messages)
 @views.html.main("Reservando"){
-    @clientNav()
+    @clientNav(messages)
+    @languageSelector(messages)
     <div ng-controller="ClientHomeCtrl">
        <div class="sidebar" ng-show="!result.noResults">
            <div class="col m12">
                <ul class="collapsible" data-collapsible="accordion">
                    <li>
-                       <div class="collapsible-header">Filtros</div>
+                       <div class="collapsible-header">@Messages("client.home.filters")</div>
                    </li>
                    <li>
-                       <div class="collapsible-header"><i class="material-icons">restaurant</i>Tipo de local</div>
+                       <div class="collapsible-header"><i class="material-icons">restaurant</i>@Messages("client.home.type.of.local")</div>
                        <div class="collapsible-body">
                            <p ng-show="filtersToShow.thereAreRestaurants">
                                <input type="checkbox" class="filled-in" id="filterByRestaurant" ng-model="filtersApplied.showRestaurants" ng-change="applyFilters()" ng-checked="true">
-                               <label for="filterByRestaurant">Restaurant</label>
+                               <label for="filterByRestaurant">@Messages("client.home.restaurant")</label>
                            </p>
                            <p ng-show="filtersToShow.thereAreDeliveries">
                                <input type="checkbox" class="filled-in" id="filterByDelivery" ng-model="filtersApplied.showDeliveries" ng-change="applyFilters()" ng-checked="true">
-                               <label for="filterByDelivery">Delivery</label>
+                               <label for="filterByDelivery">@Messages("client.home.delivery")</label>
                            </p>
                        </div>
                    </li>
                    <li>
-                       <div class="collapsible-header"><i class="material-icons">place</i>Zona</div>
+                       <div class="collapsible-header"><i class="material-icons">place</i>@Messages("client.home.zone")</div>
                        <div class="collapsible-body">
                            <p ng-repeat="zone in zones">
                                <input type="checkbox" class="filled-in" id="filterByZone{{zone.zone}}" ng-checked="true">
@@ -31,7 +32,7 @@
                        </div>
                    </li>
                    <li>
-                       <div class="collapsible-header"><i class="material-icons">whatshot</i>Cocina</div>
+                       <div class="collapsible-header"><i class="material-icons">whatshot</i>@Messages("client.home.cuisine")</div>
                        <div class="collapsible-body">
                            <p ng-repeat="cuisine in filtersToShow.cuisines" ng-show="$index < 10">
                                <input type="checkbox" class="filled-in" id="filterByCuisine{{cuisine.name}}" ng-model="filtersApplied.showThisCuisines[getIndex(cuisine)].isActive" ng-change="applyFilters()" ng-checked="true">
@@ -48,19 +49,21 @@
                <div class="row search-container">
                    <div class="input-field col m6">
                        <input placeholder="Busque por nombre o cocina" id="searchInput" type="text" ng-model="wordToSearch" class="autocomplete" ng-change="searchForAutocomplete()">
+                       @*<input placeholder=@Messages("client.home.search.placeholder") id="searchInput" type="text" ng-model="wordToSearch" class="autocomplete" ng-change="searchForAutocomplete()">*@
                    </div>
                    <div class="col m3">
-                       <a id="searchButton" class="waves-effect wave-light btn-large btn big-btn" ng-click="search()">Buscar</a>
+                       <a id="searchButton" class="waves-effect wave-light btn-large btn big-btn" ng-click="search()">@Messages("client.home.search")</a>
                    </div>
                    <div class="col m3">
-                       <div class="waves-effect wave-light btn-large btn big-btn" ng-click="searchNearMe()">Cerca mio</div>
+                       @*<div class="waves-effect wave-light btn-large btn big-btn" ng-click="searchNearMe()">Cerca mio</div>*@
+                       <div class="waves-effect wave-light btn-large btn big-btn" ng-click="searchNearMe()">@Messages("client.home.near.me")</div>
                    </div>
                </div>
            </div>
            @*Results*@
            <div class="row" ng-show="filteredResults.length > 0">
                <div class="col m10 offset-m1">
-                   <h4 class="center-align">Resultados</h4>
+                   <h4 class="center-align">@Messages("client.home.results")</h4>
                </div>
                <div class="col m1"><span><i class="material-icons small switch-list" ng-hide="showMap" ng-click="viewMap()">map</i></span></div>
                <div class="col m1"><span><i class="material-icons small switch-list" ng-show="showMap" ng-click="showMap = false">view_list</i></span></div>
@@ -77,12 +80,14 @@
                                    <span class="card-title">{{result.name}}</span>
                                </div>
                                <div class="card-content">
-                                   <ng-rate-it ng-model="0" min="0" max="5" read-only="true" ng-show="result.qualification == -1"></ng-rate-it>
+                                   <ng-rate-it ng-model="nonQualification" min="0" max="5" read-only="true" ng-show="result.qualification == -1"></ng-rate-it>
                                    <ng-rate-it ng-model="result.qualification" min="0" max="5" read-only="true" ng-show="result.qualification != -1"></ng-rate-it>
                                    <p class="truncate">{{printCuisines(result)}}</p>
                                </div>
                                <div class="card-action">
-                                   <a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(result.id)">{{result.local ? 'Ver Local' : 'Ver Delivery'}}</a>
+                                   <a class="btn-flat" style="width: 100%; text-align: center" ng-show="result.local" ng-click="openRestaurant(result.id)">@Messages("client.home.see.local")</a>
+                                   <a class="btn-flat" style="width: 100%; text-align: center" ng-hide="result.local" ng-click="openRestaurant(result.id)">@Messages("client.home.see.delivery")</a>
+                                   @*<a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(result.id)">{{result.local ? @Messages("client.home.see.local") : @Messages("client.home.see.delivery")}}</a>*@
                                </div>
                            </div>
                        </div>
@@ -110,14 +115,19 @@
                        <marker ng-repeat="result in filteredResults" position="{{result.address.lat}}, {{result.address.lng}}" on-click="showInfoMarker(event, result)"></marker>
                        <info-window id="myInfoWindow">
                             <div ng-non-bindable>
-                                <div class="col m2">
+                                <h3 class="first-titled-pane">{{restaurantSelectedInMap.name}}</h3>
+                                <div class="bodyContent">
+                                    <p>{{restaurantSelectedInMap.description}}</p>
+                                    <a class="waves-effect waves-light btn" ng-click="openRestaurant(restaurantSelectedInMap.id)">@Messages("client.home.see")</a>
+                                </div>
+                                @*<div class="col m2">
                                     <img width="100" class="responsive-img" ng-src="@routes.Assets.versioned("{{restaurantSelectedInMap.photo.path}}")" ng-show="restaurantSelectedInMap.photo" align="left">
                                     <img width="100" class="responsive-img" ng-src="@routes.Assets.versioned("images/placeholder/restaurant.jpg")" ng-hide="restaurantSelectedInMap.photo" align="left">
                                 </div>
                                 <div class="col m10">
                                     <h5>{{restaurantSelectedInMap.name}}</h5>
-                                    <a class="waves-effect waves-light btn" ng-click="openRestaurant(restaurantSelectedInMap.id)">Ver</a>
-                                </div>
+                                    <a class="waves-effect waves-light btn" ng-click="openRestaurant(restaurantSelectedInMap.id)">@Messages("client.home.see")</a>
+                                </div>*@
                             </div>
                        </info-window>
                    </ng-map>
@@ -128,7 +138,7 @@
            <div id="recommendations" ng-show="filteredResults.length == 0">
                <div class="row">
                    <div class="col m12">
-                       <h4 class="center-align">Sugerencias</h4>
+                       <h4 class="center-align">@Messages("client.home.suggestions")</h4>
                    </div>
                </div>
 
@@ -141,12 +151,14 @@
                                <span class="card-title">{{recommendation.name}}</span>
                            </div>
                            <div class="card-content">
-                               <ng-rate-it ng-model="0" min="0" max="5" read-only="true" ng-show="recommendation.qualification == -1"></ng-rate-it>
+                               <ng-rate-it ng-model="nonQualification" min="0" max="5" read-only="true" ng-show="recommendation.qualification == -1"></ng-rate-it>
                                <ng-rate-it ng-model="recommendation.qualification" min="0" max="5" read-only="true" ng-show="recommendation.qualification != -1"></ng-rate-it>
                                <p class="truncate">{{printCuisines(recommendation)}}</p>
                            </div>
                            <div class="card-action">
-                               <a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(recommendation.id)">{{recommendation.local ? 'Ver Local' : 'Ver Delivery'}}</a>
+                               <a class="btn-flat" style="width: 100%; text-align: center" ng-show="recommendation.local" ng-click="openRestaurant(recommendation.id)">@Messages("client.home.see.local")</a>
+                               <a class="btn-flat" style="width: 100%; text-align: center" ng-hide="recommendation.local" ng-click="openRestaurant(recommendation.id)">@Messages("client.home.see.delivery")</a>
+                               @*<a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(recommendation.id)">{{recommendation.local ? @Messages("client.home.see.local") : @Messages("client.home.see.delivery")}}</a>*@
                            </div>
                        </div>
                    </div>
@@ -164,5 +176,6 @@
     <script src="@routes.Assets.versioned("javascripts/utils/geocode.js")"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyDM9GdrRT-5ML6OHeHGIIs0zNFjJmOaQUM&libraries=places&callback=initGoogleMapFunctionality"></script>
     <script src="@routes.Assets.versioned("external/ngMap/ng-map.min.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/languageSelector.js")"></script>
 
 }

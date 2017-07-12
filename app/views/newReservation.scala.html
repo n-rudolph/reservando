@@ -1,15 +1,16 @@
-@()
+@(messages: Messages)
 @views.html.main("Reservando") {
-    @clientNav()
+    @clientNav(messages)
+    @languageSelector(messages)
     <div class="container" ng-controller="NewReservationCtrl">
         <div class="row title">
-            <h3>Nueva reserva en {{restaurant.name}}</h3>
+            <h3>@Messages("client.new.reservation.new.reservation.in"): {{restaurant.name}}</h3>
         </div>
         <div class="row">
             <div class="col s6">
                 <div class="row">
                     <div class="col s12">
-                        <h5>Seleccionar fecha</h5>
+                        <h5>@Messages("client.new.reservation.select.date")</h5>
                     </div>
                     <div class="col s12">
                         <div class="input-field">
@@ -22,13 +23,13 @@
                                 disable ="disable"
                                 ng-change="checkComplete()"
                             >
-                            <label for="selectedDay" class="active">Fecha</label>
+                            <label for="selectedDay" class="active">@Messages("client.new.reservation.date")</label>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <h5>Seleccionar horario</h5>
+                        <h5>@Messages("client.new.reservation.select.time")</h5>
                     </div>
                     <div class="col s12">
                         <div class="timeChip hoverable valign-wrapper waves-effect waves-red waves-ripple z-depth-2" ng-repeat="turn in turns" ng-class="{'selected': $index == selectedTurnIndex, 'z-depth-4': $index == selectedTurnIndex}" ng-click="selectTurn($index)">
@@ -38,36 +39,36 @@
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <h5>Cantidad de personas</h5>
+                        <h5>@Messages("client.new.reservation.amount.of.people")</h5>
                     </div>
                     <div class="col s12">
                         <div class="input-field">
                             <input type="number" name="amount" id="amount" ng-model="reservation.amount"
                                 ng-change="checkComplete()" min="1" max="{{restaurant.capacity}}">
-                            <label for="amount">Cantidad de personas (Maximo {{restaurant.capacity}})</label>
+                            <label for="amount"> @Messages("client.new.reservation.max.amount.of.people"): {{restaurant.capacity}})</label>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <h5>Cupon de descuento</h5>
+                        <h5>@Messages("client.new.reservation.discount.voucher")</h5>
                     </div>
                     <div class="col s12">
                         <p>
                             <input name="discount" type="checkbox" id="discount" ng-click="hasDiscount = !hasDiscount"/>
-                            <label for="discount">Tengo un cupon de descuento</label>
+                            <label for="discount">@Messages("client.new.reservation.have.a.discount.voucher")</label>
                         </p>
                     </div>
                     <div class="col s6" ng-show="hasDiscount">
                         <div class="input-field">
                             <input type="text" ng-model="discCode" id="discountCode" ng-change="resetCode()">
-                            <label for="discountCode">Codigo de descuento</label>
+                            <label for="discountCode">@Messages("client.new.reservation.discount.code")</label>
                         </div>
                     </div>
                     <div class="col s4" ng-show="validCode && hasDiscount">
                         <div class="input-field">
                             <input type="text" ng-model="discount.discount" id="disc" readonly>
-                            <label for="disc">Descuento (%)</label>
+                            <label for="disc">@Messages("client.new.reservation.discount")</label>
                         </div>
                     </div>
                     <div class="col s2" ng-show="hasDiscount">
@@ -80,8 +81,8 @@
                 </div>
                 <div class="row buttons">
                     <div class="col s6 offset-s3" >
-                        <div class="btn-large btn fullBtn" ng-click="saveReservation()" ng-show="reservationComplete">Realizar pedido</div>
-                        <div class="btn-large btn fullBtn disabled" ng-hide="reservationComplete">Realizar reserva</div>
+                        <div class="btn-large btn fullBtn" ng-click="saveReservation()" ng-show="reservationComplete">@Messages("client.new.reservation.make.reservation")</div>
+                        <div class="btn-large btn fullBtn disabled" ng-hide="reservationComplete">@Messages("client.new.reservation.make.reservation")</div>
                     </div>
                 </div>
             </div>
@@ -95,14 +96,14 @@
                         </div>
                     </div>
                     <div class="col s12">
-                        <div class="row"><h5>Platos</h5></div>
+                        <div class="row"><h5>@Messages("client.new.reservation.foods")</h5></div>
                         <div class="row">
                             <table class="centered highlight">
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th>Plato</th>
-                                        <th>Precio</th>
+                                        <th>@Messages("client.new.reservation.food")</th>
+                                        <th>@Messages("client.new.reservation.price")</th>
                                     </tr>
                                 </thead>
 
@@ -130,4 +131,5 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-materialize/0.2.2/angular-materialize.min.js"></script>
     <script src="@routes.Assets.versioned("external/ngMap/ng-map.min.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/client/newReservation.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/languageSelector.js")"></script>
 }

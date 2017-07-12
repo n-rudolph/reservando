@@ -11,6 +11,8 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
 import views.html.*;
+import javax.inject.Inject;
+import play.api.i18n.*;
 
 
 import java.util.Collection;
@@ -19,17 +21,27 @@ import java.util.stream.Collectors;
 
 public class ReservationController extends Controller{
 
+    private MessagesApi messagesApi;
+
+    @Inject
+    public ReservationController(MessagesApi messagesApi){
+        this.messagesApi = messagesApi;
+    }
+
     @Security.Authenticated(SecuredClient.class)
     public Result view(){
-        return ok(newReservation.render());
+        Messages messages = messagesApi.preferred(request());
+        return ok(newReservation.render(messages));
     }
     @Security.Authenticated(SecuredClient.class)
     public Result viewClientReservations() {
-        return ok(myReservations.render());
+        Messages messages = messagesApi.preferred(request());
+        return ok(myReservations.render(messages));
     }
     @Security.Authenticated(SecuredOwner.class)
     public Result viewOwnerReservations() {
-        return ok(ownerMyReservations.apply());
+        Messages messages = messagesApi.preferred(request());
+        return ok(ownerMyReservations.apply(messages));
     }
 
     public Result save(){

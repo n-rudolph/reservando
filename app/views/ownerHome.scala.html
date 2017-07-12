@@ -1,13 +1,14 @@
-@()
+@(messages: Messages)
 @views.html.main("Reservando") {
-    @ownerNav()
+    @ownerNav(messages)
+    @languageSelector(messages)
     <div ng-controller="OwnerHomeCtrl">
         <div class="container body" >
             <div class="row">
                 <div class="col m6">
                     <div class="row">
                         <h5 class="center">
-                            Mis Restaurantes
+                            @Messages("owner.home.my.restaurants")
                                 <div class="btn-floating accent-color" ng-click="openAddRestaurant()"><i class="material-icons">add</i></div>
                                 <div class="btn-floating accent-color" ng-click="openRestaurants()"><i class="material-icons">view_list</i></div>
                         </h5>
@@ -15,19 +16,21 @@
                     <table class="center responsive-table highlight centered" ng-show="restaurants.length != 0">
                         <thead>
                             <tr>
-                                <th data-field="id">Nombre</th>
-                                <th data-field="name">Tipo</th>
-                                <th data-field="state">Estado</th>
-                                <th data-field="state">Publicar</th>
-                                <th data-field="price">Modificar/Ver</th>
+                                <th data-field="id">@Messages("owner.home.name")</th>
+                                <th data-field="name">@Messages("owner.home.type")</th>
+                                <th data-field="state">@Messages("owner.home.state")</th>
+                                <th data-field="state">@Messages("owner.home.publish")</th>
+                                <th data-field="price">@Messages("owner.home.modify.or.view")</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             <tr ng-repeat="restaurant in restaurants">
                                 <td>{{restaurant.name}}</td>
-                                <td>{{restaurant.local ? "Local" : "Delivery"}}</td>
-                                <td>{{restaurant.published ? "Publicado" : "No Publicado"}}</td>
+                                <td ng-show="restaurant.local">@Messages("owner.home.local")</td>
+                                <td ng-hide="restaurant.local">@Messages("owner.home.delivery")</td>
+                                <td ng-show="restaurant.published">@Messages("owner.home.published")</td>
+                                <td ng-hide="restaurant.published">@Messages("owner.home.no.published")</td>
                                 <td ng-hide="restaurant.published"><i class="material-icons publish" ng-click="publicateRestaurant(restaurant, true)">publish</i></td>
                                 <td ng-show="restaurant.published"><i class="material-icons unpublish" ng-click="publicateRestaurant(restaurant, false)">publish</i></td>
                                 <td><i class="material-icons view" ng-click="openRestaurantProfile(restaurant)">edit</i></td>
@@ -36,15 +39,15 @@
                     </table>
                     <div class="row continues" ng-show="continues">
                         <div class="col s12">
-                            <div class="btn hoverable" ng-click="openRestaurants()">Ver más Restaurantes</div>
+                            <div class="btn hoverable" ng-click="openRestaurants()">@Messages("owner.home.view.more.restaurants")</div>
                         </div>
                     </div>
                     <div class="my-restaurant-container valign-wrapper" ng-show="restaurants.length == 0">
                         <div class="valign center empty-msg">
-                            <h5>Todavia no tienes restaurantes</h5>
+                            <h5>@Messages("owner.home.no.restaurants.yet")</h5>
                             <div id="addRestaurant">
                                 <div class="btn-large accent-color add-btn" ng-click="openAddRestaurant()">
-                                    AGREGAR RESTAURANTE
+                                @Messages("owner.home.add.restaurant")
                                 </div>
                             </div>
                         </div>
@@ -52,29 +55,29 @@
                 </div>
                 <div class="col m6 center-panel">
                     <div class="row">
-                        <h5 class="center">Reservas y Pedidos</h5>
+                        <h5 class="center">@Messages("owner.home.orders.and.reservations")</h5>
                     </div>
                     <div class="news-container">
                         <table class="center responsive-table highlight centered" ng-show="reservations.length != 0 || orders.length != 0 ">
                             <thead>
                                 <tr>
-                                    <th data-field="id">Restaurant</th>
-                                    <th data-field="name">Tipo</th>
-                                    <th data-field="state">Cliente</th>
-                                    <th data-field="state">Fecha y hora</th>
+                                    <th data-field="id">@Messages("owner.home.local")</th>
+                                    <th data-field="name">@Messages("owner.home.type")</th>
+                                    <th data-field="state">@Messages("owner.home.client")</th>
+                                    <th data-field="state">@Messages("owner.home.date.and.time")</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 <tr ng-repeat="reservation in reservations">
                                     <td>{{reservation.local.name}}</td>
-                                    <td>Reserva</td>
+                                    <td>@Messages("owner.home.reservation")</td>
                                     <td>{{reservation.clientName}}</td>
                                     <td>{{getDateTimeFormat(reservation.date)}}</td>
                                 </tr>
                                 <tr ng-repeat="order in orders">
                                     <td>{{order.delivery.name}}</td>
-                                    <td>Delivery</td>
+                                    <td>@Messages("owner.home.delivery")</td>
                                     <td>{{order.clientName}}</td>
                                     <td>{{getDateTimeFormat(order.timePlaced)}}</td>
                                 </tr>
@@ -82,14 +85,14 @@
                         </table>
                         <div class="row resOrdButton">
                             <div class="col s5 offset-s2">
-                                <div class="btn hoverable " ng-click="openReservations()">Ver más Reservas</div>
+                                <div class="btn hoverable " ng-click="openReservations()">@Messages("owner.home.view.more.reservations")</div>
                             </div>
                             <div class="col s5">
-                                <div class="btn hoverable " ng-click="openOrders()">Ver más Pedidos</div>
+                                <div class="btn hoverable " ng-click="openOrders()">@Messages("owner.home.view.more.orders")</div>
                             </div>
                         </div>
                         <div ng-hide="news.length == 0" class="center empty-msg">
-                            <h5>Todavia no tienes pedidos o reservaciones</h5>
+                            <h5>@Messages("owner.home.no.reservations.or.orders")</h5>
                         </div>
                     </div>
                 </div>
@@ -100,4 +103,5 @@
     <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/owner/ownerHome.css")">
 } {
     <script src="@routes.Assets.versioned("javascripts/owner/ownerHome.js")"></script>
+    <script src="@routes.Assets.versioned("javascripts/languageSelector.js")"></script>
 }

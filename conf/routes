@@ -16,7 +16,8 @@ GET     /logout                     controllers.LoginController.logout
 
 #Client
 GET     /client/home                            controllers.HomeController.clientHome
-GET     /client/profile                         controllers.ClientProfileController.clientProfile
+#GET     /client/profile                         controllers.ClientProfileController.clientProfile
+GET     /client/profile                         controllers.HomeController.clientProfile
 GET     /client/profile/user                    controllers.ClientProfileController.getClient
 GET     /client/restaurant                      controllers.HomeController.clientRestaurant
 GET     /client/searchAllRestaurants            controllers.ClientHomeController.searchAllRestaurants
@@ -45,7 +46,7 @@ DELETE  /meal/:mid                  controllers.MealController.delete(mid: Strin
 #Owner
 GET     /owner/home                 controllers.HomeController.ownerHome
 GET     /owner/new-restaurant       controllers.HomeController.newRestaurant
-GET     /owner/profile              controllers.OwnerProfileController.ownerProfile
+GET     /owner/profile              controllers.HomeController.ownerProfile
 GET     /owner/restaurant           controllers.HomeController.ownerRestaurant
 GET     /owner/restaurants          controllers.HomeController.ownerRestaurants
 GET     /owner/profile/user         controllers.OwnerProfileController.getOwner
@@ -95,3 +96,8 @@ GET     /all/restaurants            controllers.DebugController.getRestaurants
 GET     /all/days                   controllers.DebugController.getDays
 GET     /all/cuisines               controllers.DebugController.getCuisines
 GET     /all/meals                  controllers.DebugController.getMeals
+
+#Messages (I18N)
+GET     /messages.js                controllers.MessageController.messages()
+GET     /language                   controllers.MessageController.getCurrentLang
+POST    /language/change            controllers.MessageController.changeLang

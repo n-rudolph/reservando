@@ -92,7 +92,9 @@ app.controller("NewRestaurantCtrl", function ($scope, $http, $window, $timeout) 
             } else {
                 $scope.errors.address = true;
                 $scope.checkInfo();
-                Materialize.toast("La dirección no es valida", 2000, "red");
+                var addressNotValid = Messages("error.message.geolocalization.address.not.valid");
+                Materialize.toast(addressNotValid, 2000, "red");
+                //Materialize.toast("La dirección no es valida", 2000, "red");
             }
         });
     };
@@ -174,7 +176,9 @@ app.controller("NewRestaurantCtrl", function ($scope, $http, $window, $timeout) 
     };
 
     $scope.successCallback = function(response) {
-        Materialize.toast("Se ha creado el restaurant con éxito", 2000, "green");
+        var restaurantCreated = Messages("success.message.restaurant.created");
+        Materialize.toast(restaurantCreated, 2000, "green");
+        //Materialize.toast("Se ha creado el restaurant con éxito", 2000, "green");
         $window.location.href = "#top";
         $timeout(function(){
             $window.location.href = "/owner/home";
@@ -183,7 +187,9 @@ app.controller("NewRestaurantCtrl", function ($scope, $http, $window, $timeout) 
 
     $scope.errorCallback = function(response) {
         $window.location.href = "#top";
-        Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
+        var error = Messages("error.message.error.occurs.try.later")
+        Materialize.toast(error, 2000, "red");
+        //Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
     };
 
 });

@@ -2,7 +2,7 @@ var app = angular.module("reservandoApp");
 app.requires.push('ngMap');
 
 app.service('serverCommunication', ['$http','$q', function ($http, $q){
-    this.postToUrl = function(data, url, successResponse, errorResponse){
+    this.postToUrl = function(data, url){
         var defered = $q.defer();
         var promise = defered.promise;
         $http({
@@ -10,22 +10,15 @@ app.service('serverCommunication', ['$http','$q', function ($http, $q){
             url: url,
             data: data
         }).success(function(){
-            Materialize.toast(successResponse, 3000, 'green');
+            //Materialize.toast(successResponse, 3000, 'green');
             defered.resolve();
         }).error(function (serverErrorResponse) {
-            //Checks if the server send an error msj.
-            if(serverErrorResponse){
-                Materialize.toast(serverErrorResponse, 3000, 'red');
-            }
-            else {
-                Materialize.toast(errorResponse, 3000, 'red');
-            }
             defered.reject();
         });
         return promise;
     };
 
-    this.getFromUrl = function (url, successResponse, errorResponse) {
+    this.getFromUrl = function (url) {
         var defered = $q.defer();
         var promise = defered.promise;
         $http({
@@ -47,12 +40,11 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'serverCommunication','$wi
 
     /*This load the current user data*/
     var loadUserData = function(){
-        serverCommunication.getFromUrl('/owner/profile/user','','')
+        serverCommunication.getFromUrl('/owner/profile/user')
             .then(function(data){
                 $scope.user = data;
             })
             .catch(function (err) {
-                Materialize.toast("No se pudo cargar la información", 3000, "red");
             })
     };
     loadUserData();
@@ -75,29 +67,34 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'serverCommunication','$wi
         };
         if (password.oldPassword && password.newPassword && password.checkPassword){
             $http.put("/user/password", password).then(function(response){
-                Materialize.toast("La contraseña se ha cambiado con éxito", 2000, "green");
-            }, function(response){
-                if (response.data == "oldPassword"){
+                Materialize.toast(response.data, 2000, "green");
+            }, function(responseError){
+                Materialize.toast(responseError.data, 2000, "red");
+                /*if (response.data == "oldPassword"){
                     Materialize.toast("La contraseña anterior no es valida", 2000, "red");
                     $("#changePasswordModal").closeModal();
                 }else {
                     Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
-                }
+                }*/
             });
         }else{
-            Materialize.toast("Hay errores en los campos.", 2000, "red");
+            var errorOnFields = Messages("error.message.there.are.error.on.fields");
+            Materialize.toast(errorOnFields, 2000, "red");
+            //Materialize.toast("Hay errores en los campos.", 2000, "red");
         }
     };
 
     $scope.deleteAccount = function () {
       /* Ask if it is necessary to request the username and the password for deleting the account.*/
       var data = {data:''};
-      serverCommunication.postToUrl(data,'/owner/deleteAccount','','')
+      serverCommunication.postToUrl(data,'/owner/deleteAccount')
           .then(function () {
               //Redirects to the login page.
               $window.location.href = "/";
           })
-          .catch(function (err) {
+          .catch(function () {
+              var error = Messages("error.message.error.occurs.try.later");
+              Materialize.toast(error, 2000, "red");
           })
     };
 
@@ -157,10 +154,13 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'serverCommunication','$wi
             };
             $http.put("/user/photo", photo).then(function(response){
                 $scope.user.photo = response.data;
-                Materialize.toast("Se ha actualizado la foto con éxito", 2000, "green");
+                var photoUpdate = Messages("success.message.photo.update.successfully");
+                Materialize.toast(photoUpdate, 2000, "green");
+                //Materialize.toast("Se ha actualizado la foto con éxito", 2000, "green");
                 $scope.cancelEditPhoto();
-            }, function(){
-                Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
+            }, function(responseError){
+                Materialize.toast(responseError.data, 2000, "red");
+                //Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
             });
         }else{
             $scope.errors.photoSize = true;
@@ -180,19 +180,22 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'serverCommunication','$wi
                 $scope.user.lastName = data.lastName;
                 $scope.user.email = data.email;
                 $scope.user.address = data.address;
-                Materialize.toast("Se ha actualizado la información con éxito.", 2000, "green");
+                var infoUpdate = Messages("success.message.info.update.successfully");
+                Materialize.toast(infoUpdate, 2000, "green");
+                //Materialize.toast("Se ha actualizado la información con éxito.", 2000, "green");
                 $scope.setEditMode(false);
-            }, function(response){
-                var data = response.data;
+            }, function(responseError){
+                Materialize.toast(responseError.data, 2000, "red");
+                /*var data = response.data;
                 if (data == "email"){
                     Materialize.toast("El email ya esta ocupado", 2000, "red");
                     $scope.errors.email = true;
                 } else{
                     Materialize.toast("Ha ocurrido un error. Intentelo más tarde", 2000, "red");
-                }
+                }*/
             });
         }else{
-            Materialize.toast("Hay errores en los campos.", 2000, "red");
+            //Materialize.toast("Hay errores en los campos.", 2000, "red");
         }
     };
 
@@ -205,7 +208,9 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'serverCommunication','$wi
                 $scope.submitUser();
             } else {
                 $scope.errors.address = true;
-                Materialize.toast("La dirección no es valida", 2000, "red");
+                var addressNotValid = Messages("error.message.geolocalization.address.not.valid");
+                Materialize.toast(addressNotValid, 2000, "red");
+                //Materialize.toast("La dirección no es valida", 2000, "red");
             }
         });
     };

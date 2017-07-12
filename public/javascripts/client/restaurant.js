@@ -66,10 +66,14 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window, $timeout) {
             };
             $http.put("/qualification", data).then(function(response) {
                 $scope.getRestaurantQualification();
-                Materialize.toast("Se ha calificado al restaurant con éxito.", 2000, "green");
+                var qualificationSuccess = Messages("success.message.qualification.made");
+                Materialize.toast(qualificationSuccess, 2000, "green");
+                //Materialize.toast("Se ha calificado al restaurant con éxito.", 2000, "green");
             }, function(){
                 $scope.getUserRestaurantQualification();
-                Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
+                var error = Messages("error.message.error.occurs.try.later")
+                Materialize.toast(error, 2000, "red");
+                //Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
             })
         }
     };

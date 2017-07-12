@@ -10,7 +10,6 @@ app.controller("MyReservationsCtrl", function ($scope, $http, $window, $timeout)
         $scope.reservations = response.data;
     });
 
-
     $scope.toRestaurant = function(reservation) {
         $window.location.href = '/client/restaurant?id='+reservation.local.id;
     };
@@ -18,9 +17,13 @@ app.controller("MyReservationsCtrl", function ($scope, $http, $window, $timeout)
     $scope.deleteReservation = function(reservation, index) {
         $http.delete("/reservation/"+reservation.id).then(function(response) {
             $scope.reservations.splice(index, 1);
-            Materialize.toast("Reservación cancelada con éxito", 2000, "green");
-        }, function(response){
-            Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
+            var reservationCancelled = Messages("success.message.reservation.cancelled");
+            Materialize.toast(reservationCancelled, 2000, "green");
+            //Materialize.toast("Reservación cancelada con éxito", 2000, "green");
+        }, function(){
+            var error = Messages("error.message.error.occurs.try.later");
+            Materialize.toast(error, 2000, "red");
+            //Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
         })
     };
 

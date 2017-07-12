@@ -1,12 +1,12 @@
-@()
+@(messages: Messages)
 <nav class="red darken-1">
     <div class="nav-wrapper">
        <a href="/client/home" class="brand-logo">Reservando</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-           <li><a href="/my-orders">Mis Pedidos</a></li>
-           <li><a href="/my-reservations">Mis Reservas</a></li>
-           <li><a href="/client/profile">Perfil</a></li>
-           <li><a href="/logout">Cerrar Sesión</a></li>
+           <li><a href="/my-orders">@Messages("client.navBar.my.orders")</a></li>
+           <li><a href="/my-reservations">@Messages("client.navBar.my.reservations")</a></li>
+           <li><a href="/client/profile">@Messages("client.navBar.my.profile")</a></li>
+           <li><a href="/logout">@Messages("client.navBar.logout")</a></li>
         </ul>
     </div>
 </nav>

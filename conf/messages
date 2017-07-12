@@ -1,0 +1,344 @@
+#Login
+login.title = RESERVANDO
+login.subtitle = El mejor lugar para pedir y reservar comida
+login.login = Iniciar Sesion
+login.sign.in = Registrarse
+login.email = Email
+login.password = Contraseña
+login.name = Nombre
+login.lastName = Apellido
+login.data.tooltip = Debe contener: 1 número, longitud 6
+login.validate.password = Validar contraseña
+login.address = Dirección
+login.client = Cliente
+login.owner = Dueño
+
+#Client Home
+client.home.filters = Filtros
+client.home.type.of.local = Tipo de local
+client.home.restaurant = Restaurante
+client.home.delivery = Delivery
+client.home.zone = Zona
+client.home.cuisine = Cocina
+client.home.search.placeholder = Busque por nombre o cocina
+client.home.search = Buscar
+client.home.near.me = Cerca mio
+client.home.results = Resultados
+client.home.see.local = Ver Local
+client.home.see.delivery = Ver Delivery
+client.home.see = Ver
+client.home.suggestions = Sugerencias
+
+#Client Nav Bar
+client.navBar.my.orders= Mis Pedidos
+client.navBar.my.reservations= Mis Reservas
+client.navBar.my.profile = Perfil
+client.navBar.logout = Cerrar Sesión
+
+#Client Profile
+client.profile.email = Email
+client.profile.address = Dirección
+client.profile.modify.profile = Modificar perfil
+client.profile.modify.password = Modificar contraseña
+client.profile.delete.account = Eliminar cuenta
+client.profile.edit.profile = Editar Perfil
+client.profile.select.photo = Seleccionar foto
+client.profile.save = Guardar
+client.profile.cancel = Cancelar
+client.profile.error.photo.size = Tamaño maximo de la imagen 2mb
+client.profile.name = Nombre
+client.profile.lastName = Apellido
+client.profile.modify.info = Modificar información
+client.profile.delete.account.question = ¿Seguro desea eliminar su cuenta?
+client.profile.change.password = Cambiar contraseña
+client.profile.previous.password = Contraseña anterior
+client.profile.new.password = Nueva contraseña
+client.profile.confirm.new.password = Confirmar nueva contraseña
+
+#Client My Orders
+client.orders.my.orders = Mis Pedidos
+client.orders.finished = FINALIZADO
+client.orders.info = Información
+client.orders.delivery.address = Dirección de entrega:
+client.orders.discount.code = Codigo de descuento:
+client.orders.total.price = Precio total:
+client.orders.foods = Platos
+client.orders.name = Nombre
+client.orders.price = Precio
+client.orders.quantity = Cantidad
+
+#Client My Reservations
+client.reservations.my.reservations = Mis Reservas
+client.reservations.finished = FINALIZADO
+client.reservations.info = Información
+client.reservations.date = Fecha:
+client.reservations.address = Dirección:
+client.reservations.hour = Hora:
+client.reservations.amount.of.people = Cantidad de personas:
+client.reservations.discount.code = Codigo de descuento:
+client.reservations.view.restaurant = Ver Restaurant
+client.reservations.cancel.reservation = Cancelar Reserva
+
+#Client New Reservation
+client.new.reservation.new.reservation.in = Nueva reserva en
+client.new.reservation.select.date = Seleccionar fecha
+client.new.reservation.date = Fecha
+client.new.reservation.select.time = Seleccionar horario
+client.new.reservation.amount.of.people = Cantidad de personas
+client.new.reservation.max.amount.of.people = Cantidad de personas (Maximo
+client.new.reservation.discount.voucher = Cupon de descuento
+client.new.reservation.have.a.discount.voucher = Tengo un cupon de descuento
+client.new.reservation.discount.code = Codigo de descuento
+client.new.reservation.data-tooltip = Verificar codigo
+client.new.reservation.discount = Descuento (%)
+client.new.reservation.make.reservation = Realizar reserva
+client.new.reservation.foods = Platos
+client.new.reservation.food = Plato
+client.new.reservation.price = Precio
+
+#Client New Order
+client.new.order.new.order.for = Nuevo pedido para
+client.new.order.delivery.address = Dirección de entrega
+client.new.order.address = Dirección
+client.new.order.change.address = Cambiar dirección
+client.new.order.geolocate = Geolocalizar
+client.new.order.use.my.address = Usar mi dirección
+client.new.order.confirm = Confirmar
+client.new.order.meals = Platos
+client.new.order.meal = Plato
+client.new.order.price = Precio
+client.new.order.quantity = Cantidad
+client.new.order.subtotal = Subtotal
+client.new.order.total.label = Total
+client.new.order.discount.voucher = Cupon de descuento
+client.new.order.have.a.discount.voucher = Tengo un cupon de descuento
+client.new.order.discount.code = Codigo de descuento
+client.new.order.data-tooltip = Verificar codigo
+client.new.order.discount = Descuento (%)
+client.new.order.total = Total
+client.new.order.make.order = Realizar pedido
+
+#Client Restaurant
+client.restaurant.not.rated = Todavia no fue calificado
+client.restaurant.make.reservation = Hacer Reserva
+client.restaurant.make.order = Hacer Pedido
+client.restaurant.all.days = Todos los días
+client.restaurant.from = De
+client.restaurant.to = a
+client.restaurant.average.delivery.time = Tiempo promedio de entrega
+client.restaurant.rate.service = Califica el servicio
+client.restaurant.your.rating = Tu calificación
+client.restaurant.menu = Menu
+client.restaurant.name = Nombre
+client.restaurant.description = Descripción
+client.restaurant.the.menu.is.not.defined = El menu todavia no se encuentra definido
+
+#Owner New Restaurant
+owner.new.restaurant.new.restaurant = Nuevo Restaurante
+owner.new.restaurant.select.photo = Seleccionar foto
+owner.new.restaurant.error.photo.miss = Es necesario ingresar una imagen
+owner.new.restaurant.error.photo.size = Tamaño maximo de la imagen 2mb
+owner.new.restaurant.info = Información
+owner.new.restaurant.name = Nombre
+owner.new.restaurant.address = Dirección
+owner.new.restaurant.delivery = Delivery
+owner.new.restaurant.local = Restaurante
+owner.new.restaurant.capacity = Capacidad
+owner.new.restaurant.radio = Radio (km)
+owner.new.restaurant.average.response.time = Tiempo promedio de respuesta (min)
+owner.new.restaurant.description = Descripción
+owner.new.restaurant.business.days = Días de atención
+owner.new.restaurant.select = Seleccionar
+owner.new.restaurant.business.hour = Horario de atención
+owner.new.restaurant.from = Desde
+owner.new.restaurant.to = Hasta
+owner.new.restaurant.type.of.meal = Tipo de comida
+owner.new.restaurant.send = ENVIAR
+
+#Owner Home
+owner.home.my.restaurants = Mis Restaurantes
+owner.home.name = Nombre
+owner.home.type = Tipo
+owner.home.state = Estado
+owner.home.publish = Publicar
+owner.home.modify.or.view = Modificar/Ver
+owner.home.local = Restaurant
+owner.home.delivery = Delivery
+owner.home.published = Publicado
+owner.home.no.published = No Publicado
+owner.home.view.more.restaurants = Ver más Restaurantes
+owner.home.no.restaurants.yet = Todavía no tienes restaurantes
+owner.home.add.restaurant = AGREGAR RESTAURANTE
+owner.home.orders.and.reservations = Reservas y Pedidos
+owner.home.client = Cliente
+owner.home.date.and.time = Fecha y hora
+owner.home.reservation = Reserva
+owner.home.view.more.reservations = Ver más Reservas
+owner.home.view.more.orders = Ver más Pedidos
+owner.home.no.reservations.or.orders = Todavía no tienes pedidos o reservaciones
+
+#Owner My Orders
+owner.my.orders.my.orders = Mis Pedidos
+owner.my.orders.finished = FINALIZADO
+owner.my.orders.client = Cliente
+owner.my.orders.info = Información
+owner.my.orders.delivery.address = Dirección de entrega:
+owner.my.orders.discount.code = Codigo de descuento:
+owner.my.orders.total.price = Precio total:
+owner.my.orders.meals = Platos
+owner.my.orders.name = Nombre
+owner.my.orders.price = Precio
+owner.my.orders.quantity = Cantidad
+
+#Owner My Reservations
+owner.my.reservations.my.reservations = Mis Reservas
+owner.my.reservations.finished = FINALIZADO
+owner.my.reservations.info = Información
+owner.my.reservations.date = Fecha:
+owner.my.reservations.address = Dirección:
+owner.my.reservations.time = Hora:
+owner.my.reservations.amount.of.people = Cantidad de personas:
+owner.my.reservations.discount.code = Codigo de descuento:
+owner.my.reservations.view.restaurant = Ver Restaurant
+
+#Owner Profile
+owner.profile.email = Email
+owner.profile.address = Dirección
+owner.profile.modify.profile = Modificar perfil
+owner.profile.modify.password = Modificar contraseña
+owner.profile.delete.account = Eliminar cuenta
+owner.profile.edit.profile = Editar Perfil
+owner.profile.select.photo = Seleccionar foto
+owner.profile.save = Guardar
+owner.profile.cancel = Cancelar
+owner.profile.error.photo.size = Tamaño maximo de la imagen 2mb
+owner.profile.name = Nombre
+owner.profile.lastName = Apellido
+owner.profile.modify.info = Modificar información
+owner.profile.delete.account.question = ¿Seguro desea eliminar su cuenta?
+owner.profile.change.password = Cambiar contraseña
+owner.profile.old.password = Contraseña anterior
+owner.profile.new.password = Nueva contraseña
+owner.profile.confirm.new.password = Confirmar nueva contraseña
+
+#Owner Restaurant Profile
+owner.restaurant.profile.not.rated.yet = Todavia no fue calificado
+owner.restaurant.profile.publish = Publicar
+owner.restaurant.profile.not.publish = No Publicar
+owner.restaurant.profile.modify = Modificar
+owner.restaurant.profile.all.days = Todos los días
+owner.restaurant.profile.from = Desde
+owner.restaurant.profile.to = hasta
+owner.restaurant.profile.average.delivery.time = Tiempo promedio de entrega
+owner.restaurant.profile.name = Nombre
+owner.restaurant.profile.cancel = Cancelar
+owner.restaurant.profile.save = Guardar
+owner.restaurant.profile.address = Dirección
+owner.restaurant.profile.radio = Radio (km)
+owner.restaurant.profile.average.delivery.time.min = Tiempo promedio de entrega (min)
+owner.restaurant.profile.capacity = Capacidad
+owner.restaurant.profile.time.between.turns = Tiempo entre turnos (min)
+owner.restaurant.profile.description = Descripción
+owner.restaurant.profile.business.days = Días de atención
+owner.restaurant.profile.select = Seleccionar
+owner.restaurant.profile.business.hours = Horario de atención
+owner.restaurant.profile.type.of.meal = Tipo de comida
+owner.restaurant.profile.menu = Menu
+owner.restaurant.profile.edit = Editar
+owner.restaurant.profile.delete = Eliminar
+owner.restaurant.profile.menu.not.defined.yet = El menu todavía no se encuentra definido
+owner.restaurant.profile.delete.restaurant = Eliminar Restaurant
+owner.restaurant.profile.delete.restaurant.question = ¿Seguro desea eliminar el restaurant
+owner.restaurant.profile.add.meal = Agregar comida
+owner.restaurant.profile.select.photo = Seleccionar foto
+owner.restaurant.profile.error.photo.miss = Es necesario ingresar una imagen
+owner.restaurant.profile.error.photo.size = Tamaño maximo de la imagen 2mb
+owner.restaurant.profile.price = Precio
+owner.restaurant.profile.edit.meal = Editar comida
+owner.restaurant.profile.delete.meal = Eliminar comida
+owner.restaurant.profile.delete.meal.question = ¿Seguro desea eliminar la comida
+
+#Owner Restaurants
+owner.restaurants.my.restaurants = Mis Restaurantes
+owner.restaurants.local = Local
+owner.restaurants.delivery = Delivery
+owner.restaurants.load.more = Cargar más
+owner.restaurants.filter.restaurants = Filtrar Restaurantes
+owner.restaurants.address = Dirección:
+owner.restaurants.view.local = Ver Local
+owner.restaurants.view.delivery = Ver Delivery
+
+#Owner NavBar
+owner.navBar.my.restaurants = Mis Restaurantes
+owner.navBar.new.restaurant = Nuevo Restaurant
+owner.navBar.restaurants = Restaurantes
+owner.navBar.orders = Pedidos
+owner.navBar.reservations = Reservas
+owner.navBar.profile = Perfil
+owner.navBar.logout = Cerrar Sesión
+
+#Login Server Response
+login.server.response.email.problem = Ha occurido un problema con el email
+login.server.response.password.problem = Ha occurido un problema con la contraseña
+login.server.response.email.not.valid = El email no es valido
+login.server.response.password.not.correct = La contraseña no es correcta
+
+#Register Server Response
+register.server.response.email.in.use = El email ya se encuentra en uso
+
+#User Server Response
+user.server.response.email.in.use = El email ya se encuentra en uso
+user.server.response.an.error.occurred = Ha ocurrido un error. Intentelo más tarde.
+user.server.response.previous.password.not.valid = La contraseña anterior no es valida
+user.server.response.new.passwords.not.match = Las contraseñas no coinciden
+user.server.response.password.change.successfully = La contraseña se ha cambiado con éxito
+
+#Client Profile Server Response
+client.profile.server.response.not.available.to.delete.account.pending.reservations = No se ha podido eliminar la cuenta debido a que tiene reservaciones pendientes.
+client.profile.server.response.not.available.to.delete.account.pending.orders = No se ha podido eliminar la cuenta debido a que tiene ordenes pendientes.
+
+#Reservations Server Response
+reservations.server.response.delete.successfully = Reservación cancelada con éxito
+
+#Discount Server Response
+discount.server.response.invalid.code = El codigo no es valido
+
+#Qualification Server Response
+qualification.server.response.qualification.add.successfully = Se ha calificado al restaurant con éxito.
+
+#Restaurant Server Response
+restaurant.server.response.published.successfully = El restaurant ha sido publicado con exito
+restaurant.server.response.unpublished.successfully = El restaurant se ha despublicado con exito
+restaurant.server.response.image.modify.successfully = Imagen modificada con éxito.
+restaurant.server.response.an.error.occurs = Ha ocurrido un error. Intentelo más tarde.
+restaurant.server.response.restaurant.delete.successfully = Restaurant eliminado con exito
+
+#Meal Server Response
+meal.server.response.delete.successfully = Comida borrada exitosamente
+
+#Errors Messages
+error.message.search.could.not.performed = No se pudo realizar la busqueda, intente más tarde.
+error.message.error.occurs.try.later = Ha ocurrido un error. Intentelo más tarde.
+error.message.geolocalization.denied.request = El usuario denegó la solicitud de Geolocalización.
+error.message.geolocalization.location.unavailable = La información de ubicación no está disponible.
+error.message.geolocalization.request.timeout = Se ha agotado el tiempo de espera para obtener la ubicación del usuario.
+error.message.geolocalization.address.not.valid = La dirección no es valida
+error.message.error.unknown = Un error desconocido ocurrió.
+error.message.there.are.error.on.fields = Hay errores en los campos.
+
+#Success Messages
+success.message.photo.update.successfully = Se ha actualizado la foto con éxito
+success.message.info.update.successfully = Se ha actualizado la información con éxito.
+success.message.order.placed = El pedido se ha procesado con éxito.
+success.message.reservation.placed = La reserva se ha procesado con éxito.
+success.message.qualification.made = Se ha calificado al restaurante con éxito.
+success.message.reservation.cancelled = Reservación cancelada con éxito
+success.message.restaurant.created = Se ha creado el restaurante con éxito
+success.message.image.modify = Imagen modificada con éxito.
+success.message.restaurant.modify = Restaurante modificado con éxito
+success.messages.meal.saved = La comida se ha guardado con éxito
+success.messages.meal.updated = Se ha editado la comida con éxito
+
+#Languages
+language.spanish = Español
+language.english = Ingles

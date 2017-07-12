@@ -59,7 +59,8 @@ app.controller("loginCtrl", function ($scope, $http) {
             $http.post("/register", data).then(function(response) {
                 window.location.href = response.data;
             },function(response){
-                Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 3000, "red");
+                Materialize.toast(response.data, 3000, "red");
+                //Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 3000, "red");
             });
         }
     };
@@ -98,7 +99,9 @@ app.controller("loginCtrl", function ($scope, $http) {
                 $scope.registerUser();
             } else {
                 $scope.error = true;
-                Materialize.toast("La dirección no es valida", 2000, "red");
+                var addressNotValid = Messages("error.message.geolocalization.address.not.valid");
+                Materialize.toast(addressNotValid, 2000, "red");
+                //Materialize.toast("La dirección no es valida", 2000, "red");
                 return false;
             }
         });

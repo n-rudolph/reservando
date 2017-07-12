@@ -7,7 +7,7 @@ app.requires.push('ngAnimate');
 app.requires.push('ngRateIt');
 
 app.service('serverCommunication', ['$http','$q', function ($http, $q){
-    this.postToUrl = function(data, uploadUrl, successResponse, errorResponse){
+    this.postToUrl = function(data, uploadUrl){
         var defered = $q.defer();
         var promise = defered.promise;
         $http({
@@ -15,22 +15,14 @@ app.service('serverCommunication', ['$http','$q', function ($http, $q){
             url: uploadUrl,
             data: data
         }).success(function(data){
-            Materialize.toast(successResponse, 3000, 'green');
             defered.resolve(data);
         }).error(function (serverErrorResponse) {
-            //Checks if the server send an error msj.
-            if(serverErrorResponse){
-                //Materialize.toast(serverErrorResponse, 3000, 'red');
-            }
-            else {
-                Materialize.toast(errorResponse, 3000, 'red');
-            }
             defered.reject(serverErrorResponse);
         });
         return promise;
     };
 
-    this.getFromUrl = function (url, successResponse, errorResponse) {
+    this.getFromUrl = function (url) {
         var defered = $q.defer();
         var promise = defered.promise;
         $http({
@@ -86,9 +78,13 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         showThisCuisines: []
     };
 
+    $scope.filteredResults = [];
+    //Var used when the restaurant has not been rated yet.
+    $scope.nonQualification = 0;
+
     /*This load the current user data (the main purpose of this is to load the user recommendations)*/
     var loadUserDataAndRecommendations = function(){
-        serverCommunication.getFromUrl('/client/profile/user','','')
+        serverCommunication.getFromUrl('/client/profile/user')
             .then(function(data){
                 $scope.user = data;
             })
@@ -99,9 +95,8 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
             quantity: 3,
             userEmail:""
         };
-        serverCommunication.postToUrl(dataToPost,"/client/getRecommendations","","")
+        serverCommunication.postToUrl(dataToPost,"/client/getRecommendations")
             .then(function (responseData) {
-                console.log(responseData);
                 $scope.recommendations = responseData;
             })
             .catch(function(error){
@@ -125,18 +120,18 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         resetPreviousResultsWithFilters();
         var dataToPost = {wordToSearch: $scope.wordToSearch};
         if($scope.wordToSearch.length > 0){
-            serverCommunication.postToUrl(dataToPost,"/client/search","","")
+            serverCommunication.postToUrl(dataToPost,"/client/search")
                 .then(function(responseData){
                     $scope.currentPage = 1;
                     $scope.result.allResults = responseData;
                     $scope.geoResult = true;
-                    initMap();
+                    //initMap();
                     responseData.length === 0 ? $scope.result.noResults = true : $scope.result.noResults = false;
                     loadFilters(responseData);
                 })
-                .catch(function(error){
-                    Materialize.toast("No se pudo realizar la busqueda, intente más tarde.", 3000, "red");
-                    console.log(error);
+                .catch(function(){
+                    var error = Message("error.message.search.could.not.performed");
+                    Materialize.toast(error, 2000, "red");
                 })
         }
     };
@@ -158,7 +153,7 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
     };
 
     $scope.searchForAutocomplete = function(){
-        serverCommunication.getFromUrl("/client/searchAllRestaurants","","")
+        serverCommunication.getFromUrl("/client/searchAllRestaurants")
             .then(function (responseData) {
                 $(document).ready(function(){
                     $('input.autocomplete').autocomplete({
@@ -206,6 +201,7 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
             navigator.geolocation.getCurrentPosition($scope.successGeolocation, $scope.errorGeolocation);
         }
     };
+
     $scope.successGeolocation = function(position){
         $http.get("/restaurants/nearMe/"+position.coords.latitude+"/"+position.coords.longitude)
             .then(function (response) {
@@ -219,23 +215,32 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
                 $timeout(function(){
                     $scope.showMap = false;
                 }, 50);
-            }, function (error) {
-                Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 3000, "red");
+            }, function () {
+                var error = Messages("error.message.error.occurs.try.later");
+                Materialize.toast(error, 2000, "red");
             });
     };
     $scope.errorGeolocation = function(error) {
         switch(error.code) {
             case error.PERMISSION_DENIED:
-                Materialize.toast("User denied the request for Geolocation.", 2000, "red");
+                var permissionDenied = Messages("error.message.geolocalization.denied.request");
+                Materialize.toast(permissionDenied, 2000, "red");
+                //Materialize.toast("User denied the request for Geolocation.", 2000, "red");
                 break;
             case error.POSITION_UNAVAILABLE:
-                Materialize.toast("Location information is unavailable.", 2000, "red");
+                var positionUnavailable = Messages("error.message.geolocalization.location.unavailable");
+                Materialize.toast(positionUnavailable, 2000, "red");
+                //Materialize.toast("Location information is unavailable.", 2000, "red");
                 break;
             case error.TIMEOUT:
-                Materialize.toast("The request to get user location timed out.", 2000, "red");
+                var timeOut = Messages("error.message.geolocalization.request.timeout");
+                Materialize.toast(timeOut, 2000, "red");
+                //Materialize.toast("The request to get user location timed out.", 2000, "red");
                 break;
             case error.UNKNOWN_ERROR:
-                Materialize.toast("An unknown error occurred.", 2000, "red");
+                var unknownError = Messages("error.message.error.unknown");
+                Materialize.toast(unknownError, 2000, "red");
+                //Materialize.toast("An unknown error occurred.", 2000, "red");
                 break;
         }
     };
