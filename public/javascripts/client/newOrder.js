@@ -14,7 +14,7 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
 
     $scope.getClient = function () {
         $http.get("/client/profile/user").then(function(response){
-            $scope.client = response;
+            $scope.client = response.data;
         })
     };
     $scope.getClient();
@@ -26,7 +26,7 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
                 $scope.restaurant = response.data;
                 $scope.orderObject.dId = $scope.restaurant.id;
                 //$scope.orderObject.address = $scope.restaurant.address.address;
-                $scope.orderObject.address = $scope.client.address;
+                $scope.orderObject.address = $scope.client.address.address;
                 $scope.coordinates.lat = $scope.restaurant.address.lat;
                 $scope.coordinates.lng = $scope.restaurant.address.lng;
                 $scope.getMenu();
@@ -55,12 +55,13 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
     $scope.toggleEditAddress = function(editAddress){
         $scope.editAddress = editAddress;
         if (!editAddress){
-            $scope.orderObject.address = $scope.restaurant.address.address;
-            $scope.coordinates.lat = $scope.restaurant.address.lat;
-            $scope.coordinates.lng = $scope.restaurant.address.lng;
+            $scope.orderObject.address = $scope.client.address.address;
+            $scope.coordinates.lat = $scope.client.address.lat;
+            $scope.coordinates.lng = $scope.client.address.lng;
         }
     };
     $scope.changeAddress = function(){
+        $scope.orderObject.address = $("#address").val();
         $scope.editAddress = false;
     };
 
@@ -115,7 +116,7 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
                 $scope.coordinates.lat = results[0].geometry.location.lat();
                 $scope.coordinates.lng = results[0].geometry.location.lng();
             } else {
-                var addressNotValid = Messages("error.message.geolocalization.address.not.valid")
+                var addressNotValid = Messages("error.message.geolocalization.address.not.valid");
                 Materialize.toast(addressNotValid, 2000, "red");
                 //Materialize.toast("La dirección no es valida", 2000, "red");
             }

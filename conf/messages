@@ -28,6 +28,7 @@ client.home.see.local = Ver Local
 client.home.see.delivery = Ver Delivery
 client.home.see = Ver
 client.home.suggestions = Sugerencias
+client.home.no.results.were.found = No se encontraron resultados
 
 #Client Nav Bar
 client.navBar.my.orders= Mis Pedidos

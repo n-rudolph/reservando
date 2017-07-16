@@ -120,16 +120,21 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         if($scope.wordToSearch.length > 0){
             serverCommunication.postToUrl(dataToPost,"/client/search")
                 .then(function(responseData){
-                    $scope.currentPage = 1;
-                    $scope.loadFilters(responseData);
-                    $scope.result.allResults = responseData;
-                    $scope.geoResult = true;
-                    //initMap();
-                    responseData.length === 0 ? $scope.result.noResults = true : $scope.result.noResults = false;
-
+                    if(responseData.length === 0){
+                        var noResultsWereFound = Messages("client.home.no.results.were.found");
+                        Materialize.toast(noResultsWereFound, 2000, "red");
+                        $scope.result.noResults = true;
+                    }
+                    else {
+                        $scope.currentPage = 1;
+                        $scope.loadFilters(responseData);
+                        $scope.result.allResults = responseData;
+                        $scope.geoResult = true;
+                        $scope.result.noResults = false;
+                    }
                 })
                 .catch(function(){
-                    var error = Message("error.message.search.could.not.performed");
+                    var error = Messages("error.message.search.could.not.performed");
                     Materialize.toast(error, 2000, "red");
                 })
         }
@@ -236,7 +241,6 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
                 $scope.currentPage = 1;
                 $scope.result.allResults = response.data;
                 $scope.geoResult = true;
-                initMap();
                 response.data.length === 0 ? $scope.result.noResults = true : $scope.result.noResults = false;
                 $scope.loadFilters(response.data);
                 $scope.showMap = true;

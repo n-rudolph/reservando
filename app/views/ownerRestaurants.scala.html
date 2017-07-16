@@ -39,8 +39,8 @@
                         <p>{{truncateText(restaurant.address.address, 100)}}</p>
                     </div>
                     <div class="card-action">
-                        <a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(restaurant.id)" ng-show="restaurant.isLocal">@Messages("owner.restaurants.view.local")</a>
-                        <a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(restaurant.id)" ng-hide="restaurant.isLocal">@Messages("owner.restaurants.view.delivery")</a>
+                        <a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(restaurant.id)" ng-show="restaurant.local">@Messages("owner.restaurants.view.local")</a>
+                        <a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(restaurant.id)" ng-hide="restaurant.local">@Messages("owner.restaurants.view.delivery")</a>
                     </div>
                 </div>
             </div>
