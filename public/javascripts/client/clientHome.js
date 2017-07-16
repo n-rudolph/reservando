@@ -49,6 +49,8 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         noResults: true
     };
 
+    $scope.resultsCities = [];
+
     $scope.currentPage = 1;
     $scope.minIndex = 0;
     $scope.maxIndex = 11;
@@ -59,13 +61,7 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
     var mapLoaded = false;
 
     $scope.recommendations = {photo: null};
-
-    // To test! It must be implemented when the address change to an object.
-    $scope.zones = [
-        {zone: "Pilar"},
-        {zone: "Capital Federal"}
-    ];
-
+        
     $scope.filtersToShow = {
         thereAreRestaurants: false,
         thereAreDeliveries: false,
@@ -125,11 +121,12 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
             serverCommunication.postToUrl(dataToPost,"/client/search")
                 .then(function(responseData){
                     $scope.currentPage = 1;
+                    $scope.loadFilters(responseData);
                     $scope.result.allResults = responseData;
                     $scope.geoResult = true;
                     //initMap();
                     responseData.length === 0 ? $scope.result.noResults = true : $scope.result.noResults = false;
-                    $scope.loadFilters(responseData);
+
                 })
                 .catch(function(){
                     var error = Message("error.message.search.could.not.performed");
@@ -189,12 +186,32 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
             return false;
         if (!$scope.filtersApplied.showRestaurants && restaurant.local)
             return false;
-        for (var i =0; i < restaurant.cuisines.length; i++){
-            var cuisine = restaurant.cuisines[i];
-            for (var j = 0; j < $scope.filtersApplied.showThisCuisines.length; j++) {
-                if ($scope.filtersApplied.showThisCuisines[j].isActive &&
-                    $scope.filtersApplied.showThisCuisines[j].name === cuisine.name) {
-                    return true;
+
+        //This checks if the city is include.
+        for (var i = 0; i < $scope.filtersApplied.showThisCities.length; i++) {
+            if ($scope.filtersApplied.showThisCities[i].isActive) {
+                var citySelected = $scope.filtersApplied.showThisCities[i].name;
+
+                //Checks the restaurant index in $scope.result.allResults
+                for (var j = 0; j < $scope.result.allResults.length; j++) {
+                    if ($scope.result.allResults[j].id === restaurant.id) {
+
+                        //Check if the current restaurant belong to that city.
+                        var currentRestaurantCity = $scope.resultsCities[j];
+                        if(citySelected === currentRestaurantCity){
+
+                            //Check if the restaurant has at least one of the cuisine selected.
+                            for (var k = 0; k < restaurant.cuisines.length; k++) {
+                                var cuisine = restaurant.cuisines[k];
+                                for (var l = 0; l < $scope.filtersApplied.showThisCuisines.length; l++) {
+                                    if ($scope.filtersApplied.showThisCuisines[l].name === cuisine.name) {
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+
+                    }
                 }
             }
         }
@@ -310,6 +327,7 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
         $scope.filtersToShow.thereAreDeliveries = false;
         $scope.filtersToShow.cuisines = [];
         $scope.filtersToShow.cities = [];
+        $scope.resultsCities = [];
 
         for(var i = 0; i < results.length; i++){
             var restaurant = results[i];
@@ -339,24 +357,34 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
             var latlng = new google.maps.LatLng(restaurantLatitude,restaurantLongitude);
             geocoder.geocode(
                 {'latLng': latlng},
-                function(results, status) {
+                function(geocodeResults, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
-                        if (results[0]) {
-                            var address_components = results[0].address_components;
+                        if (geocodeResults[0]) {
+                            var address_components = geocodeResults[0].address_components;
                             var neighborhood = address_components[2];
                             var city = address_components[3].short_name;
+                            $scope.resultsCities[$scope.resultsCities.length] = city;
                             if(!isThisCityHere(city,$scope.filtersToShow.cities)){
                                 var currentIndex = $scope.filtersToShow.cities.length;
                                 $scope.filtersToShow.cities[currentIndex] = {name: city};
+
+                                /*This loads all the cities in the filterApplied.cities and set the value (isActive) to true */
+                                $scope.filtersApplied.showThisCities[currentIndex] = {
+                                    name: $scope.filtersToShow.cities[currentIndex].name,
+                                    isActive: true
+                                };
+
                                 $scope.$digest();
                             }
                         }
                         else  {
                             console.log("address not found");
+                            $scope.resultsCities[$scope.resultsCities.length] = "";
                         }
                     }
                     else {
                         console.log("Geocoder failed due to: " + status);
+                        $scope.resultsCities[$scope.resultsCities.length] = "";
                     }
                 }
             );
@@ -370,15 +398,6 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
                 isActive: true
             }
         }
-
-        /*This loads all the cities in the filterApplied.cities and set the value (isActive) to true */
-        for (var q = 0; q < $scope.filtersToShow.cities.length; q++){
-            $scope.filtersApplied.showThisCities[q] = {
-                name: $scope.filtersToShow.cities[q].name,
-                isActive: true
-            }
-        }
-
     };
 
     /*Function used on the load filters function, to not repeat the same value (city) in the filters to show*/
