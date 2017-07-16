@@ -61,7 +61,7 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
     var mapLoaded = false;
 
     $scope.recommendations = {photo: null};
-        
+
     $scope.filtersToShow = {
         thereAreRestaurants: false,
         thereAreDeliveries: false,
@@ -204,7 +204,8 @@ app.controller("ClientHomeCtrl",['$scope', '$http', 'serverCommunication', '$win
                             for (var k = 0; k < restaurant.cuisines.length; k++) {
                                 var cuisine = restaurant.cuisines[k];
                                 for (var l = 0; l < $scope.filtersApplied.showThisCuisines.length; l++) {
-                                    if ($scope.filtersApplied.showThisCuisines[l].name === cuisine.name) {
+                                    if ($scope.filtersApplied.showThisCuisines[l].isActive &&
+                                        $scope.filtersApplied.showThisCuisines[l].name === cuisine.name) {
                                         return true;
                                     }
                                 }
