@@ -21,11 +21,11 @@ public class AddressObject {
                 completeAddress,
                 lat,
                 lng,
-                place.isPresent()? place.get() : "",
-                city.isPresent()? place.get() : "",
-                state.isPresent()? place.get() : "",
-                country.isPresent()? place.get() : "",
-                district.isPresent()? place.get() : ""
+                place!=null ? (place.isPresent()? place.get() : "") : "",
+                city!=null  ? (city.isPresent()? city.get() : "") : "",
+                state!=null ? (state.isPresent()? state.get() : ""):"",
+                country!=null ? (country.isPresent()? country.get():"") : "",
+                district!=null ? (district.isPresent()? district.get() : ""):""
         );
     }
 }

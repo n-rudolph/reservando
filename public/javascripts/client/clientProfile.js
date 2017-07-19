@@ -154,11 +154,9 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
                 $scope.user.photo = response.data;
                 var updateSuccessfully = Messages("success.message.photo.update.successfully");
                 Materialize.toast(updateSuccessfully, 2000, "green");
-                //Materialize.toast("Se ha actualizado la foto con éxito", 2000, "green");
                 $scope.cancelEditPhoto();
             }, function(responseError){
                 Materialize.toast(responseError.data, 2000, "red");
-                //Materialize.toast("Ha ocurrido un error. Intentelo más tarde.", 2000, "red");
             });
         }else{
             $scope.errors.photoSize = true;

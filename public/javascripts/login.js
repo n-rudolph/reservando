@@ -1,5 +1,6 @@
 
-var app = angular.module("reservandoApp", []);
+var app = angular.module("reservandoApp");
+app.requires.push('vsGoogleAutocomplete');
 
 app.controller("loginCtrl", function ($scope, $http) {
 
@@ -14,6 +15,10 @@ app.controller("loginCtrl", function ($scope, $http) {
 
     $scope.bigImageHolder = true;
     $scope.bigContentHolder = false;
+
+    $scope.options = {
+        componentRestrictions: { country: 'AR' }
+    };
 
     $scope.initTabs = function(){
         $('ul.tabs').tabs({swipeable: true, responsiveThreshold: 1000});
@@ -39,11 +44,6 @@ app.controller("loginCtrl", function ($scope, $http) {
     $scope.passwordValidation = function(){
        $scope.p2Touched = true;
        $scope.validPassword2 = $scope.password == $scope.password2;
-    };
-
-    $scope.register = function(){
-        $scope.address.addressString = $("#address").val();
-        $scope.geocodeAddress()
     };
 
     $scope.registerUser = function(){
@@ -89,23 +89,6 @@ app.controller("loginCtrl", function ($scope, $http) {
        }
        return !error;
    };
-
-    $scope.geocodeAddress = function() {
-        var geocoder = new google.maps.Geocoder();
-        geocoder.geocode({'address': $scope.address.addressString}, function(results, status) {
-            if (status === 'OK') {
-                $scope.address.lat = results[0].geometry.location.lat();
-                $scope.address.lng = results[0].geometry.location.lng();
-                $scope.registerUser();
-            } else {
-                $scope.error = true;
-                var addressNotValid = Messages("error.message.geolocalization.address.not.valid");
-                Materialize.toast(addressNotValid, 2000, "red");
-                //Materialize.toast("La dirección no es valida", 2000, "red");
-                return false;
-            }
-        });
-    };
    
    //login functionality
     
