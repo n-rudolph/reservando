@@ -42,7 +42,7 @@
         <div class="row">
             <div class="col s6 info-contanier" ng-hide="editMode">
                 <div class="row">
-                    <p class="address"><i class="material-icons">location_on</i>{{restaurant.address.address}}</p>
+                    <p class="address"><i class="material-icons">location_on</i>{{restaurant.address.completeAddress}}</p>
                 </div>
                 <div class="row">
                     <p class="cuisine"><i class="material-icons">restaurant</i><span ng-repeat="cuisine in restaurant.cuisines">{{ $first ? "" : ","}} {{cuisine.name}}</span></p>
@@ -73,12 +73,18 @@
                         <div class="btn" ng-click="toggleEditMode(false)">@Messages("owner.restaurant.profile.cancel")</div>
                     </div>
                     <div class="col s2">
-                        <div class="btn" ng-click="updateRestaurant()">@Messages("owner.restaurant.profile.save")</div>
+                        <div class="btn" ng-click="restaurantSubmit()">@Messages("owner.restaurant.profile.save")</div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col s6 input-field">
-                        <input type="text" id="address" class="validate field addressUnique" onfocus="geolocate()" placeholder="" ng-model="restaurantEdit.address.addressString" ng-class="{invalid: errors.address}">
+                    <div class="input-field col s6">
+                        <input type="text" id="address" class="validate field addressUnique"
+                        ng-model="restaurantEdit.address.completeAddress" vs-google-autocomplete="options"
+                        vs-autocomplete-validator
+                        vs-city="restaurantEdit.address.city" vs-state="restaurantEdit.address.state"
+                        vs-country="restaurantEdit.address.country" vs-district="restaurantEdit.address.district"
+                        vs-latitude="restaurantEdit.address.lat" vs-longitude="restaurantEdit.address.lng"
+                        ng-class="{invalid: errors.address}">
                         <label for="address">@Messages("owner.restaurant.profile.address")</label>
                     </div>
                     <div class="col s2 input-field" ng-hide="restaurantEdit.isLocal">
@@ -339,9 +345,9 @@
 } {
     <script src="@routes.Assets.versioned("external/angular-rateit-master/src/ng-rateit.js")"></script>
     <script src="@routes.Assets.versioned("external/materialize-clockpicker/dist/js/materialize.clockpicker.js")"></script>
-    <script src="@routes.Assets.versioned("javascripts/utils/geocode.js")"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2QICsNQK9n48VTRB3EX2b6CpbEXNXol4&libraries=places&callback=initAutocomplete"
-    async defer></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDM9GdrRT-5ML6OHeHGIIs0zNFjJmOaQUM&libraries=places"></script>
+    <script src="@routes.Assets.versioned("external/vs-google-autocomplete/vs-google-autocomplete.js")"></script>
+    <script src="@routes.Assets.versioned("external/vs-google-autocomplete/vs-autocomplete-validator.js")"></script>
     <script src="@routes.Assets.versioned("external/ngMap/ng-map.min.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/owner/restaurant.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/languageSelector.js")"></script>

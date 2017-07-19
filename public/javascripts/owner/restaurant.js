@@ -3,6 +3,7 @@ var app = angular.module("reservandoApp");
 app.requires.push('ngRateIt');
 app.requires.push('ui.materialize');
 app.requires.push('ngMap');
+app.requires.push('vsGoogleAutocomplete');
 
 app.controller("RestaurantCtrl", function ($scope, $http, $window) {
 
@@ -16,11 +17,17 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
     $scope.photos = [];
     $scope.loading = false;
 
+    $scope.address = {};
+    $scope.options = {
+        componentRestrictions: { country: 'AR' }
+    };
+
     $scope.getRestaurant = function(){
         var id = $window.location.href.split("id=")[1];
         $http.get("/restaurant/"+ id).then(
             function (response){
                 $scope.restaurant = response.data;
+                console.log(response.data);
                 $scope.getMenu();
                 $scope.getRestaurantQualification();
             }
@@ -90,11 +97,7 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
 
     $scope.setEditModel = function (){
         $scope.restaurantEdit.name = $scope.restaurant.name;
-        $scope.restaurantEdit.address = {
-            addressString: $scope.restaurant.address.address,
-            lat: $scope.restaurant.address.lat,
-            lng: $scope.restaurant.address.lng
-        };
+        $scope.restaurantEdit.address = $scope.restaurant.address;
         $scope.restaurantEdit.description = $scope.restaurant.description;
         $scope.restaurantEdit.isLocal = $scope.restaurant.isLocal;
         $scope.restaurantEdit.radius = $scope.restaurant.radius;
@@ -163,12 +166,6 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
         }
     };
 
-    $scope.updateRestaurant = function(){
-        $scope.resetErrors();
-        $scope.restaurantEdit.address.addressString = $(".addressUnique").val();
-        $scope.geocodeAddress();
-    };
-
     $scope.restaurantSubmit = function(){
         if ($scope.checkFields()){
             $http.put("/restaurant/"+$scope.restaurant.id, $scope.restaurantEdit).then(function(response){
@@ -189,23 +186,6 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
             //Materialize.toast("Hay campos con errores", 2000, "red");
             $window.location.href = "#top";
         }
-    };
-
-    $scope.geocodeAddress = function() {
-        var geocoder = new google.maps.Geocoder();
-        geocoder.geocode({'address': $scope.restaurantEdit.address.addressString}, function(results, status) {
-            if (status === 'OK') {
-                $scope.restaurantEdit.address.lat = results[0].geometry.location.lat();
-                $scope.restaurantEdit.address.lng = results[0].geometry.location.lng();
-                $scope.restaurantSubmit();
-            } else {
-                $scope.errors.address = true;
-                $scope.checkInfo();
-                var error = Messages("error.message.geolocalization.address.not.valid");
-                Materialize.toast(error, 2000, "red");
-                //Materialize.toast("La dirección no es valida", 2000, "red");
-            }
-        });
     };
 
     $scope.checkFields = function(){
