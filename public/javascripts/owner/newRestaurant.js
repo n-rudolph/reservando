@@ -1,6 +1,7 @@
 var app = angular.module("reservandoApp");
 
 app.requires.push('ui.materialize');
+app.requires.push('vsGoogleAutocomplete');
 
 app.controller("NewRestaurantCtrl", function ($scope, $http, $window, $timeout) {
 
@@ -9,6 +10,10 @@ app.controller("NewRestaurantCtrl", function ($scope, $http, $window, $timeout) 
 
     $scope.selectedDays = [];
     $scope.selectedCuisines = [];
+    $scope.address = {};
+    $scope.options = {
+        componentRestrictions: { country: 'AR' }
+    };
 
     $scope.photos = [];
 
@@ -68,35 +73,12 @@ app.controller("NewRestaurantCtrl", function ($scope, $http, $window, $timeout) 
 
     };
 
-    $scope.submitRestaurant = function(){
-        $scope.restaurant.address.addressString = $("#address").val();
-        $scope.resetErrors();
-        $scope.geocodeAddress();
-    };
-
     $scope.restaurantSubmit = function(){
         if ($scope.checkInfo()) {
             $http.post("/restaurant", $scope.restaurant).then($scope.successCallback, $scope.errorCallback);
         } else{
             $window.location.href = "#top";
         }
-    };
-
-    $scope.geocodeAddress = function() {
-        var geocoder = new google.maps.Geocoder();
-        geocoder.geocode({'address': $scope.restaurant.address.addressString}, function(results, status) {
-            if (status === 'OK') {
-                $scope.restaurant.address.lat = results[0].geometry.location.lat();
-                $scope.restaurant.address.lng = results[0].geometry.location.lng();
-                $scope.restaurantSubmit();
-            } else {
-                $scope.errors.address = true;
-                $scope.checkInfo();
-                var addressNotValid = Messages("error.message.geolocalization.address.not.valid");
-                Materialize.toast(addressNotValid, 2000, "red");
-                //Materialize.toast("La dirección no es valida", 2000, "red");
-            }
-        });
     };
 
     $scope.checkInfo = function(){
