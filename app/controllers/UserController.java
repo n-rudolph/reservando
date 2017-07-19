@@ -65,11 +65,16 @@ public class UserController extends Controller{
                     .setLat(userEditObject.address.lat)
                     .setLng(userEditObject.address.lng);
 
-            userEditObject.address.place.ifPresent(s -> user.getAddress().setPlace(s));
-            userEditObject.address.city.ifPresent(s -> user.getAddress().setCity(s));
-            userEditObject.address.state.ifPresent(s -> user.getAddress().setState(s));
-            userEditObject.address.country.ifPresent(s -> user.getAddress().setCountry(s));
-            userEditObject.address.district.ifPresent(s -> user.getAddress().setDistrict(s));
+            if (userEditObject.address.place != null)
+                userEditObject.address.place.ifPresent(s -> user.getAddress().setPlace(s));
+            if (userEditObject.address.city != null)
+                userEditObject.address.city.ifPresent(s -> user.getAddress().setCity(s));
+            if (userEditObject.address.state != null)
+                userEditObject.address.state.ifPresent(s -> user.getAddress().setState(s));
+            if (userEditObject.address.country != null)
+                userEditObject.address.country.ifPresent(s -> user.getAddress().setCountry(s));
+            if (userEditObject.address.district != null)
+                userEditObject.address.district.ifPresent(s -> user.getAddress().setDistrict(s));
         }
 
         if (!userEditObject.email.equals(session().get("email"))){

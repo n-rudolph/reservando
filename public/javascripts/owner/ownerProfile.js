@@ -1,5 +1,6 @@
 var app = angular.module("reservandoApp");
 app.requires.push('ngMap');
+app.requires.push('vsGoogleAutocomplete');
 
 app.service('serverCommunication', ['$http','$q', function ($http, $q){
     this.postToUrl = function(data, url){
@@ -37,6 +38,10 @@ app.service('serverCommunication', ['$http','$q', function ($http, $q){
 app.controller("OwnerProfileCtrl",['$scope', '$http', 'serverCommunication','$window', function ($scope, $http, serverCommunication, $window) {
 
     $scope.editMode = false;
+    $scope.address = {};
+    $scope.options = {
+        componentRestrictions: { country: 'AR' }
+    };
 
     /*This load the current user data*/
     var loadUserData = function(){
@@ -123,11 +128,7 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'serverCommunication','$wi
         $scope.editUser = {
             firstName: $scope.user.firstName,
             lastName: $scope.user.lastName,
-            address: {
-                addressString: $scope.user.address.address,
-                lat: $scope.user.address.lat,
-                lng: $scope.user.address.lng
-            },
+            address: $scope.user.address,
             email: $scope.user.email
         }
     };
@@ -168,11 +169,6 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'serverCommunication','$wi
         }
     };
 
-    $scope.saveEditUser = function(){
-        $scope.resetErrors();
-        $scope.geocodeAddress();
-    };
-
     $scope.submitUser = function(){
         if ($scope.checkEditInfo()){
             $http.put("/user/info", $scope.editUser).then(function(response){
@@ -198,22 +194,6 @@ app.controller("OwnerProfileCtrl",['$scope', '$http', 'serverCommunication','$wi
         }else{
             //Materialize.toast("Hay errores en los campos.", 2000, "red");
         }
-    };
-
-    $scope.geocodeAddress = function() {
-        var geocoder = new google.maps.Geocoder();
-        geocoder.geocode({'address': $scope.editUser.address.addressString}, function(results, status) {
-            if (status === 'OK') {
-                $scope.editUser.address.lat = results[0].geometry.location.lat();
-                $scope.editUser.address.lng = results[0].geometry.location.lng();
-                $scope.submitUser();
-            } else {
-                $scope.errors.address = true;
-                var addressNotValid = Messages("error.message.geolocalization.address.not.valid");
-                Materialize.toast(addressNotValid, 2000, "red");
-                //Materialize.toast("La dirección no es valida", 2000, "red");
-            }
-        });
     };
 
     $scope.checkEditInfo = function(){

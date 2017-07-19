@@ -24,7 +24,7 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="ownerEmail" type="text" autofocus ng-model="user.address.address" readonly>
+                            <input id="ownerEmail" type="text" autofocus ng-model="user.address.completeAddress" readonly>
                             <label for="ownerEmail">@Messages("owner.profile.address")</label>
                         </div>
                     </div>
@@ -105,13 +105,19 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="ownerAddress" type="text" class="validate" onfocus="geolocate()" autofocus ng-model="editUser.address.addressString" ng-class="{invalid: errors.address}">
-                            <label for="ownerAddress">@Messages("owner.profile.address")</label>
+                            <input type="text" id="addressEdit"  class="validate"
+                            ng-model="editUser.address.completeAddress" vs-google-autocomplete="options"
+                            vs-autocomplete-validator
+                            vs-city="editUser.address.city" vs-state="editUser.address.state"
+                            vs-country="editUser.address.country" vs-district="editUser.address.district"
+                            vs-latitude="editUser.address.lat" vs-longitude="editUser.address.lng"
+                            ng-class="{invalid: errors.address}">
+                            <label for="addressEdit">@Messages("owner.profile.address")</label>
                         </div>
                     </div>
                     <div class="row info-buttons">
                         <div class="col s6">
-                            <div class="waves-effect wave-light btn btn-large big-btn big-btn" ng-click="saveEditUser()">@Messages("owner.profile.modify.info")</div>
+                            <div class="waves-effect wave-light btn btn-large big-btn big-btn" ng-click="submitUser()">@Messages("owner.profile.modify.info")</div>
                         </div>
                         <div class="col s6">
                             <div class="waves-effect wave-light btn btn-large orange big-btn big-btn" ng-click="setEditMode(false)">@Messages("owner.profile.cancel")</div>
@@ -173,8 +179,10 @@
    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/owner/ownerProfile.css")">
 } {
     <script src="@routes.Assets.versioned("javascripts/utils/geocode.js")"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDM9GdrRT-5ML6OHeHGIIs0zNFjJmOaQUM&libraries=places&callback=initGoogleMapFunctionality"></script>
     <script src="@routes.Assets.versioned("external/ngMap/ng-map.min.js")"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDM9GdrRT-5ML6OHeHGIIs0zNFjJmOaQUM&libraries=places"></script>
+    <script src="@routes.Assets.versioned("external/vs-google-autocomplete/vs-google-autocomplete.js")"></script>
+    <script src="@routes.Assets.versioned("external/vs-google-autocomplete/vs-autocomplete-validator.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/owner/ownerProfile.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/languageSelector.js")"></script>
 }
