@@ -48,14 +48,12 @@
            <div>
                <div class="row search-container">
                    <div class="input-field col m6">
-                       <input placeholder="Busque por nombre o cocina" id="searchInput" type="text" ng-model="wordToSearch" class="autocomplete" ng-change="searchForAutocomplete()">
-                       @*<input placeholder=@Messages("client.home.search.placeholder") id="searchInput" type="text" ng-model="wordToSearch" class="autocomplete" ng-change="searchForAutocomplete()">*@
+                       <input placeholder="@Messages("client.home.search.placeholder")" id="searchInput" type="text" ng-model="wordToSearch" class="autocomplete" ng-change="searchForAutocomplete()">
                    </div>
                    <div class="col m3">
                        <a id="searchButton" class="waves-effect wave-light btn-large btn big-btn" ng-click="search()">@Messages("client.home.search")</a>
                    </div>
                    <div class="col m3">
-                       @*<div class="waves-effect wave-light btn-large btn big-btn" ng-click="searchNearMe()">Cerca mio</div>*@
                        <div class="waves-effect wave-light btn-large btn big-btn" ng-click="searchNearMe()">@Messages("client.home.near.me")</div>
                    </div>
                </div>
@@ -87,7 +85,6 @@
                                <div class="card-action">
                                    <a class="btn-flat" style="width: 100%; text-align: center" ng-show="result.local" ng-click="openRestaurant(result.id)">@Messages("client.home.see.local")</a>
                                    <a class="btn-flat" style="width: 100%; text-align: center" ng-hide="result.local" ng-click="openRestaurant(result.id)">@Messages("client.home.see.delivery")</a>
-                                   @*<a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(result.id)">{{result.local ? @Messages("client.home.see.local") : @Messages("client.home.see.delivery")}}</a>*@
                                </div>
                            </div>
                        </div>
@@ -158,7 +155,6 @@
                            <div class="card-action">
                                <a class="btn-flat" style="width: 100%; text-align: center" ng-show="recommendation.local" ng-click="openRestaurant(recommendation.id)">@Messages("client.home.see.local")</a>
                                <a class="btn-flat" style="width: 100%; text-align: center" ng-hide="recommendation.local" ng-click="openRestaurant(recommendation.id)">@Messages("client.home.see.delivery")</a>
-                               @*<a class="btn-flat" style="width: 100%; text-align: center" ng-click="openRestaurant(recommendation.id)">{{recommendation.local ? @Messages("client.home.see.local") : @Messages("client.home.see.delivery")}}</a>*@
                            </div>
                        </div>
                    </div>
