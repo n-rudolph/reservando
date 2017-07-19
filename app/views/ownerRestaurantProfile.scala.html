@@ -135,13 +135,13 @@
                     <div class="col m6">
                         <div class="input-field">
                             <label for="input_starttime">@Messages("owner.restaurant.profile.from")</label>
-                            <input type="text" id="input_starttime" input-clock data-twelvehour="false" ng-model="restaurantEdit.startTime" data-default="{{initTime}}" ng-class="{invalid: errors.time}">
+                            <input type="text" id="input_starttime" class="timepicker" input-clock data-twelvehour="false" ng-model="restaurantEdit.startTime" data-default="{{initTime}}" ng-class="{invalid: errors.time}">
                         </div>
                     </div>
                     <div class="col m6">
                         <div class="input-field">
                             <label for="input_endtime">@Messages("owner.restaurant.profile.to")</label>
-                            <input type="text" id="input_endtime" input-clock data-twelvehour="false" ng-model="restaurantEdit.endTime" data-default="{{endTime}}" ng-class="{invalid: errors.time}">
+                            <input type="text" id="input_endtime" class="timepicker" input-clock data-twelvehour="false" ng-model="restaurantEdit.endTime" data-default="{{endTime}}" ng-class="{invalid: errors.time}">
                         </div>
                     </div>
                 </div>
@@ -340,11 +340,11 @@
     </div>
 } {
     <link rel="stylesheet" href="@routes.Assets.versioned("external/angular-rateit-master/src/style/ng-rateit.css")">
-    <link rel="stylesheet" href="@routes.Assets.versioned("external/materialize-clockpicker/dist/css/materialize.clockpicker.css")">
+    @*<link rel="stylesheet" href="@routes.Assets.versioned("external/materialize-clockpicker/dist/css/materialize.clockpicker.css")">*@
     <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/owner/restaurant.css")">
 } {
     <script src="@routes.Assets.versioned("external/angular-rateit-master/src/ng-rateit.js")"></script>
-    <script src="@routes.Assets.versioned("external/materialize-clockpicker/dist/js/materialize.clockpicker.js")"></script>
+    @*<script src="@routes.Assets.versioned("external/materialize-clockpicker/dist/js/materialize.clockpicker.js")"></script>*@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDM9GdrRT-5ML6OHeHGIIs0zNFjJmOaQUM&libraries=places"></script>
     <script src="@routes.Assets.versioned("external/vs-google-autocomplete/vs-google-autocomplete.js")"></script>
     <script src="@routes.Assets.versioned("external/vs-google-autocomplete/vs-autocomplete-validator.js")"></script>

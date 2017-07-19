@@ -17,6 +17,20 @@ app.controller("NewRestaurantCtrl", function ($scope, $http, $window, $timeout) 
 
     $scope.photos = [];
 
+    $scope.donebutton = Messages("clock-picker.button.done");
+    $scope.clearTextbutton = Messages("clock-picker.button.clear");
+    $scope.cancelTextButton = Messages("clock-picker.button.cancel");
+
+
+    var internationalizeClockPicker = function(){
+        $('.timepicker').pickatime({
+            donetext: $scope.donebutton,
+            cleartext: $scope.clearTextbutton,
+            canceltext: $scope.cancelTextButton
+        });
+    };
+    internationalizeClockPicker();
+
     $http.get("/all/days").then(
         function(response) {
             $scope.days = response.data;

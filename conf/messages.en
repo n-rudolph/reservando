@@ -401,3 +401,8 @@ date-picker.button.close = OK
 
 date-picker.label.nextMonth = Next month
 date-picker.label.prevMonth = Last month
+
+#Clock-picker
+clock-picker.button.done = OK
+clock-picker.button.clear = CLEAN
+clock-picker.button.cancel = CANCEL

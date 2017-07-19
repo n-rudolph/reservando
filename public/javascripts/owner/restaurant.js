@@ -22,6 +22,20 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
         componentRestrictions: { country: 'AR' }
     };
 
+    $scope.donebutton = Messages("clock-picker.button.done");
+    $scope.clearTextbutton = Messages("clock-picker.button.clear");
+    $scope.cancelTextButton = Messages("clock-picker.button.cancel");
+
+
+    var internationalizeClockPicker = function(){
+        $('.timepicker').pickatime({
+            donetext: $scope.donebutton,
+            cleartext: $scope.clearTextbutton,
+            canceltext: $scope.cancelTextButton
+        });
+    };
+    internationalizeClockPicker();
+
     $scope.getRestaurant = function(){
         var id = $window.location.href.split("id=")[1];
         $http.get("/restaurant/"+ id).then(
