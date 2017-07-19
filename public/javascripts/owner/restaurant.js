@@ -348,7 +348,7 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
     $scope.deleteMeal = function(){
         $http.delete("/meal/"+$scope.menu[$scope.mealToDeleteIndex].id).then(function(response){
             $scope.menu.splice($scope.mealToDeleteIndex, 1);
-            $("#deleteMealModal").closeModal();
+            $("#deleteMealModal").modal('close');
             Materialize.toast(response.data, 2000, "green");
             //Materialize.toast("Comida eliminada con éxito.", 2000, "green");
         }, function(){
@@ -391,7 +391,7 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
                 var mealSaved = Messages("success.messages.meal.saved");
                 Materialize.toast(mealSaved, 2000, "green");
                 //Materialize.toast("Se ha guardado con exito", 2000, "green");
-                $('#newMealModal').closeModal();
+                $('#newMealModal').modal('close');
             }, function(response){
                 var error = Messages("error.message.error.occurs.try.later");
                 Materialize.toast(error, 2000, "red");
@@ -467,7 +467,7 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
                 var mealEdited = Messages("success.messages.meal.updated");
                 Materialize.toast(mealEdited, 2000, "green");
                 //Materialize.toast("Se ha editado la comida con éxito.", 2000, "green");
-                $("#editMealModal").closeModal();
+                $("#editMealModal").modal('close');
             }, function(response){
                 var error = Messages("error.message.error.occurs.try.later");
                 Materialize.toast(error, 2000, "red");

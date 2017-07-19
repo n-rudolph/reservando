@@ -73,6 +73,7 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
         if (password.oldPassword && password.newPassword && password.checkPassword){
             $http.put("/user/password", password).then(function(response){
                 Materialize.toast(response.data,2000,"green");
+                $('#changePasswordModal').modal('close');
             }, function(responseError){
                 Materialize.toast(responseError.data, 2000, "red");
                 /*if (response.data == "oldPassword"){
