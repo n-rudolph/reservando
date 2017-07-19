@@ -73,8 +73,8 @@
                        <div class="col s3" ng-repeat="result in filteredResults = (result.allResults | filter: applyFilter) | filter: filterByPage" ng-animate=" 'animate' ">
                            <div class="card">
                                <div class="card-image">
-                                   <img class="responsive-img" ng-src="@routes.Assets.versioned("{{result.photo.path}}")" ng-show="result.photo">
-                                   <img class="responsive-img" ng-src="@routes.Assets.versioned("/images/placeholder/restaurant.jpg")" ng-hide="result.photo">
+                                   <img class="responsive-img customImage" ng-src="@routes.Assets.versioned("{{result.photo.path}}")" ng-show="result.photo">
+                                   <img class="responsive-img customImage" ng-src="@routes.Assets.versioned("/images/placeholder/restaurant.jpg")" ng-hide="result.photo">
                                    <span class="card-title">{{result.name}}</span>
                                </div>
                                <div class="card-content">

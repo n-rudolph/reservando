@@ -20,8 +20,8 @@
             <div class="col s4" ng-repeat="restaurant in filteredRestaurants = (restaurants | filter: filter) | filter: filterByPage" ng-animate=" 'animate' ">
                 <div class="card sticky-action">
                     <div class="card-image">
-                        <img class="responsive-img" ng-src="@routes.Assets.versioned("{{restaurant.photo.path}}")" ng-show="result.photo">
-                        <img class="responsive-img" ng-src="@routes.Assets.versioned("/images/placeholder/restaurant.jpg")" ng-hide="restaurant.photo">
+                        <img class="responsive-img custom-image" ng-src="@routes.Assets.versioned("{{restaurant.photo.path}}")" ng-show="restaurant.photo">
+                        <img class="responsive-img custom-image" ng-src="@routes.Assets.versioned("/images/placeholder/restaurant.jpg")" ng-hide="restaurant.photo">
                         <span class="card-title">{{restaurant.name}}</span>
                     </div>
                     <div class="card-content">

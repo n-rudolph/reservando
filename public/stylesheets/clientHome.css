@@ -29,3 +29,9 @@ ng-map{
 .switch-list:hover{
     color: red;
 }
+
+.customImage{
+    max-height: 220px;
+    min-height: 220px;
+    height: 220px;
+}

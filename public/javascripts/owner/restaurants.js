@@ -21,7 +21,6 @@ app.controller("OwnerRestaurantsCtrl", function ($scope, $http, $window) {
         $scope.loading = true;
         $http.get('/restaurants/of-owner').then(function(response){
             $scope.restaurants.push.apply($scope.restaurants, response.data.restaurants);
-            console.log($scope.restaurants);
             $scope.hasNext = response.data.hasNext;
             $scope.loading = false;
         }, function(response) { $scope.loading = false;});
@@ -69,6 +68,8 @@ app.controller("OwnerRestaurantsCtrl", function ($scope, $http, $window) {
     };
 
     $scope.truncateText = function(text, length){
+        if (text == undefined || length == undefined)
+            return "";
         if (text.length > length){
             return text.substr(0, length -1) + "...";
         } else return text;
