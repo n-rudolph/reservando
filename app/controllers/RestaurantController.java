@@ -204,9 +204,11 @@ public class RestaurantController extends Controller {
         }
         final Restaurant restaurant = Restaurant.byId(id);
         final Photo oldPhoto = restaurant.getPhoto();
-        if (!ImageUtils.deleteImage("./public/images/imgApp/" + oldPhoto.getName())){
-            String error = messages.at("restaurant.server.response.an.error.occurs","");
-            return badRequest(error);
+        if (oldPhoto != null) {
+            if (!ImageUtils.deleteImage("./public/images/imgApp/" + oldPhoto.getName())) {
+                String error = messages.at("restaurant.server.response.an.error.occurs", "");
+                return badRequest(error);
+            }
         }
         newPhoto.save();
         restaurant.setPhoto(newPhoto);

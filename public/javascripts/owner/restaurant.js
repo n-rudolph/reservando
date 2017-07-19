@@ -5,7 +5,7 @@ app.requires.push('ui.materialize');
 app.requires.push('ngMap');
 app.requires.push('vsGoogleAutocomplete');
 
-app.controller("RestaurantCtrl", function ($scope, $http, $window) {
+app.controller("RestaurantCtrl", function ($scope, $http, $window, $timeout) {
 
     $scope.editMode = false;
     $scope.days = [];
@@ -166,17 +166,12 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window) {
                     $scope.loading = false;
                     var imageUpdate = Messages("success.message.image.modify");
                     Materialize.toast(imageUpdate, 2000, "green");
-                    //Materialize.toast("Imagen modificada con éxito.", 2000, "green");
                 }, function(responseError){
                     Materialize.toast(responseError.data, 2000,"red");
-                    /*$scope.loading = false;
-                    Materialize.toast("Ha ocurrido un erros. Intentelo más tarde.", 2000, "red");*/
                 })
         }else {
-            $scope.photoError = true;
-            $timeout(function(){
-                $scope.photoError = false;
-            }, 2000)
+            var imageUpdate = Messages("error.modify.photo.size");
+            Materialize.toast(imageUpdate, 2000, "red");
         }
     };
 
