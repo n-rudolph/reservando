@@ -49,7 +49,7 @@
                             <div class="input-field suffix col s12">
                                 <input id="password" type="password" ng-model="password" ng-class="{valid: validPassword && pTouched, invalid: !validPassword && pTouched}" ng-change="validatePassword()" class="field">
                                 <label for="password">@Messages("login.password")</label>
-                                <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="Debe contener: 1 número, longitud 6">info</i>
+                                <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="@messages("login.data.tooltip")">info</i>
                             </div>
                             <div class="input-field col s12">
                                 <input id="password2" type="password" ng-model="password2" ng-class="{valid: validPassword2 && p2Touched, invalid: !validPassword2 && p2Touched}" ng-change="passwordValidation()" class="field">

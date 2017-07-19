@@ -10,25 +10,47 @@ app.controller("NewReservationCtrl", function ($scope, $http, $window, $timeout)
     $scope.discount = {};
     $scope.coordinates = {};
 
-    $scope.month = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    $scope.monthShort = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-    $scope.weekdaysFull = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
-    $scope.weekdaysLetter = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
-    $scope.disable = [true];
+
+    /*I18N date-picker*/
+    $scope.month = [Messages("date-picker.months.1"), Messages("date-picker.months.2"), Messages("date-picker.months.3"), Messages("date-picker.months.4"), Messages("date-picker.months.5"), Messages("date-picker.months.6"), Messages("date-picker.months.7"), Messages("date-picker.months.8"), Messages("date-picker.months.9"), Messages("date-picker.months.10"), Messages("date-picker.months.11"), Messages("date-picker.months.12")];
+    $scope.monthShort = [Messages("date-picker.months.short.1"), Messages("date-picker.months.short.2"), Messages("date-picker.months.short.3"), Messages("date-picker.months.short.4"), Messages("date-picker.months.short.5"), Messages("date-picker.months.short.6"), Messages("date-picker.months.short.7"), Messages("date-picker.months.short.8"), Messages("date-picker.months.short.9"), Messages("date-picker.months.short.10"), Messages("date-picker.months.short.11"), Messages("date-picker.months.short.12")];
+    $scope.weekdaysFull = [Messages("date-picker.days.full.1"), Messages("date-picker.days.full.2"), Messages("date-picker.days.full.3"), Messages("date-picker.days.full.4"), Messages("date-picker.days.full.5"), Messages("date-picker.days.full.6"), Messages("date-picker.days.full.7")];
+    $scope.weekdaysShort = [Messages("date-picker.days.short.1"),Messages("date-picker.days.short.2"), Messages("date-picker.days.short.3"), Messages("date-picker.days.short.4"), Messages("date-picker.days.short.5"), Messages("date-picker.days.short.6"), Messages("date-picker.days.short.7")];
+    $scope.weekdaysLetter = [Messages("date-picker.days.letter.1"), Messages("date-picker.days.letter.2"), Messages("date-picker.days.letter.3"), Messages("date-picker.days.letter.4"), Messages("date-picker.days.letter.5"), Messages("date-picker.days.letter.6"), Messages("date-picker.days.letter.7")];
+
+    $scope.todayButton = Messages("date-picker.button.today");
+    $scope.clearButton = Messages("date-picker.button.clear");
+    $scope.closeButton = Messages("date-picker.button.close");
+
+    $scope.nextMonthLabel = Messages("date-picker.label.nextMonth");
+    $scope.prevMonthLabel = Messages("date-picker.label.prevMonth");
+
+    $scope.disable = [];
+
+    var yesterday = [new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate()-1];
 
     $scope.getRestaurant = function(){
         var id = $window.location.href.split("id=")[1];
         $http.get("/restaurant/"+ id).then(
             function (response){
                 $scope.restaurant = response.data;
-                var disable =[true];
-                for(var i = 0; i < $scope.restaurant.openingDays.length; i++) {
-                    if ($scope.restaurant.openingDays[i].id == 7){
-                        disable.push(1);
-                    }else{
-                        disable.push($scope.restaurant.openingDays[i].id + 1)
+                var disable =[];
+                var disableAux = [];
+                if($scope.restaurant.openingDays.length !== 7){
+                    for(var i = 0; i < $scope.restaurant.openingDays.length; i++) {
+                        if ($scope.restaurant.openingDays[i].id == 7){
+                            disableAux.push(1);
+                        }else{
+                            disableAux.push($scope.restaurant.openingDays[i].id + 1);
+                        }
+                    }
+                    for (var j = 1; j <= 7; j++){
+                        if(!contains(disableAux,j)){
+                            disable.push(j);
+                        }
                     }
                 }
+
                 $scope.disable = disable;
                 $scope.defineTurns();
                 $scope.coordinates.lat = $scope.restaurant.address.lat;
@@ -38,6 +60,22 @@ app.controller("NewReservationCtrl", function ($scope, $http, $window, $timeout)
         );
     };
     $scope.getRestaurant();
+
+    var internationalizeDatePicker = function(){
+        $('.datepicker').pickadate({
+            monthsFull: $scope.month,
+            monthsShort: $scope.monthShort,
+            weekdaysFull: $scope.weekdaysFull,
+            weekdaysShort: $scope.weekdaysShort,
+            weekdaysLetter: $scope.weekdaysLetter,
+            today: $scope.todayButton,
+            clear: $scope.clearButton,
+            close: $scope.closeButton,
+            labelMonthNext: $scope.nextMonthLabel,
+            labelMonthPrev: $scope.prevMonthLabel
+        });
+    };
+    internationalizeDatePicker();
 
 
     // Turnos
@@ -153,6 +191,13 @@ app.controller("NewReservationCtrl", function ($scope, $http, $window, $timeout)
             return;
         }
         $scope.reservationComplete = !($scope.selectedTurnIndex == undefined);
+    };
+
+    var contains = function (array, e) {
+        for (var i = 0; i < array.length; i++){
+            if(array[i] === e)return true;
+        }
+        return false;
     }
 
 });

@@ -14,15 +14,7 @@
                     </div>
                     <div class="col s12">
                         <div class="input-field">
-                            <input type="text" input-date id="selectedDay" ng-model="reservation.date2"
-                                months-full="{{ month }}"
-                                months-short="{{ monthShort }}"
-                                weekdays-full="{{ weekdaysFull }}"
-                                weekdays-short="{{ weekdaysShort }}"
-                                weekdays-letter="{{ weekdaysLetter }}"
-                                disable ="disable"
-                                ng-change="checkComplete()"
-                            >
+                            <input class="datepicker" type="text" input-date id="selectedDay" ng-model="reservation.date2" ng-change="checkComplete()" disable="disable">
                             <label for="selectedDay" class="active">@Messages("client.new.reservation.date")</label>
                         </div>
                     </div>
@@ -73,7 +65,7 @@
                     </div>
                     <div class="col s2" ng-show="hasDiscount">
                         <div class="input-field">
-                            <i class="material-icons prefix send tooltipped" ng-click="checkCode()" ng-show="!invalidCode && !validCode" data-position="right" data-delay="120" data-tooltip="Verificar codigo">send</i>
+                            <i class="material-icons prefix send tooltipped" ng-click="checkCode()" ng-show="!invalidCode && !validCode" data-position="right" data-delay="120" data-tooltip="@messages("client.new.reservation.data-tooltip")">send</i>
                             <i class="material-icons prefix" ng-show="validCode">check_circle</i>
                             <i class="material-icons prefix" ng-show="invalidCode">error</i>
                         </div>
