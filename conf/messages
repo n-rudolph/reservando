@@ -340,6 +340,8 @@ success.message.restaurant.modify = Restaurante modificado con éxito
 success.messages.meal.saved = La comida se ha guardado con éxito
 success.messages.meal.updated = Se ha editado la comida con éxito
 
+delivery-to-far = Estas fuera de rango del delivery
+
 #Languages
 language.spanish = Español
 language.english = Ingles

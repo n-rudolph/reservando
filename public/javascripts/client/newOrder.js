@@ -152,20 +152,35 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
             $scope.orderObject.discountCode = $scope.discCode;
         else $scope.orderObject.discountCode = "";
 
-        var dataObject = $scope.orderObject;
+        var dataObject = angular.copy($scope.orderObject);
         dataObject.address = dataObject.address.completeAddress;
-        $http.post("/order", $scope.orderObject).then(function(response){
-            var succesfull = Messages("success.message.order.placed");
-            Materialize.toast(succesfull, 2000, "green");
-            //Materialize.toast("El pedido se ha procesado con éxito.", 2000, "green");
-            $timeout(function(){
-                $window.location.href = "/client/restaurant?id="+$scope.restaurant.id;
-            }, 1000);
-        }, function(){
-            var error = Messages("error.message.error.occurs.try.later");
+        if ($scope.distance($scope.orderObject.address.lat, $scope.orderObject.address.lng, $scope.restaurant.address.lat, $scope.restaurant.address.lng) <= $scope.restaurant.radius){
+            $http.post("/order", dataObject).then(function(response){
+                var succesfull = Messages("success.message.order.placed");
+                Materialize.toast(succesfull, 2000, "green");
+                //Materialize.toast("El pedido se ha procesado con éxito.", 2000, "green");
+                $timeout(function(){
+                    $window.location.href = "/client/restaurant?id="+$scope.restaurant.id;
+                }, 1000);
+            }, function(){
+                var error = Messages("error.message.error.occurs.try.later");
+                Materialize.toast(error, 2000, "red");
+                //Materialize.toast("Ha ocurrido un error. Intentelo más tarde");
+            });
+        } else {
+            var error = Messages("delivery-to-far");
             Materialize.toast(error, 2000, "red");
-            //Materialize.toast("Ha ocurrido un error. Intentelo más tarde");
-        });
+        }
+
+    };
+    $scope.distance = function(lat1, lon1, lat2, lon2) {
+        var p = 0.017453292519943295;    // Math.PI / 180
+        var c = Math.cos;
+        var a = 0.5 - c((lat2 - lat1) * p)/2 +
+            c(lat1 * p) * c(lat2 * p) *
+            (1 - c((lon2 - lon1) * p))/2;
+
+        return 12742 * Math.asin(Math.sqrt(a));
     }
 
 });

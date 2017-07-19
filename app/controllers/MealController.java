@@ -83,9 +83,11 @@ public class MealController extends Controller {
             if (photo == null){
                 return badRequest();
             }
-            final Photo oldPhoto = Photo.finder.byId(meal.getImage().getId());
-            if (!ImageUtils.deleteImage("./public/images/imgApp/" + oldPhoto.getName())){
-                return badRequest();
+            if (meal.getImage() != null) {
+                final Photo oldPhoto = Photo.finder.byId(meal.getImage().getId());
+                if (!ImageUtils.deleteImage("./public/images/imgApp/" + oldPhoto.getName())) {
+                    return badRequest();
+                }
             }
             photo.save();
             meal.setImage(photo);
