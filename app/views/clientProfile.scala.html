@@ -24,7 +24,7 @@
                         </div>
                         <div class="row">
                             <div class="input-field col s12">
-                                <input id="ownerAddress" type="text" autofocus ng-model="user.address.address" readonly>
+                                <input id="ownerAddress" type="text" autofocus ng-model="user.address.completeAddress" readonly>
                                 <label for="ownerAddress">@Messages("client.profile.address")</label>
                             </div>
                         </div>
@@ -105,22 +105,18 @@
                         </div>
                         <div class="row">
                             <div class="input-field col s12">
-                                <input id="ownerAddress" type="text" class="validate" onfocus="geolocate()" autofocus ng-model="editUser.address.addressString" ng-class="{invalid: errors.address}">
-                                <label for="ownerAddress">@Messages("client.profile.address")</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="input-field col s12">
-                                <input type="text" id="address"
-                                ng-model="address.name" vs-google-autocomplete="options"
-                                vs-autocomplete-validator vs-place="address.place"
-                                vs-city="address.city" vs-state="address.state" vs-country="address.country"
-                                vs-district="address.district" vs-latitude="address.lat" vs-longitude="address.lng">
+                                <input type="text" id="addressEdit"
+                                ng-model="editUser.address.completeAddress" vs-google-autocomplete="options"
+                                vs-autocomplete-validator
+                                vs-city="editUser.address.city" vs-state="editUser.address.state"
+                                vs-country="editUser.address.country" vs-district="editUser.address.district"
+                                vs-latitude="editUser.address.lat" vs-longitude="editUser.address.lng">
+                                <label for="addressEdit">@Messages("client.profile.address")</label>
                             </div>
                         </div>
                         <div class="row info-buttons">
                             <div class="col s6">
-                                <div class="waves-effect wave-light btn btn-large big-btn big-btn" ng-click="saveEditUser()">@Messages("client.profile.modify.info")</div>
+                                <div class="waves-effect wave-light btn btn-large big-btn big-btn" ng-click="submitUser()">@Messages("client.profile.modify.info")</div>
                             </div>
                             <div class="col s6">
                                 <div class="waves-effect wave-light btn btn-large orange big-btn big-btn" ng-click="setEditMode(false)">@Messages("client.profile.cancel")</div>

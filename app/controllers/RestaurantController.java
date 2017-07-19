@@ -78,7 +78,7 @@ public class RestaurantController extends Controller {
                     .setCuisines(restaurantEditObject.cuisines)
                     .setOpeningDays(restaurantEditObject.days)
                     .getAddress()
-                    .setCompleteAddress(restaurantEditObject.address.name)
+                    .setCompleteAddress(restaurantEditObject.address.completeAddress)
                     .setLng(restaurantEditObject.address.lng)
                     .setLat(restaurantEditObject.address.lat);
 
@@ -101,7 +101,7 @@ public class RestaurantController extends Controller {
                     .setCuisines(restaurantEditObject.cuisines)
                     .setOpeningDays(restaurantEditObject.days)
                     .getAddress()
-                    .setCompleteAddress(restaurantEditObject.address.name)
+                    .setCompleteAddress(restaurantEditObject.address.completeAddress)
                     .setLng(restaurantEditObject.address.lng)
                     .setLat(restaurantEditObject.address.lat);
 

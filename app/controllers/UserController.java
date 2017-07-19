@@ -59,16 +59,18 @@ public class UserController extends Controller{
 
         user.setFirstName(userEditObject.firstName)
                 .setLastName(userEditObject.lastName);
-        user.getAddress()
-                .setCompleteAddress(userEditObject.address.name)
-                .setLat(userEditObject.address.lat)
-                .setLng(userEditObject.address.lng);
+        if (!user.getAddress().getCompleteAddress().equals(userEditObject.address.completeAddress)){
+            user.getAddress()
+                    .setCompleteAddress(userEditObject.address.completeAddress)
+                    .setLat(userEditObject.address.lat)
+                    .setLng(userEditObject.address.lng);
 
-        userEditObject.address.place.ifPresent(s -> user.getAddress().setPlace(s));
-        userEditObject.address.city.ifPresent(s -> user.getAddress().setCity(s));
-        userEditObject.address.state.ifPresent(s -> user.getAddress().setState(s));
-        userEditObject.address.country.ifPresent(s -> user.getAddress().setCountry(s));
-        userEditObject.address.district.ifPresent(s -> user.getAddress().setDistrict(s));
+            userEditObject.address.place.ifPresent(s -> user.getAddress().setPlace(s));
+            userEditObject.address.city.ifPresent(s -> user.getAddress().setCity(s));
+            userEditObject.address.state.ifPresent(s -> user.getAddress().setState(s));
+            userEditObject.address.country.ifPresent(s -> user.getAddress().setCountry(s));
+            userEditObject.address.district.ifPresent(s -> user.getAddress().setDistrict(s));
+        }
 
         if (!userEditObject.email.equals(session().get("email"))){
             final User userByEmail = User.getUserByEmail(userEditObject.email);

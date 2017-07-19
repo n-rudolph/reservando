@@ -49,6 +49,7 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
         serverCommunication.getFromUrl('/client/profile/user')
             .then(function(data){
                 $scope.user = data;
+                console.log($scope.user);
             })
     };
     loadUserData();
@@ -122,11 +123,7 @@ app.controller("ClientProfileCtrl",['$scope', '$http', 'serverCommunication','$w
         $scope.editUser = {
             firstName: $scope.user.firstName,
             lastName: $scope.user.lastName,
-            address: {
-                addressString: $scope.user.address.address,
-                lat: $scope.user.address.lat,
-                lng: $scope.user.address.lng
-            },
+            address: $scope.user.address,
             email: $scope.user.email
         }
     };

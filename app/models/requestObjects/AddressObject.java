@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public class AddressObject {
 
-    public String name;
+    public String completeAddress;
     public double lng;
     public double lat;
     public Optional<String> place;
@@ -18,7 +18,7 @@ public class AddressObject {
 
     public Address toAddress(){
         return new Address(
-                name,
+                completeAddress,
                 lat,
                 lng,
                 place.isPresent()? place.get() : "",
