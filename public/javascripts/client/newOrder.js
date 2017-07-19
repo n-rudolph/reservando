@@ -1,5 +1,6 @@
 var app = angular.module("reservandoApp");
 app.requires.push('ngMap');
+app.requires.push('vsGoogleAutocomplete');
 
 app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
 
@@ -11,6 +12,10 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
     $scope.hasDiscount = false;
     $scope.discCode = "";
     $scope.discount = {};
+    $scope.address = {};
+    $scope.options = {
+        componentRestrictions: { country: 'AR' }
+    };
 
     $scope.getClient = function () {
         $http.get("/client/profile/user").then(function(response){
@@ -26,9 +31,9 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
                 $scope.restaurant = response.data;
                 $scope.orderObject.dId = $scope.restaurant.id;
                 //$scope.orderObject.address = $scope.restaurant.address.address;
-                $scope.orderObject.address = $scope.client.address.address;
-                $scope.coordinates.lat = $scope.restaurant.address.lat;
-                $scope.coordinates.lng = $scope.restaurant.address.lng;
+                $scope.orderObject.address = $scope.client.address;
+                $scope.coordinates.lat = $scope.client.address.lat;
+                $scope.coordinates.lng = $scope.client.address.lng;
                 $scope.getMenu();
             }
         );
@@ -55,13 +60,13 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
     $scope.toggleEditAddress = function(editAddress){
         $scope.editAddress = editAddress;
         if (!editAddress){
-            $scope.orderObject.address = $scope.client.address.address;
+            $scope.orderObject.address = $scope.client.address;
             $scope.coordinates.lat = $scope.client.address.lat;
             $scope.coordinates.lng = $scope.client.address.lng;
         }
     };
     $scope.changeAddress = function(){
-        $scope.orderObject.address = $("#address").val();
+        $scope.orderObject.address.completeAddress = $("#address").val();
         $scope.editAddress = false;
     };
 
@@ -98,7 +103,7 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
         var geocoder = new google.maps.Geocoder;
         geocoder.geocode({'location': $scope.coordinates}, function(results, status){
             if (status === 'OK'){
-                $scope.orderObject.address = results[0].formatted_address;
+                $scope.orderObject.address.completeAddress = results[0].formatted_address;
             }
         });
     };
@@ -147,6 +152,8 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
             $scope.orderObject.discountCode = $scope.discCode;
         else $scope.orderObject.discountCode = "";
 
+        var dataObject = $scope.orderObject;
+        dataObject.address = dataObject.address.completeAddress;
         $http.post("/order", $scope.orderObject).then(function(response){
             var succesfull = Messages("success.message.order.placed");
             Materialize.toast(succesfull, 2000, "green");
