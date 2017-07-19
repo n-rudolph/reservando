@@ -343,3 +343,61 @@ success.messages.meal.updated = Se ha editado la comida con éxito
 #Languages
 language.spanish = Español
 language.english = Ingles
+
+#Date-Picker
+date-picker.months.1 = Enero
+date-picker.months.2 = Febrero
+date-picker.months.3 = Marzo
+date-picker.months.4 = Abril
+date-picker.months.5 = Mayo
+date-picker.months.6 = Junio
+date-picker.months.7 = Julio
+date-picker.months.8 = Agosto
+date-picker.months.9 = Septiembre
+date-picker.months.10 = Octubre
+date-picker.months.11 = Noviembre
+date-picker.months.12 = Diciembre
+
+date-picker.months.short.1 = Ene
+date-picker.months.short.2 = Feb
+date-picker.months.short.3 = Mar
+date-picker.months.short.4 = Abr
+date-picker.months.short.5 = May
+date-picker.months.short.6 = Jun
+date-picker.months.short.7 = Jul
+date-picker.months.short.8 = Ago
+date-picker.months.short.9 = Sep
+date-picker.months.short.10 = Oct
+date-picker.months.short.11 = Nov
+date-picker.months.short.12 = Dic
+
+date-picker.days.full.1 = Domingo
+date-picker.days.full.2 = Lunes
+date-picker.days.full.3 = Martes
+date-picker.days.full.4 = Miercoles
+date-picker.days.full.5 = Jueves
+date-picker.days.full.6 = Viernes
+date-picker.days.full.7 = Sabado
+
+date-picker.days.short.1 = Dom
+date-picker.days.short.2 = Lun
+date-picker.days.short.3 = Mar
+date-picker.days.short.4 = Mie
+date-picker.days.short.5 = Jue
+date-picker.days.short.6 = Vie
+date-picker.days.short.7 = Sab
+
+date-picker.days.letter.1 = D
+date-picker.days.letter.2 = L
+date-picker.days.letter.3 = M
+date-picker.days.letter.4 = M
+date-picker.days.letter.5 = J
+date-picker.days.letter.6 = V
+date-picker.days.letter.7 = S
+
+date-picker.button.today = HOY
+date-picker.button.clear = LIMPIAR
+date-picker.button.close = OK
+
+date-picker.label.nextMonth = Mes Siguiente
+date-picker.label.prevMonth = Mes Anterior

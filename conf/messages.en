@@ -343,3 +343,61 @@ success.messages.meal.updated = The food has been successfully edited
 #Languages
 language.spanish = Spanish
 language.english = English
+
+#Date-Picker
+date-picker.months.1 = January
+date-picker.months.2 = February
+date-picker.months.3 = March
+date-picker.months.4 = April
+date-picker.months.5 = May
+date-picker.months.6 = June
+date-picker.months.7 = July
+date-picker.months.8 = August
+date-picker.months.9 = September
+date-picker.months.10 = October
+date-picker.months.11 = November
+date-picker.months.12 = December
+
+date-picker.months.short.1 = Jan
+date-picker.months.short.2 = Feb
+date-picker.months.short.3 = Sea
+date-picker.months.short.4 = Apr
+date-picker.months.short.5 = May
+date-picker.months.short.6 = Jun
+date-picker.months.short.7 = Jul
+date-picker.months.short.8 = Aug
+date-picker.months.short.9 = Sep
+date-picker.months.short.10 = Oct
+date-picker.months.short.11 = Nov
+date-picker.months.short.12 = Dec
+
+date-picker.days.full.1 = Sunday
+date-picker.days.full.2 = Monday
+date-picker.days.full.3 = Tuesday
+date-picker.days.full.4 = Wednesday
+date-picker.days.full.5 = Thursday
+date-picker.days.full.6 = Friday
+date-picker.days.full.7 = Saturday
+
+date-picker.days.short.1 = Sun
+date-picker.days.short.2 = Mon
+date-picker.days.short.3 = Tue
+date-picker.days.short.4 = Wed
+date-picker.days.short.5 = Thu
+date-picker.days.short.6 = Fri
+date-picker.days.short.7 = Sat
+
+date-picker.days.letter.1 = S
+date-picker.days.letter.2 = M
+date-picker.days.letter.3 = T
+date-picker.days.letter.4 = W
+date-picker.days.letter.5 = T
+date-picker.days.letter.6 = F
+date-picker.days.letter.7 = S
+
+date-picker.button.today = TODAY
+date-picker.button.clear = CLEAN
+date-picker.button.close = OK
+
+date-picker.label.nextMonth = Next month
+date-picker.label.prevMonth = Last month
