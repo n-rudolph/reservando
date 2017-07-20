@@ -111,16 +111,16 @@
                 </div>
                 <div class="row">
                     <h4>@Messages("owner.new.restaurant.business.days")</h4>
-                    <div class="col" ng-class="{m3: selectedDays, m12: !selectedDays || selectedDays.length == 0}">
+                    <div class="col" ng-class="{m3: days.selectedDays, m12: !days.selectedDays || days.selectedDays.length == 0}">
                         <div class="input-field col m12" ng-class="{customInvalid: errors.days}">
-                            <select ng-model="selectedDays" material-select multiple watch>
+                            <select ng-model="days.selectedDays" material-select multiple watch>
                                 <option value="" disabled selected>@Messages("owner.restaurant.profile.select")</option>
                                 <option ng-repeat="day in days" ng-value="day.day">{{day.day}}</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col m9" ng-show="selectedDays">
-                        <div class="chip" chips ng-repeat="day in selectedDays">{{day}}</div>
+                    <div class="col m9" ng-show="days.selectedDays">
+                        <div class="chip" chips ng-repeat="day in days.selectedDays">{{day}}</div>
                     </div>
                 </div>
                 <div class="row">
@@ -146,16 +146,16 @@
                 </div>
                 <div class="row">
                     <h4>@Messages("owner.restaurant.profile.type.of.meal")</h4>
-                    <div class="col" ng-class="{m3: selectedCuisines, m12: !selectedCuisines || selectedCuisines.length == 0}">
+                    <div class="col" ng-class="{m3: cuisines.selectedCuisines, m12: !cuisines.selectedCuisines || cuisines.selectedCuisines.length == 0}">
                         <div class="input-field col m12" ng-class="{customInvalid: errors.cuisines}">
-                            <select ng-model="selectedCuisines" material-select multiple watch >
+                            <select ng-model="cuisines.selectedCuisines" material-select multiple watch >
                                 <option value="" disabled selected>@Messages("owner.restaurant.profile.select")</option>
                                 <option ng-repeat="cuisine in cuisines" ng-value="cuisine.name">{{cuisine.name}}</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col m9" ng-show="selectedCuisines">
-                        <div class="chip" chips ng-repeat="cuisine in selectedCuisines">{{cuisine}}</div>
+                    <div class="col m9" ng-show="cuisines.selectedCuisines">
+                        <div class="chip" chips ng-repeat="cuisine in cuisines.selectedCuisines">{{cuisine}}</div>
                     </div>
                 </div>
             </div>
@@ -332,8 +332,8 @@
                 <h5>@Messages("owner.restaurant.profile.delete.meal.question") <span>{{mealToDelete.name}}?</span></h5>
             </div>
             <div class="modal-footer">
-                <div class="modal-action waves-effect waves-green btn btn-flat" ng-click="deleteMeal()">Eliminar</div>
-                <div class="modal-action modal-close waves-effect waves-green btn btn-flat">Cancelar</div>
+                <div class="modal-action waves-effect waves-green btn btn-flat" ng-click="deleteMeal()">@Messages("owner.restaurant.profile.delete")</div>
+                <div class="modal-action modal-close waves-effect waves-green btn btn-flat">@Messages("owner.restaurant.profile.cancel")</div>
             </div>
         </div>
     </div>
