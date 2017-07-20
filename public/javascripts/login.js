@@ -20,25 +20,12 @@ app.controller("loginCtrl", function ($scope, $http) {
         componentRestrictions: { country: 'AR' }
     };
 
-    $scope.initTabs = function(){
-        $('ul.tabs').tabs({swipeable: true, responsiveThreshold: 1000});
-    };
-
-    $scope.bigContent = function(){
-        $scope.bigImageHolder = false;
-        $scope.bigContentHolder = true;
-    };
-    $scope.smallContent = function(){
-        $scope.bigImageHolder = true;
-        $scope.bigContentHolder = false;
-    };
-
     //Register functionality
     $scope.userType = false;
 
     $scope.validatePassword = function(){
         $scope.pTouched = true;
-        $scope.validPassword =  ($scope.password.length > 5 && $scope.password.match(/\d+/g) != null);
+        $scope.validPassword =  ($scope.password.length > 5);
     };
 
     $scope.passwordValidation = function(){

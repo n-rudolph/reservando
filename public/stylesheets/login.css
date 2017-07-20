@@ -1,5 +1,18 @@
+#loginbody{
+    background: url(/assets/images/placeholder/login.jpg) no-repeat center center;
+    background-size: cover;
+}
+#loginbody .bg-overlay {
+    background-color: rgba(0, 0, 0, .35);
+    height: 100%;
+}
 .title{
-    color: #b71818;
+    color: whitesmoke;
+    padding: 15px;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .input-field.suffix i {
@@ -32,42 +45,31 @@
 
 .full-height{
     height: 100%;
-}
-.image-holder{
-    background-color: #ff5356;
-    margin:0;
+    margin-top: 20px;
 }
 
 .login-section{
-    background-color: whitesmoke;
+    background-color: rgba(245, 245, 245, 0.95);
     padding-bottom: 10px;
-    border-radius: 10px;
 }
 
-.tabs a{
-    color: #b71818 !important;
+.navbar {
+    background-color: #b71818;
 }
 
-.row{
-    margin-bottom: 0;
+.navbar .input-field input {
+    border-bottom: 1px solid #E1E1E1;
+    color: white !important;
 }
 
-.height-mod{
-    transition: all 1s ease-in-out;
+.navbar .input-field input:focus {
+    border-bottom: 1px solid whitesmoke !important;
 }
 
-.small-image-holder{
-    height: 10vh;
+.navbar .input-field label, .navbar .input-field label.active {
+    color: #E1E1E1 !important;
 }
 
-.big-image-holder{
-    height: 20vh;
-}
-
-.small-content-holder{
-    height: 60vh;
-}
-
-.big-content-holder{
-    height: 80vh;
+.navbar .btn.right {
+    margin-top: 10px;
 }

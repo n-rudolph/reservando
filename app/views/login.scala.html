@@ -1,94 +1,85 @@
 @(messages: Messages)
 @views.html.main("Reservando") {
     @languageSelector(messages)
-    <div  ng-controller="loginCtrl">
-        <div class="row image-holder height-mod" ng-class="{'small-image-holder': !bigImageHolder, 'big-image-holder': bigImageHolder}"></div>
-        <div class="container height-mod" ng-class="{'small-content-holder': !bigContentHolder, 'big-content-holder': bigContentHolder}">
-            <div class="row full-height">
-                <div class="col m7 full-height valign-wrapper">
-                    <div class="row valign title">
-                        <h1>@Messages("login.title")</h1>
-                        <h4>@Messages("login.subtitle")</h4>
+    <div ng-controller="loginCtrl" id="loginbody">
+        <div class="bg-overlay">
+            <div class="row navbar">
+                <div class="col s6 offset-s6">
+                    <div class="input-field col s4 offset-s2">
+                        <input id="loginMail" type="email" class="validate field" ng-model="loginEmail" >
+                        <label for="loginMail">@Messages("login.email")</label>
                     </div>
-
+                    <div class="input-field col s3">
+                        <input id="loginPassword" type="password" class="validate field" ng-model="loginPassword">
+                        <label for="loginPassword">@Messages("login.password")</label>
+                    </div>
+                    <div class="input-field col s3">
+                        <a class="waves-effect waves-light btn right" ng-click="login()">@Messages("login.login")</a>
+                    </div>
                 </div>
-                <div class="col m5 full-height valign-wrapper">
-                    <div class="row valign login-section">
-                        <div class="col s12">
-                            <ul class="tabs" id="tabs">
-                                <li class="tab col l6 m6 s3"><a class="active" href="" ng-click="smallContent()">@Messages("login.login")</a></li>
-                                <li class="tab col l6 m6 s3"><a href="" ng-click="bigContent()">@Messages("login.sign.in")</a></li>
-                            </ul>
+            </div>
+            <div class="container">
+                <div class="row full-height">
+                    <div class="col m7 full-height valign-wrapper title-wrap">
+                        <div class="valign title">
+                            <h1>@Messages("login.title")</h1>
+                            <h4>@Messages("login.subtitle")</h4>
                         </div>
-                        <div id="login" class="col s12" ng-hide="bigContentHolder">
-                            <div class="input-field col s12">
-                                <input id="loginMail" type="email" class="validate field" ng-model="loginEmail" >
-                                <label for="loginMail">@Messages("login.email")</label>
-                            </div>
-                            <div class="input-field col s12">
-                                <input id="loginPassword" type="password" class="validate field" ng-model="loginPassword">
-                                <label for="loginPassword">@Messages("login.password")</label>
-                            </div>
-                            <div class="input-field col s12">
-                                <a class="waves-effect waves-light btn right" ng-click="login()">@Messages("login.login")</a>
-                            </div>
-                        </div>
-                        <div id="register" class="col s12" ng-show="bigContentHolder">
-                            <div class="input-field col s6">
-                                <input id="first_name" type="text" class="validate field" ng-model="firstName" ng-class="{invalid: firstNameError}">
-                                <label for="first_name">@Messages("login.name")</label>
-                            </div>
-                            <div class="input-field col s6">
-                                <input id="last_name" type="text" class="validate field" ng-model="lastName" ng-class="{invalid: lastNameError}">
-                                <label for="last_name">@Messages("login.lastName")</label>
-                            </div>
-                            <div class="input-field col s12">
-                                <input id="email" type="email" class="validate field" ng-model="email" ng-class="{invalid: emailError}" >
-                                <label for="email">@Messages("login.email")</label>
-                            </div>
-                            <div class="input-field suffix col s12">
-                                <input id="password" type="password" ng-model="password" ng-class="{valid: validPassword && pTouched, invalid: !validPassword && pTouched}" ng-change="validatePassword()" class="field">
-                                <label for="password">@Messages("login.password")</label>
-                                <i class="material-icons tooltipped" data-position="bottom" data-delay="50" data-tooltip="@messages("login.data.tooltip")">info</i>
-                            </div>
-                            <div class="input-field col s12">
-                                <input id="password2" type="password" ng-model="password2" ng-class="{valid: validPassword2 && p2Touched, invalid: !validPassword2 && p2Touched}" ng-change="passwordValidation()" class="field">
-                                <label for="password2">@Messages("login.validate.password")</label>
-                            </div>
-                            <div class="input-field col s12">
-                                <input type="text" id="address" class="validate field"
-                                ng-model="address.completeAddress" vs-google-autocomplete="options"
-                                vs-autocomplete-validator
-                                vs-city="address.city" vs-state="address.state"
-                                vs-country="address.country" vs-district="address.district"
-                                vs-latitude="address.lat" vs-longitude="address.lng"
-                                ng-class="{invalid: addressError}">
-                                <label for="address">@Messages("login.address")</label>
-                            </div>
-                            @*<div class="input-field col s12">*@
-                                @*<input id="address" type="text" class="validate field" onfocus="geolocate()" ng-class="{invalid: addressError}">*@
-                                @*<label for="address">@Messages("login.address")</label>*@
-                            @*</div>*@
-                            <div class="input-field col s12" style="height: 30px">
-                                    <!-- Switch -->
-                                <div class="switch">
-                                    <label>
-                                        @Messages("login.client")
-                                        <input type="checkbox" ng-model="userType">
-                                        <span class="lever"></span>
-                                        @Messages("login.owner")
-                                    </label>
+
+                    </div>
+                    <div class="col m5 full-height valign-wrapper">
+                        <div class="row valign login-section">
+                            <div id="register" class="col s12">
+                                <div class="input-field col s6">
+                                    <input id="first_name" type="text" class="validate field" ng-model="firstName" ng-class="{invalid: firstNameError}">
+                                    <label for="first_name">@Messages("login.name")</label>
                                 </div>
-                            </div>
-                            <div class="input-field col s12">
-                                <a class="waves-effect waves-light btn right" ng-click="registerUser()">@Messages("login.sign.in")</a>
+                                <div class="input-field col s6">
+                                    <input id="last_name" type="text" class="validate field" ng-model="lastName" ng-class="{invalid: lastNameError}">
+                                    <label for="last_name">@Messages("login.lastName")</label>
+                                </div>
+                                <div class="input-field col s12">
+                                    <input id="email" type="email" class="validate field" ng-model="email" ng-class="{invalid: emailError}" >
+                                    <label for="email">@Messages("login.email")</label>
+                                </div>
+                                <div class="input-field col s12">
+                                    <input id="password" type="password" ng-model="password" ng-class="{valid: validPassword && pTouched, invalid: !validPassword && pTouched}" ng-change="validatePassword()" class="field">
+                                    <label for="password">@Messages("login.password")</label>
+                                </div>
+                                <div class="input-field col s12">
+                                    <input id="password2" type="password" ng-model="password2" ng-class="{valid: validPassword2 && p2Touched, invalid: !validPassword2 && p2Touched}" ng-change="passwordValidation()" class="field">
+                                    <label for="password2">@Messages("login.validate.password")</label>
+                                </div>
+                                <div class="input-field col s12">
+                                    <input type="text" id="address" class="validate field"
+                                    ng-model="address.completeAddress" vs-google-autocomplete="options"
+                                    vs-autocomplete-validator
+                                    vs-city="address.city" vs-state="address.state"
+                                    vs-country="address.country" vs-district="address.district"
+                                    vs-latitude="address.lat" vs-longitude="address.lng"
+                                    ng-class="{invalid: addressError}" placeholder="">
+                                    <label for="address">@Messages("login.address")</label>
+                                </div>
+                                <div class="input-field col s12" style="height: 30px">
+                                        <!-- Switch -->
+                                    <div class="switch">
+                                        <label>
+                                            @Messages("login.client")
+                                            <input type="checkbox" ng-model="userType">
+                                            <span class="lever"></span>
+                                            @Messages("login.owner")
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col s12">
+                                    <a class="waves-effect waves-light btn right" ng-click="registerUser()">@Messages("login.sign.in")</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row image-holder height-mod" ng-class="{'small-image-holder': !bigImageHolder, 'big-image-holder': bigImageHolder}"></div>
     </div>
 
 }{

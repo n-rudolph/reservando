@@ -1,6 +1,6 @@
 #Login
 login.title = RESERVANDO
-login.subtitle = El mejor lugar para pedir y reservar comida
+login.subtitle = El mejor lugar para pedir comida
 login.login = Iniciar Sesion
 login.sign.in = Registrarse
 login.email = Email
