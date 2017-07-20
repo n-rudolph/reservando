@@ -36,9 +36,12 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="row">
+                                <div class="row" ng-hide="isExpire(reservation)">
                                     <div class="col s6"><div class="btn btn-large fullBtn" ng-click="toRestaurant(reservation)">@Messages("client.reservations.view.restaurant")</div></div>
                                     <div class="col s6"><div class="btn btn-large red fullBtn" ng-click="deleteReservation(reservation, $index)">@Messages("client.reservations.cancel.reservation")</div></div>
+                                </div>
+                                <div class="row" ng-show="isExpire(reservation)">
+                                    <div class="col s6 offset-s3"><div class="btn btn-large fullBtn" ng-click="toRestaurant(reservation)">@Messages("client.reservations.view.restaurant")</div></div>
                                 </div>
                             </div>
                         </div>
