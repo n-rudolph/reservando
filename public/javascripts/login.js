@@ -4,10 +4,6 @@ app.requires.push('vsGoogleAutocomplete');
 
 app.controller("loginCtrl", function ($scope, $http) {
 
-    $(document).ready(function(){
-        $('.tooltipped').tooltip({delay: 50});
-    });
-
     $scope.errors = {
         address: false
     };

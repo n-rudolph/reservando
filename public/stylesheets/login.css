@@ -1,6 +1,7 @@
 #loginbody{
     background: url(/assets/images/placeholder/login.jpg) no-repeat center center;
     background-size: cover;
+    height: 100vh;
 }
 #loginbody .bg-overlay {
     background-color: rgba(0, 0, 0, .35);
