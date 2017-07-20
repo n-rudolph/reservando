@@ -143,9 +143,13 @@ public class Restaurant extends Model{
             if (!this.openingDays.contains(openingDay))
                 this.openingDays.add(openingDay);
         }
+        ArrayList<Day> daysToDelete = new ArrayList<>();
         for (Day openingDay : this.openingDays) {
             if (!openingDays.contains(openingDay))
-                this.openingDays.remove(openingDay);
+                daysToDelete.add(openingDay);
+        }
+        if (daysToDelete.size() > 0){
+            this.openingDays.removeAll(daysToDelete);
         }
         return this;
     }
@@ -159,9 +163,13 @@ public class Restaurant extends Model{
             if (!this.cuisines.contains(cuisine))
                 this.cuisines.add(cuisine);
         }
+        ArrayList<Cuisine> cuisinesToDelete = new ArrayList<>();
         for (Cuisine cuisine : this.cuisines) {
             if (!cuisines.contains(cuisine))
-                this.cuisines.remove(cuisine);
+                cuisinesToDelete.add(cuisine);
+        }
+        if(cuisinesToDelete.size() > 0){
+            this.cuisines.removeAll(cuisinesToDelete);
         }
         return this;
     }
