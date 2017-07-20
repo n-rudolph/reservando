@@ -10,8 +10,8 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window, $timeout) {
     $scope.editMode = false;
     $scope.days = [];
     $scope.cuisines = [];
-    $scope.selectedDays = [];
-    $scope.selectedCuisines = [];
+    $scope.days.selectedDays;
+    $scope.cuisines.selectedCuisines;
     $scope.restaurantEdit = {};
 
     $scope.photos = [];
@@ -123,11 +123,13 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window, $timeout) {
         $scope.restaurantEdit.startTime = "";
         $scope.restaurantEdit.endTime = "";
 
+        $scope.days.selectedDays = [];
+        $scope.cuisines.selectedCuisines = [];
         for (var i = 0; i< $scope.restaurant.openingDays.length; i++){
-            $scope.selectedDays.push($scope.restaurant.openingDays[i].day);
+            $scope.days.selectedDays.push($scope.restaurant.openingDays[i].day);
         }
         for (var j = 0; j< $scope.restaurant.cuisines.length; j++){
-            $scope.selectedCuisines.push($scope.restaurant.cuisines[j].name);
+            $scope.cuisines.selectedCuisines.push($scope.restaurant.cuisines[j].name);
         }
     };
 
@@ -227,13 +229,13 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window, $timeout) {
             errors++;
             $scope.errors.description = true;
         }
-        if (!$scope.selectedDays || $scope.selectedDays.length == 0){
+        if (!$scope.days.selectedDays || $scope.days.selectedDays.length == 0){
             errors++;
             $scope.errors.days = true;
         } else {
             $scope.restaurantEdit.days = [];
-            for (var i = 0; i < $scope.selectedDays.length; i++) {
-                $scope.addDay($scope.selectedDays[i]);
+            for (var i = 0; i < $scope.days.selectedDays.length; i++) {
+                $scope.addDay($scope.days.selectedDays[i]);
             }
         }
         if (($scope.restaurantEdit.startTime && $scope.restaurantEdit.startTime.length != 0) && ($scope.restaurantEdit.endTime && $scope.restaurantEdit.endTime.length != 0)) {
@@ -287,13 +289,13 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window, $timeout) {
             $scope.restaurantEdit.startTime = $scope.restaurant.openingHour;
             $scope.restaurantEdit.endTime = $scope.restaurant.closingHour;
         }
-        if (!$scope.selectedCuisines || $scope.selectedCuisines.length == 0){
+        if (!$scope.cuisines.selectedCuisines || $scope.cuisines.selectedCuisines.length == 0){
             errors++;
             $scope.errors.cuisines = true;
         } else {
             $scope.restaurantEdit.cuisines = [];
-            for (var j = 0; j < $scope.selectedCuisines.length; j++) {
-                $scope.addCuisine($scope.selectedCuisines[j]);
+            for (var j = 0; j < $scope.cuisines.selectedCuisines.length; j++) {
+                $scope.addCuisine($scope.cuisines.selectedCuisines[j]);
             }
         }
         return errors == 0;
