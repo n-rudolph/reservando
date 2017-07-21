@@ -19,3 +19,14 @@ td input{
     color: darkgoldenrod;
     cursor: pointer;
 }
+
+.menu2{
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}

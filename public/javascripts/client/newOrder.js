@@ -20,6 +20,7 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
     $scope.getClient = function () {
         $http.get("/client/profile/user").then(function(response){
             $scope.client = response.data;
+            $scope.getRestaurant();
         })
     };
     $scope.getClient();
@@ -38,7 +39,6 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
             }
         );
     };
-    $scope.getRestaurant();
 
     // Meal
 

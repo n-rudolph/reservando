@@ -23,7 +23,7 @@
                     <div class="col s12">
                         <h5>@Messages("client.new.reservation.select.time")</h5>
                     </div>
-                    <div class="col s12">
+                    <div class="col s12 time">
                         <div class="timeChip hoverable valign-wrapper waves-effect waves-red waves-ripple z-depth-2" ng-repeat="turn in turns" ng-class="{'selected': $index == selectedTurnIndex, 'z-depth-4': $index == selectedTurnIndex}" ng-click="selectTurn($index)">
                             <span>{{turn}}</span>
                         </div>
@@ -80,14 +80,7 @@
             </div>
             <div class="col s6">
                 <div class="row">
-                    <div class="col s12">
-                        <div class="row">
-                            <ng-map center="[{{coordinates.lat}}, {{coordinates.lng}}]">
-                                <marker position="{{coordinates.lat}}, {{coordinates.lng}}"></marker>
-                            </ng-map>
-                        </div>
-                    </div>
-                    <div class="col s12">
+                    <div class="col s12 menu">
                         <div class="row"><h5>@Messages("client.new.reservation.foods")</h5></div>
                         <div class="row">
                             <table class="centered highlight">
@@ -109,6 +102,13 @@
                             </table>
                         </div>
                     </div>
+                    <div class="col s12">
+                        <div class="row">
+                            <ng-map center="[{{coordinates.lat}}, {{coordinates.lng}}]">
+                                <marker position="{{coordinates.lat}}, {{coordinates.lng}}"></marker>
+                            </ng-map>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -117,9 +117,7 @@
 } {
     <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/client/newReservation.css")">
 } {
-    <script src="@routes.Assets.versioned("javascripts/utils/geocode.js")"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDx5ARsKyUaIV0uBUuCs7M6HxvUOtvcm-E&libraries=places&callback=initAutocomplete"
-    async defer></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDM9GdrRT-5ML6OHeHGIIs0zNFjJmOaQUM&libraries=places"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-materialize/0.2.2/angular-materialize.min.js"></script>
     <script src="@routes.Assets.versioned("external/ngMap/ng-map.min.js")"></script>
     <script src="@routes.Assets.versioned("javascripts/client/newReservation.js")"></script>

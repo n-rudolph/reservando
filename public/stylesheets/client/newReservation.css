@@ -37,3 +37,17 @@ td input{
     cursor: pointer;
 }
 
+.time, .menu{
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+.menu{
+    height: 400px;
+}
+
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+    background: transparent;  /* optional: just make scrollbar invisible */
+}
+
