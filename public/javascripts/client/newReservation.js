@@ -27,7 +27,7 @@ app.controller("NewReservationCtrl", function ($scope, $http, $window, $timeout)
 
     $scope.disable = [];
 
-    var yesterday = [new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate()-1];
+    var yesterday = [new Date().getFullYear(),new Date().getMonth(),new Date().getDate()-1];
 
     $scope.getRestaurant = function(){
         var id = $window.location.href.split("id=")[1];
@@ -51,6 +51,7 @@ app.controller("NewReservationCtrl", function ($scope, $http, $window, $timeout)
                     }
                 }
 
+                disable.push({from: [0,0,0], to: yesterday  });
                 $scope.disable = disable;
                 $scope.defineTurns();
                 $scope.coordinates.lat = $scope.restaurant.address.lat;
