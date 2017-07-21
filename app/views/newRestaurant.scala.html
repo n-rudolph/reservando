@@ -18,10 +18,10 @@
                 </div>
                 <div class="row">
                     <div class="file-field input-field col s12">
-                        <label class="btn file-select" for="image-input">
+                        <button class="btn file-select">
                             <span>@Messages("owner.new.restaurant.select.photo")</span>
-                            <input type="file" multiple ng-file-model="photos" accept="image/*" id="image-input">
-                        </label>
+                        </button>
+                        <input type="file" multiple ng-file-model="photos" accept="image/*" id="image-input">
                     </div>
                     <label class="image-error" ng-show="errors.photo">@Messages("owner.new.restaurant.error.photo.miss")</label>
                     <label class="image-error" ng-show="errors.photoSize">@Messages("owner.new.restaurant.error.photo.size")</label>

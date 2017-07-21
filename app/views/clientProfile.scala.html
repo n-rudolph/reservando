@@ -70,10 +70,10 @@
                         </div>
                         <div class="row">
                             <div class="file-field input-field col s12" ng-show="photos.length == 0">
-                                <label class="btn file-select big-btn" for="image-input">
+                                <button class="btn file-select big-btn">
                                     <span>@Messages("client.profile.select.photo")</span>
-                                    <input type="file" multiple ng-file-model="photos" accept="image/*" id="image-input">
-                                </label>
+                                </button>
+                                <input type="file" multiple ng-file-model="photos" accept="image/*" id="image-input">
                             </div>
                             <div class="file-field input-field col s12" ng-show="photos.length > 0">
                                 <div class="col s6">
