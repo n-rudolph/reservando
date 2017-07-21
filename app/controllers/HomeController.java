@@ -78,6 +78,7 @@ public class HomeController extends Controller {
         Messages messages = messagesApi.preferred(request());
         return ok(clientProfile.render(messages));
     }
+    @Security.Authenticated(SecuredOwner.class)
     public Result ownerProfile(){
         Messages messages = messagesApi.preferred(request());
         return ok(ownerProfile.render(messages));
