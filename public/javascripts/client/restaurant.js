@@ -88,4 +88,9 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window, $timeout) {
         $window.location.href = "/reservation?id="+ id;
     };
 
+    $scope.getTranslateDay = function(day){
+        var messageId = day.day;
+        return Messages(messageId);
+    }
+
 });

@@ -32,7 +32,7 @@
                 <div class="row">
                     <div class="col s12">
                         <p class="opening-days" ng-show="restaurant.days.length() == 7"><i class="material-icons">data_range</i> @Messages("client.restaurant.all.days")</p>
-                        <p class="opening-days" ng-hide="restaurant.days.length() == 7"><i class="material-icons">date_range</i><span ng-repeat="day in restaurant.openingDays">{{$first?"":", "}}{{day.day}}</span></p>
+                        <p class="opening-days" ng-hide="restaurant.days.length() == 7"><i class="material-icons">date_range</i><span ng-repeat="day in restaurant.openingDays">{{$first?"":", "}} {{getTranslateDay(day)}}</span></p>
                     </div>
                 </div>
                 <div class="row">
@@ -62,9 +62,9 @@
         <div class="row">
             <div class="col s6">
                 <div class="row">
-                    <ng-map center="[{{restaurant.address.lat}}, {{restaurant.address.lng}}]">
+                    @*<ng-map center="[{{restaurant.address.lat}}, {{restaurant.address.lng}}]">
                         <marker position="{{restaurant.address.lat}}, {{restaurant.address.lng}}"></marker>
-                    </ng-map>
+                    </ng-map>*@
                 </div>
             </div>
             <div class="col s6 menu">

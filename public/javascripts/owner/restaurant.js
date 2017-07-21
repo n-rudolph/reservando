@@ -501,4 +501,9 @@ app.controller("RestaurantCtrl", function ($scope, $http, $window, $timeout) {
         }
         return errors == 0;
     };
+
+    $scope.getTranslateDay = function(day){
+        var messageId = day.day;
+        return Messages(messageId);
+    }
 });

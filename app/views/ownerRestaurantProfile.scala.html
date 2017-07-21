@@ -48,7 +48,7 @@
                 </div>
                 <div class="row">
                     <p class="opening-days" ng-show="restaurant.days.length() == 7"><i class="material-icons">data_range</i> @Messages("owner.restaurant.profile.all.days")</p>
-                    <p class="opening-days" ng-hide="restaurant.days.length() == 7"><i class="material-icons">date_range</i><span ng-repeat="day in restaurant.openingDays">{{$first?"":", "}}{{day.day}}</span></p>
+                    <p class="opening-days" ng-hide="restaurant.days.length() == 7"><i class="material-icons">date_range</i><span ng-repeat="day in restaurant.openingDays">{{$first?"":", "}}{{getTranslateDay(day)}}</span></p>
                 </div>
                 <div class="row">
                     <p class="opening-time"><i class="material-icons">schedule</i> @Messages("owner.restaurant.profile.from"): {{restaurant.openingHour}} @Messages("owner.restaurant.profile.to"): {{restaurant.closingHour}}</p>
