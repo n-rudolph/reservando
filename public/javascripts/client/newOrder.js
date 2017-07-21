@@ -32,7 +32,7 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
                 $scope.restaurant = response.data;
                 $scope.orderObject.dId = $scope.restaurant.id;
                 //$scope.orderObject.address = $scope.restaurant.address.address;
-                $scope.orderObject.address = $scope.client.address;
+                $scope.orderObject.address = angular.copy($scope.client.address);
                 $scope.coordinates.lat = $scope.client.address.lat;
                 $scope.coordinates.lng = $scope.client.address.lng;
                 $scope.getMenu();
@@ -60,7 +60,7 @@ app.controller("NewOrderCtrl", function ($scope, $http, $window, $timeout) {
     $scope.toggleEditAddress = function(editAddress){
         $scope.editAddress = editAddress;
         if (!editAddress){
-            $scope.orderObject.address = $scope.client.address;
+            $scope.orderObject.address = angular.copy($scope.client.address);
             $scope.coordinates.lat = $scope.client.address.lat;
             $scope.coordinates.lng = $scope.client.address.lng;
         }
