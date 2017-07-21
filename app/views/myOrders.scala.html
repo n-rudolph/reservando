@@ -6,7 +6,10 @@
         <div class="row title">
             <h3>@Messages("client.orders.my.orders")</h3>
         </div>
-        <div class="row">
+        <div class="row title" ng-show="orders.length == 0">
+            <h4>@Messages("client.orders.no.orders")</h4>
+        </div>
+        <div class="row" ng-show="orders.length != 0">
             <ul class="collapsible popout" data-collapsible="accordion">
                 <li ng-repeat="order in orders | filter: filterByPage">
                     <div class="collapsible-header" ng-class="{'active': $first}"><i class="material-icons"><i class="material-icons">local_shipping</i></i>{{order.delivery.name}}  -  {{getDateTimeFormat(order.timePlaced)}} <span class="right" ng-show="isExpire(order)">@Messages("client.orders.finished")</span></div>
@@ -61,7 +64,7 @@
                 </li>
             </ul>
         </div>
-        <div class="row center-align">
+        <div class="row center-align" ng-show="orders.length != 0">
             <pagination
                 page="1"
                 page-size="9"

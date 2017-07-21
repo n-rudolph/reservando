@@ -67,6 +67,7 @@ client.orders.foods = Meals
 client.orders.name = Name
 client.orders.price = Price
 client.orders.quantity = Quantity
+client.orders.no.orders = You do not have any orders yet
 
 #Client My Reservations
 client.reservations.my.reservations = My Reservations
@@ -79,6 +80,7 @@ client.reservations.amount.of.people = Amount of people:
 client.reservations.discount.code = Discount code:
 client.reservations.view.restaurant = View Restaurant
 client.reservations.cancel.reservation = Cancel Reservation
+client.reservations.no.reservations = You do not have reservations yet
 
 #Client New Reservation
 client.new.reservation.new.reservation.in = New booking in
@@ -190,6 +192,7 @@ owner.my.orders.meals = Meals
 owner.my.orders.name = Name
 owner.my.orders.price = Price
 owner.my.orders.quantity = Quantity
+owner.my.orders.no.orders = You do not have any orders yet
 
 #Owner My Reservations
 owner.my.reservations.my.reservations = My Reservations
@@ -201,6 +204,7 @@ owner.my.reservations.time = Time:
 owner.my.reservations.amount.of.people = Amount of people:
 owner.my.reservations.discount.code = Discount Code:
 owner.my.reservations.view.restaurant = View Restaurant
+owner.my.reservations.no.reservation = You do not have reservations yet
 
 #Owner Profile
 owner.profile.email = Email

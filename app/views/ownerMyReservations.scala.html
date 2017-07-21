@@ -6,7 +6,10 @@
         <div class="row title">
             <h3>@Messages("owner.my.reservations.my.reservations")</h3>
         </div>
-        <div class="row">
+        <div class="row title" ng-show="reservations.length == 0">
+            <h4>@Messages("owner.my.reservations.no.reservation")</h4>
+        </div>
+        <div class="row" ng-show="reservations.length != 0">
             <ul class="collapsible popout" data-collapsible="accordion">
                 <li ng-repeat="reservation in reservations | filter: filterByPage">
                     <div class="collapsible-header" ng-class="{'active': $first}"><i class="material-icons"><i class="material-icons">restaurant</i></i>{{reservation.local.name}}  -  {{getDateTimeFormat(reservation.date)}}<span class="right" ng-show="isExpire(reservation)">@Messages("owner.my.reservations.finished")</span></div>
@@ -45,7 +48,7 @@
                 </li>
             </ul>
         </div>
-        <div class="row center-align">
+        <div class="row center-align" ng-show="reservations.length != 0">
             <pagination
             page="1"
             page-size="9"
