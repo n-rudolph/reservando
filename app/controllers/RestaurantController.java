@@ -160,7 +160,7 @@ public class RestaurantController extends Controller {
         Collections.shuffle(restaurants);
         Map<String, Object> result = new HashMap<>();
         result.put("hasNext", true);
-        result.put("restaurants", restaurants.stream().map(r -> new RestaurantResponse(r, Qualification.getRestaurantQualification(r.getId()))).collect(Collectors.toList()));
+        result.put("restaurants", restaurants.stream().filter(r -> !r.isDeleted()).map(r -> new RestaurantResponse(r, Qualification.getRestaurantQualification(r.getId()))).collect(Collectors.toList()));
         return ok(Json.toJson(result));
     }
 
