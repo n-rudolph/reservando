@@ -25,6 +25,8 @@ p.opening-days, p.opening-time{
 
 .menu{
     text-align: center;
+    max-height: 300px;
+    overflow-y: scroll;
 }
 
 .image-holder{
@@ -102,4 +104,9 @@ td i:hover{
 
 .edit-meal-image{
     max-width: 100%;
+}
+
+.description{
+    max-height: 300px;
+    overflow-y: scroll;
 }
