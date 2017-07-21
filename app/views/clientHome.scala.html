@@ -117,14 +117,6 @@
                                     <p>{{restaurantSelectedInMap.description}}</p>
                                     <a class="waves-effect waves-light btn" ng-click="openRestaurant(restaurantSelectedInMap.id)">@Messages("client.home.see")</a>
                                 </div>
-                                @*<div class="col m2">
-                                    <img width="100" class="responsive-img" ng-src="@routes.Assets.versioned("{{restaurantSelectedInMap.photo.path}}")" ng-show="restaurantSelectedInMap.photo" align="left">
-                                    <img width="100" class="responsive-img" ng-src="@routes.Assets.versioned("images/placeholder/restaurant.jpg")" ng-hide="restaurantSelectedInMap.photo" align="left">
-                                </div>
-                                <div class="col m10">
-                                    <h5>{{restaurantSelectedInMap.name}}</h5>
-                                    <a class="waves-effect waves-light btn" ng-click="openRestaurant(restaurantSelectedInMap.id)">@Messages("client.home.see")</a>
-                                </div>*@
                             </div>
                        </info-window>
                    </ng-map>
@@ -143,8 +135,8 @@
                    <div class="col m4" ng-repeat="recommendation in recommendations">
                        <div class="card">
                            <div class="card-image">
-                               <img class="responsive-img" ng-src="@routes.Assets.versioned("{{recommendation.photo.path}}")" ng-show="recommendation.photo">
-                               <img class="responsive-img" ng-src="@routes.Assets.versioned("/images/placeholder/restaurant.jpg")" ng-hide="recommendation.photo">
+                               <img class="responsive-img customImage" ng-src="@routes.Assets.versioned("{{recommendation.photo.path}}")" ng-show="recommendation.photo">
+                               <img class="responsive-img customImage" ng-src="@routes.Assets.versioned("/images/placeholder/restaurant.jpg")" ng-hide="recommendation.photo">
                                <span class="card-title">{{recommendation.name}}</span>
                            </div>
                            <div class="card-content">

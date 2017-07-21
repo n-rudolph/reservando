@@ -84,14 +84,14 @@
                             </tbody>
                         </table>
                         <div class="row resOrdButton">
-                            <div class="col s5 offset-s2">
+                            <div class="col s5 offset-s2" ng-show="reservations.length != 0">
                                 <div class="btn hoverable " ng-click="openReservations()">@Messages("owner.home.view.more.reservations")</div>
                             </div>
-                            <div class="col s5">
+                            <div class="col s5" ng-show="orders.length != 0">
                                 <div class="btn hoverable " ng-click="openOrders()">@Messages("owner.home.view.more.orders")</div>
                             </div>
                         </div>
-                        <div ng-hide="news.length == 0" class="center empty-msg">
+                        <div ng-show="reservations.length == 0 && orders.length == 0" class="center empty-msg pepe">
                             <h5>@Messages("owner.home.no.reservations.or.orders")</h5>
                         </div>
                     </div>

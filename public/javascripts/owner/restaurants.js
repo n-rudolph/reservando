@@ -74,4 +74,8 @@ app.controller("OwnerRestaurantsCtrl", function ($scope, $http, $window) {
             return text.substr(0, length -1) + "...";
         } else return text;
     };
+
+    $scope.openAddRestaurant = function(){
+        $window.location.href = "/owner/new-restaurant";
+    };
 });

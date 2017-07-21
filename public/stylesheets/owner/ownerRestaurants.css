@@ -49,3 +49,28 @@ img{
     height: 250px;
     min-height: 250px;
 }
+
+
+.row.empty-result{
+    margin-top: 100px;
+    text-align: center;
+}
+
+.empty-result > h4{
+    border: 4px solid red;
+    width: 550px;
+    margin: auto;
+    padding: 10px;
+}
+
+#addRestaurant{
+    width:100%;
+    margin-top: 10px;
+}
+.add-btn{
+    margin: auto;
+}
+
+.btn-large:hover{
+    background-color: orangered !important;
+}

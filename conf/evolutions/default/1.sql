@@ -4,7 +4,7 @@
 # --- !Ups
 
 create table address (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   complete_address          varchar(255),
   lat                       double,
   lng                       double,
@@ -17,13 +17,13 @@ create table address (
 ;
 
 create table cuisine (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   name                      varchar(255),
   constraint pk_cuisine primary key (id))
 ;
 
 create table cuisine_preference (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   cuisine_id                bigint,
   client_id                 bigint,
   amount                    integer,
@@ -31,45 +31,45 @@ create table cuisine_preference (
 ;
 
 create table day (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   day                       varchar(255),
   constraint pk_day primary key (id))
 ;
 
 create table delivery_order (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   client_id                 bigint,
   delivery_id               bigint,
   address                   varchar(255),
   discount_id               bigint,
-  time_placed               timestamp,
-  active                    boolean,
+  time_placed               datetime(6),
+  active                    tinyint(1) default 0,
   constraint uq_delivery_order_discount_id unique (discount_id),
   constraint pk_delivery_order primary key (id))
 ;
 
 create table discount (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   code                      varchar(255),
   discount                  integer,
-  is_used                   boolean,
+  is_used                   tinyint(1) default 0,
   constraint pk_discount primary key (id))
 ;
 
 create table meal (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   name                      varchar(255),
   description               TEXT,
   price                     double,
   photo_id                  bigint,
-  is_deleted                boolean,
+  is_deleted                tinyint(1) default 0,
   restaurant_id             bigint,
   constraint uq_meal_photo_id unique (photo_id),
   constraint pk_meal primary key (id))
 ;
 
 create table meal_order (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   delivery_order_id         bigint not null,
   meal_id                   bigint,
   amount                    integer,
@@ -77,14 +77,14 @@ create table meal_order (
 ;
 
 create table photo (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   name                      varchar(255),
   path                      varchar(255),
   constraint pk_photo primary key (id))
 ;
 
 create table qualification (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   qualification             double,
   client_id                 bigint,
   restaurant_id             bigint,
@@ -92,29 +92,29 @@ create table qualification (
 ;
 
 create table reservation (
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   amount                    integer,
-  date                      timestamp,
+  date                      datetime(6),
   client_id                 bigint,
   local_id                  bigint,
   discount_id               bigint,
-  active                    boolean,
+  active                    tinyint(1) default 0,
   constraint uq_reservation_discount_id unique (discount_id),
   constraint pk_reservation primary key (id))
 ;
 
 create table restaurant (
   dtype                     varchar(10) not null,
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   name                      varchar(255) not null,
   description               TEXT,
   opening_hour              varchar(255),
   closing_hour              varchar(255),
   address_id                bigint not null,
-  published                 boolean,
-  is_local                  boolean,
+  published                 tinyint(1) default 0,
+  is_local                  tinyint(1) default 0,
   owner_id                  bigint,
-  is_deleted                boolean,
+  is_deleted                tinyint(1) default 0,
   photo_id                  bigint,
   radius                    double,
   response_time             integer,
@@ -127,7 +127,7 @@ create table restaurant (
 
 create table user (
   dtype                     varchar(10) not null,
-  id                        bigint not null,
+  id                        bigint auto_increment not null,
   first_name                varchar(255) not null,
   last_name                 varchar(255) not null,
   address_id                bigint not null,
@@ -135,7 +135,7 @@ create table user (
   password                  varchar(255) not null,
   photo_id                  bigint,
   photo_path                varchar(255),
-  active                    boolean,
+  active                    tinyint(1) default 0,
   constraint uq_user_address_id unique (address_id),
   constraint uq_user_email unique (email),
   constraint uq_user_photo_id unique (photo_id),
@@ -160,32 +160,6 @@ create table user_cuisine (
   cuisine_id                     bigint not null,
   constraint pk_user_cuisine primary key (user_id, cuisine_id))
 ;
-create sequence address_seq;
-
-create sequence cuisine_seq;
-
-create sequence cuisine_preference_seq;
-
-create sequence day_seq;
-
-create sequence delivery_order_seq;
-
-create sequence discount_seq;
-
-create sequence meal_seq;
-
-create sequence meal_order_seq;
-
-create sequence photo_seq;
-
-create sequence qualification_seq;
-
-create sequence reservation_seq;
-
-create sequence restaurant_seq;
-
-create sequence user_seq;
-
 alter table delivery_order add constraint fk_delivery_order_client_1 foreign key (client_id) references user (id) on delete restrict on update restrict;
 create index ix_delivery_order_client_1 on delivery_order (client_id);
 alter table delivery_order add constraint fk_delivery_order_delivery_2 foreign key (delivery_id) references restaurant (id) on delete restrict on update restrict;
@@ -221,7 +195,7 @@ alter table restaurant_day add constraint fk_restaurant_day_restaurant_01 foreig
 
 alter table restaurant_day add constraint fk_restaurant_day_day_02 foreign key (day_id) references day (id) on delete restrict on update restrict;
 
-alter table restaurant_cuisine add constraint fk_restaurant_cuisine_restaur_01 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
+alter table restaurant_cuisine add constraint fk_restaurant_cuisine_restaurant_01 foreign key (restaurant_id) references restaurant (id) on delete restrict on update restrict;
 
 alter table restaurant_cuisine add constraint fk_restaurant_cuisine_cuisine_02 foreign key (cuisine_id) references cuisine (id) on delete restrict on update restrict;
 
@@ -231,63 +205,37 @@ alter table user_cuisine add constraint fk_user_cuisine_cuisine_02 foreign key (
 
 # --- !Downs
 
-SET REFERENTIAL_INTEGRITY FALSE;
+SET FOREIGN_KEY_CHECKS=0;
 
-drop table if exists address;
+drop table address;
 
-drop table if exists cuisine;
+drop table cuisine;
 
-drop table if exists cuisine_preference;
+drop table cuisine_preference;
 
-drop table if exists day;
+drop table day;
 
-drop table if exists delivery_order;
+drop table delivery_order;
 
-drop table if exists discount;
+drop table discount;
 
-drop table if exists meal;
+drop table meal;
 
-drop table if exists meal_order;
+drop table meal_order;
 
-drop table if exists photo;
+drop table photo;
 
-drop table if exists qualification;
+drop table qualification;
 
-drop table if exists reservation;
+drop table reservation;
 
-drop table if exists restaurant;
+drop table restaurant;
 
-drop table if exists restaurant_day;
+drop table restaurant_day;
 
-drop table if exists restaurant_cuisine;
+drop table restaurant_cuisine;
 
-drop table if exists user;
+drop table user;
 
-SET REFERENTIAL_INTEGRITY TRUE;
-
-drop sequence if exists address_seq;
-
-drop sequence if exists cuisine_seq;
-
-drop sequence if exists cuisine_preference_seq;
-
-drop sequence if exists day_seq;
-
-drop sequence if exists delivery_order_seq;
-
-drop sequence if exists discount_seq;
-
-drop sequence if exists meal_seq;
-
-drop sequence if exists meal_order_seq;
-
-drop sequence if exists photo_seq;
-
-drop sequence if exists qualification_seq;
-
-drop sequence if exists reservation_seq;
-
-drop sequence if exists restaurant_seq;
-
-drop sequence if exists user_seq;
+SET FOREIGN_KEY_CHECKS=1;
 

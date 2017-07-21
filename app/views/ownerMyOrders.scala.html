@@ -6,7 +6,7 @@
         <div class="row title">
             <h3>@Messages("owner.my.orders.my.orders")</h3>
         </div>
-        <div class="row title" ng-show="orders.length == 0">
+        <div class="row empty-result" ng-show="orders.length == 0">
             <h4>@Messages("owner.my.orders.no.orders")</h4>
         </div>
         <div class="row" ng-show="orders.length != 0">

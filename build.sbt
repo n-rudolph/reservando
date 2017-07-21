@@ -11,5 +11,6 @@ libraryDependencies ++= Seq(
   cache,
   javaWs,
   "commons-io" % "commons-io" % "2.5",
-  "org.julienrf" %% "play-jsmessages" % "2.0.0"
+  "org.julienrf" %% "play-jsmessages" % "2.0.0",
+  "mysql" % "mysql-connector-java" % "6.0.4"
 )
